@@ -18,6 +18,8 @@ namespace Playlist
     {
         private static readonly ILogger logger = LogManager.GetLogger();
 
+        public static IPlayniteAPI StaticPlayniteApi { get; set; }
+
         private PlaylistViewModel PlaylistViewModel { get; set; }
 
         private PlaylistView PlaylistView { get; set; }
@@ -80,6 +82,8 @@ namespace Playlist
             // Ensure the library loaded now, relative to the extension DLL.
             // If the XAML trys to load it later it will incorrectly load it relative to Playnite's executable
             Assembly.Load("GongSolutions.WPF.DragDrop");
+
+            StaticPlayniteApi = api;
         }
 
         private IEnumerable<Game> LoadPlaylistFile()
