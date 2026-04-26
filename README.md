@@ -22,3 +22,41 @@ This extension requires Playnite 9 or newer.
 
 * Drag and drop is implemented using [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)
 * `ui-play` and `play-alt-1` icons are used from [Icofont](https://icofont.com/) (CC BY 4.0)
+
+## HLTB integration note
+
+When the HowLongToBeat plugin is installed, Playlist reads HLTB data from the plugin's on-disk per-game cache files in `ExtensionsData/{hltb-plugin-id}/HowLongToBeat`.
+
+Because those cache files do not include the `HltbUserData` payload used by HLTB's own user-time overlay logic, the HLTB setting `ProgressBarShowTimeUser` is currently not supported in Playlist.
+
+Supported HLTB appearance/settings in Playlist:
+
+- `EnableIntegrationViewItem`
+- `EnableIntegrationButton`
+- `EnableIntegrationProgressBar`
+- `IntegrationViewItemOnlyHour`
+- `UseHtltbClassic`
+- `UseHtltbAverage`
+- `UseHtltbMedian`
+- `UseHtltbRushed`
+- `UseHtltbLeisure`
+- `ShowMainTime`
+- `ShowExtraTime`
+- `ShowCompletionistTime`
+- `ShowSoloTime`
+- `ShowCoOpTime`
+- `ShowVsTime`
+- `ProgressBarShowTime`
+- `ProgressBarShowTimeInterior`
+- `ProgressBarShowTimeAbove`
+- `ProgressBarShowTimeBelow`
+- `ProgressBarShowToolTip`
+- `ThumbSolidColorBrush` / `ThumbLinearGradient`
+- `FirstColorBrush` / `FirstLinearGradient`
+- `SecondColorBrush` / `SecondLinearGradient`
+- `ThirdColorBrush` / `ThirdLinearGradient`
+- `FirstMultiColorBrush` / `FirstMultiLinearGradient`
+- `SecondMultiColorBrush` / `SecondMultiLinearGradient`
+- `ThirdMultiColorBrush` / `ThirdMultiLinearGradient`
+
+Because those cache files do not include the `HltbUserData` payload used by HLTB's own user-time overlay logic, the HLTB setting `ProgressBarShowTimeUser` is currently not supported in Playlist.

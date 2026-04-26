@@ -50,3 +50,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ### Icofont
 
 play-alt-1.svg and icon.png are from Icofont, licensed CC BY 4.0 and SIL OLF.
+
+## HowLongToBeat plugin interoperability notes
+
+Upstream project: https://github.com/Lacro59/playnite-howlongtobeat-plugin
+
+License: MIT
+
+This project contains HowLongToBeat interoperability code (cache/settings
+consumption and related UI) under `third_party/howlongtobeat/`. The MIT text in
+that folder’s `LICENSE` applies only to those files, not to the whole
+extension. See also:
+
+- `third_party/howlongtobeat/LICENSE`
+- `third_party/howlongtobeat/NOTICE.md`

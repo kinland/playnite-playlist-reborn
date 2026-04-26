@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace Playlist
 {
@@ -21,6 +20,7 @@ namespace Playlist
         private static readonly ILogger logger = LogManager.GetLogger();
 
         public static IPlayniteAPI StaticPlayniteApi { get; set; }
+        public static string StaticPluginUserDataPath { get; set; }
 
         private PlaylistViewModel PlaylistViewModel { get; set; }
 
@@ -86,6 +86,7 @@ namespace Playlist
             Assembly.Load("GongSolutions.WPF.DragDrop");
 
             StaticPlayniteApi = api;
+            StaticPluginUserDataPath = GetPluginUserDataPath();
         }
 
         private IEnumerable<Game> LoadPlaylistFile()
@@ -254,9 +255,6 @@ namespace Playlist
                     }
                 };
 
-                // Warm HLTB progress cache before first open of Playlist tab (view is created lazily on Opened).
-                // HLTB may load after this extension; retry once after a short delay.
-                ScheduleHowLongToBeatStartupPreload();
             }
             catch (Exception e)
             {
@@ -265,52 +263,5 @@ namespace Playlist
             }
         }
 
-        private void ScheduleHowLongToBeatStartupPreload()
-        {
-            Dispatcher dispatcher = Application.Current?.Dispatcher;
-            if (dispatcher == null)
-            {
-                return;
-            }
-
-            Action tryPreload = () =>
-            {
-                if (!HowLongToBeatControl.HowLongToBeatIsInstalled || PlaylistGames == null || PlaylistGames.Count == 0)
-                {
-                    return;
-                }
-
-                HowLongToBeatControl.SetCacheCapGames(300);
-                List<Game> ordered = PlaylistGames.Where(g => g != null).ToList();
-                int n = ordered.Count;
-                if (n == 0)
-                {
-                    return;
-                }
-
-                // Match PlaylistView unload fallback: assume ~first page on screen, keep ±5 rows buffer (nothing above row 0).
-                const int scrollBufferRows = 5;
-                const int fallbackVisibleCount = 35;
-                int fallbackMax = Math.Min(n - 1, fallbackVisibleCount - 1);
-                int lo = Math.Max(0, 0 - scrollBufferRows);
-                int hi = Math.Min(n - 1, fallbackMax + scrollBufferRows);
-                List<Game> buffered = ordered.GetRange(lo, hi - lo + 1);
-                HowLongToBeatControl.QueuePreloadGames(buffered);
-                HowLongToBeatControl.QueuePreloadAlternatingCacheMisses(ordered, Math.Max(buffered.Count, 1));
-            };
-
-            dispatcher.BeginInvoke(tryPreload, DispatcherPriority.Background);
-
-            var delayedRetry = new DispatcherTimer(DispatcherPriority.Background, dispatcher)
-            {
-                Interval = TimeSpan.FromSeconds(2.5),
-            };
-            delayedRetry.Tick += (sender, e) =>
-            {
-                delayedRetry.Stop();
-                tryPreload();
-            };
-            delayedRetry.Start();
-        }
     }
 }

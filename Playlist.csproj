@@ -9,9 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Playlist</RootNamespace>
     <AssemblyName>Playlist</AssemblyName>
+    <TargetFramework>net8.0</TargetFramework>
+    <RuntimeIdentifiers>win;win-x64;linux-x64</RuntimeIdentifiers>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,16 +34,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GongSolutions.WPF.DragDrop">
-      <HintPath>packages\gong-wpf-dragdrop.4.0.0\lib\net462\GongSolutions.WPF.DragDrop.dll</HintPath>
-    </Reference>
-    <Reference Include="Playnite.SDK">
-      <HintPath>packages\PlayniteSDK.6.15.0\lib\net462\Playnite.SDK.dll</HintPath>
-    </Reference>
+    <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
+    <PackageReference Include="PlayniteSDK" Version="6.15.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,7 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamePlaylistRankConverter.cs" />
-    <Compile Include="HowLongToBeatControl.cs" />
+    <Compile Include="third_party\howlongtobeat\HowLongToBeatCache.cs" />
+    <Compile Include="third_party\howlongtobeat\HowLongToBeatCachedProgressBar.cs" />
+    <Compile Include="third_party\howlongtobeat\HowLongToBeatPluginButtonHost.cs" />
+    <Compile Include="third_party\howlongtobeat\HltbSettingsJson.cs" />
+    <Compile Include="third_party\howlongtobeat\HltbPlaytimeFormat.cs" />
     <Compile Include="PlaylistDragSourceHandler.cs" />
     <Compile Include="PlaylistListDropHandler.cs" />
     <Compile Include="PlaylistViewModel.cs" />
@@ -66,7 +73,6 @@
     <None Include="extension.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Localization\en_US.xaml">

@@ -176,25 +176,23 @@
 
         <DataTemplate x:Key="howLongToBeatColumn" DataType="GridViewColumn.CellTemplate">
             <Grid>
-                <!-- Reserve the right-side button width so the bar graph doesn't reflow/shrink
-                     after the button view finishes loading (visible as a "double flash"). -->
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="48" />
                 </Grid.ColumnDefinitions>
-
-                <local:HowLongToBeatProgressBar
+                <local:HowLongToBeatCachedProgressBar
                     Grid.Column="0"
                     Height="30"
-                    HorizontalAlignment="Stretch"
-                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
-
-                <local:HowLongToBeatPluginButton
+                    Margin="0,0,4,0"
+                    HorizontalAlignment="Stretch" />
+                <local:HowLongToBeatPluginButtonHost
                     Grid.Column="1"
-                    Margin="0"
-                    HorizontalAlignment="Right"
+                    Width="44"
+                    Height="30"
                     VerticalAlignment="Center"
-                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                    HorizontalAlignment="Right"
+                    DataContext="{Binding}"
+                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}" />
             </Grid>
         </DataTemplate>
 
