@@ -103,6 +103,6 @@
       <ZipFiles Include="Localization" />
       <ZipFiles Include="$(OutputPath)*" Exclude="$(OutputPath)Playnite.SDK.*" />
     </ItemGroup>
-    <Exec Command="PowerShell -NoProfile -command Compress-Archive -Force @(ZipFiles, ',') '$(OutputPath)..\$(AssemblyName).zip' ; Move-Item '$(OutputPath)..\$(AssemblyName).zip' '$(OutputPath)..\$(AssemblyName).pext'" />
+    <Exec Command="PowerShell -NoProfile -command Compress-Archive -Force @(ZipFiles, ',') '$(OutputPath)..\$(AssemblyName).zip' ; Move-Item -Force '$(OutputPath)..\$(AssemblyName).zip' '$(OutputPath)..\$(AssemblyName).pext'" />
   </Target>
 </Project>
