@@ -10,6 +10,8 @@ The playlist is accessible from the left sidebar in Playnite. Games can be reord
 
 You can also double-click on the ranking column to get a text box to quickly reorder a game without having to drag it. (Press enter to submit.)
 
+You can sort the Playlist by clicking on column headers, but drag-reorder will be disabled unless you are sorted by rank.
+
 This extension requires Playnite 9 or newer.
 
 ![Playlist extension screenshot](screenshots/Playlist.gif)

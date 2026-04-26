@@ -20,6 +20,40 @@ namespace Playlist
             InitializeComponent();
         }
 
+        private void OnPlaylistGridViewColumnHeaderClick(object sender, RoutedEventArgs e)
+        {
+            if (!(e.OriginalSource is GridViewColumnHeader header)
+                || header.Role == GridViewColumnHeaderRole.Padding
+                || !(header.Column is GridViewColumn column)
+                || !(DataContext is PlaylistViewModel model)
+                || !(playlistListView.View is GridView gridView))
+            {
+                return;
+            }
+
+            // GridViewColumn has no Tag in WPF; order must match <GridView> column sequence (icon column = 1, no sort).
+            string sortKey;
+            switch (gridView.Columns.IndexOf(column))
+            {
+                case 0:
+                    sortKey = "Rank";
+                    break;
+                case 2:
+                    sortKey = "Name";
+                    break;
+                case 3:
+                    sortKey = "Playtime";
+                    break;
+                case 4:
+                    sortKey = "CompletionStatus";
+                    break;
+                default:
+                    return;
+            }
+
+            model.ToggleViewSort(sortKey);
+        }
+
         private const string RankCellTag = "PlaylistRankCell";
 
         private void OnItemDoubleClick(object sender, MouseButtonEventArgs e)

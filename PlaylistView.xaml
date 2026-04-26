@@ -190,13 +190,15 @@
 
         <ListView
             x:Name="playlistListView"
-            ItemsSource="{Binding PlaylistGames}"
+            ItemsSource="{Binding PlaylistGamesView}"
             DockPanel.Dock="Top"
             Margin="0,10,0,0"
             BorderThickness="0"
             SelectedIndex="0"
-            dd:DragDrop.IsDragSource="True"
-            dd:DragDrop.IsDropTarget="True">
+            dd:DragDrop.IsDragSource="{Binding IsDragReorderEnabled}"
+            dd:DragDrop.IsDropTarget="{Binding IsDragReorderEnabled}"
+            dd:DragDrop.DropHandler="{Binding PlaylistDropHandler}"
+            GridViewColumnHeader.Click="OnPlaylistGridViewColumnHeaderClick">
 
             <ListView.Resources>
                 <Style x:Key="centeredRankColumnHeader" TargetType="GridViewColumnHeader">

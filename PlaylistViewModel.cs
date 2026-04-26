@@ -1,11 +1,15 @@
+using GongSolutions.Wpf.DragDrop;
 using Playnite.SDK;
 using Playnite.SDK.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Playlist
@@ -15,6 +19,27 @@ namespace Playlist
         private readonly IPlayniteAPI playniteApi;
 
         public ObservableCollection<Game> PlaylistGames { get; set; }
+
+        /// <summary>
+        /// View over <see cref="PlaylistGames"/>; sorting this does not change persisted playlist order.
+        /// </summary>
+        public ICollectionView PlaylistGamesView { get; }
+
+        /// <summary>
+        /// Gong drag-drop reorder is only safe when the view follows playlist rank order (unsorted or # column).
+        /// </summary>
+        public bool IsDragReorderEnabled => activeViewSortColumn == null || activeViewSortColumn == "Rank";
+
+        /// <summary>
+        /// True when the grid is sorted by # descending; drag indices need a custom drop handler.
+        /// </summary>
+        internal bool IsViewRankDescending =>
+            activeViewSortColumn == "Rank" && activeViewSortDirection == ListSortDirection.Descending;
+
+        /// <summary>
+        /// Custom Gong drop target so rank-descending reorder matches on-screen order.
+        /// </summary>
+        public IDropTarget PlaylistDropHandler { get; }
 
         /// <summary>
         /// Bumped on every playlist mutation so rank bindings (which depend on index in the list) refresh.
@@ -93,6 +118,8 @@ namespace Playlist
             PlaylistGames = playlistGames ?? throw new ArgumentNullException(nameof(playlistGames));
             this.playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
 
+            PlaylistGamesView = CollectionViewSource.GetDefaultView(PlaylistGames);
+            PlaylistDropHandler = new PlaylistListDropHandler(this);
             PlaylistGames.CollectionChanged += OnPlaylistGamesCollectionChanged;
 
             NavigateBackCommand = new RelayCommand<object>((a) =>
@@ -163,10 +190,114 @@ namespace Playlist
             });
         }
 
+        private string activeViewSortColumn;
+        private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
+
+        /// <summary>
+        /// Toggles ascending/descending when the same column is clicked again. Does not mutate <see cref="PlaylistGames"/>.
+        /// </summary>
+        public void ToggleViewSort(string columnKey)
+        {
+            if (string.IsNullOrEmpty(columnKey))
+            {
+                return;
+            }
+
+            ListCollectionView listView = PlaylistGamesView as ListCollectionView;
+            if (listView == null)
+            {
+                return;
+            }
+
+            switch (columnKey)
+            {
+                case "Rank":
+                case "Name":
+                case "Playtime":
+                case "CompletionStatus":
+                    break;
+                default:
+                    return;
+            }
+
+            if (columnKey == activeViewSortColumn)
+            {
+                activeViewSortDirection = activeViewSortDirection == ListSortDirection.Ascending
+                    ? ListSortDirection.Descending
+                    : ListSortDirection.Ascending;
+            }
+            else
+            {
+                activeViewSortColumn = columnKey;
+                activeViewSortDirection = ListSortDirection.Ascending;
+            }
+
+            listView.SortDescriptions.Clear();
+            listView.CustomSort = null;
+
+            switch (columnKey)
+            {
+                case "Rank":
+                    listView.CustomSort = new PlaylistRankIndexComparer(PlaylistGames, activeViewSortDirection);
+                    break;
+                case "Name":
+                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.Name), activeViewSortDirection));
+                    break;
+                case "Playtime":
+                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.Playtime), activeViewSortDirection));
+                    break;
+                case "CompletionStatus":
+                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.CompletionStatus), activeViewSortDirection));
+                    break;
+            }
+
+            listView.Refresh();
+            OnPropertyChanged(nameof(IsDragReorderEnabled));
+        }
+
         private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             PlaylistGamesRevision++;
             OnPropertyChanged(nameof(PlaylistGamesRevision));
+        }
+
+        private sealed class PlaylistRankIndexComparer : IComparer
+        {
+            private readonly IList<Game> playlistOrder;
+            private readonly int directionSign;
+
+            public PlaylistRankIndexComparer(IList<Game> playlistOrder, ListSortDirection direction)
+            {
+                this.playlistOrder = playlistOrder;
+                directionSign = direction == ListSortDirection.Descending ? -1 : 1;
+            }
+
+            public int Compare(object x, object y)
+            {
+                if (ReferenceEquals(x, y))
+                {
+                    return 0;
+                }
+
+                int ix = x is Game gx ? playlistOrder.IndexOf(gx) : -1;
+                int iy = y is Game gy ? playlistOrder.IndexOf(gy) : -1;
+                if (ix < 0 && iy < 0)
+                {
+                    return 0;
+                }
+
+                if (ix < 0)
+                {
+                    return 1;
+                }
+
+                if (iy < 0)
+                {
+                    return -1;
+                }
+
+                return directionSign * ix.CompareTo(iy);
+            }
         }
     }
 }
