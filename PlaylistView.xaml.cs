@@ -7,6 +7,7 @@ using System.Linq;
 using Playnite.SDK.Models;
 using System.Windows.Threading;
 using System.Collections.Generic;
+using System.Windows.Controls.Primitives;
 
 namespace Playlist
 {
@@ -21,6 +22,8 @@ namespace Playlist
         public PlaylistView()
         {
             InitializeComponent();
+            playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
+            playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloadedPruneHowLongToBeatCache;
         }
@@ -29,8 +32,48 @@ namespace Playlist
         {
             DataContext = model;
             InitializeComponent();
+            playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
+            playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloadedPruneHowLongToBeatCache;
+        }
+
+        private const double HowLongToBeatColumnMinWidth = 120;
+
+        private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateHowLongToBeatColumnFillWidth();
+        }
+
+        private void OnPlaylistListViewColumnThumbDragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            UpdateHowLongToBeatColumnFillWidth();
+        }
+
+        /// <summary>
+        /// Keep HLTB column at the current user-selected width and only enforce a small minimum.
+        /// This avoids snapping back to a computed max width after drag-resize.
+        /// </summary>
+        private void UpdateHowLongToBeatColumnFillWidth()
+        {
+            if (playlistListView == null || howLongToBeatGridViewColumn == null
+                || !(playlistListView.View is GridView gridView))
+            {
+                return;
+            }
+
+            if (!gridView.Columns.Contains(howLongToBeatGridViewColumn))
+            {
+                return;
+            }
+
+            double currentWidth = howLongToBeatGridViewColumn.Width;
+            if (double.IsNaN(currentWidth) || currentWidth <= 0)
+            {
+                return;
+            }
+
+            howLongToBeatGridViewColumn.Width = Math.Max(HowLongToBeatColumnMinWidth, currentWidth);
         }
 
         private void OnPlaylistViewLoadedApplyHowLongToBeatColumn(object sender, RoutedEventArgs e)
@@ -50,6 +93,7 @@ namespace Playlist
                     }), DispatcherPriority.Background);
                 }
 
+                UpdateHowLongToBeatColumnFillWidth();
                 return;
             }
 
