@@ -12,6 +12,8 @@ You can also double-click on the ranking column to get a text box to quickly reo
 
 You can sort the Playlist by clicking on column headers, but drag-reorder will be disabled unless you are sorted by rank.
 
+Games are automatically tagged with the "Playlist" tag, and there's an auto-generated Filter with the same name.
+
 This extension requires Playnite 9 or newer.
 
 ![Playlist extension screenshot](screenshots/Playlist.gif)

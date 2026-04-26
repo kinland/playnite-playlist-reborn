@@ -1,10 +1,11 @@
-﻿using Playnite.SDK;
+using Playnite.SDK;
 using Playnite.SDK.Events;
 using Playnite.SDK.Models;
 using Playnite.SDK.Plugins;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +25,16 @@ namespace Playlist
         public ObservableCollection<Game> PlaylistGames { get; set; }
 
         private const string playlistPath = "playlist.txt";
+
+        /// <summary>
+        /// Tag stored on games that appear in the sidebar playlist; the "Playlist" filter preset matches this tag.
+        /// Fixed English name so it stays stable across locales and matches one logical tag in the library.
+        /// </summary>
+        private const string playlistMembershipTagName = "Playlist";
+
+        private const string playlistFilterPresetName = "Playlist";
+
+        private Tag playlistMembershipTag;
 
         public override IEnumerable<SidebarItem> GetSidebarItems()
         {
@@ -93,6 +104,122 @@ namespace Playlist
             File.WriteAllLines(path, PlaylistGames.Select((g) => g.Id.ToString()));
         }
 
+        private Tag GetOrCreatePlaylistMembershipTag()
+        {
+            return PlayniteApi.Database.Tags.Add(playlistMembershipTagName);
+        }
+
+        private void EnsurePlaylistFilterPreset(Tag membershipTag)
+        {
+            IGameDatabase db = PlayniteApi.Database;
+            FilterPresetSettings settings = new FilterPresetSettings
+            {
+                Tag = new IdItemFilterItemProperties(membershipTag.Id),
+            };
+
+            FilterPreset existing = db.FilterPresets.FirstOrDefault(p => p.Name == playlistFilterPresetName);
+            if (existing != null)
+            {
+                bool tagOk = existing.Settings?.Tag?.Ids != null
+                    && existing.Settings.Tag.Ids.Count == 1
+                    && existing.Settings.Tag.Ids[0] == membershipTag.Id;
+                if (!tagOk)
+                {
+                    existing.Settings = settings;
+                    db.FilterPresets.Update(existing);
+                }
+
+                return;
+            }
+
+            db.FilterPresets.Add(new FilterPreset
+            {
+                Id = Guid.NewGuid(),
+                Name = playlistFilterPresetName,
+                Settings = settings,
+                ShowInFullscreeQuickSelection = true,
+            });
+        }
+
+        private void SetPlaylistMembershipTag(Game game, bool inPlaylist)
+        {
+            if (game == null || playlistMembershipTag == null)
+            {
+                return;
+            }
+
+            List<Guid> tagIds = game.TagIds ?? (game.TagIds = new List<Guid>());
+            bool has = tagIds.Contains(playlistMembershipTag.Id);
+            if (inPlaylist == has)
+            {
+                return;
+            }
+
+            if (inPlaylist)
+            {
+                tagIds.AddMissing(playlistMembershipTag.Id);
+            }
+            else
+            {
+                tagIds.Remove(playlistMembershipTag.Id);
+            }
+
+            PlayniteApi.Database.Games.Update(game);
+        }
+
+        private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdatePlaylistFile();
+            if (playlistMembershipTag == null)
+            {
+                return;
+            }
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (Game game in e.NewItems.Cast<Game>())
+                    {
+                        SetPlaylistMembershipTag(game, true);
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (Game game in e.OldItems.Cast<Game>())
+                    {
+                        SetPlaylistMembershipTag(game, false);
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldItems != null)
+                    {
+                        foreach (Game game in e.OldItems.Cast<Game>())
+                        {
+                            SetPlaylistMembershipTag(game, false);
+                        }
+                    }
+
+                    if (e.NewItems != null)
+                    {
+                        foreach (Game game in e.NewItems.Cast<Game>())
+                        {
+                            SetPlaylistMembershipTag(game, true);
+                        }
+                    }
+
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    // Reset is used e.g. by ObservableCollection.Clear() and does not list removed items.
+                    // This extension only removes games via Remove (handled above), so we do not scan the full library.
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
         {
             try
@@ -102,10 +229,17 @@ namespace Playlist
                 // cannot call PlayniteApi.Database.Games.Get()
 
                 PlaylistGames = new ObservableCollection<Game>(LoadPlaylistFile());
-                PlaylistGames.CollectionChanged += (sender, changedArgs) =>
+                playlistMembershipTag = GetOrCreatePlaylistMembershipTag();
+                EnsurePlaylistFilterPreset(playlistMembershipTag);
+                using (PlayniteApi.Database.Games.BufferedUpdate())
                 {
-                    UpdatePlaylistFile();
-                };
+                    foreach (Game game in PlaylistGames)
+                    {
+                        SetPlaylistMembershipTag(game, true);
+                    }
+                }
+
+                PlaylistGames.CollectionChanged += OnPlaylistGamesCollectionChanged;
                 PlayniteApi.Database.Games.ItemCollectionChanged += (sender, changedArgs) =>
                 {
                     foreach (Game game in changedArgs.RemovedItems)
