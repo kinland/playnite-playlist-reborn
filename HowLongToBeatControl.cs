@@ -2,6 +2,7 @@ using Playnite.SDK;
 using Playnite.SDK.Controls;
 using Playnite.SDK.Models;
 using Playnite.SDK.Plugins;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Windows;
@@ -27,7 +28,14 @@ namespace Playlist
         private static Plugin _plugin;
         private static bool _pluginResolved;
 
+        private readonly string controlName;
         private PluginUserControl control;
+        private Guid? appliedGameId;
+
+        // Cache embedded plugin view controls per (controlName, Game.Id) so scrolling doesn't
+        // force the plugin UI to "restart" and re-layout (visible as pop-in/flash).
+        private static readonly Dictionary<string, Dictionary<Guid, PluginUserControl>> cachedControlsByName
+            = new Dictionary<string, Dictionary<Guid, PluginUserControl>>();
 
         public bool IsDragReorderSuspended
         {
@@ -61,34 +69,24 @@ namespace Playlist
 
         public HowLongToBeatControl(string controlName)
         {
+            this.controlName = controlName ?? throw new ArgumentNullException(nameof(controlName));
+
             if (Plugin == null)
-            {
-                return;
-            }
-
-            control = Plugin.GetGameViewControl(new GetGameViewControlArgs
-            {
-                Name = controlName,
-                Mode = ApplicationMode.Desktop,
-            }) as PluginUserControl;
-
-            if (control == null)
             {
                 return;
             }
 
             // Stable height reduces visible "pop-in" layout as the plugin control finishes loading.
             MinHeight = 30;
-            Content = control;
             ApplyGameContext();
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
 
         /// <summary>
-        /// ListView virtualization unloads row visuals when they scroll off-screen; we clear <see cref="PluginUserControl.GameContext"/>
-        /// on unload. WPF often does not raise <see cref="DataContextProperty"/> again when the same <see cref="Game"/> instance is
-        /// re-shown, so we must re-apply context whenever the control re-enters the tree.
+        /// ListView virtualization may unload/reload row visuals when they scroll off/on screen.
+        /// To avoid visible "pop-in", we avoid clearing <see cref="PluginUserControl.GameContext"/> on unload and we only
+        /// re-assign it when the <see cref="Game"/> instance actually changes (except during drag-reorder where we intentionally clear it).
         /// </summary>
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -97,7 +95,7 @@ namespace Playlist
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (control != null)
+            if (control != null && IsDragReorderSuspended)
             {
                 control.GameContext = null;
             }
@@ -114,12 +112,91 @@ namespace Playlist
 
         private void ApplyGameContext()
         {
-            if (control == null)
+            if (Plugin == null)
             {
                 return;
             }
 
-            control.GameContext = IsDragReorderSuspended ? null : DataContext as Game;
+            Game desiredGame = IsDragReorderSuspended ? null : DataContext as Game;
+            Guid? desiredGameId = desiredGame?.Id;
+
+            if (IsDragReorderSuspended)
+            {
+                appliedGameId = null;
+                if (control != null)
+                {
+                    control.GameContext = null;
+                }
+                return;
+            }
+
+            if (desiredGameId == null)
+            {
+                appliedGameId = null;
+                return;
+            }
+
+            Guid gameId = desiredGameId.Value;
+
+            if (appliedGameId == gameId && control != null)
+            {
+                return;
+            }
+
+            // Lazily create or reuse the embedded plugin control for this Game.
+            if (!cachedControlsByName.TryGetValue(controlName, out var byGame))
+            {
+                byGame = new Dictionary<Guid, PluginUserControl>();
+                cachedControlsByName[controlName] = byGame;
+            }
+
+            if (!byGame.TryGetValue(gameId, out var cached) || cached == null)
+            {
+                cached = Plugin.GetGameViewControl(new GetGameViewControlArgs
+                {
+                    Name = controlName,
+                    Mode = ApplicationMode.Desktop,
+                }) as PluginUserControl;
+
+                if (cached == null)
+                {
+                    return;
+                }
+
+                byGame[gameId] = cached;
+            }
+
+            // If the cached control is still parented elsewhere, don't reuse it (avoid WPF logical-parent issues).
+            // Fallback to a fresh instance for this wrapper; it will still be "first load" for that wrapper.
+            if (control != cached)
+            {
+                if (cached.Parent != null && cached.Parent != this)
+                {
+                    cached = Plugin.GetGameViewControl(new GetGameViewControlArgs
+                    {
+                        Name = controlName,
+                        Mode = ApplicationMode.Desktop,
+                    }) as PluginUserControl;
+
+                    if (cached == null)
+                    {
+                        return;
+                    }
+
+                    byGame[gameId] = cached;
+                }
+
+                control = cached;
+                Content = control;
+            }
+
+            // Only set GameContext if it doesn't already match.
+            if (!(control.GameContext is Game currentGame) || currentGame.Id != gameId)
+            {
+                control.GameContext = desiredGame;
+            }
+
+            appliedGameId = gameId;
         }
     }
 

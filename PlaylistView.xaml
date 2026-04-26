@@ -175,15 +175,27 @@
         </Style>
 
         <DataTemplate x:Key="howLongToBeatColumn" DataType="GridViewColumn.CellTemplate">
-            <DockPanel >
-                <local:HowLongToBeatPluginButton
-                    Margin="10,0,0,0"
-                    DockPanel.Dock="Right"
-                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+            <Grid>
+                <!-- Reserve the right-side button width so the bar graph doesn't reflow/shrink
+                     after the button view finishes loading (visible as a "double flash"). -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+
                 <local:HowLongToBeatProgressBar
+                    Grid.Column="0"
                     Height="30"
+                    HorizontalAlignment="Stretch"
                     IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
-            </DockPanel>
+
+                <local:HowLongToBeatPluginButton
+                    Grid.Column="1"
+                    Margin="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+            </Grid>
         </DataTemplate>
 
     </UserControl.Resources>
@@ -207,6 +219,9 @@
             DockPanel.Dock="Top"
             Margin="0,10,0,0"
             BorderThickness="0"
+            ScrollViewer.CanContentScroll="True"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Recycling"
             SelectedIndex="0"
             dd:DragDrop.IsDragSource="{Binding IsDragReorderEnabled}"
             dd:DragDrop.IsDropTarget="{Binding IsDragReorderEnabled}"
