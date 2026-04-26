@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "env": {
+      "PLAYLIST_VS_DEVSHELL_MODULE": "C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll",
+      "PLAYLIST_VS_DEVSHELL_ID": "a10c152e"
+    },
+    "shell": {
+      "executable": "C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command"
+      ]
+    }
+  },
+  "tasks": [
+    {
+      "label": "Build Debug",
+      "type": "shell",
+      "command": "& { Import-Module $env:PLAYLIST_VS_DEVSHELL_MODULE; Enter-VsDevShell $env:PLAYLIST_VS_DEVSHELL_ID; msbuild Playlist.csproj -p:Configuration=Debug }",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Build Release",
+      "type": "shell",
+      "command": "& { Import-Module $env:PLAYLIST_VS_DEVSHELL_MODULE; Enter-VsDevShell $env:PLAYLIST_VS_DEVSHELL_ID; msbuild Playlist.csproj -p:Configuration=Release }",
+      "group": "build",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

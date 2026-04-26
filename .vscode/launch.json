@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Install Playlist Plugin (Debug)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": ".\\bin\\Playlist.pext",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Debug"
+    },
+    {
+      "name": "Install Playlist Plugin (Release)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": ".\\bin\\Playlist.pext",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Build Release"
+    }
+  ]
+}

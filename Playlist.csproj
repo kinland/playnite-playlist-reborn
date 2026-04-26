@@ -96,7 +96,7 @@
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="Zip" BeforeTargets="AfterBuild" Condition="'$(Configuration)' == 'Release' ">
+  <Target Name="Zip" BeforeTargets="AfterBuild" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
     <ItemGroup>
       <ZipFiles Include="README.md" />
       <ZipFiles Include="LICENSE" />
