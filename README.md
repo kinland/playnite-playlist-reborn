@@ -60,3 +60,7 @@ Supported HLTB appearance/settings in Playlist:
 - `ThirdMultiColorBrush` / `ThirdMultiLinearGradient`
 
 Because those cache files do not include the `HltbUserData` payload used by HLTB's own user-time overlay logic, the HLTB setting `ProgressBarShowTimeUser` is currently not supported in Playlist.
+
+## Credits
+This project was forked from https://github.com/bburky/playnite-playlist
+HLTB render code and data file formats were created by analysing the HLTB plugin source code: https://github.com/Lacro59/playnite-howlongtobeat-plugin
