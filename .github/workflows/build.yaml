@@ -12,6 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Validate tag matches extension.yaml version
+        shell: pwsh
+        run: |
+          $tag = ($env:GITHUB_REF -Split "/")[-1]
+          $tagVersion = $tag -replace '^v', ''
+          $manifestVersion = (Select-String -Path "extension.yaml" -Pattern '^\s*Version:\s*(.+?)\s*$').Matches[0].Groups[1].Value.Trim()
+          if (-not $manifestVersion) {
+            throw "Unable to read Version from extension.yaml"
+          }
+          if ($tagVersion -ne $manifestVersion) {
+            throw "Release tag version ($tag) does not match extension.yaml Version ($manifestVersion)"
+          }
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
         
@@ -29,7 +42,9 @@ jobs:
       - name: Build and Publish
         run: |
           msbuild Playlist.sln /p:Configuration=Release
-          $version = ($env:GITHUB_REF -Split "/")[-1]
+          $tag = ($env:GITHUB_REF -Split "/")[-1]
+          $version = $tag -replace '^v', ''
+          echo "RELEASE_TAG=$tag" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
           echo "VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Run Unit Tests
@@ -41,7 +56,7 @@ jobs:
       - name: Version Output Asset
         shell: pwsh
         run: |
-          $version = $env:VERSION
+          $version = $env:RELEASE_TAG
           $src = "bin/Playlist.pext"
           $dst = "bin/Playlist-$version.pext"
           if (!(Test-Path $src)) {
@@ -53,4 +68,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          files: bin/Playlist-${{ env.VERSION }}.pext
+          files: bin/Playlist-${{ env.RELEASE_TAG }}.pext
