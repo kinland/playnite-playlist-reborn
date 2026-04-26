@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Playlist
 {
@@ -36,6 +37,15 @@ namespace Playlist
         // force the plugin UI to "restart" and re-layout (visible as pop-in/flash).
         private static readonly Dictionary<string, Dictionary<Guid, PluginUserControl>> cachedControlsByName
             = new Dictionary<string, Dictionary<Guid, PluginUserControl>>();
+        private static readonly Queue<Game> preloadQueue = new Queue<Game>();
+        private static readonly HashSet<Guid> preloadQueuedIds = new HashSet<Guid>();
+        private static readonly LinkedList<Guid> lruGameIds = new LinkedList<Guid>();
+        private static readonly Dictionary<Guid, LinkedListNode<Guid>> lruNodesByGameId = new Dictionary<Guid, LinkedListNode<Guid>>();
+        private static DispatcherTimer preloadTimer;
+        private static int cacheCapGames = 300;
+
+        private const string ProgressBarControlName = "PluginProgressBar";
+        private const string ButtonControlName = "PluginButton";
 
         public bool IsDragReorderSuspended
         {
@@ -66,6 +76,64 @@ namespace Playlist
         }
 
         public static bool HowLongToBeatIsInstalled => Plugin != null;
+
+        public static void SetCacheCapGames(int maxGames)
+        {
+            cacheCapGames = Math.Max(1, maxGames);
+            EnforceCacheCap();
+        }
+
+        public static void PruneCacheToGames(IEnumerable<Game> gamesToKeep)
+        {
+            var keepIds = new HashSet<Guid>(
+                (gamesToKeep ?? Enumerable.Empty<Game>())
+                    .Where(g => g != null)
+                    .Select(g => g.Id));
+
+            var cachedIds = new HashSet<Guid>(lruNodesByGameId.Keys);
+            foreach (var id in cachedIds)
+            {
+                if (!keepIds.Contains(id))
+                {
+                    RemoveGameFromCache(id);
+                }
+            }
+        }
+
+        public static void QueuePreloadAlternatingCacheMisses(IList<Game> orderedGames, int maxGames)
+        {
+            if (Plugin == null || orderedGames == null || orderedGames.Count == 0 || maxGames <= 0)
+            {
+                return;
+            }
+
+            var misses = GetAlternatingMissingGames(orderedGames, maxGames);
+            QueuePreloadGames(misses);
+        }
+
+        public static void QueuePreloadGames(IEnumerable<Game> games)
+        {
+            if (Plugin == null || games == null)
+            {
+                return;
+            }
+
+            EnsurePreloadTimer();
+            foreach (var game in games)
+            {
+                if (game == null || IsControlCached(ProgressBarControlName, game.Id) || !preloadQueuedIds.Add(game.Id))
+                {
+                    continue;
+                }
+
+                preloadQueue.Enqueue(game);
+            }
+
+            if (preloadQueue.Count > 0 && !preloadTimer.IsEnabled)
+            {
+                preloadTimer.Start();
+            }
+        }
 
         public HowLongToBeatControl(string controlName)
         {
@@ -143,47 +211,37 @@ namespace Playlist
                 return;
             }
 
-            // Lazily create or reuse the embedded plugin control for this Game.
-            if (!cachedControlsByName.TryGetValue(controlName, out var byGame))
+            var cached = GetOrCreateCachedControl(controlName, desiredGame, gameId);
+            if (cached == null)
             {
-                byGame = new Dictionary<Guid, PluginUserControl>();
-                cachedControlsByName[controlName] = byGame;
+                return;
             }
 
-            if (!byGame.TryGetValue(gameId, out var cached) || cached == null)
-            {
-                cached = Plugin.GetGameViewControl(new GetGameViewControlArgs
-                {
-                    Name = controlName,
-                    Mode = ApplicationMode.Desktop,
-                }) as PluginUserControl;
-
-                if (cached == null)
-                {
-                    return;
-                }
-
-                byGame[gameId] = cached;
-            }
-
-            // If the cached control is still parented elsewhere, don't reuse it (avoid WPF logical-parent issues).
-            // Fallback to a fresh instance for this wrapper; it will still be "first load" for that wrapper.
+            // If cached control is parented to a different wrapper, detach it so it can be reused.
+            // Reuse is essential for making preloading effective across virtualization container swaps.
             if (control != cached)
             {
                 if (cached.Parent != null && cached.Parent != this)
                 {
-                    cached = Plugin.GetGameViewControl(new GetGameViewControlArgs
+                    var owner = cached.Parent as HowLongToBeatControl;
+                    if (owner != null)
                     {
-                        Name = controlName,
-                        Mode = ApplicationMode.Desktop,
-                    }) as PluginUserControl;
-
-                    if (cached == null)
-                    {
-                        return;
+                        owner.ReleaseCachedControlIfOwned(cached);
                     }
 
-                    byGame[gameId] = cached;
+                    if (cached.Parent != null)
+                    {
+                        cached = Plugin.GetGameViewControl(new GetGameViewControlArgs
+                        {
+                            Name = controlName,
+                            Mode = ApplicationMode.Desktop,
+                        }) as PluginUserControl;
+
+                        if (cached == null)
+                        {
+                            return;
+                        }
+                    }
                 }
 
                 control = cached;
@@ -197,6 +255,223 @@ namespace Playlist
             }
 
             appliedGameId = gameId;
+        }
+
+        private static void EnsurePreloadTimer()
+        {
+            if (preloadTimer != null)
+            {
+                return;
+            }
+
+            preloadTimer = new DispatcherTimer(DispatcherPriority.Background)
+            {
+                // Keep this conservative to avoid heavy background work while still warming cache quickly.
+                Interval = TimeSpan.FromMilliseconds(100),
+            };
+            preloadTimer.Tick += OnPreloadTick;
+        }
+
+        private static void OnPreloadTick(object sender, EventArgs e)
+        {
+            if (Plugin == null || preloadQueue.Count == 0)
+            {
+                preloadTimer.Stop();
+                return;
+            }
+
+            const int gamesPerTick = 5;
+            for (int i = 0; i < gamesPerTick && preloadQueue.Count > 0; i++)
+            {
+                var game = preloadQueue.Dequeue();
+                preloadQueuedIds.Remove(game.Id);
+
+                // Preload only the progress bar; button is mouseover-only and can stay on-demand.
+                GetOrCreateCachedControl(ProgressBarControlName, game, game.Id);
+            }
+
+            if (preloadQueue.Count == 0)
+            {
+                preloadTimer.Stop();
+            }
+        }
+
+        private static PluginUserControl GetOrCreateCachedControl(string targetControlName, Game game, Guid gameId)
+        {
+            if (!cachedControlsByName.TryGetValue(targetControlName, out var byGame))
+            {
+                byGame = new Dictionary<Guid, PluginUserControl>();
+                cachedControlsByName[targetControlName] = byGame;
+            }
+
+            if (!byGame.TryGetValue(gameId, out var cached) || cached == null)
+            {
+                cached = Plugin.GetGameViewControl(new GetGameViewControlArgs
+                {
+                    Name = targetControlName,
+                    Mode = ApplicationMode.Desktop,
+                }) as PluginUserControl;
+
+                if (cached == null)
+                {
+                    return null;
+                }
+
+                byGame[gameId] = cached;
+            }
+
+            if (!(cached.GameContext is Game currentGame) || currentGame.Id != gameId)
+            {
+                cached.GameContext = game;
+            }
+
+            TouchLru(gameId);
+            EnforceCacheCap();
+            return cached;
+        }
+
+        private void ReleaseCachedControlIfOwned(PluginUserControl candidate)
+        {
+            if (!ReferenceEquals(control, candidate))
+            {
+                return;
+            }
+
+            Content = null;
+            control = null;
+            appliedGameId = null;
+        }
+
+        private static bool IsControlCached(string targetControlName, Guid gameId)
+        {
+            if (!cachedControlsByName.TryGetValue(targetControlName, out var byGame))
+            {
+                return false;
+            }
+
+            return byGame.TryGetValue(gameId, out var cached) && cached != null;
+        }
+
+        private static IEnumerable<Game> GetAlternatingMissingGames(IList<Game> orderedGames, int maxGames)
+        {
+            var idToIndex = new Dictionary<Guid, int>();
+            for (int i = 0; i < orderedGames.Count; i++)
+            {
+                var game = orderedGames[i];
+                if (game != null && !idToIndex.ContainsKey(game.Id))
+                {
+                    idToIndex[game.Id] = i;
+                }
+            }
+
+            var cachedIndices = new List<int>();
+            if (cachedControlsByName.TryGetValue(ProgressBarControlName, out var progressByGame))
+            {
+                foreach (var id in progressByGame.Keys)
+                {
+                    if (idToIndex.TryGetValue(id, out int idx))
+                    {
+                        cachedIndices.Add(idx);
+                    }
+                }
+            }
+
+            var results = new List<Game>(Math.Min(maxGames, orderedGames.Count));
+            if (cachedIndices.Count == 0)
+            {
+                for (int i = 0; i < orderedGames.Count && results.Count < maxGames; i++)
+                {
+                    var game = orderedGames[i];
+                    if (game != null && !IsControlCached(ProgressBarControlName, game.Id))
+                    {
+                        results.Add(game);
+                    }
+                }
+
+                return results;
+            }
+
+            int low = cachedIndices.Min();
+            int high = cachedIndices.Max();
+            int delta = 1;
+            while (results.Count < maxGames && (low - delta >= 0 || high + delta < orderedGames.Count))
+            {
+                int above = low - delta;
+                if (above >= 0)
+                {
+                    var game = orderedGames[above];
+                    if (game != null && !IsControlCached(ProgressBarControlName, game.Id))
+                    {
+                        results.Add(game);
+                        if (results.Count >= maxGames)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                int below = high + delta;
+                if (below < orderedGames.Count)
+                {
+                    var game = orderedGames[below];
+                    if (game != null && !IsControlCached(ProgressBarControlName, game.Id))
+                    {
+                        results.Add(game);
+                    }
+                }
+
+                delta++;
+            }
+
+            return results;
+        }
+
+        private static void TouchLru(Guid gameId)
+        {
+            if (lruNodesByGameId.TryGetValue(gameId, out var node))
+            {
+                lruGameIds.Remove(node);
+                lruGameIds.AddFirst(node);
+                return;
+            }
+
+            var newNode = lruGameIds.AddFirst(gameId);
+            lruNodesByGameId[gameId] = newNode;
+        }
+
+        private static void EnforceCacheCap()
+        {
+            while (lruGameIds.Count > cacheCapGames)
+            {
+                var tail = lruGameIds.Last;
+                if (tail == null)
+                {
+                    break;
+                }
+
+                RemoveGameFromCache(tail.Value);
+            }
+        }
+
+        private static void RemoveGameFromCache(Guid gameId)
+        {
+            foreach (var byGame in cachedControlsByName.Values)
+            {
+                if (byGame.TryGetValue(gameId, out var controlToRemove) && controlToRemove != null)
+                {
+                    var owner = controlToRemove.Parent as HowLongToBeatControl;
+                    owner?.ReleaseCachedControlIfOwned(controlToRemove);
+                    byGame.Remove(gameId);
+                }
+            }
+
+            if (lruNodesByGameId.TryGetValue(gameId, out var node))
+            {
+                lruNodesByGameId.Remove(gameId);
+                lruGameIds.Remove(node);
+            }
+
+            preloadQueuedIds.Remove(gameId);
         }
     }
 
