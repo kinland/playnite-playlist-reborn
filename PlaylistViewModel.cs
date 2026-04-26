@@ -1,8 +1,9 @@
-﻿using Playnite.SDK;
+using Playnite.SDK;
 using Playnite.SDK.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -15,6 +16,11 @@ namespace Playlist
 
         public ObservableCollection<Game> PlaylistGames { get; set; }
 
+        /// <summary>
+        /// Bumped on every playlist mutation so rank bindings (which depend on index in the list) refresh.
+        /// </summary>
+        public int PlaylistGamesRevision { get; private set; }
+
         public RelayCommand<object> NavigateBackCommand { get; }
 
         public RelayCommand<Game> StartGameCommand { get; }
@@ -26,6 +32,40 @@ namespace Playlist
         public RelayCommand<ObservableCollection<object>> MoveGamesToBottomCommand { get; }
 
         public RelayCommand<Game> ShowGameInLibraryCommand { get; }
+
+        public bool MoveGameToRank(Game game, int rank)
+        {
+            if (game == null || PlaylistGames.Count == 0)
+            {
+                return false;
+            }
+
+            int currentIndex = PlaylistGames.IndexOf(game);
+            if (currentIndex < 0)
+            {
+                return false;
+            }
+
+            if (rank < 1 || rank > PlaylistGames.Count)
+            {
+                return false;
+            }
+
+            int targetIndex = rank - 1;
+            if (targetIndex == currentIndex)
+            {
+                return false;
+            }
+
+            PlaylistGames.RemoveAt(currentIndex);
+            if (targetIndex > currentIndex)
+            {
+                targetIndex--;
+            }
+
+            PlaylistGames.Insert(targetIndex, game);
+            return true;
+        }
 
         public IEnumerable<KeyValuePair<CompletionStatus, RelayCommand<IEnumerable<object>>>> CompletionStatusCommands
         {
@@ -52,6 +92,8 @@ namespace Playlist
         {
             PlaylistGames = playlistGames ?? throw new ArgumentNullException(nameof(playlistGames));
             this.playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
+
+            PlaylistGames.CollectionChanged += OnPlaylistGamesCollectionChanged;
 
             NavigateBackCommand = new RelayCommand<object>((a) =>
             {
@@ -119,6 +161,12 @@ namespace Playlist
                 playniteApi.MainView.SelectGame(game.Id);
                 playniteApi.MainView.SwitchToLibraryView();
             });
+        }
+
+        private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            PlaylistGamesRevision++;
+            OnPropertyChanged(nameof(PlaylistGamesRevision));
         }
     }
 }

@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GamePlaylistRankConverter.cs" />
     <Compile Include="PlaylistViewModel.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
