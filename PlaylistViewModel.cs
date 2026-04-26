@@ -42,6 +42,18 @@ namespace Playlist
         public IDropTarget PlaylistDropHandler { get; }
 
         /// <summary>
+        /// Gong drag source wrapper; clears HowLongToBeat game context during reorder drags for smoother interaction.
+        /// </summary>
+        public IDragSource PlaylistDragHandler { get; }
+
+        /// <summary>
+        /// True while the user is dragging to reorder the playlist (rank sort only).
+        /// </summary>
+        public bool IsPlaylistDragReorderActive => isPlaylistDragReorderActive;
+
+        private bool isPlaylistDragReorderActive;
+
+        /// <summary>
         /// Bumped on every playlist mutation so rank bindings (which depend on index in the list) refresh.
         /// </summary>
         public int PlaylistGamesRevision { get; private set; }
@@ -120,6 +132,7 @@ namespace Playlist
 
             PlaylistGamesView = CollectionViewSource.GetDefaultView(PlaylistGames);
             PlaylistDropHandler = new PlaylistListDropHandler(this);
+            PlaylistDragHandler = new PlaylistDragSourceHandler(this);
             PlaylistGames.CollectionChanged += OnPlaylistGamesCollectionChanged;
 
             NavigateBackCommand = new RelayCommand<object>((a) =>
@@ -259,6 +272,17 @@ namespace Playlist
         {
             PlaylistGamesRevision++;
             OnPropertyChanged(nameof(PlaylistGamesRevision));
+        }
+
+        internal void SetPlaylistDragReorderActive(bool active)
+        {
+            if (isPlaylistDragReorderActive == active)
+            {
+                return;
+            }
+
+            isPlaylistDragReorderActive = active;
+            OnPropertyChanged(nameof(IsPlaylistDragReorderActive));
         }
 
         private sealed class PlaylistRankIndexComparer : IComparer

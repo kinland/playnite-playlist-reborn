@@ -176,9 +176,13 @@
 
         <DataTemplate x:Key="howLongToBeatColumn" DataType="GridViewColumn.CellTemplate">
             <DockPanel >
-                <!-- TODO: Hide button except on hover/selection -->
-                <local:HowLongToBeatPluginButton Margin="10,0,0,0" DockPanel.Dock="Right"/>
-                <local:HowLongToBeatProgressBar Height="30"/>
+                <local:HowLongToBeatPluginButton
+                    Margin="10,0,0,0"
+                    DockPanel.Dock="Right"
+                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                <local:HowLongToBeatProgressBar
+                    Height="30"
+                    IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}"/>
             </DockPanel>
         </DataTemplate>
 
@@ -206,6 +210,7 @@
             SelectedIndex="0"
             dd:DragDrop.IsDragSource="{Binding IsDragReorderEnabled}"
             dd:DragDrop.IsDropTarget="{Binding IsDragReorderEnabled}"
+            dd:DragDrop.DragHandler="{Binding PlaylistDragHandler}"
             dd:DragDrop.DropHandler="{Binding PlaylistDropHandler}"
             GridViewColumnHeader.Click="OnPlaylistGridViewColumnHeaderClick">
 
@@ -278,7 +283,11 @@
                     <GridViewColumn Header="{DynamicResource LOCNameLabel}" Width="500" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Width="150" Header="{DynamicResource LOCTimePlayed}" DisplayMemberBinding="{Binding Playtime, Converter={StaticResource PlayTimeToStringConverter}}"/>
                     <GridViewColumn Width="150" Header="{DynamicResource LOCCompletionStatus}" DisplayMemberBinding="{Binding CompletionStatus}" />
-                    <GridViewColumn Width="400" Header="{DynamicResource LOCHowLongToBeat}" CellTemplate="{StaticResource howLongToBeatColumn}" />
+                    <GridViewColumn
+                        x:Name="howLongToBeatGridViewColumn"
+                        Width="400"
+                        Header="{DynamicResource LOCHowLongToBeat}"
+                        CellTemplate="{StaticResource howLongToBeatColumn}" />
                 </GridView>
             </ListView.View>
         </ListView>

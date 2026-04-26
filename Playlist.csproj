@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="GamePlaylistRankConverter.cs" />
     <Compile Include="HowLongToBeatControl.cs" />
+    <Compile Include="PlaylistDragSourceHandler.cs" />
     <Compile Include="PlaylistListDropHandler.cs" />
     <Compile Include="PlaylistViewModel.cs" />
     <Compile Include="Playlist.cs" />

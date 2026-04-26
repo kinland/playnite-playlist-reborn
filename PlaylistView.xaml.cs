@@ -13,11 +13,28 @@ namespace Playlist
         public PlaylistView()
         {
             InitializeComponent();
+            Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
         }
+
         public PlaylistView(PlaylistViewModel model)
         {
             DataContext = model;
             InitializeComponent();
+            Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
+        }
+
+        private void OnPlaylistViewLoadedApplyHowLongToBeatColumn(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnPlaylistViewLoadedApplyHowLongToBeatColumn;
+            if (HowLongToBeatControl.HowLongToBeatIsInstalled)
+            {
+                return;
+            }
+
+            if (playlistListView?.View is GridView gridView && howLongToBeatGridViewColumn != null)
+            {
+                gridView.Columns.Remove(howLongToBeatGridViewColumn);
+            }
         }
 
         private void OnPlaylistGridViewColumnHeaderClick(object sender, RoutedEventArgs e)
