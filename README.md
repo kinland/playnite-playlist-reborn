@@ -18,6 +18,28 @@ This extension requires Playnite 9 or newer.
 
 ![Playlist extension screenshot](screenshots/Playlist.gif)
 
+## Search
+
+Playlist includes an inline search box at the top of the view with fuzzy match.
+
+- General search uses case-insensitive partial matching with typo tolerance.
+- Wildcards are supported: `*` (any number of characters) and `?` (single character).
+- Scoped filters can be mixed with regular name terms in any order, for example:
+  - `Alan genre:shooter`
+  - `tag:puzzle Court`
+  - `dev:remedy feature:co-op`
+
+Supported scoped keywords:
+
+| Keyword | Alias | Matches against |
+| --- | --- | --- |
+| `tag:` | - | Game tags |
+| `genre:` | - | Game genres |
+| `developer:` | `dev:` | Game developers |
+| `publisher:` | `pub:` | Game publishers |
+| `category:` | `cat:` | Game categories |
+| `feature:` | `feat:` | Game features |
+
 ## External libraries, etc.
 
 * Drag and drop is implemented using [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)
