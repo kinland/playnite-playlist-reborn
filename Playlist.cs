@@ -21,12 +21,14 @@ namespace Playlist
 
         public static IPlayniteAPI StaticPlayniteApi { get; set; }
         public static string StaticPluginUserDataPath { get; set; }
+        public static PlaylistSettings StaticSettings { get; private set; }
 
         private PlaylistViewModel PlaylistViewModel { get; set; }
 
         private PlaylistView PlaylistView { get; set; }
 
         public ObservableCollection<Game> PlaylistGames { get; set; }
+        private readonly PlaylistSettings settings;
 
         private const string playlistPath = "playlist.txt";
 
@@ -81,12 +83,46 @@ namespace Playlist
 
         public Playlist(IPlayniteAPI api) : base(api)
         {
+            Properties = new GenericPluginProperties
+            {
+                HasSettings = true
+            };
+
             // Ensure the library loaded now, relative to the extension DLL.
             // If the XAML trys to load it later it will incorrectly load it relative to Playnite's executable
             Assembly.Load("GongSolutions.WPF.DragDrop");
 
             StaticPlayniteApi = api;
             StaticPluginUserDataPath = GetPluginUserDataPath();
+            settings = LoadPluginSettings<PlaylistSettings>() ?? new PlaylistSettings(this);
+            settings.AttachPlugin(this);
+            StaticSettings = settings;
+        }
+
+        public override ISettings GetSettings(bool firstRunSettings)
+        {
+            return settings;
+        }
+
+        public override UserControl GetSettingsView(bool firstRunSettings)
+        {
+            PlaylistSettingsView view = new PlaylistSettingsView
+            {
+                DataContext = settings,
+            };
+            return view;
+        }
+
+        internal void SaveSettings(PlaylistSettings updatedSettings)
+        {
+            SavePluginSettings(updatedSettings);
+            StaticSettings = updatedSettings;
+        }
+
+        internal void ApplySettingsToOpenView()
+        {
+            StaticSettings = settings;
+            PlaylistView?.ApplySettings();
         }
 
         private IEnumerable<Game> LoadPlaylistFile()

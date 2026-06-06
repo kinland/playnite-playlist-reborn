@@ -14,13 +14,17 @@ namespace Playlist
     /// </summary>
     public partial class PlaylistView : UserControl
     {
+        private readonly DispatcherTimer lastPlayedRefreshTimer;
+        private static readonly TimeSpan LastPlayedRefreshInterval = TimeSpan.FromMinutes(1);
+
         public PlaylistView()
         {
             InitializeComponent();
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
-            Unloaded += OnPlaylistViewUnloadedPruneHowLongToBeatCache;
+            Unloaded += OnPlaylistViewUnloaded;
+            lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
         }
 
         public PlaylistView(PlaylistViewModel model)
@@ -30,7 +34,8 @@ namespace Playlist
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
-            Unloaded += OnPlaylistViewUnloadedPruneHowLongToBeatCache;
+            Unloaded += OnPlaylistViewUnloaded;
+            lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
         }
 
         private const double HowLongToBeatColumnMinWidth = 120;
@@ -74,24 +79,113 @@ namespace Playlist
         private void OnPlaylistViewLoadedApplyHowLongToBeatColumn(object sender, RoutedEventArgs e)
         {
             HowLongToBeatCache.InvalidateRenderSettingsCache();
-            if (HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi))
+            ApplySettings();
+            UpdateLastPlayedTimerState();
+        }
+
+        private void OnPlaylistViewUnloaded(object sender, RoutedEventArgs e)
+        {
+            lastPlayedRefreshTimer?.Stop();
+        }
+
+        public void ApplySettings()
+        {
+            ApplyHowLongToBeatColumnVisibility();
+            ApplyLastPlayedColumnVisibility();
+            UpdateLastPlayedTimerState();
+        }
+
+        private DispatcherTimer CreateLastPlayedRefreshTimer()
+        {
+            DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Background)
             {
-                UpdateHowLongToBeatColumnFillWidth();
+                Interval = LastPlayedRefreshInterval,
+            };
+            timer.Tick += OnLastPlayedRefreshTick;
+            return timer;
+        }
+
+        private void OnLastPlayedRefreshTick(object sender, EventArgs e)
+        {
+            if (!IsVisible)
+            {
                 return;
             }
 
-            if (playlistListView?.View is GridView gridView && howLongToBeatGridViewColumn != null)
+            if (playlistListView?.ItemsSource is System.ComponentModel.ICollectionView view)
             {
-                int hltbColumnIndex = gridView.Columns.IndexOf(howLongToBeatGridViewColumn);
-                if (hltbColumnIndex >= 0)
-                {
-                    gridView.Columns.RemoveAt(hltbColumnIndex);
-                }
+                view.Refresh();
             }
         }
 
-        private void OnPlaylistViewUnloadedPruneHowLongToBeatCache(object sender, RoutedEventArgs e)
+        private void UpdateLastPlayedTimerState()
         {
+            bool shouldRun = IsVisible && (Playlist.StaticSettings?.ShowLastPlayedColumn ?? false);
+            if (shouldRun)
+            {
+                lastPlayedRefreshTimer?.Start();
+            }
+            else
+            {
+                lastPlayedRefreshTimer?.Stop();
+            }
+        }
+
+        private void ApplyLastPlayedColumnVisibility()
+        {
+            if (!(playlistListView?.View is GridView gridView) || lastPlayedGridViewColumn == null)
+            {
+                return;
+            }
+
+            bool shouldShow = Playlist.StaticSettings?.ShowLastPlayedColumn ?? true;
+            bool currentlyVisible = gridView.Columns.Contains(lastPlayedGridViewColumn);
+            if (shouldShow == currentlyVisible)
+            {
+                return;
+            }
+
+            if (!shouldShow)
+            {
+                gridView.Columns.Remove(lastPlayedGridViewColumn);
+                return;
+            }
+
+            int targetIndex = howLongToBeatGridViewColumn != null && gridView.Columns.Contains(howLongToBeatGridViewColumn)
+                ? gridView.Columns.IndexOf(howLongToBeatGridViewColumn)
+                : gridView.Columns.Count;
+            gridView.Columns.Insert(targetIndex, lastPlayedGridViewColumn);
+        }
+
+        private void ApplyHowLongToBeatColumnVisibility()
+        {
+            if (!(playlistListView?.View is GridView gridView) || howLongToBeatGridViewColumn == null)
+            {
+                return;
+            }
+
+            bool hltbAvailable = HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi);
+            bool settingEnabled = Playlist.StaticSettings?.ShowHowLongToBeatColumn ?? true;
+            bool shouldShow = hltbAvailable && settingEnabled;
+            bool currentlyVisible = gridView.Columns.Contains(howLongToBeatGridViewColumn);
+
+            if (shouldShow == currentlyVisible)
+            {
+                if (shouldShow)
+                {
+                    UpdateHowLongToBeatColumnFillWidth();
+                }
+                return;
+            }
+
+            if (!shouldShow)
+            {
+                gridView.Columns.Remove(howLongToBeatGridViewColumn);
+                return;
+            }
+
+            gridView.Columns.Add(howLongToBeatGridViewColumn);
+            UpdateHowLongToBeatColumnFillWidth();
         }
 
         private void OnPlaylistGridViewColumnHeaderClick(object sender, RoutedEventArgs e)
@@ -105,24 +199,31 @@ namespace Playlist
                 return;
             }
 
-            // GridViewColumn has no Tag in WPF; order must match <GridView> column sequence (icon column = 1, no sort).
-            string sortKey;
-            switch (gridView.Columns.IndexOf(column))
+            string sortKey = null;
+            if (column == rankGridViewColumn)
             {
-                case 0:
-                    sortKey = "Rank";
-                    break;
-                case 2:
-                    sortKey = "Name";
-                    break;
-                case 3:
-                    sortKey = "Playtime";
-                    break;
-                case 4:
-                    sortKey = "CompletionStatus";
-                    break;
-                default:
-                    return;
+                sortKey = "Rank";
+            }
+            else if (column == nameGridViewColumn)
+            {
+                sortKey = "Name";
+            }
+            else if (column == playtimeGridViewColumn)
+            {
+                sortKey = "Playtime";
+            }
+            else if (column == completionStatusGridViewColumn)
+            {
+                sortKey = "CompletionStatus";
+            }
+            else if (column == lastPlayedGridViewColumn)
+            {
+                sortKey = "LastPlayed";
+            }
+
+            if (string.IsNullOrEmpty(sortKey))
+            {
+                return;
             }
 
             model.ToggleViewSort(sortKey);

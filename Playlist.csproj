@@ -57,6 +57,7 @@
     <Compile Include="GamePlaylistRankConverter.cs" />
     <Compile Include="LastPlayedRelativeFormatter.cs" />
     <Compile Include="LastPlayedSortBucketComparer.cs" />
+    <Compile Include="LastPlayedValueConverter.cs" />
     <Compile Include="SearchQueryMatcher.cs" />
     <Compile Include="SearchQuerySpec.cs" />
     <Compile Include="third_party\howlongtobeat\HowLongToBeatCache.cs" />
@@ -67,8 +68,12 @@
     <Compile Include="PlaylistDragSourceHandler.cs" />
     <Compile Include="PlaylistListDropHandler.cs" />
     <Compile Include="PlaylistViewModel.cs" />
+    <Compile Include="PlaylistSettings.cs" />
     <Compile Include="Playlist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PlaylistSettingsView.xaml.cs">
+      <DependentUpon>PlaylistSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlaylistView.xaml.cs">
       <DependentUpon>PlaylistView.xaml</DependentUpon>
     </Compile>
@@ -90,6 +95,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Page Include="PlaylistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlaylistSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

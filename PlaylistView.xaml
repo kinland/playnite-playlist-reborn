@@ -10,6 +10,7 @@
 
     <UserControl.Resources>
         <local:GamePlaylistRankConverter x:Key="gamePlaylistRankConverter" />
+        <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
 
         <Style x:Key="noGamesText" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
             <!-- Show instructions if no games in playlist -->
@@ -262,7 +263,7 @@
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="#" Width="42" HeaderContainerStyle="{StaticResource centeredRankColumnHeader}">
+                    <GridViewColumn x:Name="rankGridViewColumn" Header="#" Width="42" HeaderContainerStyle="{StaticResource centeredRankColumnHeader}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid
@@ -313,9 +314,14 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{DynamicResource LOCNameLabel}" Width="500" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="150" Header="{DynamicResource LOCTimePlayed}" DisplayMemberBinding="{Binding Playtime, Converter={StaticResource PlayTimeToStringConverter}}"/>
-                    <GridViewColumn Width="150" Header="{DynamicResource LOCCompletionStatus}" DisplayMemberBinding="{Binding CompletionStatus}" />
+                    <GridViewColumn x:Name="nameGridViewColumn" Header="{DynamicResource LOCNameLabel}" Width="500" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn x:Name="playtimeGridViewColumn" Width="150" Header="{DynamicResource LOCTimePlayed}" DisplayMemberBinding="{Binding Playtime, Converter={StaticResource PlayTimeToStringConverter}}"/>
+                    <GridViewColumn x:Name="completionStatusGridViewColumn" Width="150" Header="{DynamicResource LOCCompletionStatus}" DisplayMemberBinding="{Binding CompletionStatus}" />
+                    <GridViewColumn
+                        x:Name="lastPlayedGridViewColumn"
+                        Width="180"
+                        Header="{DynamicResource LOCPlaylist_LastPlayedColumn}"
+                        DisplayMemberBinding="{Binding LastActivity, Converter={StaticResource lastPlayedValueConverter}}" />
                     <GridViewColumn
                         x:Name="howLongToBeatGridViewColumn"
                         Width="400"

@@ -8,6 +8,9 @@
     <sys:String x:Key="LOCPlaylist_MoveToBottom">Move to Bottom</sys:String>
     <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Remove from Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Right click a game in the library and select "Add to Playlist"</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Last Played</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_ShowLastPlayedColumn">Show Last Played column</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Show HowLongToBeat column</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip">Search playlist (supports * and ? wildcards; prefixes: tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:)</sys:String>
 </ResourceDictionary>
 

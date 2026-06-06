@@ -29,6 +29,7 @@ namespace Playlist
         /// Gong drag-drop reorder is only safe when the view follows playlist rank order (unsorted or # column).
         /// </summary>
         public bool IsDragReorderEnabled => activeViewSortColumn == null || activeViewSortColumn == "Rank";
+        public bool IsLastPlayedSortActive => activeViewSortColumn == "LastPlayed";
 
         /// <summary>
         /// True when the grid is sorted by # descending; drag indices need a custom drop handler.
@@ -262,6 +263,7 @@ namespace Playlist
                 case "Name":
                 case "Playtime":
                 case "CompletionStatus":
+                case "LastPlayed":
                     break;
                 default:
                     return;
@@ -296,10 +298,16 @@ namespace Playlist
                 case "CompletionStatus":
                     listView.SortDescriptions.Add(new SortDescription(nameof(Game.CompletionStatus), activeViewSortDirection));
                     break;
+                case "LastPlayed":
+                    listView.CustomSort = new LastPlayedGameComparer(
+                        PlaylistGames,
+                        descending: activeViewSortDirection == ListSortDirection.Descending);
+                    break;
             }
 
             listView.Refresh();
             OnPropertyChanged(nameof(IsDragReorderEnabled));
+            OnPropertyChanged(nameof(IsLastPlayedSortActive));
         }
 
         private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -558,6 +566,82 @@ namespace Playlist
                 }
 
                 return directionSign * ix.CompareTo(iy);
+            }
+        }
+
+        private sealed class LastPlayedGameComparer : IComparer
+        {
+            private readonly IList<Game> playlistOrder;
+            private readonly LastPlayedSortBucketComparer sortComparer;
+            private readonly DateTime nowUtc;
+
+            public LastPlayedGameComparer(IList<Game> playlistOrder, bool descending)
+            {
+                this.playlistOrder = playlistOrder;
+                sortComparer = new LastPlayedSortBucketComparer(descending);
+                nowUtc = DateTime.UtcNow;
+            }
+
+            /// <summary>
+            /// Sorts games by display bucket first, then rank (and exact recency in Moments bucket).
+            /// </summary>
+            public int Compare(object x, object y)
+            {
+                if (ReferenceEquals(x, y))
+                {
+                    return 0;
+                }
+
+                LastPlayedSortKey keyX = BuildSortKey(x as Game);
+                LastPlayedSortKey keyY = BuildSortKey(y as Game);
+                return sortComparer.Compare(keyX, keyY);
+            }
+
+            /// <summary>
+            /// Builds a comparable key from a game's LastActivity and persisted rank index.
+            /// </summary>
+            private LastPlayedSortKey BuildSortKey(Game game)
+            {
+                if (game == null)
+                {
+                    return new LastPlayedSortKey(int.MaxValue, 0, int.MaxValue);
+                }
+
+                int rankIndex = playlistOrder.IndexOf(game);
+                if (rankIndex < 0)
+                {
+                    rankIndex = int.MaxValue;
+                }
+
+                DateTime? lastPlayedUtc = ExtractLastPlayedUtc(game);
+                LastPlayedDisplayValue formatted = LastPlayedRelativeFormatter.Format(lastPlayedUtc, nowUtc);
+                long ticksUtc = lastPlayedUtc?.Ticks ?? 0;
+                return new LastPlayedSortKey(formatted.SortBucket, ticksUtc, rankIndex);
+            }
+
+            /// <summary>
+            /// Normalizes LastActivity to UTC nullable value for formatting and sorting.
+            /// </summary>
+            private static DateTime? ExtractLastPlayedUtc(Game game)
+            {
+                DateTime? dt = game.LastActivity;
+                if (!dt.HasValue || dt.Value == default)
+                {
+                    return null;
+                }
+
+                DateTime value = dt.Value;
+                if (value.Kind == DateTimeKind.Utc)
+                {
+                    return value;
+                }
+
+                if (value.Kind == DateTimeKind.Local)
+                {
+                    return value.ToUniversalTime();
+                }
+
+                return DateTime.SpecifyKind(value, DateTimeKind.Utc);
             }
         }
     }
