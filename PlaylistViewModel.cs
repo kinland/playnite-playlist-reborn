@@ -53,6 +53,12 @@ namespace Playlist
 
         private bool isPlaylistDragReorderActive;
         private SearchQueryMatcher searchMatcher = SearchQueryMatcher.Create(string.Empty);
+        private List<SearchQueryMatcher> tagMatchers = new List<SearchQueryMatcher>();
+        private List<SearchQueryMatcher> genreMatchers = new List<SearchQueryMatcher>();
+        private List<SearchQueryMatcher> developerMatchers = new List<SearchQueryMatcher>();
+        private List<SearchQueryMatcher> publisherMatchers = new List<SearchQueryMatcher>();
+        private List<SearchQueryMatcher> categoryMatchers = new List<SearchQueryMatcher>();
+        private List<SearchQueryMatcher> featureMatchers = new List<SearchQueryMatcher>();
         private string searchQuery = string.Empty;
 
         /// <summary>
@@ -72,7 +78,14 @@ namespace Playlist
                 }
 
                 searchQuery = nextValue;
-                searchMatcher = SearchQueryMatcher.Create(searchQuery);
+                SearchQuerySpec querySpec = SearchQuerySpec.Parse(searchQuery);
+                searchMatcher = SearchQueryMatcher.Create(querySpec.NameQuery);
+                tagMatchers = querySpec.TagQueries.Select(SearchQueryMatcher.Create).ToList();
+                genreMatchers = querySpec.GenreQueries.Select(SearchQueryMatcher.Create).ToList();
+                developerMatchers = querySpec.DeveloperQueries.Select(SearchQueryMatcher.Create).ToList();
+                publisherMatchers = querySpec.PublisherQueries.Select(SearchQueryMatcher.Create).ToList();
+                categoryMatchers = querySpec.CategoryQueries.Select(SearchQueryMatcher.Create).ToList();
+                featureMatchers = querySpec.FeatureQueries.Select(SearchQueryMatcher.Create).ToList();
                 PlaylistGamesView.Refresh();
                 OnPropertyChanged(nameof(SearchQuery));
             }
@@ -295,14 +308,207 @@ namespace Playlist
             OnPropertyChanged(nameof(PlaylistGamesRevision));
         }
 
+        /// <summary>
+        /// Applies current search query/spec matcher state to a row item.
+        /// </summary>
         private bool FilterPlaylistGameBySearch(object item)
         {
             if (item is Game game)
             {
-                return searchMatcher.IsMatch(game.Name);
+                if (!searchMatcher.IsMatch(game.Name))
+                {
+                    return false;
+                }
+
+                if (tagMatchers.Count > 0 && !MatchesAllScopedTerms(tagMatchers, GetSearchableTagNames(game)))
+                {
+                    return false;
+                }
+
+                if (genreMatchers.Count > 0 && !MatchesAllScopedTerms(genreMatchers, GetSearchableGenreNames(game)))
+                {
+                    return false;
+                }
+
+                if (developerMatchers.Count > 0 && !MatchesAllScopedTerms(developerMatchers, GetSearchableDeveloperNames(game)))
+                {
+                    return false;
+                }
+
+                if (publisherMatchers.Count > 0 && !MatchesAllScopedTerms(publisherMatchers, GetSearchablePublisherNames(game)))
+                {
+                    return false;
+                }
+
+                if (categoryMatchers.Count > 0 && !MatchesAllScopedTerms(categoryMatchers, GetSearchableCategoryNames(game)))
+                {
+                    return false;
+                }
+
+                if (featureMatchers.Count > 0 && !MatchesAllScopedTerms(featureMatchers, GetSearchableFeatureNames(game)))
+                {
+                    return false;
+                }
+
+                return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Requires each scoped matcher to match at least one candidate value.
+        /// </summary>
+        private static bool MatchesAllScopedTerms(IEnumerable<SearchQueryMatcher> matchers, IEnumerable<string> candidates)
+        {
+            string[] scopedCandidates = candidates.Where((c) => !string.IsNullOrWhiteSpace(c)).ToArray();
+            foreach (SearchQueryMatcher matcher in matchers)
+            {
+                if (!scopedCandidates.Any((candidate) => matcher.IsMatch(candidate)))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Resolves game tag names from TagIds for scoped tag filtering.
+        /// </summary>
+        private IEnumerable<string> GetSearchableTagNames(Game game)
+        {
+            if (game?.TagIds == null || game.TagIds.Count == 0)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            List<string> names = new List<string>();
+            foreach (Guid id in game.TagIds)
+            {
+                Tag tag = playniteApi.Database.Tags.Get(id);
+                if (!string.IsNullOrWhiteSpace(tag?.Name))
+                {
+                    names.Add(tag.Name);
+                }
+            }
+
+            return names;
+        }
+
+        /// <summary>
+        /// Resolves game genre names from GenreIds for scoped genre filtering.
+        /// </summary>
+        private IEnumerable<string> GetSearchableGenreNames(Game game)
+        {
+            if (game?.GenreIds == null || game.GenreIds.Count == 0)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            List<string> names = new List<string>();
+            foreach (Guid id in game.GenreIds)
+            {
+                Genre genre = playniteApi.Database.Genres.Get(id);
+                if (!string.IsNullOrWhiteSpace(genre?.Name))
+                {
+                    names.Add(genre.Name);
+                }
+            }
+
+            return names;
+        }
+
+        /// <summary>
+        /// Resolves developer company names from DeveloperIds.
+        /// </summary>
+        private IEnumerable<string> GetSearchableDeveloperNames(Game game)
+        {
+            if (game?.DeveloperIds == null || game.DeveloperIds.Count == 0)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            List<string> names = new List<string>();
+            foreach (Guid id in game.DeveloperIds)
+            {
+                var company = playniteApi.Database.Companies.Get(id);
+                if (!string.IsNullOrWhiteSpace(company?.Name))
+                {
+                    names.Add(company.Name);
+                }
+            }
+
+            return names;
+        }
+
+        /// <summary>
+        /// Resolves publisher company names from PublisherIds.
+        /// </summary>
+        private IEnumerable<string> GetSearchablePublisherNames(Game game)
+        {
+            if (game?.PublisherIds == null || game.PublisherIds.Count == 0)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            List<string> names = new List<string>();
+            foreach (Guid id in game.PublisherIds)
+            {
+                var company = playniteApi.Database.Companies.Get(id);
+                if (!string.IsNullOrWhiteSpace(company?.Name))
+                {
+                    names.Add(company.Name);
+                }
+            }
+
+            return names;
+        }
+
+        /// <summary>
+        /// Resolves category names from CategoryIds.
+        /// </summary>
+        private IEnumerable<string> GetSearchableCategoryNames(Game game)
+        {
+            if (game?.CategoryIds == null || game.CategoryIds.Count == 0)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            List<string> names = new List<string>();
+            foreach (Guid id in game.CategoryIds)
+            {
+                var category = playniteApi.Database.Categories.Get(id);
+                if (!string.IsNullOrWhiteSpace(category?.Name))
+                {
+                    names.Add(category.Name);
+                }
+            }
+
+            return names;
+        }
+
+        /// <summary>
+        /// Resolves feature names from FeatureIds.
+        /// </summary>
+        private IEnumerable<string> GetSearchableFeatureNames(Game game)
+        {
+            if (game?.FeatureIds == null || game.FeatureIds.Count == 0)
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            List<string> names = new List<string>();
+            foreach (Guid id in game.FeatureIds)
+            {
+                var feature = playniteApi.Database.Features.Get(id);
+                if (!string.IsNullOrWhiteSpace(feature?.Name))
+                {
+                    names.Add(feature.Name);
+                }
+            }
+
+            return names;
         }
 
         internal void SetPlaylistDragReorderActive(bool active)

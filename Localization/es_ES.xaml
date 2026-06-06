@@ -8,6 +8,6 @@
     <sys:String x:Key="LOCPlaylist_MoveToBottom">Mover al final</sys:String>
     <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Eliminar de la lista de juegos pendientes</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">En la biblioteca haga clic derecho en un juego y seleccione "Añadir a la lista de juegos pendientes"</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip">Buscar en la lista (admite comodines * y ?)</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Buscar en la lista (admite comodines * y ?; prefijos: tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:)</sys:String>
 </ResourceDictionary>
 

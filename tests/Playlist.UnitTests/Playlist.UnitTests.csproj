@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Compile Include="..\..\SearchQueryMatcher.cs" Link="Production\SearchQueryMatcher.cs" />
+    <Compile Include="..\..\SearchQuerySpec.cs" Link="Production\SearchQuerySpec.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbSettingsJson.cs" Link="Production\HltbSettingsJson.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbPlaytimeFormat.cs" Link="Production\HltbPlaytimeFormat.cs" />
   </ItemGroup>

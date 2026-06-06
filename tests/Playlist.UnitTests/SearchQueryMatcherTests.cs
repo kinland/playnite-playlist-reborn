@@ -61,6 +61,13 @@ public class SearchQueryMatcherTests
     }
 
     [Fact]
+    public void FuzzyMatch_MatchesGenreTypo()
+    {
+        SearchQueryMatcher matcher = SearchQueryMatcher.Create("shoter");
+        Assert.True(matcher.IsMatch("Shooter"));
+    }
+
+    [Fact]
     public void FuzzyMatch_RejectsDistantText()
     {
         SearchQueryMatcher matcher = SearchQueryMatcher.Create("zzzzzz");

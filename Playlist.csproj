@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="GamePlaylistRankConverter.cs" />
     <Compile Include="SearchQueryMatcher.cs" />
+    <Compile Include="SearchQuerySpec.cs" />
     <Compile Include="third_party\howlongtobeat\HowLongToBeatCache.cs" />
     <Compile Include="third_party\howlongtobeat\HowLongToBeatCachedProgressBar.cs" />
     <Compile Include="third_party\howlongtobeat\HowLongToBeatPluginButtonHost.cs" />
