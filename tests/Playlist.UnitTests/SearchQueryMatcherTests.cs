@@ -66,4 +66,11 @@ public class SearchQueryMatcherTests
         SearchQueryMatcher matcher = SearchQueryMatcher.Create("zzzzzz");
         Assert.False(matcher.IsMatch("Returnal"));
     }
+
+    [Fact]
+    public void SingleCharacterQuery_DoesNotUseTypoFallback()
+    {
+        SearchQueryMatcher matcher = SearchQueryMatcher.Create("a");
+        Assert.False(matcher.IsMatch("zzzz"));
+    }
 }

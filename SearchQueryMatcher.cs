@@ -147,6 +147,11 @@ namespace Playlist
         /// </summary>
         private bool IsTokenFuzzyMatch(string normalizedCandidate)
         {
+            if (normalizedQuery.Length <= 1)
+            {
+                return false;
+            }
+
             string[] queryTokens = normalizedQuery.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string[] candidateTokens = normalizedCandidate.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (queryTokens.Length == 0 || candidateTokens.Length == 0)
@@ -156,6 +161,11 @@ namespace Playlist
 
             foreach (string queryToken in queryTokens)
             {
+                if (queryToken.Length <= 1)
+                {
+                    continue;
+                }
+
                 int tokenThreshold = Math.Max(1, Math.Min(2, queryToken.Length / 4));
                 bool matchedToken = false;
                 foreach (string candidateToken in candidateTokens)
