@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GamePlaylistRankConverter.cs" />
+    <Compile Include="LastPlayedRelativeFormatter.cs" />
+    <Compile Include="LastPlayedSortBucketComparer.cs" />
     <Compile Include="SearchQueryMatcher.cs" />
     <Compile Include="SearchQuerySpec.cs" />
     <Compile Include="third_party\howlongtobeat\HowLongToBeatCache.cs" />
