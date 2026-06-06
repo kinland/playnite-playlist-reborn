@@ -199,17 +199,37 @@
     </UserControl.Resources>
  
     <DockPanel>
-        <StackPanel Orientation="Horizontal" Margin="10,10,0,0" DockPanel.Dock="Top">
-            <TextBlock VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True">
-                <Hyperlink Command="{Binding NavigateBackCommand}">
-                    <TextBlock Text="&#xea5c;" FontFamily="{DynamicResource FontIcoFont}"
-                        FontSize="26" />
-                </Hyperlink>
-            </TextBlock>
-            <TextBlock Text="{DynamicResource LOCPlaylist_Playlist}" VerticalAlignment="Center"
-                Style="{StaticResource BaseTextBlockStyle}"
-                Margin="10,0,0,0" FontSize="18"/>
-        </StackPanel>
+        <Grid Margin="10,10,10,0" DockPanel.Dock="Top">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Hyperlink Command="{Binding NavigateBackCommand}">
+                        <TextBlock Text="&#xea5c;" FontFamily="{DynamicResource FontIcoFont}"
+                            FontSize="26" />
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Text="{DynamicResource LOCPlaylist_Playlist}" VerticalAlignment="Center"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Margin="10,0,0,0" FontSize="18"/>
+                <Grid Width="360" Margin="28,0,0,0" VerticalAlignment="Center">
+                    <TextBox
+                        x:Name="playlistSearchTextBox"
+                        VerticalAlignment="Center"
+                        Padding="28,4,8,4"
+                        BorderThickness="1"
+                        PreviewKeyDown="OnPlaylistSearchTextBoxPreviewKeyDown"
+                        Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                        ToolTip="{DynamicResource LOCPlaylist_SearchTooltip}" />
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Text="&#xE721;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="12"
+                        Foreground="{Binding Foreground, ElementName=playlistSearchTextBox}" />
+                </Grid>
+            </StackPanel>
+        </Grid>
 
         <ListView
             x:Name="playlistListView"

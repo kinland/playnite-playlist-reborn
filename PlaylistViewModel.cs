@@ -52,11 +52,31 @@ namespace Playlist
         public bool IsPlaylistDragReorderActive => isPlaylistDragReorderActive;
 
         private bool isPlaylistDragReorderActive;
+        private SearchQueryMatcher searchMatcher = SearchQueryMatcher.Create(string.Empty);
+        private string searchQuery = string.Empty;
 
         /// <summary>
         /// Bumped on every playlist mutation so rank bindings (which depend on index in the list) refresh.
         /// </summary>
         public int PlaylistGamesRevision { get; private set; }
+
+        public string SearchQuery
+        {
+            get => searchQuery;
+            set
+            {
+                string nextValue = value ?? string.Empty;
+                if (string.Equals(searchQuery, nextValue, StringComparison.Ordinal))
+                {
+                    return;
+                }
+
+                searchQuery = nextValue;
+                searchMatcher = SearchQueryMatcher.Create(searchQuery);
+                PlaylistGamesView.Refresh();
+                OnPropertyChanged(nameof(SearchQuery));
+            }
+        }
 
         public RelayCommand<object> NavigateBackCommand { get; }
 
@@ -131,6 +151,7 @@ namespace Playlist
             this.playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
 
             PlaylistGamesView = CollectionViewSource.GetDefaultView(PlaylistGames);
+            PlaylistGamesView.Filter = FilterPlaylistGameBySearch;
             PlaylistDropHandler = new PlaylistListDropHandler(this);
             PlaylistDragHandler = new PlaylistDragSourceHandler(this);
             PlaylistGames.CollectionChanged += OnPlaylistGamesCollectionChanged;
@@ -272,6 +293,16 @@ namespace Playlist
         {
             PlaylistGamesRevision++;
             OnPropertyChanged(nameof(PlaylistGamesRevision));
+        }
+
+        private bool FilterPlaylistGameBySearch(object item)
+        {
+            if (item is Game game)
+            {
+                return searchMatcher.IsMatch(game.Name);
+            }
+
+            return false;
         }
 
         internal void SetPlaylistDragReorderActive(bool active)

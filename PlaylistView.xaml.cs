@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Playnite.SDK.Models;
 using System.Windows.Controls.Primitives;
 
@@ -217,6 +218,52 @@ namespace Playlist
         private static bool IsCommitRankKey(Key key)
         {
             return key == Key.Enter || key == Key.Return;
+        }
+
+        private void OnPlaylistSearchTextBoxPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(sender is TextBox searchTextBox))
+            {
+                return;
+            }
+
+            // Explicitly handle Ctrl+X so parent-level shortcuts do not steal Cut.
+            if (e.Key == Key.X && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                TryManualCut(searchTextBox);
+                e.Handled = true;
+            }
+        }
+
+        private static void TryManualCut(TextBox textBox)
+        {
+            if (textBox == null)
+            {
+                return;
+            }
+
+            string selectedText = textBox.SelectedText;
+            if (string.IsNullOrEmpty(selectedText))
+            {
+                return;
+            }
+
+            int selectionStart = textBox.SelectionStart;
+            textBox.SelectedText = string.Empty;
+            textBox.CaretIndex = selectionStart;
+
+            // Clipboard writes can block when another process is locking it.
+            // Do this after UI mutation so cut feels instant.
+            textBox.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                try
+                {
+                    Clipboard.SetText(selectedText);
+                }
+                catch
+                {
+                }
+            }));
         }
 
         private void OnRankTextBoxLostFocus(object sender, System.Windows.RoutedEventArgs e)
