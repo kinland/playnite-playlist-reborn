@@ -306,6 +306,16 @@
                     </Style.Triggers>
                 </Style>
 
+                <Style x:Key="howLongToBeatHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat">
+                            <Setter Property="Background" Value="#66FFFFFF" />
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
                 <DataTemplate x:Key="rankHeaderTemplate">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
@@ -610,6 +620,71 @@
                         </TextBlock>
                     </Grid>
                 </DataTemplate>
+
+                <DataTemplate x:Key="howLongToBeatHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="6,2,0,2"
+                            Text="{Binding DataContext.HowLongToBeatHeaderText, Source={x:Reference playlistListView}}"
+                            VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Ascending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▲" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
             </ListView.Resources>
 
             <ListView.InputBindings>
@@ -703,7 +778,8 @@
                     <GridViewColumn
                         x:Name="howLongToBeatGridViewColumn"
                         Width="400"
-                        Header="{DynamicResource LOCHowLongToBeat}"
+                        HeaderTemplate="{StaticResource howLongToBeatHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource howLongToBeatHeaderContainerStyle}"
                         CellTemplate="{StaticResource howLongToBeatColumn}" />
                 </GridView>
             </ListView.View>

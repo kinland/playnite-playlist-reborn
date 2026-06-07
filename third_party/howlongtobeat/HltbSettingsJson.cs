@@ -42,6 +42,7 @@ namespace Playlist
             {
                 TryApplyBrush(prop.Name, prop.Value, target);
                 TryApplyBool(prop.Name, prop.Value, target);
+                TryApplyPreferredForTimeToBeat(prop.Name, prop.Value, target);
 
                 if (prop.Value.ValueKind == JsonValueKind.Object)
                 {
@@ -127,6 +128,53 @@ namespace Playlist
                 case "progressbarshowtooltip":
                     target.ProgressBarShowToolTip = b;
                     break;
+            }
+        }
+
+        private static void TryApplyPreferredForTimeToBeat(string name, JsonElement value, HltbRenderSettings target)
+        {
+            if (Canonical(name) != "preferredfortimetobeat")
+            {
+                return;
+            }
+
+            if (value.ValueKind == JsonValueKind.Number && value.TryGetInt32(out int numeric))
+            {
+                target.PreferredForTimeToBeat = ParsePreferredForTimeToBeat(numeric);
+                return;
+            }
+
+            if (value.ValueKind == JsonValueKind.String)
+            {
+                string text = value.GetString();
+                if (int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out numeric))
+                {
+                    target.PreferredForTimeToBeat = ParsePreferredForTimeToBeat(numeric);
+                    return;
+                }
+
+                string canon = Canonical(text);
+                switch (canon)
+                {
+                    case "mainstoryextra":
+                        target.PreferredForTimeToBeat = HltbPreferredTimeType.MainStoryExtra;
+                        return;
+                    case "completionist":
+                        target.PreferredForTimeToBeat = HltbPreferredTimeType.Completionist;
+                        return;
+                    case "solo":
+                        target.PreferredForTimeToBeat = HltbPreferredTimeType.Solo;
+                        return;
+                    case "coop":
+                        target.PreferredForTimeToBeat = HltbPreferredTimeType.CoOp;
+                        return;
+                    case "versus":
+                        target.PreferredForTimeToBeat = HltbPreferredTimeType.Versus;
+                        return;
+                    default:
+                        target.PreferredForTimeToBeat = HltbPreferredTimeType.MainStory;
+                        return;
+                }
             }
         }
 
@@ -415,6 +463,25 @@ namespace Playlist
         private static string Canonical(string name)
         {
             return string.IsNullOrEmpty(name) ? string.Empty : name.Trim().ToLowerInvariant();
+        }
+
+        private static HltbPreferredTimeType ParsePreferredForTimeToBeat(int rawValue)
+        {
+            switch (rawValue)
+            {
+                case 1:
+                    return HltbPreferredTimeType.MainStoryExtra;
+                case 2:
+                    return HltbPreferredTimeType.Completionist;
+                case 3:
+                    return HltbPreferredTimeType.Solo;
+                case 4:
+                    return HltbPreferredTimeType.CoOp;
+                case 5:
+                    return HltbPreferredTimeType.Versus;
+                default:
+                    return HltbPreferredTimeType.MainStory;
+            }
         }
     }
 }

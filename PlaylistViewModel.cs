@@ -244,6 +244,10 @@ namespace Playlist
         private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
         public string ActiveViewSortColumn => activeViewSortColumn;
         public ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
+        public string HowLongToBeatHeaderText =>
+            activeViewSortColumn == "HowLongToBeat"
+                ? "HowLongToBeat (" + GetHltbPreferredTypeLabel() + ")"
+                : "HowLongToBeat";
 
         /// <summary>
         /// Toggles ascending/descending when the same column is clicked again. Does not mutate <see cref="PlaylistGames"/>.
@@ -268,6 +272,7 @@ namespace Playlist
                 case "Playtime":
                 case "CompletionStatus":
                 case "LastPlayed":
+                case "HowLongToBeat":
                     break;
                 default:
                     return;
@@ -307,11 +312,18 @@ namespace Playlist
                         PlaylistGames,
                         descending: activeViewSortDirection == ListSortDirection.Descending);
                     break;
+                case "HowLongToBeat":
+                    listView.CustomSort = new HowLongToBeatGameComparer(
+                        PlaylistGames,
+                        playniteApi,
+                        activeViewSortDirection);
+                    break;
             }
 
             listView.Refresh();
             OnPropertyChanged(nameof(ActiveViewSortColumn));
             OnPropertyChanged(nameof(ActiveViewSortDirection));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
         }
@@ -336,6 +348,7 @@ namespace Playlist
                 case "Playtime":
                 case "CompletionStatus":
                 case "LastPlayed":
+                case "HowLongToBeat":
                     break;
                 default:
                     return;
@@ -366,13 +379,46 @@ namespace Playlist
                         PlaylistGames,
                         descending: activeViewSortDirection == ListSortDirection.Descending);
                     break;
+                case "HowLongToBeat":
+                    listView.CustomSort = new HowLongToBeatGameComparer(
+                        PlaylistGames,
+                        playniteApi,
+                        activeViewSortDirection);
+                    break;
             }
 
             listView.Refresh();
             OnPropertyChanged(nameof(ActiveViewSortColumn));
             OnPropertyChanged(nameof(ActiveViewSortDirection));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
+        }
+
+        private string GetHltbPreferredTypeLabel()
+        {
+            HltbRenderSettings settings = HowLongToBeatCache.GetRenderSettings(playniteApi);
+            switch (settings?.PreferredForTimeToBeat ?? HltbPreferredTimeType.MainStory)
+            {
+                case HltbPreferredTimeType.MainStoryExtra:
+                    return "Main + Extra";
+                case HltbPreferredTimeType.Completionist:
+                    return "Completionist";
+                case HltbPreferredTimeType.Solo:
+                    return "Solo";
+                case HltbPreferredTimeType.CoOp:
+                    return "Co-Op";
+                case HltbPreferredTimeType.Versus:
+                    return "Versus";
+                case HltbPreferredTimeType.MainStory:
+                default:
+                    return "Main Story";
+            }
+        }
+
+        internal void RefreshHowLongToBeatHeaderText()
+        {
+            OnPropertyChanged(nameof(HowLongToBeatHeaderText));
         }
 
         private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -708,6 +754,168 @@ namespace Playlist
 
                 return DateTime.SpecifyKind(value, DateTimeKind.Utc);
             }
+        }
+
+        private sealed class HowLongToBeatGameComparer : IComparer
+        {
+            private readonly IList<Game> playlistOrder;
+            private readonly IPlayniteAPI playniteApi;
+            private readonly int directionSign;
+            private readonly HltbRenderSettings renderSettings;
+
+            public HowLongToBeatGameComparer(
+                IList<Game> playlistOrder,
+                IPlayniteAPI playniteApi,
+                ListSortDirection direction)
+            {
+                this.playlistOrder = playlistOrder;
+                this.playniteApi = playniteApi;
+                directionSign = direction == ListSortDirection.Descending ? -1 : 1;
+                renderSettings = HowLongToBeatCache.GetRenderSettings(playniteApi);
+            }
+
+            public int Compare(object x, object y)
+            {
+                if (ReferenceEquals(x, y))
+                {
+                    return 0;
+                }
+
+                HltbSortKey keyX = BuildSortKey(x as Game);
+                HltbSortKey keyY = BuildSortKey(y as Game);
+
+                if (keyX.HasValue && !keyY.HasValue)
+                {
+                    return -1;
+                }
+
+                if (!keyX.HasValue && keyY.HasValue)
+                {
+                    return 1;
+                }
+
+                if (keyX.HasValue && keyY.HasValue)
+                {
+                    int timeCompare = keyX.Seconds.CompareTo(keyY.Seconds);
+                    if (timeCompare != 0)
+                    {
+                        return directionSign * timeCompare;
+                    }
+                }
+
+                return directionSign * keyX.PlaylistRankIndex.CompareTo(keyY.PlaylistRankIndex);
+            }
+
+            private HltbSortKey BuildSortKey(Game game)
+            {
+                if (game == null)
+                {
+                    return new HltbSortKey(false, long.MaxValue, int.MaxValue);
+                }
+
+                int rankIndex = playlistOrder.IndexOf(game);
+                if (rankIndex < 0)
+                {
+                    rankIndex = int.MaxValue;
+                }
+
+                if (!HowLongToBeatCache.TryGetCachedTimes(playniteApi, game, out HltbCachedTimes times) || times == null)
+                {
+                    return new HltbSortKey(false, long.MaxValue, rankIndex);
+                }
+
+                HltbTimeVariants variants = SelectVariants(times, renderSettings?.PreferredForTimeToBeat ?? HltbPreferredTimeType.MainStory);
+                long seconds = ResolvePreferredSeconds(variants, renderSettings);
+                bool hasValue = seconds > 0;
+                return new HltbSortKey(hasValue, seconds, rankIndex);
+            }
+
+            private static HltbTimeVariants SelectVariants(HltbCachedTimes times, HltbPreferredTimeType style)
+            {
+                switch (style)
+                {
+                    case HltbPreferredTimeType.MainStoryExtra:
+                        return times.MainExtra;
+                    case HltbPreferredTimeType.Completionist:
+                        return times.Completionist;
+                    case HltbPreferredTimeType.Solo:
+                        return times.Solo;
+                    case HltbPreferredTimeType.CoOp:
+                        return times.CoOp;
+                    case HltbPreferredTimeType.Versus:
+                        return times.Vs;
+                    case HltbPreferredTimeType.MainStory:
+                    default:
+                        return times.MainStory;
+                }
+            }
+
+            private static long ResolvePreferredSeconds(HltbTimeVariants variants, HltbRenderSettings renderSettings)
+            {
+                if (variants == null)
+                {
+                    return 0;
+                }
+
+                List<long> preferred = new List<long>();
+                if (renderSettings?.UseClassic == true)
+                {
+                    preferred.Add(variants.Classic);
+                }
+
+                if (renderSettings?.UseMedian == true)
+                {
+                    preferred.Add(variants.Median);
+                }
+
+                if (renderSettings?.UseAverage == true)
+                {
+                    preferred.Add(variants.Average);
+                }
+
+                if (renderSettings?.UseRushed == true)
+                {
+                    preferred.Add(variants.Rushed);
+                }
+
+                if (renderSettings?.UseLeisure == true)
+                {
+                    preferred.Add(variants.Leisure);
+                }
+
+                foreach (long seconds in preferred)
+                {
+                    if (seconds > 0)
+                    {
+                        return seconds;
+                    }
+                }
+
+                long[] fallback = { variants.Classic, variants.Median, variants.Average, variants.Rushed, variants.Leisure };
+                foreach (long seconds in fallback)
+                {
+                    if (seconds > 0)
+                    {
+                        return seconds;
+                    }
+                }
+
+                return 0;
+            }
+        }
+
+        private readonly struct HltbSortKey
+        {
+            public HltbSortKey(bool hasValue, long seconds, int playlistRankIndex)
+            {
+                HasValue = hasValue;
+                Seconds = seconds;
+                PlaylistRankIndex = playlistRankIndex;
+            }
+
+            public bool HasValue { get; }
+            public long Seconds { get; }
+            public int PlaylistRankIndex { get; }
         }
     }
 }

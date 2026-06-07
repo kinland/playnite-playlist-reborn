@@ -62,6 +62,7 @@ Supported HLTB appearance/settings in Playlist:
 - `UseHtltbMedian`
 - `UseHtltbRushed`
 - `UseHtltbLeisure`
+- `PreferredForTimeToBeat`
 - `ShowMainTime`
 - `ShowExtraTime`
 - `ShowCompletionistTime`

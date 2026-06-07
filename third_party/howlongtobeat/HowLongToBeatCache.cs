@@ -12,6 +12,16 @@ using System.Windows.Media;
 
 namespace Playlist
 {
+    internal enum HltbPreferredTimeType
+    {
+        MainStory = 0,
+        MainStoryExtra = 1,
+        Completionist = 2,
+        Solo = 3,
+        CoOp = 4,
+        Versus = 5,
+    }
+
     internal static class HowLongToBeatCache
     {
         private static readonly Guid HltbPluginId = Guid.Parse("e08cd51f-9c9a-4ee3-a094-fde03b55492f");
@@ -295,6 +305,7 @@ namespace Playlist
 
     internal sealed class HltbRenderSettings
     {
+        public HltbPreferredTimeType PreferredForTimeToBeat { get; set; }
         public bool UseClassic { get; set; }
         public bool UseAverage { get; set; }
         public bool UseMedian { get; set; }
@@ -334,6 +345,7 @@ namespace Playlist
         {
             return new HltbRenderSettings
             {
+                PreferredForTimeToBeat = HltbPreferredTimeType.MainStory,
                 UseClassic = true,
                 EnableIntegrationViewItem = true,
                 EnableIntegrationButton = true,
@@ -377,6 +389,7 @@ namespace Playlist
             d.UseMedian = settings.UseHtltbMedian;
             d.UseRushed = settings.UseHtltbRushed;
             d.UseLeisure = settings.UseHtltbLeisure;
+            d.PreferredForTimeToBeat = ParsePreferredForTimeToBeat(settings.PreferredForTimeToBeat);
             d.EnableIntegrationViewItem = settings.EnableIntegrationViewItem;
             d.EnableIntegrationButton = settings.EnableIntegrationButton;
             d.EnableIntegrationProgressBar = settings.EnableIntegrationProgressBar;
@@ -415,6 +428,25 @@ namespace Playlist
             }
         }
 
+        private static HltbPreferredTimeType ParsePreferredForTimeToBeat(int rawValue)
+        {
+            switch (rawValue)
+            {
+                case 1:
+                    return HltbPreferredTimeType.MainStoryExtra;
+                case 2:
+                    return HltbPreferredTimeType.Completionist;
+                case 3:
+                    return HltbPreferredTimeType.Solo;
+                case 4:
+                    return HltbPreferredTimeType.CoOp;
+                case 5:
+                    return HltbPreferredTimeType.Versus;
+                default:
+                    return HltbPreferredTimeType.MainStory;
+            }
+        }
+
         private static Color ToColor(HltbColorBrushData brush, Color fallback)
         {
             if (brush == null)
@@ -445,6 +477,9 @@ namespace Playlist
     [DataContract]
     internal sealed class HltbSerializableSettings
     {
+        [DataMember(Name = "PreferredForTimeToBeat")]
+        public int PreferredForTimeToBeat { get; set; }
+
         [DataMember(Name = "UseHtltbClassic")]
         public bool UseHtltbClassic { get; set; }
         [DataMember(Name = "UseHtltbAverage")]

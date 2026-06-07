@@ -92,6 +92,7 @@ namespace Playlist
         private void OnPlaylistViewLoadedApplyHowLongToBeatColumn(object sender, RoutedEventArgs e)
         {
             HowLongToBeatCache.InvalidateRenderSettingsCache();
+            (DataContext as PlaylistViewModel)?.RefreshHowLongToBeatHeaderText();
             ApplySettings();
             SubscribeGridColumnCollectionChanged();
             RestoreLayoutState();
@@ -110,6 +111,7 @@ namespace Playlist
         {
             ApplyHowLongToBeatColumnVisibility();
             ApplyLastPlayedColumnVisibility();
+            (DataContext as PlaylistViewModel)?.RefreshHowLongToBeatHeaderText();
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
@@ -239,6 +241,10 @@ namespace Playlist
             else if (column == lastPlayedGridViewColumn)
             {
                 sortKey = "LastPlayed";
+            }
+            else if (column == howLongToBeatGridViewColumn)
+            {
+                sortKey = "HowLongToBeat";
             }
 
             if (string.IsNullOrEmpty(sortKey))
@@ -645,7 +651,8 @@ namespace Playlist
                 || column == nameGridViewColumn
                 || column == playtimeGridViewColumn
                 || column == completionStatusGridViewColumn
-                || column == lastPlayedGridViewColumn;
+                || column == lastPlayedGridViewColumn
+                || column == howLongToBeatGridViewColumn;
         }
 
         private static T FindFirstVisualChild<T>(DependencyObject parent) where T : DependencyObject
