@@ -244,10 +244,8 @@ namespace Playlist
         private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
         public string ActiveViewSortColumn => activeViewSortColumn;
         public ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
-        public string HowLongToBeatHeaderText =>
-            activeViewSortColumn == "HowLongToBeat"
-                ? "HowLongToBeat (" + GetHltbPreferredTypeLabel() + ")"
-                : "HowLongToBeat";
+        public string HowLongToBeatHeaderText => "HowLongToBeat";
+        public string HowLongToBeatHeaderSuffixText => " (" + GetHltbPreferredTypeLabel() + ")";
 
         /// <summary>
         /// Toggles ascending/descending when the same column is clicked again. Does not mutate <see cref="PlaylistGames"/>.
@@ -324,6 +322,7 @@ namespace Playlist
             OnPropertyChanged(nameof(ActiveViewSortColumn));
             OnPropertyChanged(nameof(ActiveViewSortDirection));
             OnPropertyChanged(nameof(HowLongToBeatHeaderText));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
         }
@@ -391,6 +390,7 @@ namespace Playlist
             OnPropertyChanged(nameof(ActiveViewSortColumn));
             OnPropertyChanged(nameof(ActiveViewSortDirection));
             OnPropertyChanged(nameof(HowLongToBeatHeaderText));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
         }
@@ -419,6 +419,7 @@ namespace Playlist
         internal void RefreshHowLongToBeatHeaderText()
         {
             OnPropertyChanged(nameof(HowLongToBeatHeaderText));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
         }
 
         private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
