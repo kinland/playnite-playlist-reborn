@@ -317,24 +317,16 @@
                 </Style>
 
                 <DataTemplate x:Key="rankHeaderTemplate">
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="20" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="#" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid HorizontalAlignment="Stretch" Margin="0,2,0,2">
+                        <TextBlock Tag="RankHeaderHash" Text="#" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="FontWeight" Value="Normal" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank">
-                                            <Setter Property="FontWeight" Value="Bold" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="FontStyle" Value="Normal" />
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Tag="RankHeaderGlyph" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Center">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontSize" Value="11" />
@@ -381,7 +373,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCNameLabel}" VerticalAlignment="Center">
                             <TextBlock.Style>
@@ -442,7 +434,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCTimePlayed}" VerticalAlignment="Center">
                             <TextBlock.Style>
@@ -503,7 +495,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCCompletionStatus}" VerticalAlignment="Center">
                             <TextBlock.Style>
@@ -564,7 +556,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCPlaylist_LastPlayedColumn}" VerticalAlignment="Center">
                             <TextBlock.Style>
@@ -625,7 +617,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="6,2,0,2" Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock Text="{Binding DataContext.HowLongToBeatHeaderText, Source={x:Reference playlistListView}}">

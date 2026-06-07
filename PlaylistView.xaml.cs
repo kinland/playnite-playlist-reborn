@@ -33,6 +33,7 @@ namespace Playlist
         {
             InitializeComponent();
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
+            playlistListView.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnPlaylistListViewColumnThumbDragDelta), handledEventsToo: true);
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
@@ -44,6 +45,7 @@ namespace Playlist
             DataContext = model;
             InitializeComponent();
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
+            playlistListView.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnPlaylistListViewColumnThumbDragDelta), handledEventsToo: true);
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
@@ -55,12 +57,19 @@ namespace Playlist
         private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateHowLongToBeatColumnFillWidth();
+            RefreshSortHeaderVisualState();
         }
 
         private void OnPlaylistListViewColumnThumbDragCompleted(object sender, DragCompletedEventArgs e)
         {
             UpdateHowLongToBeatColumnFillWidth();
+            RefreshSortHeaderVisualState();
             PersistLayoutState();
+        }
+
+        private void OnPlaylistListViewColumnThumbDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            RefreshSortHeaderVisualState();
         }
 
         /// <summary>
@@ -258,6 +267,11 @@ namespace Playlist
         }
 
         private const string RankCellTag = "PlaylistRankCell";
+        private const string RankHeaderHashTag = "RankHeaderHash";
+        private const string RankHeaderGlyphTag = "RankHeaderGlyph";
+        private const double RankHeaderGlyphGap = 2;
+        private const double RankHeaderRightInset = 4;
+        private const double SortHeaderRightEdgeReserve = 12;
 
         private void OnItemDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -607,9 +621,13 @@ namespace Playlist
                 if (presenter != null)
                 {
                     presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    // Reserve additional right-edge space so sort glyphs don't clip against the cell boundary.
-                    double availableWidth = Math.Max(0, header.ActualWidth - header.Padding.Left - header.Padding.Right - 12);
+                    double availableWidth = Math.Max(0, header.ActualWidth - header.Padding.Left - header.Padding.Right - SortHeaderRightEdgeReserve);
                     presenter.Width = availableWidth;
+
+                    if (header.Column == rankGridViewColumn)
+                    {
+                        UpdateRankHeaderCoupledLayout(header, presenter, availableWidth);
+                    }
                 }
 
                 Border rootBorder = FindFirstVisualChild<Border>(header);
@@ -643,6 +661,54 @@ namespace Playlist
             {
                 Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
             }
+        }
+
+        /// <summary>
+        /// Wide rank headers overlay a right-pinned glyph on a centered '#'. Once space tightens,
+        /// switch both to a right-anchored pair so they move together at the same rate.
+        /// </summary>
+        private static void UpdateRankHeaderCoupledLayout(GridViewColumnHeader header, ContentPresenter presenter, double availableWidth)
+        {
+            TextBlock hashBlock = FindChildByTag<TextBlock>(presenter, RankHeaderHashTag);
+            TextBlock glyphBlock = FindChildByTag<TextBlock>(presenter, RankHeaderGlyphTag);
+            if (hashBlock == null)
+            {
+                return;
+            }
+
+            if (glyphBlock == null || glyphBlock.Visibility != Visibility.Visible)
+            {
+                hashBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                hashBlock.ClearValue(FrameworkElement.MarginProperty);
+                return;
+            }
+
+            double hashWidth = hashBlock.ActualWidth > 0 ? hashBlock.ActualWidth : 10;
+            double glyphWidth = glyphBlock.ActualWidth > 0 ? glyphBlock.ActualWidth : 11;
+            double coupleThreshold = hashWidth + (2 * (glyphWidth + RankHeaderGlyphGap + RankHeaderRightInset));
+
+            if (availableWidth <= coupleThreshold)
+            {
+                hashBlock.HorizontalAlignment = HorizontalAlignment.Right;
+                hashBlock.Margin = new Thickness(0, 0, glyphWidth + RankHeaderGlyphGap + RankHeaderRightInset, 0);
+                return;
+            }
+
+            hashBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            hashBlock.ClearValue(FrameworkElement.MarginProperty);
+        }
+
+        private static T FindChildByTag<T>(DependencyObject parent, string tag) where T : FrameworkElement
+        {
+            foreach (T child in FindVisualChildren<T>(parent))
+            {
+                if (child.Tag as string == tag)
+                {
+                    return child;
+                }
+            }
+
+            return null;
         }
 
         private bool IsSortableColumn(GridViewColumn column)
