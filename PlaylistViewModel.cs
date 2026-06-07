@@ -26,9 +26,10 @@ namespace Playlist
         public ICollectionView PlaylistGamesView { get; }
 
         /// <summary>
-        /// Gong drag-drop reorder is only safe when the view follows playlist rank order (unsorted or # column).
+        /// Drag reorder is enabled for rank view and Last Played view (with Last Played bucket checks in drop handler).
         /// </summary>
-        public bool IsDragReorderEnabled => activeViewSortColumn == null || activeViewSortColumn == "Rank";
+        public bool IsDragReorderEnabled =>
+            activeViewSortColumn == null || activeViewSortColumn == "Rank" || activeViewSortColumn == "LastPlayed";
         public bool IsLastPlayedSortActive => activeViewSortColumn == "LastPlayed";
 
         /// <summary>
@@ -36,6 +37,12 @@ namespace Playlist
         /// </summary>
         internal bool IsViewRankDescending =>
             activeViewSortColumn == "Rank" && activeViewSortDirection == ListSortDirection.Descending;
+
+        /// <summary>
+        /// True when Last Played is active with descending direction (bucket-local rank order is visually reversed).
+        /// </summary>
+        internal bool IsViewLastPlayedDescending =>
+            activeViewSortColumn == "LastPlayed" && activeViewSortDirection == ListSortDirection.Descending;
 
         /// <summary>
         /// Custom Gong drop target so rank-descending reorder matches on-screen order.
@@ -129,11 +136,6 @@ namespace Playlist
             }
 
             PlaylistGames.RemoveAt(currentIndex);
-            if (targetIndex > currentIndex)
-            {
-                targetIndex--;
-            }
-
             PlaylistGames.Insert(targetIndex, game);
             return true;
         }

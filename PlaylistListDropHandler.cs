@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Threading;
@@ -29,6 +30,36 @@ namespace Playlist
         public void DragOver(IDropInfo dropInfo)
         {
             defaultHandler.DragOver(dropInfo);
+
+            if (dropInfo?.DragInfo == null || !viewModel.IsLastPlayedSortActive)
+            {
+                return;
+            }
+
+            if (!DefaultDropHandler.CanAcceptData(dropInfo))
+            {
+                return;
+            }
+
+            ListCollectionView listView = viewModel.PlaylistGamesView as ListCollectionView;
+            if (listView == null)
+            {
+                return;
+            }
+
+            List<Game> visualOrder = listView.Cast<Game>().ToList();
+            List<Game> dragged = GetVisibleDraggedItems(dropInfo, visualOrder);
+            if (dragged.Count == 0)
+            {
+                return;
+            }
+
+            int originalInsert = GetInsertIndex(dropInfo);
+            if (!CanInsertWithinLastPlayedBucket(visualOrder, dragged, originalInsert))
+            {
+                dropInfo.DropTargetAdorner = null;
+                dropInfo.Effects = DragDropEffects.None;
+            }
         }
 
         public void DropHint(IDropHintInfo dropHintInfo)
@@ -60,12 +91,6 @@ namespace Playlist
                 return;
             }
 
-            List<Game> dragged = DefaultDropHandler.ExtractData(dropInfo.Data).OfType<Game>().ToList();
-            if (dragged.Count == 0)
-            {
-                return;
-            }
-
             ListCollectionView listView = viewModel.PlaylistGamesView as ListCollectionView;
             if (listView == null)
             {
@@ -74,15 +99,19 @@ namespace Playlist
             }
 
             List<Game> visualOrder = listView.Cast<Game>().ToList();
-            dragged = dragged.Where(g => visualOrder.Contains(g)).Distinct().ToList();
+            List<Game> dragged = GetVisibleDraggedItems(dropInfo, visualOrder);
             if (dragged.Count == 0)
             {
                 return;
             }
 
-            dragged = dragged.OrderBy(g => visualOrder.IndexOf(g)).ToList();
-
             int originalInsert = GetInsertIndex(dropInfo);
+            if (viewModel.IsLastPlayedSortActive
+                && !CanInsertWithinLastPlayedBucket(visualOrder, dragged, originalInsert))
+            {
+                return;
+            }
+
             ReorderAnchorPreference anchorPreference = ResolveAnchorPreference(dropInfo, viewModel.IsViewRankDescending);
             List<Game> plannedOrder = PlaylistReorderPlanner.ReorderByVisibleInsertion(
                 fullOrder: viewModel.PlaylistGames,
@@ -90,7 +119,8 @@ namespace Playlist
                 draggedItemsVisual: dragged,
                 originalInsertIndexVisual: originalInsert,
                 reverseVisualToPersisted: viewModel.IsViewRankDescending,
-                anchorPreference: anchorPreference);
+                anchorPreference: anchorPreference,
+                invertAnchorSemantics: viewModel.IsViewLastPlayedDescending);
 
             ReorderCollectionToMatch(viewModel.PlaylistGames, plannedOrder);
 
@@ -103,6 +133,54 @@ namespace Playlist
             Dispatcher.CurrentDispatcher.BeginInvoke(
                 DispatcherPriority.Loaded,
                 new Action(() => listView.Refresh()));
+        }
+
+        /// <summary>
+        /// Keeps Last Played drag moves inside a single display bucket.
+        /// </summary>
+        private static bool CanInsertWithinLastPlayedBucket(
+            IList<Game> visualOrder,
+            IList<Game> dragged,
+            int originalInsertIndexVisual)
+        {
+            DateTime nowUtc = DateTime.UtcNow;
+            return PlaylistReorderPlanner.CanInsertWithinSameBucket(
+                visibleOrderVisual: visualOrder,
+                draggedItemsVisual: dragged,
+                originalInsertIndexVisual: originalInsertIndexVisual,
+                bucketSelector: game => LastPlayedRelativeFormatter.Format(ExtractLastPlayedUtc(game), nowUtc).SortBucket);
+        }
+
+        private static List<Game> GetVisibleDraggedItems(IDropInfo dropInfo, IList<Game> visualOrder)
+        {
+            return DefaultDropHandler.ExtractData(dropInfo.Data)
+                .OfType<Game>()
+                .Where(game => visualOrder.Contains(game))
+                .Distinct()
+                .OrderBy(game => visualOrder.IndexOf(game))
+                .ToList();
+        }
+
+        private static DateTime? ExtractLastPlayedUtc(Game game)
+        {
+            DateTime? dt = game?.LastActivity;
+            if (!dt.HasValue || dt.Value == default)
+            {
+                return null;
+            }
+
+            DateTime value = dt.Value;
+            if (value.Kind == DateTimeKind.Utc)
+            {
+                return value;
+            }
+
+            if (value.Kind == DateTimeKind.Local)
+            {
+                return value.ToUniversalTime();
+            }
+
+            return DateTime.SpecifyKind(value, DateTimeKind.Utc);
         }
 
         private static int GetInsertIndex(IDropInfo dropInfo)

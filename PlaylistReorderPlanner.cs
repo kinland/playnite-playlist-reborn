@@ -40,7 +40,8 @@ namespace Playlist
             IList<T> draggedItemsVisual,
             int originalInsertIndexVisual,
             bool reverseVisualToPersisted,
-            ReorderAnchorPreference anchorPreference = ReorderAnchorPreference.Auto) where T : class
+            ReorderAnchorPreference anchorPreference = ReorderAnchorPreference.Auto,
+            bool invertAnchorSemantics = false) where T : class
         {
             if (fullOrder == null || visibleOrderVisual == null || draggedItemsVisual == null)
             {
@@ -78,6 +79,12 @@ namespace Playlist
             T afterAnchor = insertedStart + draggedPersisted.Count < persistedAfter.Count
                 ? persistedAfter[insertedStart + draggedPersisted.Count]
                 : null;
+            if (invertAnchorSemantics)
+            {
+                T swap = beforeAnchor;
+                beforeAnchor = afterAnchor;
+                afterAnchor = swap;
+            }
 
             List<T> fullWorking = fullOrder.ToList();
             List<int> originalDraggedIndices = draggedPersisted.Select(item => fullWorking.IndexOf(item)).Where(index => index >= 0).ToList();
@@ -89,6 +96,53 @@ namespace Playlist
             int insertIndex = ResolveInsertIndex(fullWorking, beforeAnchor, afterAnchor, originalDraggedIndices, anchorPreference);
             fullWorking.InsertRange(insertIndex, draggedPersisted);
             return fullWorking;
+        }
+
+        /// <summary>
+        /// Checks whether a visual insert position keeps dragged items inside their current bucket.
+        /// This is used by Last Played sorting where only within-bucket drag moves are valid.
+        /// </summary>
+        public static bool CanInsertWithinSameBucket<T>(
+            IList<T> visibleOrderVisual,
+            IList<T> draggedItemsVisual,
+            int originalInsertIndexVisual,
+            Func<T, int> bucketSelector) where T : class
+        {
+            if (visibleOrderVisual == null || draggedItemsVisual == null || bucketSelector == null)
+            {
+                return false;
+            }
+
+            List<T> visible = visibleOrderVisual.ToList();
+            List<T> dragged = draggedItemsVisual.Where(item => item != null && visible.Contains(item)).Distinct().ToList();
+            if (dragged.Count == 0)
+            {
+                return false;
+            }
+
+            int draggedBucket = bucketSelector(dragged[0]);
+            if (dragged.Any(item => bucketSelector(item) != draggedBucket))
+            {
+                return false;
+            }
+
+            List<int> draggedIndicesVisual = dragged.Select(item => visible.IndexOf(item)).Where(index => index >= 0).ToList();
+            int removedBeforeInsert = draggedIndicesVisual.Count(index => index < originalInsertIndexVisual);
+            int adjustedInsertIndexVisual = originalInsertIndexVisual - removedBeforeInsert;
+
+            List<T> withoutDragged = visible.Where(item => !dragged.Contains(item)).ToList();
+            int insertIndex = Math.Max(0, Math.Min(adjustedInsertIndexVisual, withoutDragged.Count));
+            T before = insertIndex > 0 ? withoutDragged[insertIndex - 1] : null;
+            T after = insertIndex < withoutDragged.Count ? withoutDragged[insertIndex] : null;
+
+            if (before == null && after == null)
+            {
+                return true;
+            }
+
+            bool beforeMatches = before != null && bucketSelector(before) == draggedBucket;
+            bool afterMatches = after != null && bucketSelector(after) == draggedBucket;
+            return beforeMatches || afterMatches;
         }
 
         /// <summary>
