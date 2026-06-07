@@ -22,6 +22,7 @@ namespace Playlist
         public static IPlayniteAPI StaticPlayniteApi { get; set; }
         public static string StaticPluginUserDataPath { get; set; }
         public static PlaylistSettings StaticSettings { get; private set; }
+        internal static Playlist StaticPluginInstance { get; private set; }
 
         private PlaylistViewModel PlaylistViewModel { get; set; }
 
@@ -94,6 +95,7 @@ namespace Playlist
 
             StaticPlayniteApi = api;
             StaticPluginUserDataPath = GetPluginUserDataPath();
+            StaticPluginInstance = this;
             settings = LoadPluginSettings<PlaylistSettings>() ?? new PlaylistSettings(this);
             settings.AttachPlugin(this);
             StaticSettings = settings;
@@ -117,6 +119,12 @@ namespace Playlist
         {
             SavePluginSettings(updatedSettings);
             StaticSettings = updatedSettings;
+        }
+
+        internal void PersistSettings()
+        {
+            SavePluginSettings(settings);
+            StaticSettings = settings;
         }
 
         internal void ApplySettingsToOpenView()

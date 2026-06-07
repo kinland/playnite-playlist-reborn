@@ -242,6 +242,8 @@ namespace Playlist
 
         private string activeViewSortColumn;
         private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
+        internal string ActiveViewSortColumn => activeViewSortColumn;
+        internal ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
 
         /// <summary>
         /// Toggles ascending/descending when the same column is clicked again. Does not mutate <see cref="PlaylistGames"/>.
@@ -282,6 +284,63 @@ namespace Playlist
                 activeViewSortColumn = columnKey;
                 activeViewSortDirection = ListSortDirection.Ascending;
             }
+
+            listView.SortDescriptions.Clear();
+            listView.CustomSort = null;
+
+            switch (columnKey)
+            {
+                case "Rank":
+                    listView.CustomSort = new PlaylistRankIndexComparer(PlaylistGames, activeViewSortDirection);
+                    break;
+                case "Name":
+                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.Name), activeViewSortDirection));
+                    break;
+                case "Playtime":
+                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.Playtime), activeViewSortDirection));
+                    break;
+                case "CompletionStatus":
+                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.CompletionStatus), activeViewSortDirection));
+                    break;
+                case "LastPlayed":
+                    listView.CustomSort = new LastPlayedGameComparer(
+                        PlaylistGames,
+                        descending: activeViewSortDirection == ListSortDirection.Descending);
+                    break;
+            }
+
+            listView.Refresh();
+            OnPropertyChanged(nameof(IsDragReorderEnabled));
+            OnPropertyChanged(nameof(IsLastPlayedSortActive));
+        }
+
+        internal void RestoreViewSort(string columnKey, ListSortDirection direction)
+        {
+            if (string.IsNullOrWhiteSpace(columnKey))
+            {
+                return;
+            }
+
+            ListCollectionView listView = PlaylistGamesView as ListCollectionView;
+            if (listView == null)
+            {
+                return;
+            }
+
+            switch (columnKey)
+            {
+                case "Rank":
+                case "Name":
+                case "Playtime":
+                case "CompletionStatus":
+                case "LastPlayed":
+                    break;
+                default:
+                    return;
+            }
+
+            activeViewSortColumn = columnKey;
+            activeViewSortDirection = direction;
 
             listView.SortDescriptions.Clear();
             listView.CustomSort = null;

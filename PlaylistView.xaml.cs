@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,6 +19,15 @@ namespace Playlist
     {
         private readonly DispatcherTimer lastPlayedRefreshTimer;
         private static readonly TimeSpan LastPlayedRefreshInterval = TimeSpan.FromMinutes(1);
+        private bool isRestoringLayoutState;
+        private INotifyCollectionChanged gridColumnsNotifier;
+        private const string RankColumnKey = "Rank";
+        private const string IconColumnKey = "Icon";
+        private const string NameColumnKey = "Name";
+        private const string PlaytimeColumnKey = "Playtime";
+        private const string CompletionStatusColumnKey = "CompletionStatus";
+        private const string LastPlayedColumnKey = "LastPlayed";
+        private const string HowLongToBeatColumnKey = "HowLongToBeat";
 
         public PlaylistView()
         {
@@ -48,6 +60,7 @@ namespace Playlist
         private void OnPlaylistListViewColumnThumbDragCompleted(object sender, DragCompletedEventArgs e)
         {
             UpdateHowLongToBeatColumnFillWidth();
+            PersistLayoutState();
         }
 
         /// <summary>
@@ -80,11 +93,15 @@ namespace Playlist
         {
             HowLongToBeatCache.InvalidateRenderSettingsCache();
             ApplySettings();
+            SubscribeGridColumnCollectionChanged();
+            RestoreLayoutState();
             UpdateLastPlayedTimerState();
         }
 
         private void OnPlaylistViewUnloaded(object sender, RoutedEventArgs e)
         {
+            UnsubscribeGridColumnCollectionChanged();
+            PersistLayoutState();
             lastPlayedRefreshTimer?.Stop();
         }
 
@@ -92,6 +109,7 @@ namespace Playlist
         {
             ApplyHowLongToBeatColumnVisibility();
             ApplyLastPlayedColumnVisibility();
+            RestoreLayoutState();
             UpdateLastPlayedTimerState();
         }
 
@@ -227,6 +245,7 @@ namespace Playlist
             }
 
             model.ToggleViewSort(sortKey);
+            PersistLayoutState();
         }
 
         private const string RankCellTag = "PlaylistRankCell";
@@ -404,6 +423,221 @@ namespace Playlist
             if (rankEditor.Parent is Grid container && container.Children.Count > 0 && container.Children[0] is TextBlock textBlock)
             {
                 textBlock.Visibility = System.Windows.Visibility.Visible;
+            }
+        }
+
+        private void PersistLayoutState()
+        {
+            if (isRestoringLayoutState)
+            {
+                return;
+            }
+
+            if (!(DataContext is PlaylistViewModel model) || !(Playlist.StaticSettings is PlaylistSettings settings))
+            {
+                return;
+            }
+
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return;
+            }
+
+            List<PlaylistColumnLayoutState> layouts = gridView.Columns
+                .Select((column, index) => new { Column = column, Index = index })
+                .Select(item =>
+                {
+                    string key = GetColumnKey(item.Column);
+                    if (string.IsNullOrEmpty(key))
+                    {
+                        return null;
+                    }
+
+                    return new PlaylistColumnLayoutState
+                    {
+                        Key = key,
+                        DisplayIndex = item.Index,
+                        Width = item.Column.Width,
+                    };
+                })
+                .Where(item => item != null)
+                .ToList();
+
+            settings.SaveRuntimeState(
+                model.ActiveViewSortColumn,
+                model.ActiveViewSortDirection,
+                layouts);
+        }
+
+        private void SubscribeGridColumnCollectionChanged()
+        {
+            UnsubscribeGridColumnCollectionChanged();
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return;
+            }
+
+            gridColumnsNotifier = gridView.Columns as INotifyCollectionChanged;
+            if (gridColumnsNotifier != null)
+            {
+                gridColumnsNotifier.CollectionChanged += OnGridColumnsCollectionChanged;
+            }
+        }
+
+        private void UnsubscribeGridColumnCollectionChanged()
+        {
+            if (gridColumnsNotifier != null)
+            {
+                gridColumnsNotifier.CollectionChanged -= OnGridColumnsCollectionChanged;
+                gridColumnsNotifier = null;
+            }
+        }
+
+        private void OnGridColumnsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            PersistLayoutState();
+        }
+
+        private void RestoreLayoutState()
+        {
+            if (isRestoringLayoutState)
+            {
+                return;
+            }
+
+            if (!(DataContext is PlaylistViewModel model) || !(Playlist.StaticSettings is PlaylistSettings settings))
+            {
+                return;
+            }
+
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return;
+            }
+
+            isRestoringLayoutState = true;
+            try
+            {
+                if (settings.ColumnLayouts != null && settings.ColumnLayouts.Count > 0)
+                {
+                    List<PlaylistColumnLayoutState> ordered = settings.ColumnLayouts
+                        .Where(layout => layout != null && !string.IsNullOrWhiteSpace(layout.Key))
+                        .OrderBy(layout => layout.DisplayIndex)
+                        .ToList();
+
+                    int targetIndex = 0;
+                    foreach (PlaylistColumnLayoutState layout in ordered)
+                    {
+                        GridViewColumn column = GetColumnByKey(layout.Key);
+                        if (column == null || !gridView.Columns.Contains(column))
+                        {
+                            continue;
+                        }
+
+                        int currentIndex = gridView.Columns.IndexOf(column);
+                        if (currentIndex != targetIndex)
+                        {
+                            gridView.Columns.RemoveAt(currentIndex);
+                            gridView.Columns.Insert(targetIndex, column);
+                        }
+
+                        targetIndex++;
+                    }
+
+                    foreach (PlaylistColumnLayoutState layout in ordered)
+                    {
+                        GridViewColumn column = GetColumnByKey(layout.Key);
+                        if (column == null || !gridView.Columns.Contains(column))
+                        {
+                            continue;
+                        }
+
+                        if (!double.IsNaN(layout.Width) && layout.Width > 0)
+                        {
+                            column.Width = layout.Width;
+                        }
+                    }
+
+                    UpdateHowLongToBeatColumnFillWidth();
+                }
+
+                if (!string.IsNullOrWhiteSpace(settings.ActiveSortColumnKey))
+                {
+                    model.RestoreViewSort(settings.ActiveSortColumnKey, settings.ActiveSortDirection);
+                }
+            }
+            finally
+            {
+                isRestoringLayoutState = false;
+            }
+        }
+
+        private bool TryGetGridView(out GridView gridView)
+        {
+            gridView = playlistListView?.View as GridView;
+            return gridView != null;
+        }
+
+        private string GetColumnKey(GridViewColumn column)
+        {
+            if (column == rankGridViewColumn)
+            {
+                return RankColumnKey;
+            }
+
+            if (column == iconGridViewColumn)
+            {
+                return IconColumnKey;
+            }
+
+            if (column == nameGridViewColumn)
+            {
+                return NameColumnKey;
+            }
+
+            if (column == playtimeGridViewColumn)
+            {
+                return PlaytimeColumnKey;
+            }
+
+            if (column == completionStatusGridViewColumn)
+            {
+                return CompletionStatusColumnKey;
+            }
+
+            if (column == lastPlayedGridViewColumn)
+            {
+                return LastPlayedColumnKey;
+            }
+
+            if (column == howLongToBeatGridViewColumn)
+            {
+                return HowLongToBeatColumnKey;
+            }
+
+            return null;
+        }
+
+        private GridViewColumn GetColumnByKey(string key)
+        {
+            switch (key)
+            {
+                case RankColumnKey:
+                    return rankGridViewColumn;
+                case IconColumnKey:
+                    return iconGridViewColumn;
+                case NameColumnKey:
+                    return nameGridViewColumn;
+                case PlaytimeColumnKey:
+                    return playtimeGridViewColumn;
+                case CompletionStatusColumnKey:
+                    return completionStatusGridViewColumn;
+                case LastPlayedColumnKey:
+                    return lastPlayedGridViewColumn;
+                case HowLongToBeatColumnKey:
+                    return howLongToBeatGridViewColumn;
+                default:
+                    return null;
             }
         }
     }

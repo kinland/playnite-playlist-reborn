@@ -297,7 +297,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="55">
+                    <GridViewColumn x:Name="iconGridViewColumn" Header="" Width="55">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Canvas Height="38" Margin="1">
