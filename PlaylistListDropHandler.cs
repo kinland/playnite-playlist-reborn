@@ -82,28 +82,17 @@ namespace Playlist
 
             dragged = dragged.OrderBy(g => visualOrder.IndexOf(g)).ToList();
 
-            // InsertIndex is relative to the full visual list (still includes dragged rows).
             int originalInsert = GetInsertIndex(dropInfo);
-            List<int> dragIndices = dragged.Select(g => visualOrder.IndexOf(g)).ToList();
-            int removedBeforeInsert = dragIndices.Count(idx => idx < originalInsert);
-            int insertIndex = originalInsert - removedBeforeInsert;
+            ReorderAnchorPreference anchorPreference = ResolveAnchorPreference(dropInfo, viewModel.IsViewRankDescending);
+            List<Game> plannedOrder = PlaylistReorderPlanner.ReorderByVisibleInsertion(
+                fullOrder: viewModel.PlaylistGames,
+                visibleOrderVisual: visualOrder,
+                draggedItemsVisual: dragged,
+                originalInsertIndexVisual: originalInsert,
+                reverseVisualToPersisted: viewModel.IsViewRankDescending,
+                anchorPreference: anchorPreference);
 
-            foreach (Game g in dragged)
-            {
-                visualOrder.Remove(g);
-            }
-
-            insertIndex = Math.Max(0, Math.Min(insertIndex, visualOrder.Count));
-            for (int i = 0; i < dragged.Count; i++)
-            {
-                visualOrder.Insert(insertIndex + i, dragged[i]);
-            }
-
-            List<Game> persistedOrder = viewModel.IsViewRankDescending
-                ? Enumerable.Reverse(visualOrder).ToList()
-                : visualOrder.ToList();
-
-            ReorderCollectionToMatch(viewModel.PlaylistGames, persistedOrder);
+            ReorderCollectionToMatch(viewModel.PlaylistGames, plannedOrder);
 
             // Moves on the source list do not always invalidate a sorted ICollectionView; force re-sort / UI sync.
             listView.Refresh();
@@ -118,7 +107,9 @@ namespace Playlist
 
         private static int GetInsertIndex(IDropInfo dropInfo)
         {
-            int insertIndex = dropInfo.UnfilteredInsertIndex;
+            // Use visual insert index so filtered views map to the same index space
+            // as listView.Cast<Game>() order used by the reorder planner.
+            int insertIndex = dropInfo.InsertIndex;
             if (dropInfo.VisualTarget is ItemsControl itemsControl)
             {
                 if (itemsControl.Items is IEditableCollectionView editableItems)
@@ -136,6 +127,36 @@ namespace Playlist
             }
 
             return insertIndex;
+        }
+
+        /// <summary>
+        /// Maps Gong's before/after target marker to reorder anchor preference, accounting for
+        /// whether visual order is reversed relative to persisted playlist order.
+        /// </summary>
+        private static ReorderAnchorPreference ResolveAnchorPreference(IDropInfo dropInfo, bool reverseVisualToPersisted)
+        {
+            if (dropInfo == null)
+            {
+                return ReorderAnchorPreference.Auto;
+            }
+
+            // In reversed visual order (rank descending), before/after semantics invert when projected
+            // back into persisted ascending playlist order.
+            if ((dropInfo.InsertPosition & RelativeInsertPosition.BeforeTargetItem) == RelativeInsertPosition.BeforeTargetItem)
+            {
+                return reverseVisualToPersisted
+                    ? ReorderAnchorPreference.PreferBeforeAnchor
+                    : ReorderAnchorPreference.PreferAfterAnchor;
+            }
+
+            if ((dropInfo.InsertPosition & RelativeInsertPosition.AfterTargetItem) == RelativeInsertPosition.AfterTargetItem)
+            {
+                return reverseVisualToPersisted
+                    ? ReorderAnchorPreference.PreferAfterAnchor
+                    : ReorderAnchorPreference.PreferBeforeAnchor;
+            }
+
+            return ReorderAnchorPreference.Auto;
         }
 
         private static void ReorderCollectionToMatch(ObservableCollection<Game> list, IList<Game> targetOrder)
