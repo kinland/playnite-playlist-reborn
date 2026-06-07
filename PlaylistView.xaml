@@ -177,7 +177,7 @@
         </Style>
 
         <DataTemplate x:Key="howLongToBeatColumn" DataType="GridViewColumn.CellTemplate">
-            <Grid>
+            <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="48" />
@@ -186,6 +186,7 @@
                     Grid.Column="0"
                     Height="30"
                     Margin="0,0,4,0"
+                    MinWidth="60"
                     HorizontalAlignment="Stretch" />
                 <local:HowLongToBeatPluginButtonHost
                     Grid.Column="1"
@@ -250,6 +251,22 @@
             GridViewColumnHeader.Click="OnPlaylistGridViewColumnHeaderClick">
 
             <ListView.Resources>
+                <Style TargetType="GridViewRowPresenter">
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
+
+                <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Style.Triggers>
+                        <Trigger Property="Role" Value="Padding">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Width" Value="0" />
+                            <Setter Property="MinWidth" Value="0" />
+                            <Setter Property="MaxWidth" Value="0" />
+                            <Setter Property="IsHitTestVisible" Value="False" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
                 <Style x:Key="sortableHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />

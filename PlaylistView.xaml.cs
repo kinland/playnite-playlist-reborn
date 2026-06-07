@@ -74,7 +74,6 @@ namespace Playlist
 
         /// <summary>
         /// Keep HLTB column at the current user-selected width and only enforce a small minimum.
-        /// This avoids snapping back to a computed max width after drag-resize.
         /// </summary>
         private void UpdateHowLongToBeatColumnFillWidth()
         {
@@ -608,12 +607,22 @@ namespace Playlist
             bool foundHeader = false;
             foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
-                if (header == null
-                    || header.Role == GridViewColumnHeaderRole.Padding
-                    || !IsSortableColumn(header.Column))
+                if (header == null)
                 {
                     continue;
                 }
+
+                if (header.Role == GridViewColumnHeaderRole.Padding)
+                {
+                    HideGridViewPaddingColumnHeader(header);
+                    continue;
+                }
+
+                if (!IsSortableColumn(header.Column))
+                {
+                    continue;
+                }
+
                 foundHeader = true;
 
                 // Ensure header content can consume full cell width for right-aligned glyphs.
@@ -661,6 +670,19 @@ namespace Playlist
             {
                 Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
             }
+        }
+
+        /// <summary>
+        /// GridView adds a filler header when columns do not span the full list width. Hide it so
+        /// the unused area does not look like an extra resizable column.
+        /// </summary>
+        private static void HideGridViewPaddingColumnHeader(GridViewColumnHeader header)
+        {
+            header.Visibility = Visibility.Collapsed;
+            header.Width = 0;
+            header.MinWidth = 0;
+            header.MaxWidth = 0;
+            header.IsHitTestVisible = false;
         }
 
         /// <summary>
