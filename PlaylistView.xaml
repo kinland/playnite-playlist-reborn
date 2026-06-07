@@ -249,9 +249,367 @@
             GridViewColumnHeader.Click="OnPlaylistGridViewColumnHeaderClick">
 
             <ListView.Resources>
-                <Style x:Key="centeredRankColumnHeader" TargetType="GridViewColumnHeader">
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Style x:Key="sortableHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Padding" Value="0" />
                 </Style>
+
+                <Style x:Key="rankHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank">
+                            <Setter Property="Background" Value="#66FFFFFF" />
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style x:Key="nameHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name">
+                            <Setter Property="Background" Value="#66FFFFFF" />
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style x:Key="playtimeHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime">
+                            <Setter Property="Background" Value="#66FFFFFF" />
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style x:Key="completionHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus">
+                            <Setter Property="Background" Value="#66FFFFFF" />
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style x:Key="lastPlayedHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed">
+                            <Setter Property="Background" Value="#66FFFFFF" />
+                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+
+                <DataTemplate x:Key="rankHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="#" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Ascending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▲" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="nameHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCNameLabel}" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Ascending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▲" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="playtimeHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCTimePlayed}" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Ascending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▲" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="completionHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCCompletionStatus}" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Ascending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▲" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="lastPlayedHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCPlaylist_LastPlayedColumn}" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Ascending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▲" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
             </ListView.Resources>
 
             <ListView.InputBindings>
@@ -263,7 +621,11 @@
 
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="rankGridViewColumn" Header="#" Width="42" HeaderContainerStyle="{StaticResource centeredRankColumnHeader}">
+                    <GridViewColumn
+                        x:Name="rankGridViewColumn"
+                        HeaderTemplate="{StaticResource rankHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource rankHeaderContainerStyle}"
+                        Width="56">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid
@@ -314,13 +676,29 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn x:Name="nameGridViewColumn" Header="{DynamicResource LOCNameLabel}" Width="500" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn x:Name="playtimeGridViewColumn" Width="150" Header="{DynamicResource LOCTimePlayed}" DisplayMemberBinding="{Binding Playtime, Converter={StaticResource PlayTimeToStringConverter}}"/>
-                    <GridViewColumn x:Name="completionStatusGridViewColumn" Width="150" Header="{DynamicResource LOCCompletionStatus}" DisplayMemberBinding="{Binding CompletionStatus}" />
+                    <GridViewColumn
+                        x:Name="nameGridViewColumn"
+                        HeaderTemplate="{StaticResource nameHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource nameHeaderContainerStyle}"
+                        Width="500"
+                        DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn
+                        x:Name="playtimeGridViewColumn"
+                        Width="168"
+                        HeaderTemplate="{StaticResource playtimeHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource playtimeHeaderContainerStyle}"
+                        DisplayMemberBinding="{Binding Playtime, Converter={StaticResource PlayTimeToStringConverter}}"/>
+                    <GridViewColumn
+                        x:Name="completionStatusGridViewColumn"
+                        Width="174"
+                        HeaderTemplate="{StaticResource completionHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource completionHeaderContainerStyle}"
+                        DisplayMemberBinding="{Binding CompletionStatus}" />
                     <GridViewColumn
                         x:Name="lastPlayedGridViewColumn"
-                        Width="180"
-                        Header="{DynamicResource LOCPlaylist_LastPlayedColumn}"
+                        Width="196"
+                        HeaderTemplate="{StaticResource lastPlayedHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource lastPlayedHeaderContainerStyle}"
                         DisplayMemberBinding="{Binding LastActivity, Converter={StaticResource lastPlayedValueConverter}}" />
                     <GridViewColumn
                         x:Name="howLongToBeatGridViewColumn"

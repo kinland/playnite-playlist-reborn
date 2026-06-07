@@ -242,8 +242,8 @@ namespace Playlist
 
         private string activeViewSortColumn;
         private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
-        internal string ActiveViewSortColumn => activeViewSortColumn;
-        internal ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
+        public string ActiveViewSortColumn => activeViewSortColumn;
+        public ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
 
         /// <summary>
         /// Toggles ascending/descending when the same column is clicked again. Does not mutate <see cref="PlaylistGames"/>.
@@ -310,6 +310,8 @@ namespace Playlist
             }
 
             listView.Refresh();
+            OnPropertyChanged(nameof(ActiveViewSortColumn));
+            OnPropertyChanged(nameof(ActiveViewSortDirection));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
         }
@@ -367,6 +369,8 @@ namespace Playlist
             }
 
             listView.Refresh();
+            OnPropertyChanged(nameof(ActiveViewSortColumn));
+            OnPropertyChanged(nameof(ActiveViewSortDirection));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
         }

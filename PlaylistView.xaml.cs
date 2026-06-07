@@ -96,6 +96,7 @@ namespace Playlist
             SubscribeGridColumnCollectionChanged();
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
         }
 
         private void OnPlaylistViewUnloaded(object sender, RoutedEventArgs e)
@@ -111,6 +112,7 @@ namespace Playlist
             ApplyLastPlayedColumnVisibility();
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
         }
 
         private DispatcherTimer CreateLastPlayedRefreshTimer()
@@ -246,6 +248,7 @@ namespace Playlist
 
             model.ToggleViewSort(sortKey);
             PersistLayoutState();
+            RefreshSortHeaderVisualState();
         }
 
         private const string RankCellTag = "PlaylistRankCell";
@@ -569,6 +572,112 @@ namespace Playlist
             finally
             {
                 isRestoringLayoutState = false;
+            }
+
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+        }
+
+        private void RefreshSortHeaderVisualState()
+        {
+            if (!(DataContext is PlaylistViewModel model) || playlistListView == null)
+            {
+                return;
+            }
+
+            GridViewColumn activeColumn = GetColumnByKey(model.ActiveViewSortColumn);
+            bool foundHeader = false;
+            foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
+            {
+                if (header == null
+                    || header.Role == GridViewColumnHeaderRole.Padding
+                    || !IsSortableColumn(header.Column))
+                {
+                    continue;
+                }
+                foundHeader = true;
+
+                // Ensure header content can consume full cell width for right-aligned glyphs.
+                ContentPresenter presenter = FindFirstVisualChild<ContentPresenter>(header);
+                if (presenter != null)
+                {
+                    presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    // Reserve additional right-edge space so sort glyphs don't clip against the cell boundary.
+                    double availableWidth = Math.Max(0, header.ActualWidth - header.Padding.Left - header.Padding.Right - 12);
+                    presenter.Width = availableWidth;
+                }
+
+                Border rootBorder = FindFirstVisualChild<Border>(header);
+                if (header.Column == activeColumn)
+                {
+                    if (rootBorder != null)
+                    {
+                        rootBorder.Background = new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF));
+                        rootBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    }
+                    else
+                    {
+                        header.Background = new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF));
+                        header.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    }
+                }
+                else
+                {
+                    if (rootBorder != null)
+                    {
+                        rootBorder.ClearValue(Border.BackgroundProperty);
+                        rootBorder.ClearValue(Border.BorderBrushProperty);
+                    }
+
+                    header.ClearValue(Control.BackgroundProperty);
+                    header.ClearValue(Control.BorderBrushProperty);
+                }
+            }
+
+            if (!foundHeader)
+            {
+                Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+            }
+        }
+
+        private bool IsSortableColumn(GridViewColumn column)
+        {
+            return column == rankGridViewColumn
+                || column == nameGridViewColumn
+                || column == playtimeGridViewColumn
+                || column == completionStatusGridViewColumn
+                || column == lastPlayedGridViewColumn;
+        }
+
+        private static T FindFirstVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            foreach (T child in FindVisualChildren<T>(parent))
+            {
+                return child;
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null)
+            {
+                yield break;
+            }
+
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int index = 0; index < childCount; index++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, index);
+                if (child is T typedChild)
+                {
+                    yield return typedChild;
+                }
+
+                foreach (T nestedChild in FindVisualChildren<T>(child))
+                {
+                    yield return nestedChild;
+                }
             }
         }
 
