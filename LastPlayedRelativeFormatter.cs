@@ -62,6 +62,11 @@ namespace Playlist
         public static int MomentsBucketOrder => MomentBucketOrder;
 
         /// <summary>
+        /// Bucket id used for games with no Last Played timestamp.
+        /// </summary>
+        public static int UnplayedSortBucketOrder => UnplayedBucketOrder;
+
+        /// <summary>
         /// Converts a Last Played timestamp into display label + sortable bucket metadata.
         /// </summary>
         public static LastPlayedDisplayValue Format(DateTime? lastPlayed, DateTime now)

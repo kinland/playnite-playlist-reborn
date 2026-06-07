@@ -285,7 +285,7 @@ namespace Playlist
             else
             {
                 activeViewSortColumn = columnKey;
-                activeViewSortDirection = ListSortDirection.Ascending;
+                activeViewSortDirection = GetDefaultSortDirection(columnKey);
             }
 
             listView.SortDescriptions.Clear();
@@ -300,7 +300,7 @@ namespace Playlist
                     listView.SortDescriptions.Add(new SortDescription(nameof(Game.Name), activeViewSortDirection));
                     break;
                 case "Playtime":
-                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.Playtime), activeViewSortDirection));
+                    listView.CustomSort = new PlaytimeGameComparer(activeViewSortDirection);
                     break;
                 case "CompletionStatus":
                     listView.SortDescriptions.Add(new SortDescription(nameof(Game.CompletionStatus), activeViewSortDirection));
@@ -368,7 +368,7 @@ namespace Playlist
                     listView.SortDescriptions.Add(new SortDescription(nameof(Game.Name), activeViewSortDirection));
                     break;
                 case "Playtime":
-                    listView.SortDescriptions.Add(new SortDescription(nameof(Game.Playtime), activeViewSortDirection));
+                    listView.CustomSort = new PlaytimeGameComparer(activeViewSortDirection);
                     break;
                 case "CompletionStatus":
                     listView.SortDescriptions.Add(new SortDescription(nameof(Game.CompletionStatus), activeViewSortDirection));
@@ -393,6 +393,13 @@ namespace Playlist
             OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
+        }
+
+        private static ListSortDirection GetDefaultSortDirection(string columnKey)
+        {
+            return columnKey == "Playtime"
+                ? ListSortDirection.Descending
+                : ListSortDirection.Ascending;
         }
 
         private string GetHltbPreferredTypeLabel()
@@ -678,6 +685,28 @@ namespace Playlist
                 }
 
                 return directionSign * ix.CompareTo(iy);
+            }
+        }
+
+        private sealed class PlaytimeGameComparer : IComparer
+        {
+            private readonly PlaytimeSortComparer sortComparer;
+
+            public PlaytimeGameComparer(ListSortDirection direction)
+            {
+                sortComparer = new PlaytimeSortComparer(direction == ListSortDirection.Descending);
+            }
+
+            public int Compare(object x, object y)
+            {
+                if (ReferenceEquals(x, y))
+                {
+                    return 0;
+                }
+
+                ulong playtimeX = x is Game gameX ? gameX.Playtime : 0;
+                ulong playtimeY = y is Game gameY ? gameY.Playtime : 0;
+                return sortComparer.Compare(playtimeX, playtimeY);
             }
         }
 

@@ -58,6 +58,8 @@
     <Compile Include="LastPlayedRelativeFormatter.cs" />
     <Compile Include="LastPlayedSortBucketComparer.cs" />
     <Compile Include="LastPlayedValueConverter.cs" />
+    <Compile Include="PlaytimeSortComparer.cs" />
+    <Compile Include="PlaytimeValueConverter.cs" />
     <Compile Include="SearchQueryMatcher.cs" />
     <Compile Include="SearchQuerySpec.cs" />
     <Compile Include="third_party\howlongtobeat\HowLongToBeatCache.cs" />

@@ -3,8 +3,19 @@ using System.Windows.Media;
 namespace Playlist;
 
 // Test-only minimal shape required by HltbSettingsJson and HltbPlaytimeFormat.
+internal enum HltbPreferredTimeType
+{
+    MainStory = 0,
+    MainStoryExtra = 1,
+    Completionist = 2,
+    Solo = 3,
+    CoOp = 4,
+    Versus = 5,
+}
+
 internal sealed class HltbRenderSettings
 {
+    public HltbPreferredTimeType PreferredForTimeToBeat { get; set; }
     public bool IntegrationViewItemOnlyHour { get; set; }
     public bool UseClassic { get; set; }
     public bool UseAverage { get; set; }
@@ -44,6 +55,7 @@ internal sealed class HltbRenderSettings
     {
         return new HltbRenderSettings
         {
+            PreferredForTimeToBeat = HltbPreferredTimeType.MainStory,
             EnableIntegrationViewItem = true,
             EnableIntegrationButton = true,
             EnableIntegrationProgressBar = true,

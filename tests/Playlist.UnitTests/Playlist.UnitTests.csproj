@@ -18,6 +18,7 @@
   <ItemGroup>
     <Compile Include="..\..\LastPlayedRelativeFormatter.cs" Link="Production\LastPlayedRelativeFormatter.cs" />
     <Compile Include="..\..\LastPlayedSortBucketComparer.cs" Link="Production\LastPlayedSortBucketComparer.cs" />
+    <Compile Include="..\..\PlaytimeSortComparer.cs" Link="Production\PlaytimeSortComparer.cs" />
     <Compile Include="..\..\PlaylistReorderPlanner.cs" Link="Production\PlaylistReorderPlanner.cs" />
     <Compile Include="..\..\SearchQueryMatcher.cs" Link="Production\SearchQueryMatcher.cs" />
     <Compile Include="..\..\SearchQuerySpec.cs" Link="Production\SearchQuerySpec.cs" />

@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <local:GamePlaylistRankConverter x:Key="gamePlaylistRankConverter" />
         <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
+        <local:PlaytimeValueConverter x:Key="playtimeValueConverter" />
 
         <Style x:Key="noGamesText" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
             <!-- Show instructions if no games in playlist -->
@@ -769,7 +770,7 @@
                         Width="168"
                         HeaderTemplate="{StaticResource playtimeHeaderTemplate}"
                         HeaderContainerStyle="{StaticResource playtimeHeaderContainerStyle}"
-                        DisplayMemberBinding="{Binding Playtime, Converter={StaticResource PlayTimeToStringConverter}}"/>
+                        DisplayMemberBinding="{Binding Playtime, Converter={StaticResource playtimeValueConverter}}"/>
                     <GridViewColumn
                         x:Name="completionStatusGridViewColumn"
                         Width="174"

@@ -47,7 +47,6 @@ public class LastPlayedSortBucketComparerTests
     [InlineData(Hour23, Day1)]
     [InlineData(Week3, Month1)]
     [InlineData(Month11, Year)]
-    [InlineData(LongAgo, Unplayed)]
     public void Compare_Descending_RespectsChronologicalBoundaryOrder(int newerBucket, int olderBucket)
     {
         var comparer = new LastPlayedSortBucketComparer(descending: true);
@@ -104,6 +103,17 @@ public class LastPlayedSortBucketComparerTests
     public void Compare_UnplayedFallsAfterLongAgoInAscending()
     {
         var comparer = new LastPlayedSortBucketComparer(descending: false);
+        var longAgo = new LastPlayedSortKey(sortBucket: LongAgo, lastPlayedTicksUtc: 0, playlistRankIndex: 1);
+        var unplayed = new LastPlayedSortKey(sortBucket: Unplayed, lastPlayedTicksUtc: 0, playlistRankIndex: 1);
+
+        Assert.True(comparer.Compare(longAgo, unplayed) < 0);
+        Assert.True(comparer.Compare(unplayed, longAgo) > 0);
+    }
+
+    [Fact]
+    public void Compare_UnplayedFallsAfterLongAgoInDescending()
+    {
+        var comparer = new LastPlayedSortBucketComparer(descending: true);
         var longAgo = new LastPlayedSortKey(sortBucket: LongAgo, lastPlayedTicksUtc: 0, playlistRankIndex: 1);
         var unplayed = new LastPlayedSortKey(sortBucket: Unplayed, lastPlayedTicksUtc: 0, playlistRankIndex: 1);
 

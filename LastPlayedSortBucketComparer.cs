@@ -40,6 +40,16 @@ namespace Playlist
         /// </summary>
         public int Compare(LastPlayedSortKey x, LastPlayedSortKey y)
         {
+            if (directionSign < 0)
+            {
+                bool xUnplayed = x.SortBucket == LastPlayedRelativeFormatter.UnplayedSortBucketOrder;
+                bool yUnplayed = y.SortBucket == LastPlayedRelativeFormatter.UnplayedSortBucketOrder;
+                if (xUnplayed != yUnplayed)
+                {
+                    return xUnplayed ? 1 : -1;
+                }
+            }
+
             int bucketCmp = x.SortBucket.CompareTo(y.SortBucket);
             if (bucketCmp != 0)
             {
