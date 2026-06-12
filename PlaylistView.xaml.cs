@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,6 +32,8 @@ namespace Playlist
         private const string LastActivityColumnKey = "LastActivity";
         private const string HowLongToBeatColumnKey = "HowLongToBeat";
 
+        private readonly HashSet<GridViewColumnHeader> sortHeaderMouseHooked = new HashSet<GridViewColumnHeader>();
+
         public PlaylistView()
         {
             InitializeComponent();
@@ -52,6 +55,35 @@ namespace Playlist
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
             lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
+        }
+
+        private void EnsureSortHeaderMouseHook(GridViewColumnHeader header)
+        {
+            if (header == null || !sortHeaderMouseHooked.Add(header))
+            {
+                return;
+            }
+
+            DependencyPropertyDescriptor
+                .FromProperty(UIElement.IsMouseOverProperty, typeof(GridViewColumnHeader))
+                ?.AddValueChanged(header, OnSortHeaderIsMouseOverChanged);
+        }
+
+        private void DetachSortHeaderMouseHooks()
+        {
+            foreach (GridViewColumnHeader header in sortHeaderMouseHooked)
+            {
+                DependencyPropertyDescriptor
+                    .FromProperty(UIElement.IsMouseOverProperty, typeof(GridViewColumnHeader))
+                    ?.RemoveValueChanged(header, OnSortHeaderIsMouseOverChanged);
+            }
+
+            sortHeaderMouseHooked.Clear();
+        }
+
+        private void OnSortHeaderIsMouseOverChanged(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.ApplicationIdle);
         }
 
         private const double HowLongToBeatColumnMinWidth = 120;
@@ -112,6 +144,7 @@ namespace Playlist
 
         private void OnPlaylistViewUnloaded(object sender, RoutedEventArgs e)
         {
+            DetachSortHeaderMouseHooks();
             UnsubscribeGridColumnCollectionChanged();
             PersistLayoutState();
             lastPlayedRefreshTimer?.Stop();
@@ -837,6 +870,56 @@ namespace Playlist
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
         }
 
+        private bool? cachedUseDarkeningOverlay;
+        private SolidColorBrush cachedActiveSortBackgroundBrush;
+        private SolidColorBrush cachedActiveSortBorderBrush;
+        private SolidColorBrush cachedActiveSortForegroundBrush;
+
+        private (SolidColorBrush Background, SolidColorBrush Border, SolidColorBrush Foreground) GetActiveSortHighlightBrushes(
+            GridViewColumnHeader sampleHeader)
+        {
+            Color? headerTextColor = PlaylistSortHeaderLayout.TryGetHeaderLabelColor(sampleHeader);
+            bool useDarkeningOverlay = PlaylistSortHeaderLayout.UseDarkeningOverlay(
+                headerTextColor,
+                key => TryFindResource(key));
+
+            if (cachedUseDarkeningOverlay == useDarkeningOverlay
+                && cachedActiveSortBackgroundBrush != null
+                && cachedActiveSortBorderBrush != null)
+            {
+                return (cachedActiveSortBackgroundBrush, cachedActiveSortBorderBrush, cachedActiveSortForegroundBrush);
+            }
+
+            cachedUseDarkeningOverlay = useDarkeningOverlay;
+            (cachedActiveSortBackgroundBrush, cachedActiveSortBorderBrush, cachedActiveSortForegroundBrush) =
+                PlaylistSortHeaderLayout.CreateActiveSortHighlightBrushes(useDarkeningOverlay);
+            return (cachedActiveSortBackgroundBrush, cachedActiveSortBorderBrush, cachedActiveSortForegroundBrush);
+        }
+
+        private GridViewColumnHeader FindSampleSortHeader(GridViewColumn activeColumn)
+        {
+            GridViewColumnHeader fallback = null;
+            foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
+            {
+                if (header == null || header.Role == GridViewColumnHeaderRole.Padding || !IsSortableColumn(header.Column))
+                {
+                    continue;
+                }
+
+                if (activeColumn != null && header.Column != activeColumn)
+                {
+                    return header;
+                }
+
+                if (fallback == null)
+                {
+                    fallback = header;
+                }
+            }
+
+            return fallback;
+        }
+
         private void RefreshSortHeaderVisualState()
         {
             if (!(DataContext is PlaylistViewModel model) || playlistListView == null)
@@ -845,6 +928,10 @@ namespace Playlist
             }
 
             GridViewColumn activeColumn = GetColumnByKey(model.ActiveViewSortColumn);
+            GridViewColumnHeader sampleHeader = FindSampleSortHeader(activeColumn);
+            (SolidColorBrush activeBackgroundBrush, SolidColorBrush activeBorderBrush, SolidColorBrush activeForegroundBrush) =
+                GetActiveSortHighlightBrushes(sampleHeader);
+            bool useDarkeningOverlay = cachedUseDarkeningOverlay == true;
             bool foundHeader = false;
             foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
@@ -865,6 +952,7 @@ namespace Playlist
                 }
 
                 foundHeader = true;
+                EnsureSortHeaderMouseHook(header);
 
                 // Ensure header content can consume full cell width for right-aligned glyphs.
                 ContentPresenter presenter = FindFirstVisualChild<ContentPresenter>(header);
@@ -893,30 +981,34 @@ namespace Playlist
                     }
                 }
 
-                Border rootBorder = FindFirstVisualChild<Border>(header);
+                Border highlightBorder = PlaylistSortHeaderLayout.FindHeaderHighlightBorder(header);
                 if (header.Column == activeColumn)
                 {
-                    if (rootBorder != null)
+                    PlaylistSortHeaderLayout.ApplyActiveSortHighlight(
+                        highlightBorder,
+                        activeBackgroundBrush,
+                        activeBorderBrush,
+                        useDarkeningOverlay);
+
+                    if (useDarkeningOverlay)
                     {
-                        rootBorder.Background = new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF));
-                        rootBorder.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ApplyActiveHeaderTextForeground(presenter, activeForegroundBrush);
+                        header.BeginAnimation(Control.ForegroundProperty, null);
+                        header.Foreground = activeForegroundBrush;
                     }
                     else
                     {
-                        header.Background = new SolidColorBrush(Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF));
-                        header.BorderBrush = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ClearActiveHeaderTextForeground(presenter);
+                        header.BeginAnimation(Control.ForegroundProperty, null);
+                        header.ClearValue(Control.ForegroundProperty);
                     }
                 }
                 else
                 {
-                    if (rootBorder != null)
-                    {
-                        rootBorder.ClearValue(Border.BackgroundProperty);
-                        rootBorder.ClearValue(Border.BorderBrushProperty);
-                    }
-
-                    header.ClearValue(Control.BackgroundProperty);
-                    header.ClearValue(Control.BorderBrushProperty);
+                    PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, useDarkeningOverlay);
+                    ClearActiveHeaderTextForeground(presenter);
+                    header.BeginAnimation(Control.ForegroundProperty, null);
+                    header.ClearValue(Control.ForegroundProperty);
                 }
             }
 
@@ -972,6 +1064,34 @@ namespace Playlist
 
             hashBlock.HorizontalAlignment = HorizontalAlignment.Center;
             hashBlock.ClearValue(FrameworkElement.MarginProperty);
+        }
+
+        private static void ApplyActiveHeaderTextForeground(DependencyObject presenter, Brush foreground)
+        {
+            if (presenter == null || foreground == null)
+            {
+                return;
+            }
+
+            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(presenter))
+            {
+                textBlock.BeginAnimation(TextBlock.ForegroundProperty, null);
+                textBlock.Foreground = foreground;
+            }
+        }
+
+        private static void ClearActiveHeaderTextForeground(DependencyObject presenter)
+        {
+            if (presenter == null)
+            {
+                return;
+            }
+
+            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(presenter))
+            {
+                textBlock.BeginAnimation(TextBlock.ForegroundProperty, null);
+                textBlock.ClearValue(TextBlock.ForegroundProperty);
+            }
         }
 
         private static T FindChildByTag<T>(DependencyObject parent, string tag) where T : FrameworkElement

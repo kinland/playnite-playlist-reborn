@@ -111,7 +111,8 @@
                         <Condition Binding="{Binding IsInstalled}" Value="False" />
                         <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="False" />
                     </MultiDataTrigger.Conditions>
-                    <Setter Property="Foreground" Value="{StaticResource TextBrushDarker}" />
+                    <!-- Dim inherited foreground instead of a fixed brush so uninstalled rows stay readable on any canvas. -->
+                    <Setter Property="Opacity" Value="0.55" />
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -288,68 +289,22 @@
                     <Setter Property="Text" Value="▲" />
                 </Style>
 
+                <!-- Active-sort column highlight (background + border) is applied in RefreshSortHeaderVisualState. -->
                 <Style x:Key="rankHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Rank">
-                            <Setter Property="Background" Value="#66FFFFFF" />
-                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-                            <Setter Property="Foreground" Value="White" />
-                        </DataTrigger>
-                    </Style.Triggers>
                 </Style>
 
-                <Style x:Key="nameHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Name">
-                            <Setter Property="Background" Value="#66FFFFFF" />
-                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-                            <Setter Property="Foreground" Value="White" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
+                <Style x:Key="nameHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
 
-                <Style x:Key="playtimeHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="Playtime">
-                            <Setter Property="Background" Value="#66FFFFFF" />
-                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-                            <Setter Property="Foreground" Value="White" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
+                <Style x:Key="playtimeHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
 
-                <Style x:Key="completionHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="CompletionStatus">
-                            <Setter Property="Background" Value="#66FFFFFF" />
-                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-                            <Setter Property="Foreground" Value="White" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
+                <Style x:Key="completionHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
 
-                <Style x:Key="lastPlayedHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastPlayed">
-                            <Setter Property="Background" Value="#66FFFFFF" />
-                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-                            <Setter Property="Foreground" Value="White" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
+                <Style x:Key="lastPlayedHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
 
                 <Style x:Key="lastActivityHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
 
-                <Style x:Key="howLongToBeatHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat">
-                            <Setter Property="Background" Value="#66FFFFFF" />
-                            <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-                            <Setter Property="Foreground" Value="White" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
+                <Style x:Key="howLongToBeatHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
 
                 <DataTemplate x:Key="rankHeaderTemplate">
                     <Grid HorizontalAlignment="Stretch" Margin="0,2,0,2">

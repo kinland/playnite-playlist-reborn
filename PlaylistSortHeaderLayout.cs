@@ -264,6 +264,187 @@ namespace Playlist
             }
         }
 
+        internal static double GetRelativeLuminance(Color color)
+        {
+            return ((0.299 * color.R) + (0.587 * color.G) + (0.114 * color.B)) / 255.0;
+        }
+
+        /// <summary>
+        /// Chooses a darkening overlay when header text reads dark, otherwise a lightening overlay.
+        /// </summary>
+        internal static bool UseDarkeningOverlay(Color? headerTextColor, Func<string, object> tryFindResource = null)
+        {
+            if (headerTextColor.HasValue)
+            {
+                return GetRelativeLuminance(headerTextColor.Value) < 0.5;
+            }
+
+            if (tryFindResource != null && tryFindResource("TextBrush") is SolidColorBrush textBrush)
+            {
+                return GetRelativeLuminance(textBrush.Color) < 0.5;
+            }
+
+            return false;
+        }
+
+        internal static Color? TryGetHeaderLabelColor(GridViewColumnHeader header)
+        {
+            if (header == null)
+            {
+                return null;
+            }
+
+            // Style-set header foreground is the reliable signal; template TextBlocks often stay unset (black).
+            Brush headerForeground = (Brush)header.GetValue(Control.ForegroundProperty);
+            if (TryGetColor(headerForeground, out Color headerColor) && headerColor.A > 16)
+            {
+                return headerColor;
+            }
+
+            header.ApplyTemplate();
+            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(header))
+            {
+                if (textBlock.Visibility != Visibility.Visible)
+                {
+                    continue;
+                }
+
+                if (textBlock.Tag as string == "RankHeaderGlyph")
+                {
+                    continue;
+                }
+
+                if (textBlock.Text == "▲" || textBlock.Text == "▼")
+                {
+                    continue;
+                }
+
+                if (textBlock.ReadLocalValue(TextBlock.ForegroundProperty) == DependencyProperty.UnsetValue)
+                {
+                    continue;
+                }
+
+                if (TryGetColor(textBlock.Foreground as Brush, out Color labelColor) && labelColor.A > 16)
+                {
+                    return labelColor;
+                }
+
+                return null;
+            }
+
+            return null;
+        }
+
+        internal static (SolidColorBrush Background, SolidColorBrush Border, SolidColorBrush Foreground) CreateActiveSortHighlightBrushes(bool useDarkeningOverlay)
+        {
+            Color backgroundColor = useDarkeningOverlay
+                ? Color.FromArgb(0x99, 0x00, 0x00, 0x00)
+                : Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF);
+            Color borderColor = useDarkeningOverlay
+                ? Color.FromArgb(0xFF, 0x1A, 0x1A, 0x1A)
+                : Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+
+            var background = new SolidColorBrush(backgroundColor);
+            var border = new SolidColorBrush(borderColor);
+            var foreground = new SolidColorBrush(Colors.White);
+            background.Freeze();
+            border.Freeze();
+            foreground.Freeze();
+            return (background, border, foreground);
+        }
+
+        internal static void ApplyActiveSortHighlight(
+            Border border,
+            SolidColorBrush background,
+            SolidColorBrush borderBrush,
+            bool forceFullOpacity)
+        {
+            if (border == null)
+            {
+                return;
+            }
+
+            border.BeginAnimation(Border.BackgroundProperty, null);
+            border.BeginAnimation(Border.BorderBrushProperty, null);
+            border.Background = background;
+            border.BorderBrush = borderBrush;
+
+            if (forceFullOpacity)
+            {
+                border.BeginAnimation(UIElement.OpacityProperty, null);
+                border.Opacity = 1.0;
+            }
+        }
+
+        internal static void ClearActiveSortHighlight(Border border, bool clearForcedOpacity)
+        {
+            if (border == null)
+            {
+                return;
+            }
+
+            border.BeginAnimation(Border.BackgroundProperty, null);
+            border.BeginAnimation(Border.BorderBrushProperty, null);
+            border.ClearValue(Border.BackgroundProperty);
+            border.ClearValue(Border.BorderBrushProperty);
+
+            if (clearForcedOpacity)
+            {
+                border.BeginAnimation(UIElement.OpacityProperty, null);
+                border.ClearValue(UIElement.OpacityProperty);
+            }
+        }
+
+        /// <summary>
+        /// Finds the template chrome border used for header hover/selection fills (<c>HoverBg</c> or <c>SelectedBg</c>).
+        /// Lightening overlays rely on the template's native opacity; darkening overlays force opacity to 1.
+        /// </summary>
+        internal static Border FindHeaderHighlightBorder(GridViewColumnHeader header)
+        {
+            if (header == null)
+            {
+                return null;
+            }
+
+            header.ApplyTemplate();
+            if (header.Template != null)
+            {
+                if (header.Template.FindName("HoverBg", header) is Border hoverBg)
+                {
+                    return hoverBg;
+                }
+
+                if (header.Template.FindName("SelectedBg", header) is Border selectedBg)
+                {
+                    return selectedBg;
+                }
+            }
+
+            return FindFirstBorderChild(header);
+        }
+
+        private static Border FindFirstBorderChild(DependencyObject parent)
+        {
+            foreach (Border border in FindVisualChildren<Border>(parent))
+            {
+                return border;
+            }
+
+            return null;
+        }
+
+        private static bool TryGetColor(Brush brush, out Color color)
+        {
+            color = default;
+            if (brush is SolidColorBrush solid)
+            {
+                color = solid.Color;
+                return true;
+            }
+
+            return false;
+        }
+
         private static TextBlock FindVisibleSortGlyph(DependencyObject root)
         {
             foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(root))

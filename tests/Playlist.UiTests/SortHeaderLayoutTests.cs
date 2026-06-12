@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Xunit;
 
 namespace Playlist.UiTests;
@@ -54,6 +55,37 @@ public class SortHeaderLayoutTests
         };
 
         Assert.Equal(8, PlaylistSortHeaderLayout.GetParentRightInset(border));
+    }
+
+    [Theory]
+    [InlineData(0, 0, 0, true)]
+    [InlineData(255, 255, 255, false)]
+    public void UseDarkeningOverlay_FollowsHeaderTextLuminance(byte r, byte g, byte b, bool expected)
+    {
+        var color = Color.FromRgb(r, g, b);
+        Assert.Equal(expected, PlaylistSortHeaderLayout.UseDarkeningOverlay(color));
+    }
+
+    [Fact]
+    public void UseDarkeningOverlay_DefaultsToLighteningOverlay()
+    {
+        Assert.False(PlaylistSortHeaderLayout.UseDarkeningOverlay(null));
+    }
+
+    [Theory]
+    [InlineData(true, 0x99, 0x00)]
+    [InlineData(false, 0x66, 0xFF)]
+    public void CreateActiveSortHighlightBrushes_PicksContrastingOverlay(bool useDarkeningOverlay, byte expectedAlpha, byte expectedRgb)
+    {
+        (SolidColorBrush background, SolidColorBrush border, SolidColorBrush foreground) =
+            PlaylistSortHeaderLayout.CreateActiveSortHighlightBrushes(useDarkeningOverlay);
+
+        Assert.Equal(expectedAlpha, background.Color.A);
+        Assert.Equal(expectedRgb, background.Color.R);
+        Assert.Equal(expectedRgb, background.Color.G);
+        Assert.Equal(expectedRgb, background.Color.B);
+        Assert.Equal(0xFF, border.Color.A);
+        Assert.Equal(Colors.White, foreground.Color);
     }
 
     [StaFact]
