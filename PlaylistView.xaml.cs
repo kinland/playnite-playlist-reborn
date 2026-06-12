@@ -28,6 +28,7 @@ namespace Playlist
         private const string PlaytimeColumnKey = "Playtime";
         private const string CompletionStatusColumnKey = "CompletionStatus";
         private const string LastPlayedColumnKey = "LastPlayed";
+        private const string LastActivityColumnKey = "LastActivity";
         private const string HowLongToBeatColumnKey = "HowLongToBeat";
 
         public PlaylistView()
@@ -150,7 +151,11 @@ namespace Playlist
 
         private void UpdateLastPlayedTimerState()
         {
-            bool shouldRun = IsVisible && (Playlist.StaticSettings?.ShowLastPlayedColumn ?? false);
+            PlaylistSettings settings = Playlist.StaticSettings;
+            // Both the Last Played and Last Activity columns render relative ("x minutes ago") labels
+            // that must tick over time.
+            bool relativeColumnVisible = (settings?.ShowLastPlayedColumn ?? false) || (settings?.ShowLastActivityColumn ?? false);
+            bool shouldRun = IsVisible && relativeColumnVisible;
             if (shouldRun)
             {
                 lastPlayedRefreshTimer?.Start();
@@ -185,6 +190,7 @@ namespace Playlist
             SetColumnVisible(gridView, playtimeGridViewColumn, settings?.ShowPlaytimeColumn ?? true);
             SetColumnVisible(gridView, completionStatusGridViewColumn, settings?.ShowCompletionStatusColumn ?? true);
             SetColumnVisible(gridView, lastPlayedGridViewColumn, settings?.ShowLastPlayedColumn ?? true);
+            SetColumnVisible(gridView, lastActivityGridViewColumn, settings?.ShowLastActivityColumn ?? false);
             SetColumnVisible(gridView, howLongToBeatGridViewColumn, showHowLongToBeatColumn);
 
             UpdateHowLongToBeatColumnFillWidth();
@@ -223,6 +229,7 @@ namespace Playlist
             if (column == playtimeGridViewColumn) return 3;
             if (column == completionStatusGridViewColumn) return 4;
             if (column == lastPlayedGridViewColumn) return 5;
+            if (column == lastActivityGridViewColumn) return 6;
             if (column == howLongToBeatGridViewColumn) return 7;
             return int.MaxValue;
         }
@@ -280,6 +287,7 @@ namespace Playlist
             menu.Items.Add(BuildColumnToggleItem(PlaytimeColumnKey, ResourceProvider.GetString("LOCTimePlayed"), settings.ShowPlaytimeColumn, true, null));
             menu.Items.Add(BuildColumnToggleItem(CompletionStatusColumnKey, ResourceProvider.GetString("LOCCompletionStatus"), settings.ShowCompletionStatusColumn, true, null));
             menu.Items.Add(BuildColumnToggleItem(LastPlayedColumnKey, ResourceProvider.GetString("LOCPlaylist_LastPlayedColumn"), settings.ShowLastPlayedColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(LastActivityColumnKey, ResourceProvider.GetString("LOCPlaylist_LastActivityColumn"), settings.ShowLastActivityColumn, true, null));
 
             menu.Items.Add(BuildHowLongToBeatColumnMenuItem(settings));
 
@@ -404,6 +412,9 @@ namespace Playlist
                 case LastPlayedColumnKey:
                     settings.ShowLastPlayedColumn = !settings.ShowLastPlayedColumn;
                     break;
+                case LastActivityColumnKey:
+                    settings.ShowLastActivityColumn = !settings.ShowLastActivityColumn;
+                    break;
                 case HowLongToBeatColumnKey:
                     settings.ShowHowLongToBeatColumn = !settings.ShowHowLongToBeatColumn;
                     break;
@@ -475,6 +486,10 @@ namespace Playlist
             else if (column == lastPlayedGridViewColumn)
             {
                 sortKey = "LastPlayed";
+            }
+            else if (column == lastActivityGridViewColumn)
+            {
+                sortKey = "LastActivity";
             }
             else if (column == howLongToBeatGridViewColumn)
             {
@@ -966,6 +981,7 @@ namespace Playlist
                 || column == playtimeGridViewColumn
                 || column == completionStatusGridViewColumn
                 || column == lastPlayedGridViewColumn
+                || column == lastActivityGridViewColumn
                 || column == howLongToBeatGridViewColumn;
         }
 
@@ -1040,6 +1056,11 @@ namespace Playlist
                 return LastPlayedColumnKey;
             }
 
+            if (column == lastActivityGridViewColumn)
+            {
+                return LastActivityColumnKey;
+            }
+
             if (column == howLongToBeatGridViewColumn)
             {
                 return HowLongToBeatColumnKey;
@@ -1064,6 +1085,8 @@ namespace Playlist
                     return completionStatusGridViewColumn;
                 case LastPlayedColumnKey:
                     return lastPlayedGridViewColumn;
+                case LastActivityColumnKey:
+                    return lastActivityGridViewColumn;
                 case HowLongToBeatColumnKey:
                     return howLongToBeatGridViewColumn;
                 default:

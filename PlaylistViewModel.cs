@@ -26,11 +26,21 @@ namespace Playlist
         public ICollectionView PlaylistGamesView { get; }
 
         /// <summary>
-        /// Drag reorder is enabled for rank view and Last Played view (with Last Played bucket checks in drop handler).
+        /// Drag reorder is enabled for rank view and the bucketed activity views (with bucket checks in drop handler).
         /// </summary>
         public bool IsDragReorderEnabled =>
-            activeViewSortColumn == null || activeViewSortColumn == "Rank" || activeViewSortColumn == "LastPlayed";
+            activeViewSortColumn == null
+            || activeViewSortColumn == "Rank"
+            || activeViewSortColumn == "LastPlayed"
+            || activeViewSortColumn == "LastActivity";
         public bool IsLastPlayedSortActive => activeViewSortColumn == "LastPlayed";
+        public bool IsLastActivitySortActive => activeViewSortColumn == "LastActivity";
+
+        /// <summary>
+        /// True when a bucketed activity sort (Last Played / Last Activity) is active; drag moves are
+        /// constrained to within a single display bucket by the drop handler.
+        /// </summary>
+        public bool IsBucketConstrainedSortActive => IsLastPlayedSortActive || IsLastActivitySortActive;
 
         /// <summary>
         /// True when the grid is sorted by # descending; drag indices need a custom drop handler.
@@ -43,6 +53,12 @@ namespace Playlist
         /// </summary>
         internal bool IsViewLastPlayedDescending =>
             activeViewSortColumn == "LastPlayed" && activeViewSortDirection == ListSortDirection.Descending;
+
+        /// <summary>
+        /// True when Last Activity is active with descending direction (bucket-local rank order is visually reversed).
+        /// </summary>
+        internal bool IsViewLastActivityDescending =>
+            activeViewSortColumn == "LastActivity" && activeViewSortDirection == ListSortDirection.Descending;
 
         /// <summary>
         /// Custom Gong drop target so rank-descending reorder matches on-screen order.
@@ -270,6 +286,7 @@ namespace Playlist
                 case "Playtime":
                 case "CompletionStatus":
                 case "LastPlayed":
+                case "LastActivity":
                 case "HowLongToBeat":
                     break;
                 default:
@@ -310,6 +327,11 @@ namespace Playlist
                         PlaylistGames,
                         descending: activeViewSortDirection == ListSortDirection.Descending);
                     break;
+                case "LastActivity":
+                    listView.CustomSort = new LastActivityGameComparer(
+                        PlaylistGames,
+                        descending: activeViewSortDirection == ListSortDirection.Descending);
+                    break;
                 case "HowLongToBeat":
                     listView.CustomSort = new HowLongToBeatGameComparer(
                         PlaylistGames,
@@ -325,6 +347,8 @@ namespace Playlist
             OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
+            OnPropertyChanged(nameof(IsLastActivitySortActive));
+            OnPropertyChanged(nameof(IsBucketConstrainedSortActive));
         }
 
         internal void RestoreViewSort(string columnKey, ListSortDirection direction)
@@ -347,6 +371,7 @@ namespace Playlist
                 case "Playtime":
                 case "CompletionStatus":
                 case "LastPlayed":
+                case "LastActivity":
                 case "HowLongToBeat":
                     break;
                 default:
@@ -378,6 +403,11 @@ namespace Playlist
                         PlaylistGames,
                         descending: activeViewSortDirection == ListSortDirection.Descending);
                     break;
+                case "LastActivity":
+                    listView.CustomSort = new LastActivityGameComparer(
+                        PlaylistGames,
+                        descending: activeViewSortDirection == ListSortDirection.Descending);
+                    break;
                 case "HowLongToBeat":
                     listView.CustomSort = new HowLongToBeatGameComparer(
                         PlaylistGames,
@@ -393,6 +423,8 @@ namespace Playlist
             OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
+            OnPropertyChanged(nameof(IsLastActivitySortActive));
+            OnPropertyChanged(nameof(IsBucketConstrainedSortActive));
         }
 
         private static ListSortDirection GetDefaultSortDirection(string columnKey)
@@ -783,6 +815,55 @@ namespace Playlist
                 }
 
                 return DateTime.SpecifyKind(value, DateTimeKind.Utc);
+            }
+        }
+
+        /// <summary>
+        /// Like <see cref="LastPlayedGameComparer"/> but keyed on <see cref="Game.Modified"/>, which also
+        /// advances on installs/uninstalls and other record changes (not just play sessions).
+        /// </summary>
+        private sealed class LastActivityGameComparer : IComparer
+        {
+            private readonly IList<Game> playlistOrder;
+            private readonly LastPlayedSortBucketComparer sortComparer;
+            private readonly DateTime nowUtc;
+
+            public LastActivityGameComparer(IList<Game> playlistOrder, bool descending)
+            {
+                this.playlistOrder = playlistOrder;
+                sortComparer = new LastPlayedSortBucketComparer(descending);
+                nowUtc = DateTime.UtcNow;
+            }
+
+            public int Compare(object x, object y)
+            {
+                if (ReferenceEquals(x, y))
+                {
+                    return 0;
+                }
+
+                LastPlayedSortKey keyX = BuildSortKey(x as Game);
+                LastPlayedSortKey keyY = BuildSortKey(y as Game);
+                return sortComparer.Compare(keyX, keyY);
+            }
+
+            private LastPlayedSortKey BuildSortKey(Game game)
+            {
+                if (game == null)
+                {
+                    return new LastPlayedSortKey(int.MaxValue, 0, int.MaxValue);
+                }
+
+                int rankIndex = playlistOrder.IndexOf(game);
+                if (rankIndex < 0)
+                {
+                    rankIndex = int.MaxValue;
+                }
+
+                DateTime? lastActivityUtc = LastActivityValueConverter.ExtractModifiedUtc(game);
+                LastPlayedDisplayValue formatted = LastPlayedRelativeFormatter.Format(lastActivityUtc, nowUtc);
+                long ticksUtc = lastActivityUtc?.Ticks ?? 0;
+                return new LastPlayedSortKey(formatted.SortBucket, ticksUtc, rankIndex);
             }
         }
 

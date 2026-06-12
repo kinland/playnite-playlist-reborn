@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <local:GamePlaylistRankConverter x:Key="gamePlaylistRankConverter" />
         <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
+        <local:LastActivityValueConverter x:Key="lastActivityValueConverter" />
         <local:PlaytimeValueConverter x:Key="playtimeValueConverter" />
 
         <Style x:Key="noGamesText" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
@@ -325,6 +326,8 @@
                     </Style.Triggers>
                 </Style>
 
+                <Style x:Key="lastActivityHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}" />
+
                 <Style x:Key="howLongToBeatHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="HowLongToBeat">
@@ -632,6 +635,48 @@
                     </Grid>
                 </DataTemplate>
 
+                <DataTemplate x:Key="lastActivityHeaderTemplate">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="6,2,0,2" Text="{DynamicResource LOCPlaylist_LastActivityColumn}" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastActivity">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Grid.Column="1" Margin="0,2,8,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Setter Property="Text" Value="▲" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastActivity">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastActivity" />
+                                                <Condition Binding="{Binding DataContext.ActiveViewSortDirection, Source={x:Reference playlistListView}}" Value="Descending" />
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="Text" Value="▼" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+
                 <DataTemplate x:Key="howLongToBeatHeaderTemplate">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
@@ -801,6 +846,12 @@
                         HeaderTemplate="{StaticResource lastPlayedHeaderTemplate}"
                         HeaderContainerStyle="{StaticResource lastPlayedHeaderContainerStyle}"
                         DisplayMemberBinding="{Binding LastActivity, Converter={StaticResource lastPlayedValueConverter}}" />
+                    <GridViewColumn
+                        x:Name="lastActivityGridViewColumn"
+                        Width="196"
+                        HeaderTemplate="{StaticResource lastActivityHeaderTemplate}"
+                        HeaderContainerStyle="{StaticResource lastActivityHeaderContainerStyle}"
+                        DisplayMemberBinding="{Binding Modified, Converter={StaticResource lastActivityValueConverter}}" />
                     <GridViewColumn
                         x:Name="howLongToBeatGridViewColumn"
                         Width="400"

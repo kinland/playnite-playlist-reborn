@@ -31,7 +31,7 @@ namespace Playlist
         {
             defaultHandler.DragOver(dropInfo);
 
-            if (dropInfo?.DragInfo == null || !viewModel.IsLastPlayedSortActive)
+            if (dropInfo?.DragInfo == null || !viewModel.IsBucketConstrainedSortActive)
             {
                 return;
             }
@@ -55,7 +55,7 @@ namespace Playlist
             }
 
             int originalInsert = GetInsertIndex(dropInfo);
-            if (!CanInsertWithinLastPlayedBucket(visualOrder, dragged, originalInsert))
+            if (!CanInsertWithinActiveBucket(visualOrder, dragged, originalInsert))
             {
                 dropInfo.DropTargetAdorner = null;
                 dropInfo.Effects = DragDropEffects.None;
@@ -106,8 +106,8 @@ namespace Playlist
             }
 
             int originalInsert = GetInsertIndex(dropInfo);
-            if (viewModel.IsLastPlayedSortActive
-                && !CanInsertWithinLastPlayedBucket(visualOrder, dragged, originalInsert))
+            if (viewModel.IsBucketConstrainedSortActive
+                && !CanInsertWithinActiveBucket(visualOrder, dragged, originalInsert))
             {
                 return;
             }
@@ -120,7 +120,7 @@ namespace Playlist
                 originalInsertIndexVisual: originalInsert,
                 reverseVisualToPersisted: viewModel.IsViewRankDescending,
                 anchorPreference: anchorPreference,
-                invertAnchorSemantics: viewModel.IsViewLastPlayedDescending);
+                invertAnchorSemantics: viewModel.IsViewLastPlayedDescending || viewModel.IsViewLastActivityDescending);
 
             ReorderCollectionToMatch(viewModel.PlaylistGames, plannedOrder);
 
@@ -136,19 +136,22 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Keeps Last Played drag moves inside a single display bucket.
+        /// Keeps bucketed-activity drag moves (Last Played / Last Activity) inside a single display bucket.
         /// </summary>
-        private static bool CanInsertWithinLastPlayedBucket(
+        private bool CanInsertWithinActiveBucket(
             IList<Game> visualOrder,
             IList<Game> dragged,
             int originalInsertIndexVisual)
         {
             DateTime nowUtc = DateTime.UtcNow;
+            Func<Game, DateTime?> timestampSelector = viewModel.IsLastActivitySortActive
+                ? (Func<Game, DateTime?>)(game => LastActivityValueConverter.ExtractModifiedUtc(game))
+                : ExtractLastPlayedUtc;
             return PlaylistReorderPlanner.CanInsertWithinSameBucket(
                 visibleOrderVisual: visualOrder,
                 draggedItemsVisual: dragged,
                 originalInsertIndexVisual: originalInsertIndexVisual,
-                bucketSelector: game => LastPlayedRelativeFormatter.Format(ExtractLastPlayedUtc(game), nowUtc).SortBucket);
+                bucketSelector: game => LastPlayedRelativeFormatter.Format(timestampSelector(game), nowUtc).SortBucket);
         }
 
         private static List<Game> GetVisibleDraggedItems(IDropInfo dropInfo, IList<Game> visualOrder)

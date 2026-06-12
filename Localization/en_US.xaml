@@ -9,6 +9,7 @@
     <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Remove from Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Right click a game in the library and select "Add to Playlist"</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Last Played</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Last Activity</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Rank (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbRequiresPlugin">Requires the HowLongToBeat plugin to be installed</sys:String>

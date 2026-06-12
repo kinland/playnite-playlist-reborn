@@ -19,6 +19,7 @@ namespace Playlist
         private bool showPlaytimeColumn = true;
         private bool showCompletionStatusColumn = true;
         private bool showLastPlayedColumn = true;
+        private bool showLastActivityColumn = false;
         private bool showHowLongToBeatColumn = true;
         private bool enableHowLongToBeatIntegration = true;
         private bool backupEnableHowLongToBeatIntegration = true;
@@ -45,6 +46,16 @@ namespace Playlist
         {
             get => showLastPlayedColumn;
             set => SetValue(ref showLastPlayedColumn, value);
+        }
+
+        /// <summary>
+        /// Last Activity uses <see cref="Playnite.SDK.Models.Game.Modified"/>, which also reflects installs.
+        /// Hidden by default so it does not widen the default layout.
+        /// </summary>
+        public bool ShowLastActivityColumn
+        {
+            get => showLastActivityColumn;
+            set => SetValue(ref showLastActivityColumn, value);
         }
 
         /// <summary>
