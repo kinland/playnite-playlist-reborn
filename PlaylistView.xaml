@@ -275,6 +275,19 @@
                     <Setter Property="Padding" Value="0" />
                 </Style>
 
+                <!-- Uniform inset: top = right = bottom (see PlaylistSortHeaderLayout.SortHeaderGlyphInset). -->
+                <Style x:Key="sortHeaderGlyphStyle" TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="11" />
+                    <Setter Property="Margin" Value="0,2,2,2" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="TextAlignment" Value="Center" />
+                    <Setter Property="LineHeight" Value="12" />
+                    <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Setter Property="Text" Value="▲" />
+                </Style>
+
                 <Style x:Key="rankHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource sortableHeaderContainerStyle}">
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                     <Style.Triggers>
@@ -348,12 +361,9 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Tag="RankHeaderGlyph" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Right" TextAlignment="Center">
+                        <TextBlock Tag="RankHeaderGlyph" HorizontalAlignment="Right">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
@@ -409,12 +419,9 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
@@ -470,12 +477,9 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
@@ -531,12 +535,9 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
@@ -592,12 +593,9 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
@@ -653,12 +651,9 @@
                                 </Style>
                             </TextBlock.Style>
                         </TextBlock>
-                        <TextBlock Grid.Column="1" Margin="0,2,8,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding DataContext.ActiveViewSortColumn, Source={x:Reference playlistListView}}" Value="LastActivity">
                                             <Setter Property="Visibility" Value="Visible" />
@@ -714,12 +709,9 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </StackPanel>
-                        <TextBlock Grid.Column="1" Margin="0,2,4,2" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                        <TextBlock Grid.Column="1">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Setter Property="Text" Value="▲" />
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource sortHeaderGlyphStyle}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />

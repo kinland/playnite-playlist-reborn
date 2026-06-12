@@ -71,6 +71,7 @@
     <Compile Include="PlaylistDragSourceHandler.cs" />
     <Compile Include="PlaylistListDropHandler.cs" />
     <Compile Include="PlaylistReorderPlanner.cs" />
+    <Compile Include="PlaylistSortHeaderLayout.cs" />
     <Compile Include="PlaylistViewModel.cs" />
     <Compile Include="PlaylistSettings.cs" />
     <Compile Include="Playlist.cs" />

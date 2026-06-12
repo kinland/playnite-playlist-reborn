@@ -510,7 +510,7 @@ namespace Playlist
         private const string RankHeaderHashTag = "RankHeaderHash";
         private const string RankHeaderGlyphTag = "RankHeaderGlyph";
         private const double RankHeaderGlyphGap = 2;
-        private const double RankHeaderRightInset = 4;
+        private const double RankHeaderRightInset = 2;
         private const double SortHeaderRightEdgeReserve = 12;
 
         private void OnItemDoubleClick(object sender, MouseButtonEventArgs e)
@@ -871,8 +871,21 @@ namespace Playlist
                 if (presenter != null)
                 {
                     presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    double availableWidth = Math.Max(0, header.ActualWidth - header.Padding.Left - header.Padding.Right - SortHeaderRightEdgeReserve);
+                    double availableWidth = PlaylistSortHeaderLayout.MeasurePresenterWidth(header, presenter, SortHeaderRightEdgeReserve);
+                    if (availableWidth <= 0)
+                    {
+                        availableWidth = Math.Max(0, header.ActualWidth - header.Padding.Left - header.Padding.Right - SortHeaderRightEdgeReserve);
+                    }
+
                     presenter.Width = availableWidth;
+                    presenter.UpdateLayout();
+
+                    double correctedWidth = PlaylistSortHeaderLayout.FineTunePresenterWidthForGlyph(header, presenter, availableWidth);
+                    if (correctedWidth > 0 && Math.Abs(correctedWidth - availableWidth) > 0.5)
+                    {
+                        presenter.Width = correctedWidth;
+                        availableWidth = correctedWidth;
+                    }
 
                     if (header.Column == rankGridViewColumn)
                     {
