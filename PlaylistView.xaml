@@ -274,6 +274,7 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
                     <Setter Property="Padding" Value="0" />
+                    <Setter Property="Cursor" Value="Hand" />
                 </Style>
 
                 <!-- Uniform inset: top = right = bottom (see PlaylistSortHeaderLayout.SortHeaderGlyphInset). -->
