@@ -31,12 +31,25 @@ namespace Playlist
         {
             defaultHandler.DragOver(dropInfo);
 
-            if (dropInfo?.DragInfo == null || !viewModel.IsBucketConstrainedSortActive)
+            if (dropInfo?.DragInfo == null)
             {
                 return;
             }
 
             if (!DefaultDropHandler.CanAcceptData(dropInfo))
+            {
+                return;
+            }
+
+            // A non-reorderable sort is active (e.g. Name/Playtime). Surface a no-drop cursor instead of
+            // silently swallowing the drop, so it is obvious reorder is unavailable until sort is cleared.
+            if (!viewModel.IsDragReorderEnabled)
+            {
+                RejectDrop(dropInfo);
+                return;
+            }
+
+            if (!viewModel.IsBucketConstrainedSortActive)
             {
                 return;
             }
@@ -57,9 +70,14 @@ namespace Playlist
             int originalInsert = GetInsertIndex(dropInfo);
             if (!CanInsertWithinActiveBucket(visualOrder, dragged, originalInsert))
             {
-                dropInfo.DropTargetAdorner = null;
-                dropInfo.Effects = DragDropEffects.None;
+                RejectDrop(dropInfo);
             }
+        }
+
+        private static void RejectDrop(IDropInfo dropInfo)
+        {
+            dropInfo.DropTargetAdorner = null;
+            dropInfo.Effects = DragDropEffects.None;
         }
 
         public void DropHint(IDropHintInfo dropHintInfo)
@@ -82,7 +100,7 @@ namespace Playlist
 
             if (!viewModel.IsDragReorderEnabled)
             {
-                defaultHandler.Drop(dropInfo);
+                // Reorder is disabled by the active sort; do nothing (DragOver already showed a no-drop cursor).
                 return;
             }
 

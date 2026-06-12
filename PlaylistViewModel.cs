@@ -33,6 +33,11 @@ namespace Playlist
             || activeViewSortColumn == "Rank"
             || activeViewSortColumn == "LastPlayed"
             || activeViewSortColumn == "LastActivity";
+
+        /// <summary>
+        /// Drag is enabled whenever the playlist has items; reorderability is enforced in the drop handler.
+        /// </summary>
+        public bool IsDragInteractionEnabled => PlaylistGames != null && PlaylistGames.Count > 0;
         public bool IsLastPlayedSortActive => activeViewSortColumn == "LastPlayed";
         public bool IsLastActivitySortActive => activeViewSortColumn == "LastActivity";
 
@@ -465,6 +470,7 @@ namespace Playlist
         {
             PlaylistGamesRevision++;
             OnPropertyChanged(nameof(PlaylistGamesRevision));
+            OnPropertyChanged(nameof(IsDragInteractionEnabled));
         }
 
         /// <summary>
