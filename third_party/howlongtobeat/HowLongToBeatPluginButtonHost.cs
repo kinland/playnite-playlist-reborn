@@ -76,6 +76,12 @@ namespace Playlist
 
         private void ApplyGameContext()
         {
+            if (!(Playlist.StaticSettings?.EnableHowLongToBeatIntegration ?? true))
+            {
+                Visibility = Visibility.Collapsed;
+                return;
+            }
+
             HltbRenderSettings settings = HowLongToBeatCache.GetRenderSettings(Playlist.StaticPlayniteApi);
             bool isVisible = settings.EnableIntegrationViewItem && settings.EnableIntegrationButton;
             Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;

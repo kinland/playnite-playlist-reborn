@@ -9,8 +9,14 @@
     <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Eliminar de la lista de juegos pendientes</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">En la biblioteca haga clic derecho en un juego y seleccione "Añadir a la lista de juegos pendientes"</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Jugado por ultima vez</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Posicion (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbRequiresPlugin">Requiere que el complemento HowLongToBeat este instalado</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbRequiresIntegration">Active la integracion de HowLongToBeat en la configuracion del complemento</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">La integracion de HowLongToBeat esta desactivada; haga clic para abrir la configuracion de Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_ShowLastPlayedColumn">Mostrar columna de ultimo juego</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Mostrar columna de HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activar integracion de HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip">Buscar en la lista (admite comodines * y ?; prefijos: tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:)</sys:String>
 </ResourceDictionary>
 

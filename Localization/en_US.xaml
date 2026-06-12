@@ -9,8 +9,14 @@
     <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Remove from Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Right click a game in the library and select "Add to Playlist"</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Last Played</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Rank (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbRequiresPlugin">Requires the HowLongToBeat plugin to be installed</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbRequiresIntegration">Enable HowLongToBeat integration in plugin settings</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat integration is disabled — click to open Playlist settings</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_ShowLastPlayedColumn">Show Last Played column</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Show HowLongToBeat column</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Enable HowLongToBeat integration</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip">Search playlist (supports * and ? wildcards; prefixes: tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:)</sys:String>
 </ResourceDictionary>
 

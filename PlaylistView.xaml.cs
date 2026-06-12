@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Playnite.SDK;
 using Playnite.SDK.Models;
 using System.Windows.Controls.Primitives;
 
@@ -117,8 +118,7 @@ namespace Playlist
 
         public void ApplySettings()
         {
-            ApplyHowLongToBeatColumnVisibility();
-            ApplyLastPlayedColumnVisibility();
+            ApplyColumnVisibility();
             (DataContext as PlaylistViewModel)?.RefreshHowLongToBeatHeaderText();
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
@@ -161,61 +161,287 @@ namespace Playlist
             }
         }
 
-        private void ApplyLastPlayedColumnVisibility()
+        /// <summary>
+        /// Ensures each toggleable column's presence matches the persisted visibility settings.
+        /// Name and the icon column are always shown (they identify the game). HowLongToBeat additionally
+        /// requires integration to be enabled in settings and the HowLongToBeat plugin to be available;
+        /// visibility is controlled separately via the header right-click menu.
+        /// </summary>
+        private void ApplyColumnVisibility()
         {
-            if (!(playlistListView?.View is GridView gridView) || lastPlayedGridViewColumn == null)
+            if (!(playlistListView?.View is GridView gridView))
             {
                 return;
             }
 
-            bool shouldShow = Playlist.StaticSettings?.ShowLastPlayedColumn ?? true;
-            bool currentlyVisible = gridView.Columns.Contains(lastPlayedGridViewColumn);
-            if (shouldShow == currentlyVisible)
-            {
-                return;
-            }
+            PlaylistSettings settings = Playlist.StaticSettings;
+            bool hltbIntegrationEnabled = settings?.EnableHowLongToBeatIntegration ?? true;
+            bool hltbAvailable = HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi);
+            bool showHowLongToBeatColumn = hltbIntegrationEnabled
+                && hltbAvailable
+                && (settings?.ShowHowLongToBeatColumn ?? true);
 
-            if (!shouldShow)
-            {
-                gridView.Columns.Remove(lastPlayedGridViewColumn);
-                return;
-            }
+            SetColumnVisible(gridView, rankGridViewColumn, settings?.ShowRankColumn ?? true);
+            SetColumnVisible(gridView, playtimeGridViewColumn, settings?.ShowPlaytimeColumn ?? true);
+            SetColumnVisible(gridView, completionStatusGridViewColumn, settings?.ShowCompletionStatusColumn ?? true);
+            SetColumnVisible(gridView, lastPlayedGridViewColumn, settings?.ShowLastPlayedColumn ?? true);
+            SetColumnVisible(gridView, howLongToBeatGridViewColumn, showHowLongToBeatColumn);
 
-            int targetIndex = howLongToBeatGridViewColumn != null && gridView.Columns.Contains(howLongToBeatGridViewColumn)
-                ? gridView.Columns.IndexOf(howLongToBeatGridViewColumn)
-                : gridView.Columns.Count;
-            gridView.Columns.Insert(targetIndex, lastPlayedGridViewColumn);
+            UpdateHowLongToBeatColumnFillWidth();
         }
 
-        private void ApplyHowLongToBeatColumnVisibility()
+        private void SetColumnVisible(GridView gridView, GridViewColumn column, bool shouldShow)
         {
-            if (!(playlistListView?.View is GridView gridView) || howLongToBeatGridViewColumn == null)
+            if (column == null)
             {
                 return;
             }
 
-            bool hltbAvailable = HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi);
-            bool settingEnabled = Playlist.StaticSettings?.ShowHowLongToBeatColumn ?? true;
-            bool shouldShow = hltbAvailable && settingEnabled;
-            bool currentlyVisible = gridView.Columns.Contains(howLongToBeatGridViewColumn);
-
-            if (shouldShow == currentlyVisible)
+            bool present = gridView.Columns.Contains(column);
+            if (shouldShow == present)
             {
-                if (shouldShow)
-                {
-                    UpdateHowLongToBeatColumnFillWidth();
-                }
                 return;
             }
 
             if (!shouldShow)
             {
-                gridView.Columns.Remove(howLongToBeatGridViewColumn);
+                gridView.Columns.Remove(column);
                 return;
             }
 
-            gridView.Columns.Add(howLongToBeatGridViewColumn);
-            UpdateHowLongToBeatColumnFillWidth();
+            gridView.Columns.Insert(ComputeCanonicalInsertIndex(gridView, column), column);
+        }
+
+        /// <summary>
+        /// Canonical left-to-right column order used to place a newly shown column sensibly.
+        /// </summary>
+        private int GetCanonicalColumnOrder(GridViewColumn column)
+        {
+            if (column == rankGridViewColumn) return 0;
+            if (column == iconGridViewColumn) return 1;
+            if (column == nameGridViewColumn) return 2;
+            if (column == playtimeGridViewColumn) return 3;
+            if (column == completionStatusGridViewColumn) return 4;
+            if (column == lastPlayedGridViewColumn) return 5;
+            if (column == howLongToBeatGridViewColumn) return 7;
+            return int.MaxValue;
+        }
+
+        private int ComputeCanonicalInsertIndex(GridView gridView, GridViewColumn column)
+        {
+            int target = GetCanonicalColumnOrder(column);
+            int index = 0;
+            foreach (GridViewColumn present in gridView.Columns)
+            {
+                if (GetCanonicalColumnOrder(present) < target)
+                {
+                    index++;
+                }
+            }
+
+            return index;
+        }
+
+        private void OnPlaylistHeaderPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            GridViewColumnHeader header = FindAncestor<GridViewColumnHeader>(e.OriginalSource as DependencyObject);
+            if (header == null || header.Role == GridViewColumnHeaderRole.Padding)
+            {
+                // Not a column header (e.g. a row) — let the default context menu handling proceed.
+                return;
+            }
+
+            ContextMenu menu = BuildColumnVisibilityMenu();
+            if (menu == null)
+            {
+                return;
+            }
+
+            menu.PlacementTarget = header;
+            menu.Placement = PlacementMode.MousePoint;
+            menu.IsOpen = true;
+            e.Handled = true;
+        }
+
+        /// <summary>
+        /// Builds the column header right-click menu of checkable column-visibility toggles.
+        /// The game's Name and icon are always shown and are intentionally not listed.
+        /// </summary>
+        private ContextMenu BuildColumnVisibilityMenu()
+        {
+            PlaylistSettings settings = Playlist.StaticSettings;
+            if (settings == null)
+            {
+                return null;
+            }
+
+            ContextMenu menu = new ContextMenu();
+            menu.Items.Add(BuildColumnToggleItem(RankColumnKey, ResourceProvider.GetString("LOCPlaylist_Column_Rank"), settings.ShowRankColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(PlaytimeColumnKey, ResourceProvider.GetString("LOCTimePlayed"), settings.ShowPlaytimeColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(CompletionStatusColumnKey, ResourceProvider.GetString("LOCCompletionStatus"), settings.ShowCompletionStatusColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(LastPlayedColumnKey, ResourceProvider.GetString("LOCPlaylist_LastPlayedColumn"), settings.ShowLastPlayedColumn, true, null));
+
+            menu.Items.Add(BuildHowLongToBeatColumnMenuItem(settings));
+
+            return menu;
+        }
+
+        /// <summary>
+        /// Whether the HowLongToBeat column is actually on screen (integration, plugin, and visibility flag).
+        /// </summary>
+        private static bool IsHowLongToBeatColumnVisible(PlaylistSettings settings)
+        {
+            if (settings == null || !settings.EnableHowLongToBeatIntegration)
+            {
+                return false;
+            }
+
+            if (!HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi))
+            {
+                return false;
+            }
+
+            return settings.ShowHowLongToBeatColumn;
+        }
+
+        /// <summary>
+        /// HowLongToBeat is a normal visibility toggle when integration is on. When integration is off but the
+        /// HLTB plugin is installed, the item stays clickable and opens this plugin's settings instead.
+        /// </summary>
+        private MenuItem BuildHowLongToBeatColumnMenuItem(PlaylistSettings settings)
+        {
+            string header = ResourceProvider.GetString("LOCPlaylist_Column_HowLongToBeat");
+            bool hltbAvailable = HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi);
+            bool columnVisible = IsHowLongToBeatColumnVisible(settings);
+
+            if (!hltbAvailable)
+            {
+                return BuildColumnToggleItem(
+                    HowLongToBeatColumnKey,
+                    header,
+                    isChecked: false,
+                    isEnabled: false,
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbRequiresPlugin"));
+            }
+
+            if (!settings.EnableHowLongToBeatIntegration)
+            {
+                MenuItem item = new MenuItem
+                {
+                    Header = header,
+                    IsCheckable = true,
+                    IsChecked = false,
+                    IsEnabled = true,
+                    ToolTip = ResourceProvider.GetString("LOCPlaylist_HltbOpenSettingsToEnable"),
+                };
+                // MenuItem auto-toggles IsChecked on click; keep unchecked until integration is enabled.
+                item.Click += (s, e) =>
+                {
+                    item.IsChecked = false;
+                    OpenPlaylistPluginSettings();
+                };
+                return item;
+            }
+
+            return BuildColumnToggleItem(
+                HowLongToBeatColumnKey,
+                header,
+                columnVisible,
+                isEnabled: true,
+                disabledToolTip: null);
+        }
+
+        /// <summary>
+        /// Opens this extension's settings dialog (Playnite SDK <c>Plugin.OpenSettingsView</c>, desktop only).
+        /// </summary>
+        private void OpenPlaylistPluginSettings()
+        {
+            Playlist.StaticPluginInstance?.OpenSettingsView();
+            ApplyColumnVisibility();
+            UpdateLastPlayedTimerState();
+            PersistLayoutState();
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+        }
+
+        private MenuItem BuildColumnToggleItem(string columnKey, string header, bool isChecked, bool isEnabled, string disabledToolTip)
+        {
+            MenuItem item = new MenuItem
+            {
+                Header = header,
+                IsCheckable = true,
+                IsChecked = isChecked,
+                IsEnabled = isEnabled,
+            };
+
+            if (!string.IsNullOrEmpty(disabledToolTip))
+            {
+                item.ToolTip = disabledToolTip;
+            }
+
+            item.Click += (s, e) => ToggleColumnVisibility(columnKey);
+            return item;
+        }
+
+        private void ToggleColumnVisibility(string columnKey)
+        {
+            PlaylistSettings settings = Playlist.StaticSettings;
+            if (settings == null)
+            {
+                return;
+            }
+
+            switch (columnKey)
+            {
+                case RankColumnKey:
+                    settings.ShowRankColumn = !settings.ShowRankColumn;
+                    break;
+                case PlaytimeColumnKey:
+                    settings.ShowPlaytimeColumn = !settings.ShowPlaytimeColumn;
+                    break;
+                case CompletionStatusColumnKey:
+                    settings.ShowCompletionStatusColumn = !settings.ShowCompletionStatusColumn;
+                    break;
+                case LastPlayedColumnKey:
+                    settings.ShowLastPlayedColumn = !settings.ShowLastPlayedColumn;
+                    break;
+                case HowLongToBeatColumnKey:
+                    settings.ShowHowLongToBeatColumn = !settings.ShowHowLongToBeatColumn;
+                    break;
+                default:
+                    return;
+            }
+
+            ApplyColumnVisibility();
+            UpdateLastPlayedTimerState();
+            PersistLayoutState();
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+        }
+
+        private static T FindAncestor<T>(DependencyObject from) where T : DependencyObject
+        {
+            DependencyObject current = from;
+            while (current != null)
+            {
+                if (current is T match)
+                {
+                    return match;
+                }
+
+                DependencyObject parent = null;
+                if (current is Visual || current is System.Windows.Media.Media3D.Visual3D)
+                {
+                    parent = VisualTreeHelper.GetParent(current);
+                }
+
+                if (parent == null)
+                {
+                    parent = LogicalTreeHelper.GetParent(current);
+                }
+
+                current = parent;
+            }
+
+            return null;
         }
 
         private void OnPlaylistGridViewColumnHeaderClick(object sender, RoutedEventArgs e)

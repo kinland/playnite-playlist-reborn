@@ -9,6 +9,12 @@ namespace Playlist
     public static class Playlist
     {
         public static IPlayniteAPI StaticPlayniteApi { get; set; }
+        public static HltbSettingsStub StaticSettings { get; set; } = new HltbSettingsStub();
+    }
+
+    public sealed class HltbSettingsStub
+    {
+        public bool EnableHowLongToBeatIntegration { get; set; } = true;
     }
 
     internal sealed class HltbRenderSettings

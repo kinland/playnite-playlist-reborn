@@ -6,15 +6,26 @@
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="400">
     <StackPanel Margin="12">
+        <!--
+            Per-column visibility is toggled by right-clicking the column headers in the playlist view.
+            The HowLongToBeat integration toggle stays here because it also gates reading the HowLongToBeat
+            plugin's data, not just column visibility.
+        -->
         <CheckBox
             VerticalAlignment="Center"
-            IsChecked="{Binding ShowLastPlayedColumn}"
-            Content="{DynamicResource LOCPlaylist_Settings_ShowLastPlayedColumn}" />
-        <CheckBox
-            Margin="0,8,0,0"
-            VerticalAlignment="Center"
-            IsChecked="{Binding ShowHowLongToBeatColumn}"
+            IsChecked="{Binding EnableHowLongToBeatIntegration}"
             IsEnabled="{Binding IsHowLongToBeatAvailable}"
-            Content="{DynamicResource LOCPlaylist_Settings_ShowHowLongToBeatColumn}" />
+            ToolTipService.ShowOnDisabled="True"
+            Content="{DynamicResource LOCPlaylist_Settings_EnableHowLongToBeatIntegration}">
+            <CheckBox.Style>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsHowLongToBeatAvailable}" Value="False">
+                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HltbRequiresPlugin}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </CheckBox.Style>
+        </CheckBox>
     </StackPanel>
 </UserControl>

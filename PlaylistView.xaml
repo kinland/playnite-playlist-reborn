@@ -248,7 +248,8 @@
             dd:DragDrop.IsDropTarget="{Binding IsDragReorderEnabled}"
             dd:DragDrop.DragHandler="{Binding PlaylistDragHandler}"
             dd:DragDrop.DropHandler="{Binding PlaylistDropHandler}"
-            GridViewColumnHeader.Click="OnPlaylistGridViewColumnHeaderClick">
+            GridViewColumnHeader.Click="OnPlaylistGridViewColumnHeaderClick"
+            PreviewMouseRightButtonUp="OnPlaylistHeaderPreviewMouseRightButtonUp">
 
             <ListView.Resources>
                 <Style TargetType="GridViewRowPresenter">

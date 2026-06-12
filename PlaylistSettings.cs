@@ -15,10 +15,31 @@ namespace Playlist
     public class PlaylistSettings : ObservableObject, ISettings, IEditableObject
     {
         private Playlist plugin;
+        private bool showRankColumn = true;
+        private bool showPlaytimeColumn = true;
+        private bool showCompletionStatusColumn = true;
         private bool showLastPlayedColumn = true;
         private bool showHowLongToBeatColumn = true;
-        private bool backupShowLastPlayedColumn = true;
-        private bool backupShowHowLongToBeatColumn = true;
+        private bool enableHowLongToBeatIntegration = true;
+        private bool backupEnableHowLongToBeatIntegration = true;
+
+        public bool ShowRankColumn
+        {
+            get => showRankColumn;
+            set => SetValue(ref showRankColumn, value);
+        }
+
+        public bool ShowPlaytimeColumn
+        {
+            get => showPlaytimeColumn;
+            set => SetValue(ref showPlaytimeColumn, value);
+        }
+
+        public bool ShowCompletionStatusColumn
+        {
+            get => showCompletionStatusColumn;
+            set => SetValue(ref showCompletionStatusColumn, value);
+        }
 
         public bool ShowLastPlayedColumn
         {
@@ -26,11 +47,29 @@ namespace Playlist
             set => SetValue(ref showLastPlayedColumn, value);
         }
 
+        /// <summary>
+        /// Column visibility toggle (right-click header menu), like the other <c>Show*Column</c> flags.
+        /// </summary>
         public bool ShowHowLongToBeatColumn
         {
             get => showHowLongToBeatColumn;
             set => SetValue(ref showHowLongToBeatColumn, value);
         }
+
+        /// <summary>
+        /// Master switch on the settings page: when off, HowLongToBeat data is not read and the column
+        /// cannot be shown regardless of <see cref="ShowHowLongToBeatColumn"/>.
+        /// </summary>
+        public bool EnableHowLongToBeatIntegration
+        {
+            get => enableHowLongToBeatIntegration;
+            set => SetValue(ref enableHowLongToBeatIntegration, value);
+        }
+
+        /// <summary>
+        /// Bumped when persisted settings need a one-time in-memory migration after deserialization.
+        /// </summary>
+        public int SettingsSchemaVersion { get; set; }
 
         public string ActiveSortColumnKey { get; set; } = string.Empty;
 
@@ -58,11 +97,40 @@ namespace Playlist
         public PlaylistSettings(Playlist plugin)
         {
             this.plugin = plugin;
+            MigrateSettingsIfNeeded();
         }
 
         internal void AttachPlugin(Playlist plugin)
         {
             this.plugin = plugin;
+            MigrateSettingsIfNeeded();
+        }
+
+        private const int CurrentSettingsSchemaVersion = 2;
+
+        /// <summary>
+        /// v2: split legacy <c>ShowHowLongToBeatColumn</c> (integration + visibility) into
+        /// <see cref="EnableHowLongToBeatIntegration"/> and a visibility-only <see cref="ShowHowLongToBeatColumn"/>.
+        /// </summary>
+        private void MigrateSettingsIfNeeded()
+        {
+            if (SettingsSchemaVersion >= CurrentSettingsSchemaVersion)
+            {
+                return;
+            }
+
+            if (SettingsSchemaVersion < 2)
+            {
+                // Pre-v2, ShowHowLongToBeatColumn gated integration and visibility together.
+                enableHowLongToBeatIntegration = showHowLongToBeatColumn;
+                if (enableHowLongToBeatIntegration)
+                {
+                    showHowLongToBeatColumn = true;
+                }
+            }
+
+            SettingsSchemaVersion = CurrentSettingsSchemaVersion;
+            plugin?.PersistSettings();
         }
 
         internal void SaveRuntimeState(
@@ -88,14 +156,14 @@ namespace Playlist
 
         public void BeginEdit()
         {
-            backupShowLastPlayedColumn = ShowLastPlayedColumn;
-            backupShowHowLongToBeatColumn = ShowHowLongToBeatColumn;
+            // Only the HowLongToBeat integration toggle lives on the settings page now; the rest of the
+            // column visibility flags are edited via the column header right-click menu (persisted immediately).
+            backupEnableHowLongToBeatIntegration = EnableHowLongToBeatIntegration;
         }
 
         public void CancelEdit()
         {
-            ShowLastPlayedColumn = backupShowLastPlayedColumn;
-            ShowHowLongToBeatColumn = backupShowHowLongToBeatColumn;
+            EnableHowLongToBeatIntegration = backupEnableHowLongToBeatIntegration;
         }
 
         public void EndEdit()

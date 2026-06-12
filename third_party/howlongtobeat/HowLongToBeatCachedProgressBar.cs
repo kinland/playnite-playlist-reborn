@@ -127,6 +127,13 @@ namespace Playlist
                 return;
             }
 
+            if (!(Playlist.StaticSettings?.EnableHowLongToBeatIntegration ?? true))
+            {
+                Visibility = Visibility.Collapsed;
+                SetUnknown();
+                return;
+            }
+
             HltbRenderSettings settings = HowLongToBeatCache.GetRenderSettings(Playlist.StaticPlayniteApi);
             if (!settings.EnableIntegrationViewItem || !settings.EnableIntegrationProgressBar)
             {
