@@ -41,8 +41,23 @@ namespace Playlist
             cachedSettingsFileUtcTicks = 0;
         }
 
+        public static bool IsPluginLoaded(IPlayniteAPI api)
+        {
+            if (api?.Addons?.Plugins == null)
+            {
+                return false;
+            }
+
+            return api.Addons.Plugins.Any(p => p.Id == HltbPluginId);
+        }
+
         public static bool IsAvailable(IPlayniteAPI api)
         {
+            if (!IsPluginLoaded(api))
+            {
+                return false;
+            }
+
             string path = GetHltbDatabasePath(api);
             return !string.IsNullOrEmpty(path) && Directory.Exists(path);
         }

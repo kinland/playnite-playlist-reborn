@@ -42,6 +42,7 @@ namespace Playlist
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
+            IsVisibleChanged += OnPlaylistViewIsVisibleChanged;
             lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
         }
 
@@ -54,7 +55,19 @@ namespace Playlist
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
+            IsVisibleChanged += OnPlaylistViewIsVisibleChanged;
             lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
+        }
+
+        private void OnPlaylistViewIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!IsVisible)
+            {
+                return;
+            }
+
+            ApplyColumnVisibility();
+            (DataContext as PlaylistViewModel)?.RefreshHowLongToBeatHeaderText();
         }
 
         private void EnsureSortHeaderMouseHook(GridViewColumnHeader header)
