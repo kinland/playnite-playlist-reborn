@@ -370,8 +370,207 @@ namespace Playlist
                 return;
             }
 
-            gridView.Columns.Insert(ComputeCanonicalInsertIndex(gridView, column), column);
+            gridView.Columns.Insert(ComputeSavedInsertIndex(gridView, column, Playlist.StaticSettings as PlaylistSettings), column);
             RestoreColumnWidthIfCollapsed(column, Playlist.StaticSettings as PlaylistSettings);
+        }
+
+        private static IReadOnlyList<string> GetAllColumnKeys()
+        {
+            return new[]
+            {
+                RankColumnKey,
+                IconColumnKey,
+                NameColumnKey,
+                PlaytimeColumnKey,
+                CompletionStatusColumnKey,
+                LastPlayedColumnKey,
+                LastActivityColumnKey,
+                HowLongToBeatColumnKey,
+            };
+        }
+
+        private int ComputeSavedInsertIndex(GridView gridView, GridViewColumn column, PlaylistSettings settings)
+        {
+            string columnKey = GetColumnKey(column);
+            if (string.IsNullOrEmpty(columnKey)
+                || settings?.ColumnLayouts == null
+                || settings.ColumnLayouts.Count == 0)
+            {
+                return ComputeCanonicalInsertIndex(gridView, column);
+            }
+
+            List<PlaylistColumnLayoutState> ordered = settings.ColumnLayouts
+                .Where(layout => layout != null && !string.IsNullOrWhiteSpace(layout.Key))
+                .OrderBy(layout => layout.DisplayIndex)
+                .ToList();
+
+            int insertAt = 0;
+            foreach (PlaylistColumnLayoutState layout in ordered)
+            {
+                if (layout.Key == columnKey)
+                {
+                    return insertAt;
+                }
+
+                GridViewColumn present = GetColumnByKey(layout.Key);
+                if (present != null && gridView.Columns.Contains(present))
+                {
+                    insertAt++;
+                }
+            }
+
+            return ComputeCanonicalInsertIndex(gridView, column);
+        }
+
+        private static Dictionary<string, PlaylistColumnLayoutState> GetColumnLayoutsByKey(PlaylistSettings settings)
+        {
+            if (settings?.ColumnLayouts == null)
+            {
+                return new Dictionary<string, PlaylistColumnLayoutState>();
+            }
+
+            return settings.ColumnLayouts
+                .Where(layout => layout != null && !string.IsNullOrWhiteSpace(layout.Key))
+                .GroupBy(layout => layout.Key)
+                .ToDictionary(group => group.Key, group => group.First());
+        }
+
+        private static List<string> MergeVisibleAndHiddenColumnOrder(
+            IReadOnlyList<string> visibleKeysInOrder,
+            IReadOnlyList<string> hiddenKeys,
+            IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey,
+            int totalColumns)
+        {
+            var hiddenSlotAssignments = new SortedDictionary<int, string>();
+            var unassignedHidden = new List<string>();
+
+            foreach (string key in hiddenKeys)
+            {
+                int slot = previousByKey.TryGetValue(key, out PlaylistColumnLayoutState layout)
+                    ? layout.DisplayIndex
+                    : int.MaxValue;
+                if (slot >= 0 && slot < totalColumns && !hiddenSlotAssignments.ContainsKey(slot))
+                {
+                    hiddenSlotAssignments[slot] = key;
+                }
+                else
+                {
+                    unassignedHidden.Add(key);
+                }
+            }
+
+            var result = new List<string>(totalColumns);
+            int visibleIndex = 0;
+            int hiddenFallbackIndex = 0;
+
+            for (int slot = 0; slot < totalColumns; slot++)
+            {
+                if (hiddenSlotAssignments.TryGetValue(slot, out string hiddenKey))
+                {
+                    result.Add(hiddenKey);
+                    continue;
+                }
+
+                if (visibleIndex < visibleKeysInOrder.Count)
+                {
+                    result.Add(visibleKeysInOrder[visibleIndex++]);
+                    continue;
+                }
+
+                while (hiddenFallbackIndex < unassignedHidden.Count)
+                {
+                    string key = unassignedHidden[hiddenFallbackIndex++];
+                    if (!result.Contains(key))
+                    {
+                        result.Add(key);
+                        break;
+                    }
+                }
+            }
+
+            while (visibleIndex < visibleKeysInOrder.Count)
+            {
+                result.Add(visibleKeysInOrder[visibleIndex++]);
+            }
+
+            foreach (string key in hiddenKeys)
+            {
+                if (!result.Contains(key))
+                {
+                    result.Add(key);
+                }
+            }
+
+            return result;
+        }
+
+        private double GetPersistedWidthForColumnKey(
+            string columnKey,
+            GridView gridView,
+            PlaylistSettings settings,
+            IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey)
+        {
+            GridViewColumn column = GetColumnByKey(columnKey);
+            if (column != null && gridView.Columns.Contains(column))
+            {
+                return GetWidthForLayoutPersistence(settings, columnKey, column.Width);
+            }
+
+            if (previousByKey.TryGetValue(columnKey, out PlaylistColumnLayoutState previousLayout)
+                && !double.IsNaN(previousLayout.Width)
+                && previousLayout.Width > CollapsedColumnWidthThreshold)
+            {
+                return previousLayout.Width;
+            }
+
+            if (column != null
+                && !double.IsNaN(column.Width)
+                && column.Width > CollapsedColumnWidthThreshold)
+            {
+                return column.Width;
+            }
+
+            double restoredWidth = TryGetPersistedColumnWidth(settings, columnKey) ?? GetDefaultColumnWidth(columnKey);
+            return double.IsNaN(restoredWidth) ? 0 : restoredWidth;
+        }
+
+        private List<PlaylistColumnLayoutState> BuildColumnLayoutsForPersistence(GridView gridView, PlaylistSettings settings)
+        {
+            List<string> visibleKeysInOrder = gridView.Columns
+                .Select(GetColumnKey)
+                .Where(key => !string.IsNullOrEmpty(key))
+                .ToList();
+            var visibleSet = new HashSet<string>(visibleKeysInOrder);
+            Dictionary<string, PlaylistColumnLayoutState> previousByKey = GetColumnLayoutsByKey(settings);
+            IReadOnlyList<string> allColumnKeys = GetAllColumnKeys();
+
+            List<string> hiddenKeys = allColumnKeys
+                .Where(key => !visibleSet.Contains(key))
+                .OrderBy(key =>
+                {
+                    if (previousByKey.TryGetValue(key, out PlaylistColumnLayoutState layout))
+                    {
+                        return layout.DisplayIndex;
+                    }
+
+                    return GetCanonicalColumnOrder(GetColumnByKey(key));
+                })
+                .ToList();
+
+            List<string> fullOrder = MergeVisibleAndHiddenColumnOrder(
+                visibleKeysInOrder,
+                hiddenKeys,
+                previousByKey,
+                allColumnKeys.Count);
+
+            return fullOrder
+                .Select((key, index) => new PlaylistColumnLayoutState
+                {
+                    Key = key,
+                    DisplayIndex = index,
+                    Width = GetPersistedWidthForColumnKey(key, gridView, settings, previousByKey),
+                })
+                .ToList();
         }
 
         private static double? TryGetPersistedColumnWidth(PlaylistSettings settings, string columnKey)
@@ -954,25 +1153,7 @@ namespace Playlist
                 return;
             }
 
-            List<PlaylistColumnLayoutState> layouts = gridView.Columns
-                .Select((column, index) => new { Column = column, Index = index })
-                .Select(item =>
-                {
-                    string key = GetColumnKey(item.Column);
-                    if (string.IsNullOrEmpty(key))
-                    {
-                        return null;
-                    }
-
-                    return new PlaylistColumnLayoutState
-                    {
-                        Key = key,
-                        DisplayIndex = item.Index,
-                        Width = GetWidthForLayoutPersistence(settings, key, item.Column.Width),
-                    };
-                })
-                .Where(item => item != null)
-                .ToList();
+            List<PlaylistColumnLayoutState> layouts = BuildColumnLayoutsForPersistence(gridView, settings);
 
             settings.SaveRuntimeState(
                 model.ActiveViewSortColumn,
