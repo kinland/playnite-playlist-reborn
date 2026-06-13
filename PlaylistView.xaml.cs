@@ -100,6 +100,114 @@ namespace Playlist
         }
 
         private const double HowLongToBeatColumnMinWidth = 120;
+        private const double CollapsedColumnWidthThreshold = 0.5;
+
+        /// <summary>
+        /// When a toggleable column is resized to zero width, hide it via the same settings as the header menu.
+        /// </summary>
+        private void TryHideColumnsCollapsedToZeroWidth()
+        {
+            if (!(Playlist.StaticSettings is PlaylistSettings settings))
+            {
+                return;
+            }
+
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return;
+            }
+
+            bool changed = false;
+            foreach (GridViewColumn column in gridView.Columns.ToList())
+            {
+                double width = column.Width;
+                if (double.IsNaN(width) || width > CollapsedColumnWidthThreshold)
+                {
+                    continue;
+                }
+
+                RestoreColumnWidthIfCollapsed(column, settings);
+
+                if (SetColumnVisibilityByKey(settings, GetColumnKey(column), visible: false))
+                {
+                    changed = true;
+                }
+            }
+
+            if (!changed)
+            {
+                return;
+            }
+
+            ApplyColumnVisibility();
+            UpdateLastPlayedTimerState();
+            Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+        }
+
+        private static bool SetColumnVisibilityByKey(PlaylistSettings settings, string columnKey, bool visible)
+        {
+            if (settings == null
+                || string.IsNullOrEmpty(columnKey)
+                || columnKey == NameColumnKey
+                || columnKey == IconColumnKey)
+            {
+                return false;
+            }
+
+            switch (columnKey)
+            {
+                case RankColumnKey:
+                    if (settings.ShowRankColumn == visible)
+                    {
+                        return false;
+                    }
+
+                    settings.ShowRankColumn = visible;
+                    return true;
+                case PlaytimeColumnKey:
+                    if (settings.ShowPlaytimeColumn == visible)
+                    {
+                        return false;
+                    }
+
+                    settings.ShowPlaytimeColumn = visible;
+                    return true;
+                case CompletionStatusColumnKey:
+                    if (settings.ShowCompletionStatusColumn == visible)
+                    {
+                        return false;
+                    }
+
+                    settings.ShowCompletionStatusColumn = visible;
+                    return true;
+                case LastPlayedColumnKey:
+                    if (settings.ShowLastPlayedColumn == visible)
+                    {
+                        return false;
+                    }
+
+                    settings.ShowLastPlayedColumn = visible;
+                    return true;
+                case LastActivityColumnKey:
+                    if (settings.ShowLastActivityColumn == visible)
+                    {
+                        return false;
+                    }
+
+                    settings.ShowLastActivityColumn = visible;
+                    return true;
+                case HowLongToBeatColumnKey:
+                    if (settings.ShowHowLongToBeatColumn == visible)
+                    {
+                        return false;
+                    }
+
+                    settings.ShowHowLongToBeatColumn = visible;
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
         private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -109,6 +217,7 @@ namespace Playlist
 
         private void OnPlaylistListViewColumnThumbDragCompleted(object sender, DragCompletedEventArgs e)
         {
+            TryHideColumnsCollapsedToZeroWidth();
             UpdateHowLongToBeatColumnFillWidth();
             RefreshSortHeaderVisualState();
             PersistLayoutState();
@@ -262,6 +371,84 @@ namespace Playlist
             }
 
             gridView.Columns.Insert(ComputeCanonicalInsertIndex(gridView, column), column);
+            RestoreColumnWidthIfCollapsed(column, Playlist.StaticSettings as PlaylistSettings);
+        }
+
+        private static double? TryGetPersistedColumnWidth(PlaylistSettings settings, string columnKey)
+        {
+            if (settings?.ColumnLayouts == null || string.IsNullOrEmpty(columnKey))
+            {
+                return null;
+            }
+
+            PlaylistColumnLayoutState layout = settings.ColumnLayouts
+                .FirstOrDefault(item => item != null && item.Key == columnKey);
+            if (layout == null || double.IsNaN(layout.Width) || layout.Width <= CollapsedColumnWidthThreshold)
+            {
+                return null;
+            }
+
+            return layout.Width;
+        }
+
+        private static double GetDefaultColumnWidth(string columnKey)
+        {
+            switch (columnKey)
+            {
+                case RankColumnKey:
+                    return 56;
+                case PlaytimeColumnKey:
+                    return 168;
+                case CompletionStatusColumnKey:
+                    return 174;
+                case LastPlayedColumnKey:
+                    return 196;
+                case LastActivityColumnKey:
+                    return 196;
+                case HowLongToBeatColumnKey:
+                    return 400;
+                default:
+                    return double.NaN;
+            }
+        }
+
+        private void RestoreColumnWidthIfCollapsed(GridViewColumn column, PlaylistSettings settings)
+        {
+            if (column == null)
+            {
+                return;
+            }
+
+            double width = column.Width;
+            if (!double.IsNaN(width) && width > CollapsedColumnWidthThreshold)
+            {
+                return;
+            }
+
+            string columnKey = GetColumnKey(column);
+            if (string.IsNullOrEmpty(columnKey))
+            {
+                return;
+            }
+
+            double restoredWidth = TryGetPersistedColumnWidth(settings, columnKey)
+                ?? GetDefaultColumnWidth(columnKey);
+            if (double.IsNaN(restoredWidth) || restoredWidth <= CollapsedColumnWidthThreshold)
+            {
+                return;
+            }
+
+            column.Width = restoredWidth;
+        }
+
+        private static double GetWidthForLayoutPersistence(PlaylistSettings settings, string columnKey, double currentWidth)
+        {
+            if (!double.IsNaN(currentWidth) && currentWidth > CollapsedColumnWidthThreshold)
+            {
+                return currentWidth;
+            }
+
+            return TryGetPersistedColumnWidth(settings, columnKey) ?? currentWidth;
         }
 
         /// <summary>
@@ -444,28 +631,32 @@ namespace Playlist
                 return;
             }
 
+            bool? nextVisible = null;
             switch (columnKey)
             {
                 case RankColumnKey:
-                    settings.ShowRankColumn = !settings.ShowRankColumn;
+                    nextVisible = !settings.ShowRankColumn;
                     break;
                 case PlaytimeColumnKey:
-                    settings.ShowPlaytimeColumn = !settings.ShowPlaytimeColumn;
+                    nextVisible = !settings.ShowPlaytimeColumn;
                     break;
                 case CompletionStatusColumnKey:
-                    settings.ShowCompletionStatusColumn = !settings.ShowCompletionStatusColumn;
+                    nextVisible = !settings.ShowCompletionStatusColumn;
                     break;
                 case LastPlayedColumnKey:
-                    settings.ShowLastPlayedColumn = !settings.ShowLastPlayedColumn;
+                    nextVisible = !settings.ShowLastPlayedColumn;
                     break;
                 case LastActivityColumnKey:
-                    settings.ShowLastActivityColumn = !settings.ShowLastActivityColumn;
+                    nextVisible = !settings.ShowLastActivityColumn;
                     break;
                 case HowLongToBeatColumnKey:
-                    settings.ShowHowLongToBeatColumn = !settings.ShowHowLongToBeatColumn;
+                    nextVisible = !settings.ShowHowLongToBeatColumn;
                     break;
-                default:
-                    return;
+            }
+
+            if (!nextVisible.HasValue || !SetColumnVisibilityByKey(settings, columnKey, nextVisible.Value))
+            {
+                return;
             }
 
             ApplyColumnVisibility();
@@ -777,7 +968,7 @@ namespace Playlist
                     {
                         Key = key,
                         DisplayIndex = item.Index,
-                        Width = item.Column.Width,
+                        Width = GetWidthForLayoutPersistence(settings, key, item.Column.Width),
                     };
                 })
                 .Where(item => item != null)
