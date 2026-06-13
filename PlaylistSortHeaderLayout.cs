@@ -269,6 +269,13 @@ namespace Playlist
             return ((0.299 * color.R) + (0.587 * color.G) + (0.114 * color.B)) / 255.0;
         }
 
+        private static bool IsLowChromaHighlightColor(Color color)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+            return max - min < 45;
+        }
+
         /// <summary>
         /// Chooses a darkening overlay when header text reads dark, otherwise a lightening overlay.
         /// </summary>
@@ -294,7 +301,7 @@ namespace Playlist
                 return null;
             }
 
-            // Ignore code-applied hover/active foreground; sample theme or style-inherited text color only.
+            // Ignore code-applied hover/active foreground; sample resource-dictionary or style-inherited text color only.
             if (header.ReadLocalValue(Control.ForegroundProperty) == DependencyProperty.UnsetValue)
             {
                 Brush headerForeground = (Brush)header.GetValue(Control.ForegroundProperty);
@@ -356,6 +363,386 @@ namespace Playlist
             return (background, border, foreground);
         }
 
+        internal static string GetVisibleRowHighlightBrushKey(ListViewItem item, bool isHoverActive)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+
+            // Match row template: selection fill wins over hover fill.
+            if (item.IsSelected)
+            {
+                return "GlyphBrush";
+            }
+
+            if (isHoverActive)
+            {
+                return "HoverBrush";
+            }
+
+            return null;
+        }
+
+        internal static bool TryGetVisibleRowHighlightColor(
+            ListViewItem item,
+            bool isHoverActive,
+            Func<string, object> tryFindResource,
+            out Color color)
+        {
+            color = default;
+            string brushKey = GetVisibleRowHighlightBrushKey(item, isHoverActive);
+            if (brushKey == null)
+            {
+                return false;
+            }
+
+            if (!(tryFindResource?.Invoke(brushKey) is SolidColorBrush brush)
+                || !TryGetColor(brush, out color))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        internal enum ListRowEmbeddedChromeStyle
+        {
+            None,
+            /// <summary>Light control panel + dark glyph — active dark HoverBrush mouseover when managed chrome applies.</summary>
+            LightPanelDarkGlyph,
+            /// <summary>Dark control panel + light glyph — active GlyphBrush selection when managed chrome applies.</summary>
+            DarkPanelLightGlyph,
+        }
+
+        /// <summary>
+        /// True when <c>HoverBrush</c> is dark and low-chroma and <c>GlyphBrush</c> is light and low-chroma.
+        /// When false, embedded controls keep resource-dictionary styling.
+        /// </summary>
+        internal static bool UsesInvertedRowHighlightChrome(Func<string, object> tryFindResource)
+        {
+            if (!(tryFindResource?.Invoke("HoverBrush") is SolidColorBrush hoverBrush)
+                || !(tryFindResource?.Invoke("GlyphBrush") is SolidColorBrush glyphBrush)
+                || !TryGetColor(hoverBrush, out Color hoverColor)
+                || !TryGetColor(glyphBrush, out Color glyphColor))
+            {
+                return false;
+            }
+
+            return GetRelativeLuminance(hoverColor) < 0.5
+                && GetRelativeLuminance(glyphColor) >= 0.5
+                && IsLowChromaHighlightColor(hoverColor)
+                && IsLowChromaHighlightColor(glyphColor);
+        }
+
+        internal static ListRowEmbeddedChromeStyle GetEmbeddedChromeStyle(
+            ListViewItem item,
+            bool isHoverActive,
+            Func<string, object> tryFindResource)
+        {
+            return GetEmbeddedChromeStyle(item, isHoverActive, isDirectHover: false, tryFindResource);
+        }
+
+        internal static ListRowEmbeddedChromeStyle GetEmbeddedChromeStyle(
+            ListViewItem item,
+            bool isHoverActive,
+            bool isDirectHover,
+            Func<string, object> tryFindResource)
+        {
+            if (item == null
+                || !UsesInvertedRowHighlightChrome(tryFindResource)
+                || !TryGetVisibleRowHighlightColor(item, isHoverActive, tryFindResource, out _))
+            {
+                return ListRowEmbeddedChromeStyle.None;
+            }
+
+            if (item.IsSelected)
+            {
+                return ListRowEmbeddedChromeStyle.DarkPanelLightGlyph;
+            }
+
+            if (isHoverActive)
+            {
+                return ListRowEmbeddedChromeStyle.LightPanelDarkGlyph;
+            }
+
+            return ListRowEmbeddedChromeStyle.None;
+        }
+
+        /// <summary>
+        /// Row text: light foreground when managed chrome applies on a dark HoverBrush mouseover row.
+        /// </summary>
+        internal static void ApplyListRowHighlightForeground(
+            ListViewItem item,
+            Func<string, object> tryFindResource,
+            bool isHoverActive)
+        {
+            if (item == null
+                || !UsesInvertedRowHighlightChrome(tryFindResource)
+                || item.IsSelected
+                || !isHoverActive
+                || !TryGetVisibleRowHighlightColor(item, isHoverActive, tryFindResource, out Color rowColor)
+                || GetRelativeLuminance(rowColor) >= 0.5)
+            {
+                item.ClearValue(Control.ForegroundProperty);
+                return;
+            }
+
+            item.Foreground = CreateActiveSortHighlightBrushes(useDarkeningOverlay: true).Foreground;
+        }
+
+        /// <summary>
+        /// Managed play-button chrome when <see cref="UsesInvertedRowHighlightChrome"/> is true
+        /// (see docs/row-highlight-chrome-investigation.md). Otherwise use
+        /// <c>playlistIconPlayButtonStyleThemed</c> and do not call this.
+        /// </summary>
+        internal static void ApplyListRowPlayButtonChrome(
+            Control control,
+            ListViewItem row,
+            bool isHoverActive,
+            Func<string, object> tryFindResource)
+        {
+            ApplyListRowPlayButtonChrome(control, row, isHoverActive, isDirectHover: false, tryFindResource);
+        }
+
+        internal static void ApplyListRowPlayButtonChrome(
+            Control control,
+            ListViewItem row,
+            bool isHoverActive,
+            bool isDirectHover,
+            Func<string, object> tryFindResource)
+        {
+            if (control == null || !UsesInvertedRowHighlightChrome(tryFindResource))
+            {
+                return;
+            }
+
+            ListRowEmbeddedChromeStyle baseStyle = GetEmbeddedChromeStyle(row, isHoverActive, isDirectHover, tryFindResource);
+            switch (baseStyle)
+            {
+                case ListRowEmbeddedChromeStyle.LightPanelDarkGlyph:
+                case ListRowEmbeddedChromeStyle.DarkPanelLightGlyph:
+                    ApplyManagedEmbeddedChrome(tryFindResource, control, baseStyle, isDirectHover, useBaseBorder: true);
+                    break;
+                default:
+                    ClearListRowControlChrome(control);
+                    break;
+            }
+        }
+
+        internal static void ClearListRowControlChrome(Control control)
+        {
+            ClearEmbeddedChrome(control);
+        }
+
+        /// <summary>
+        /// Row-level chrome from <paramref name="baseStyle"/>; direct control hover inverts panel/glyph for clickability.
+        /// </summary>
+        private static void ApplyManagedEmbeddedChrome(
+            Func<string, object> tryFindResource,
+            Control control,
+            ListRowEmbeddedChromeStyle baseStyle,
+            bool isDirectHover,
+            bool useBaseBorder)
+        {
+            ListRowEmbeddedChromeStyle appliedStyle = isDirectHover ? InvertEmbeddedChromeStyle(baseStyle) : baseStyle;
+            bool showBorder = isDirectHover || useBaseBorder;
+            ApplyEmbeddedChromeStyle(tryFindResource, control, appliedStyle, showBorder, isDirectHover);
+        }
+
+        private static ListRowEmbeddedChromeStyle InvertEmbeddedChromeStyle(ListRowEmbeddedChromeStyle style)
+        {
+            switch (style)
+            {
+                case ListRowEmbeddedChromeStyle.DarkPanelLightGlyph:
+                    return ListRowEmbeddedChromeStyle.LightPanelDarkGlyph;
+                case ListRowEmbeddedChromeStyle.LightPanelDarkGlyph:
+                    return ListRowEmbeddedChromeStyle.DarkPanelLightGlyph;
+                default:
+                    return ListRowEmbeddedChromeStyle.None;
+            }
+        }
+
+        private static void ApplyEmbeddedChromeStyle(
+            Func<string, object> tryFindResource,
+            Control control,
+            ListRowEmbeddedChromeStyle style,
+            bool showBorder,
+            bool directHoverBorder)
+        {
+            Brush borderBrush = showBorder
+                ? ResolveEmbeddedBorderBrush(tryFindResource, style, directHoverBorder)
+                : null;
+
+            switch (style)
+            {
+                case ListRowEmbeddedChromeStyle.LightPanelDarkGlyph:
+                    ApplyEmbeddedChrome(
+                        control,
+                        ResolveResourceBrush(tryFindResource, "PopupBackgroundBrush", "ControlBackgroundBrush"),
+                        ResolveDarkGlyphBrush(tryFindResource),
+                        borderBrush);
+                    break;
+                case ListRowEmbeddedChromeStyle.DarkPanelLightGlyph:
+                    ApplyEmbeddedChrome(
+                        control,
+                        ResolveDarkPanelBackground(tryFindResource),
+                        CreateActiveSortHighlightBrushes(useDarkeningOverlay: true).Foreground,
+                        borderBrush);
+                    break;
+                default:
+                    ClearEmbeddedChrome(control);
+                    break;
+            }
+        }
+
+        private static Brush ResolveDarkGlyphBrush(Func<string, object> tryFindResource)
+        {
+            Brush textBrush = ResolveResourceBrush(tryFindResource, "TextBrush");
+            if (textBrush is SolidColorBrush solidText
+                && TryGetColor(solidText, out Color textColor)
+                && GetRelativeLuminance(textColor) < 0.5)
+            {
+                return textBrush;
+            }
+
+            var fallback = new SolidColorBrush(Color.FromRgb(24, 24, 24));
+            fallback.Freeze();
+            return fallback;
+        }
+
+        /// <summary>
+        /// HLTB plugin button host: managed embedded chrome when <see cref="UsesInvertedRowHighlightChrome"/> is true.
+        /// </summary>
+        internal static void ApplyListRowEmbeddedControlChrome(
+            Control control,
+            ListViewItem row,
+            bool isHoverActive,
+            Func<string, object> tryFindResource)
+        {
+            ApplyListRowEmbeddedControlChrome(control, row, isHoverActive, isDirectHover: false, tryFindResource);
+        }
+
+        internal static void ApplyListRowEmbeddedControlChrome(
+            Control control,
+            ListViewItem row,
+            bool isHoverActive,
+            bool isDirectHover,
+            Func<string, object> tryFindResource)
+        {
+            if (control == null)
+            {
+                return;
+            }
+
+            if (!UsesInvertedRowHighlightChrome(tryFindResource))
+            {
+                ClearEmbeddedChrome(control);
+                return;
+            }
+
+            ListRowEmbeddedChromeStyle baseStyle = GetEmbeddedChromeStyle(row, isHoverActive, isDirectHover, tryFindResource);
+            switch (baseStyle)
+            {
+                case ListRowEmbeddedChromeStyle.LightPanelDarkGlyph:
+                case ListRowEmbeddedChromeStyle.DarkPanelLightGlyph:
+                    ApplyManagedEmbeddedChrome(tryFindResource, control, baseStyle, isDirectHover, useBaseBorder: false);
+                    break;
+                default:
+                    ClearEmbeddedChrome(control);
+                    break;
+            }
+        }
+
+        private static Brush ResolveEmbeddedBorderBrush(
+            Func<string, object> tryFindResource,
+            ListRowEmbeddedChromeStyle style,
+            bool directHoverBorder)
+        {
+            if (directHoverBorder)
+            {
+                if (style == ListRowEmbeddedChromeStyle.LightPanelDarkGlyph)
+                {
+                    return ResolveResourceBrush(tryFindResource, "HoverBrush", "ControlBorderBrush", "DarkControlBorderBrush");
+                }
+
+                // Dark panel over dark row highlight — light outer border for contrast.
+                return ResolveResourceBrush(tryFindResource, "GlyphBrush", "PopupBackgroundBrush", "ControlBackgroundBrush", "ControlBorderBrush");
+            }
+
+            if (style == ListRowEmbeddedChromeStyle.LightPanelDarkGlyph)
+            {
+                return ResolveResourceBrush(tryFindResource, "ControlBorderBrush", "DarkControlBorderBrush");
+            }
+
+            return ResolveResourceBrush(tryFindResource, "DarkControlBorderBrush", "ControlBorderBrush");
+        }
+
+        private static void ApplyEmbeddedChrome(Control control, Brush background, Brush foreground, Brush borderBrush)
+        {
+            if (background != null)
+            {
+                control.Background = background;
+            }
+
+            if (foreground != null)
+            {
+                control.Foreground = foreground;
+            }
+
+            if (borderBrush != null)
+            {
+                control.BorderBrush = borderBrush;
+                control.BorderThickness = new Thickness(1);
+            }
+            else
+            {
+                control.ClearValue(Control.BorderBrushProperty);
+                control.BorderThickness = new Thickness(0);
+            }
+        }
+
+        private static void ClearEmbeddedChrome(Control control)
+        {
+            control.ClearValue(Control.BackgroundProperty);
+            control.ClearValue(Control.ForegroundProperty);
+            control.ClearValue(Control.BorderBrushProperty);
+            control.ClearValue(Control.BorderThicknessProperty);
+        }
+
+        private static Brush ResolveResourceBrush(Func<string, object> tryFindResource, params string[] keys)
+        {
+            if (tryFindResource == null)
+            {
+                return null;
+            }
+
+            foreach (string key in keys)
+            {
+                if (tryFindResource.Invoke(key) is Brush brush)
+                {
+                    return brush;
+                }
+            }
+
+            return null;
+        }
+
+        private static Brush ResolveDarkPanelBackground(Func<string, object> tryFindResource)
+        {
+            Brush hoverBrush = ResolveResourceBrush(tryFindResource, "HoverBrush");
+            if (hoverBrush is SolidColorBrush solidHover
+                && TryGetColor(solidHover, out Color hoverColor)
+                && GetRelativeLuminance(hoverColor) < 0.5)
+            {
+                return hoverBrush;
+            }
+
+            var fallback = new SolidColorBrush(Color.FromRgb(0x2A, 0x2C, 0x30));
+            fallback.Freeze();
+            return fallback;
+        }
+
         internal static void ApplyActiveSortHighlight(
             Border border,
             SolidColorBrush background,
@@ -399,7 +786,7 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Reapplies theme idle border chrome after clearing a code-applied hover/active highlight.
+        /// Reapplies idle border brushes from resources after clearing a code-applied hover/active highlight.
         /// </summary>
         internal static void RestoreIdleHeaderBorderChrome(GridViewColumnHeader header, Border border)
         {
@@ -412,9 +799,9 @@ namespace Playlist
             if (header.Tag is bool useDarkStyle)
             {
                 string brushKey = useDarkStyle ? "DarkControlBorderBrush" : "ControlBorderBrush";
-                if (header.TryFindResource(brushKey) is Brush themeBorder)
+                if (header.TryFindResource(brushKey) is Brush resourceBorder)
                 {
-                    border.BorderBrush = themeBorder;
+                    border.BorderBrush = resourceBorder;
                     return;
                 }
             }
@@ -459,7 +846,7 @@ namespace Playlist
         private const double RoundedHeaderCutoutMinRadius = 4;
 
         /// <summary>
-        /// Corner radius used to cut the top-center V gap out of the column reorder slot on rounded-header themes.
+        /// Corner radius used to cut the top-center V gap out of the column reorder slot when header corners are rounded.
         /// </summary>
         internal static double GetRoundedHeaderSlotTopInset(GridViewColumnHeader header)
         {
@@ -476,9 +863,9 @@ namespace Playlist
             }
 
             if (topRadius < 1
-                && header.TryFindResource("ControlCornerRadius") is CornerRadius themeRadius)
+                && header.TryFindResource("ControlCornerRadius") is CornerRadius resourceRadius)
             {
-                topRadius = Math.Max(themeRadius.TopLeft, themeRadius.TopRight);
+                topRadius = Math.Max(resourceRadius.TopLeft, resourceRadius.TopRight);
             }
 
             return topRadius >= RoundedHeaderCutoutMinRadius ? topRadius : 0;

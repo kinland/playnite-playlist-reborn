@@ -5,6 +5,8 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Playlist
 {
@@ -33,14 +35,19 @@ namespace Playlist
             MinWidth = 40;
             MinHeight = 28;
             VerticalAlignment = VerticalAlignment.Center;
-            HorizontalContentAlignment = HorizontalAlignment.Stretch;
-            VerticalContentAlignment = VerticalAlignment.Stretch;
+            HorizontalContentAlignment = HorizontalAlignment.Center;
+            VerticalContentAlignment = VerticalAlignment.Center;
+            Padding = new Thickness(2);
+            SnapsToDevicePixels = true;
             Loaded += (_, __) =>
             {
                 TryCreateContent();
                 ApplyGameContext();
+                ClearHighlightChromeWhenNotManaged();
             };
             DataContextChanged += (_, __) => ApplyGameContext();
+            MouseEnter += (_, __) => SyncRowHighlightFromListViewItem(isRowHoverActive: false);
+            MouseLeave += (_, __) => SyncRowHighlightFromListViewItem(isRowHoverActive: false);
         }
 
         private void TryCreateContent()
@@ -71,7 +78,22 @@ namespace Playlist
             if (control != null)
             {
                 Content = control;
+                HookEmbeddedContentDirectHover(control);
+                ClearHighlightChromeWhenNotManaged();
             }
+        }
+
+        private void HookEmbeddedContentDirectHover(Control control)
+        {
+            control.MouseEnter -= OnEmbeddedContentDirectHoverChanged;
+            control.MouseLeave -= OnEmbeddedContentDirectHoverChanged;
+            control.MouseEnter += OnEmbeddedContentDirectHoverChanged;
+            control.MouseLeave += OnEmbeddedContentDirectHoverChanged;
+        }
+
+        private void OnEmbeddedContentDirectHoverChanged(object sender, MouseEventArgs e)
+        {
+            SyncRowHighlightFromListViewItem(isRowHoverActive: false);
         }
 
         private void ApplyGameContext()
@@ -104,6 +126,61 @@ namespace Playlist
             catch
             {
             }
+        }
+
+        internal void ClearHighlightChrome()
+        {
+            PlaylistSortHeaderLayout.ClearListRowControlChrome(this);
+            if (Content is Control control)
+            {
+                PlaylistSortHeaderLayout.ClearListRowControlChrome(control);
+            }
+        }
+
+        internal void SyncRowHighlightFromListViewItem(bool isRowHoverActive)
+        {
+            if (!PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource))
+            {
+                ClearHighlightChrome();
+                return;
+            }
+
+            ListViewItem row = FindListViewItemAncestor(this);
+            bool isRowHighlightActive = GetRowHighlightActive(isRowHoverActive);
+            bool isDirectHover = IsMouseOver || (Content is UIElement content && content.IsMouseOver);
+            PlaylistSortHeaderLayout.ApplyListRowEmbeddedControlChrome(this, row, isRowHighlightActive, isDirectHover, TryFindResource);
+
+            if (Content is Control control)
+            {
+                PlaylistSortHeaderLayout.ClearListRowControlChrome(control);
+            }
+        }
+
+        private bool GetRowHighlightActive(bool isRowHoverActive)
+        {
+            ListViewItem row = FindListViewItemAncestor(this);
+            return row != null && (row.IsSelected || isRowHoverActive || row.IsMouseOver);
+        }
+
+        private void ClearHighlightChromeWhenNotManaged()
+        {
+            if (!PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource))
+            {
+                ClearHighlightChrome();
+            }
+        }
+
+        private static ListViewItem FindListViewItemAncestor(DependencyObject d)
+        {
+            for (var p = d; p != null; p = VisualTreeHelper.GetParent(p))
+            {
+                if (p is ListViewItem lvi)
+                {
+                    return lvi;
+                }
+            }
+
+            return null;
         }
     }
 }

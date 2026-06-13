@@ -21,6 +21,9 @@
         <Thickness x:Key="PlaylistIconColumnChromeMargin">0,1,0,1</Thickness>
         <sys:Double x:Key="PlaylistIconArtworkSize">38</sys:Double>
         <sys:Double x:Key="PlaylistIconColumnWidth">38</sys:Double>
+        <!-- Keep in sync with PlaylistGridViewLayout.cs -->
+        <sys:Double x:Key="HltbSegmentStripHeight">22</sys:Double>
+        <sys:Double x:Key="HltbCellBlockHeight">30</sys:Double>
 
         <Style x:Key="noGamesText" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
             <!-- Show instructions if no games in playlist -->
@@ -51,7 +54,7 @@
         </Style>
 
         <ControlTemplate x:Key="playlistListViewItemTemplate" TargetType="{x:Type ListViewItem}">
-            <!-- Row height must fit IconArtworkSize; some themes (e.g. Dune) cap rows at 32px. -->
+            <!-- Row height must fit IconArtworkSize; host ListViewItem chrome may cap effective row height. -->
             <Border
                 x:Name="RowBorder"
                 Padding="{TemplateBinding Padding}"
@@ -75,7 +78,7 @@
         </ControlTemplate>
 
         <Style x:Key="playlistListViewItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
-            <!-- Dune (and some themes) add horizontal inset on ListViewItem chrome; override fully. -->
+            <!-- Override host ListViewItem margin/padding so cells use full column width. -->
             <Setter Property="OverridesDefaultStyle" Value="True" />
             <Setter Property="Margin" Value="0" />
             <!-- Let each GridView cell use the full column width (needed for rank hit-testing + centering). -->
@@ -156,10 +159,12 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Style x:Key="playlistIconPlayButtonStyleThemed" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Content" Value="&#xec74;" />
             <Setter Property="FontSize" Value="18" />
             <Setter Property="Visibility" Value="Hidden" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontFamily" Value="{DynamicResource FontIcoFont}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsMouseOver}" Value="True">
                     <!-- Show button on ListViewItem row mouseover -->
@@ -186,7 +191,7 @@
                     <Setter Property="Visibility" Value="Visible" />
                 </DataTrigger>
 
-                <DataTrigger  Binding="{Binding IsInstalling}" Value="True">
+                <DataTrigger Binding="{Binding IsInstalling}" Value="True">
                     <!-- Show circular arrow for installing games -->
                     <Setter Property="FontSize" Value="19" />
                     <Setter Property="Content" Value="&#xec80;" />
@@ -205,6 +210,30 @@
                     </MultiDataTrigger.Setters>
                 </MultiDataTrigger>
             </Style.Triggers>
+        </Style>
+
+        <!-- Minimal template so managed row-highlight chrome is not overridden (see docs/row-highlight-chrome-investigation.md). -->
+        <Style x:Key="playlistIconPlayButtonStyleManaged" TargetType="Button" BasedOn="{StaticResource playlistIconPlayButtonStyleThemed}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="chrome"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                TextElement.FontSize="{TemplateBinding FontSize}"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="imageIcon" TargetType="Image">
@@ -228,14 +257,14 @@
                 </Grid.ColumnDefinitions>
                 <local:HowLongToBeatCachedProgressBar
                     Grid.Column="0"
-                    Height="30"
                     Margin="0,0,4,0"
                     MinWidth="60"
-                    HorizontalAlignment="Stretch" />
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" />
                 <local:HowLongToBeatPluginButtonHost
                     Grid.Column="1"
                     Width="44"
-                    Height="30"
+                    Height="{StaticResource HltbCellBlockHeight}"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
                     DataContext="{Binding}"
@@ -878,14 +907,13 @@
                                             Height="{StaticResource PlaylistIconArtworkSize}"
                                             Source="{Binding Icon, Mode=OneWay, Converter={StaticResource ImageStringToImageConverterCached}, FallbackValue={StaticResource DefaultGameIcon}}" />
                                         <Button
+                                            Style="{StaticResource playlistIconPlayButtonStyleThemed}"
                                             Canvas.Left="0"
                                             Canvas.Top="0"
                                             Width="{StaticResource PlaylistIconArtworkSize}"
                                             Height="{StaticResource PlaylistIconArtworkSize}"
-                                            Padding="0"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.StartGameCommand}"
-                                            CommandParameter="{Binding}"
-                                            TextBlock.FontFamily="{DynamicResource FontIcoFont}" />
+                                            CommandParameter="{Binding}" />
                                     </Canvas>
                                 </Grid>
                             </DataTemplate>

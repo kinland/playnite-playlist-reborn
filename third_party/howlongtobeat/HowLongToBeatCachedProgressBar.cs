@@ -16,17 +16,28 @@ namespace Playlist
     /// </summary>
     public class HowLongToBeatCachedProgressBar : Grid
     {
+        // Keep in sync with PlaylistGridViewLayout.HltbSegmentStripHeight (UiTests compile this file alone).
+        private const double SegmentStripHeight = 22;
+
+        private static readonly SolidColorBrush EmptyTrackFillNormal = CreateFrozenBrush(Color.FromArgb(70, 10, 20, 30));
+        private static readonly SolidColorBrush EmptyTrackFillOnDarkRow = CreateFrozenBrush(Color.FromArgb(200, 225, 228, 232));
+        private static readonly SolidColorBrush EmptyTrackBorderNormal = CreateFrozenBrush(Color.FromArgb(140, 80, 90, 100));
+        private static readonly SolidColorBrush EmptyTrackBorderOnDarkRow = CreateFrozenBrush(Color.FromArgb(220, 120, 128, 138));
+
         private readonly Grid barOverlay;
+        private readonly Border segmentStripHost;
         private readonly StackPanel segmentStrip;
         private readonly StackPanel topLabelStrip;
         private readonly StackPanel bottomLabelStrip;
         private readonly Border playtimeMarker;
         private readonly TextBlock emptyLabel;
+        private bool rowHoverActive;
 
         public HowLongToBeatCachedProgressBar()
         {
-            MinHeight = 30;
+            MinHeight = SegmentStripHeight;
             HorizontalAlignment = HorizontalAlignment.Stretch;
+            VerticalAlignment = VerticalAlignment.Center;
             ClipToBounds = true;
 
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -44,10 +55,22 @@ namespace Playlist
             segmentStrip = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
-                Height = 22,
-                Background = new SolidColorBrush(Color.FromArgb(70, 10, 20, 30)),
+                Height = SegmentStripHeight,
+                Background = Brushes.Transparent,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            segmentStripHost = new Border
+            {
+                Height = SegmentStripHeight,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                Background = EmptyTrackFillNormal,
+                BorderBrush = EmptyTrackBorderNormal,
+                BorderThickness = new Thickness(1),
+                SnapsToDevicePixels = true,
+                Child = segmentStrip,
             };
 
             playtimeMarker = new Border
@@ -69,7 +92,7 @@ namespace Playlist
                 ClipToBounds = true,
                 VerticalAlignment = VerticalAlignment.Center,
             };
-            barOverlay.Children.Add(segmentStrip);
+            barOverlay.Children.Add(segmentStripHost);
             barOverlay.Children.Add(playtimeMarker);
             Panel.SetZIndex(playtimeMarker, 2);
             Grid.SetRow(barOverlay, 1);
@@ -113,7 +136,7 @@ namespace Playlist
 
         private void OnLoadedRefresh(object sender, RoutedEventArgs e)
         {
-            ApplyThemeForeground(emptyLabel);
+            ApplyResourceForeground(emptyLabel);
             Refresh();
         }
 
@@ -184,9 +207,75 @@ namespace Playlist
             bottomLabelStrip.Children.Clear();
             topLabelStrip.Visibility = Visibility.Collapsed;
             bottomLabelStrip.Visibility = Visibility.Collapsed;
+            barOverlay.Visibility = Visibility.Visible;
             playtimeMarker.Visibility = Visibility.Collapsed;
             emptyLabel.Visibility = Visibility.Visible;
+            ApplyEmptyStateVisuals();
             ToolTip = null;
+        }
+
+        private void ResetSegmentStripHostForData()
+        {
+            segmentStripHost.Background = EmptyTrackFillNormal;
+            segmentStripHost.BorderBrush = EmptyTrackBorderNormal;
+        }
+
+        private void ApplyEmptyStateVisuals()
+        {
+            bool onDarkRow = IsEmptyStateOnDarkRowHighlight();
+            if (onDarkRow)
+            {
+                segmentStripHost.Background = EmptyTrackFillOnDarkRow;
+                segmentStripHost.BorderBrush = EmptyTrackBorderOnDarkRow;
+            }
+            else
+            {
+                segmentStripHost.Background = EmptyTrackFillNormal;
+                segmentStripHost.BorderBrush = EmptyTrackBorderNormal;
+            }
+
+            ApplyResourceForeground(emptyLabel);
+        }
+
+        /// <summary>
+        /// True when the row shows a dark mouseover fill (HoverBrush), not a light selection fill.
+        /// Mirrors <see cref="PlaylistSortHeaderLayout.ListRowEmbeddedChromeStyle.LightPanelDarkGlyph"/> without
+        /// referencing internal layout types (UiTests compile this file standalone).
+        /// </summary>
+        private bool IsEmptyStateOnDarkRowHighlight()
+        {
+            ListViewItem row = FindListViewItemAncestor(this);
+            if (row == null || row.IsSelected || !rowHoverActive)
+            {
+                return false;
+            }
+
+            object hoverObject = TryFindResource("HoverBrush") ?? ResourceProvider.GetResource("HoverBrush");
+            object glyphObject = TryFindResource("GlyphBrush") ?? ResourceProvider.GetResource("GlyphBrush");
+            if (!(hoverObject is SolidColorBrush hoverBrush)
+                || !(glyphObject is SolidColorBrush glyphBrush))
+            {
+                return false;
+            }
+
+            Color hoverColor = hoverBrush.Color;
+            Color glyphColor = glyphBrush.Color;
+            if (hoverColor.A < 16 || glyphColor.A < 16)
+            {
+                return false;
+            }
+
+            double hoverLuminance = (0.299 * hoverColor.R) + (0.587 * hoverColor.G) + (0.114 * hoverColor.B);
+            double glyphLuminance = (0.299 * glyphColor.R) + (0.587 * glyphColor.G) + (0.114 * glyphColor.B);
+            int hoverChroma = Math.Max(hoverColor.R, Math.Max(hoverColor.G, hoverColor.B))
+                - Math.Min(hoverColor.R, Math.Min(hoverColor.G, hoverColor.B));
+            int glyphChroma = Math.Max(glyphColor.R, Math.Max(glyphColor.G, glyphColor.B))
+                - Math.Min(glyphColor.R, Math.Min(glyphColor.G, glyphColor.B));
+
+            return hoverLuminance < 128
+                && glyphLuminance >= 128
+                && hoverChroma < 45
+                && glyphChroma < 45;
         }
 
         /// <summary>
@@ -212,6 +301,8 @@ namespace Playlist
         private void RenderSegments(IReadOnlyList<Segment> segments, long scaleMax, HltbRenderSettings settings)
         {
             emptyLabel.Visibility = Visibility.Collapsed;
+            barOverlay.Visibility = Visibility.Visible;
+            ResetSegmentStripHostForData();
             segmentStrip.Children.Clear();
             topLabelStrip.Children.Clear();
             bottomLabelStrip.Children.Clear();
@@ -346,14 +437,22 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Use theme foreground for the empty state only. Do not apply <c>BaseTextBlockStyle</c> (or other full
+        /// Use <c>TextBrush</c> (or inherited foreground) for the empty state only. Do not apply
+        /// <c>BaseTextBlockStyle</c> (or other full
         /// text styles) to list-cell content: those styles target different visual contexts and can produce wrong
         /// font metrics or interfere with GridView row rendering.
         /// </summary>
-        private void ApplyThemeForeground(TextBlock tb)
+        private void ApplyResourceForeground(TextBlock tb)
         {
             if (tb == null)
             {
+                return;
+            }
+
+            ListViewItem row = FindListViewItemAncestor(this);
+            if (row?.Foreground is Brush rowForeground)
+            {
+                tb.Foreground = rowForeground;
                 return;
             }
 
@@ -362,6 +461,23 @@ namespace Playlist
             {
                 tb.Foreground = b;
             }
+        }
+
+        internal void SyncRowForegroundFromListViewItem(bool isHoverActive)
+        {
+            rowHoverActive = isHoverActive;
+            ApplyResourceForeground(emptyLabel);
+            if (emptyLabel.Visibility == Visibility.Visible)
+            {
+                ApplyEmptyStateVisuals();
+            }
+        }
+
+        private static SolidColorBrush CreateFrozenBrush(Color color)
+        {
+            var brush = new SolidColorBrush(color);
+            brush.Freeze();
+            return brush;
         }
 
         /// <summary>

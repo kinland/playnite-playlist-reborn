@@ -4,7 +4,7 @@ namespace Playlist
 {
     /// <summary>
     /// Layout constants for the playlist GridView that are fixed by WPF or by our icon artwork size,
-    /// not by the active Playnite theme. XAML mirrors these in UserControl.Resources (StaticResource);
+    /// not from host brush resources. XAML mirrors these in UserControl.Resources (StaticResource);
     /// x:Static cannot reference this internal type.
     /// </summary>
     internal static class PlaylistGridViewLayout
@@ -35,5 +35,11 @@ namespace Playlist
 
         /// <summary>Icon column header + cell: vertical inset only (no horizontal grid margin).</summary>
         internal static readonly Thickness IconColumnChromeMargin = new Thickness(0, HeaderChromeInset, 0, HeaderChromeInset);
+
+        /// <summary>HLTB colored segment strip height (matches HowLongToBeatCachedProgressBar segmentStrip).</summary>
+        internal const double HltbSegmentStripHeight = 22;
+
+        /// <summary>Shared row-block height for HLTB bar + plugin button vertical alignment.</summary>
+        internal const double HltbCellBlockHeight = 30;
     }
 }

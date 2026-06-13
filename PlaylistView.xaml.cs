@@ -33,11 +33,16 @@ namespace Playlist
         private const string HowLongToBeatColumnKey = "HowLongToBeat";
 
         private readonly HashSet<GridViewColumnHeader> sortHeaderMouseHooked = new HashSet<GridViewColumnHeader>();
+        private ListViewItem hoveredRowHighlightItem;
+        private ScrollViewer rowHighlightScrollViewer;
+        private Style playButtonThemedStyle;
+        private Style playButtonManagedStyle;
+        private readonly Dictionary<Button, ListViewItem> playButtonRowContext = new Dictionary<Button, ListViewItem>();
         private readonly PlaylistColumnReorderDropIndicator columnReorderDropIndicator;
 
         /// <summary>
         /// Left margin applied to each row's <see cref="PlaylistGridViewRowPresenter"/> so body cells
-        /// align with column headers when the theme offsets the header row (RC3; Dune: 1px).
+        /// align with column headers when the host applies extra header-row inset.
         /// </summary>
         public static readonly DependencyProperty GridViewRowPresenterMarginProperty =
             DependencyProperty.Register(
@@ -114,6 +119,304 @@ namespace Playlist
             }
 
             sortHeaderMouseHooked.Clear();
+        }
+
+        private void SubscribeRowHighlightHooks()
+        {
+            if (playlistListView == null)
+            {
+                return;
+            }
+
+            playlistListView.PreviewMouseMove += OnPlaylistListViewPreviewMouseMove;
+            playlistListView.MouseLeave += OnPlaylistListViewMouseLeave;
+            playlistListView.SelectionChanged += OnPlaylistListViewSelectionChanged;
+            playlistListView.ItemContainerGenerator.StatusChanged += OnRowItemContainerGeneratorStatusChanged;
+
+            rowHighlightScrollViewer = FindVisualChild<ScrollViewer>(playlistListView);
+            if (rowHighlightScrollViewer != null)
+            {
+                rowHighlightScrollViewer.ScrollChanged += OnPlaylistListViewScrollChanged;
+            }
+
+            UpdateHoveredRowHighlight(forceRefresh: true);
+            RefreshAllGeneratedRowHighlights();
+        }
+
+        private void UnsubscribeRowHighlightHooks()
+        {
+            if (playlistListView == null)
+            {
+                return;
+            }
+
+            playlistListView.PreviewMouseMove -= OnPlaylistListViewPreviewMouseMove;
+            playlistListView.MouseLeave -= OnPlaylistListViewMouseLeave;
+            playlistListView.SelectionChanged -= OnPlaylistListViewSelectionChanged;
+            playlistListView.ItemContainerGenerator.StatusChanged -= OnRowItemContainerGeneratorStatusChanged;
+
+            if (rowHighlightScrollViewer != null)
+            {
+                rowHighlightScrollViewer.ScrollChanged -= OnPlaylistListViewScrollChanged;
+                rowHighlightScrollViewer = null;
+            }
+
+            hoveredRowHighlightItem = null;
+        }
+
+        private void OnPlaylistListViewPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            UpdateHoveredRowHighlight(forceRefresh: false, e);
+        }
+
+        private void OnRowItemContainerGeneratorStatusChanged(object sender, EventArgs e)
+        {
+            RefreshAllGeneratedRowHighlights();
+        }
+
+        private void RefreshAllGeneratedRowHighlights()
+        {
+            if (playlistListView?.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
+            {
+                return;
+            }
+
+            bool usesInvertedChrome = PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource);
+            foreach (object item in playlistListView.Items)
+            {
+                if (playlistListView.ItemContainerGenerator.ContainerFromItem(item) is not ListViewItem listViewItem)
+                {
+                    continue;
+                }
+
+                bool isHoverActive = ReferenceEquals(listViewItem, hoveredRowHighlightItem);
+                if (usesInvertedChrome && (listViewItem.IsSelected || isHoverActive))
+                {
+                    ApplyRowHighlightForeground(listViewItem);
+                }
+                else
+                {
+                    ClearRowHighlightVisuals(listViewItem);
+                }
+            }
+        }
+
+        private void OnPlaylistListViewMouseLeave(object sender, MouseEventArgs e)
+        {
+            ListViewItem previous = hoveredRowHighlightItem;
+            hoveredRowHighlightItem = null;
+            if (previous != null)
+            {
+                ApplyRowHighlightForeground(previous);
+            }
+        }
+
+        private void OnPlaylistListViewScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.VerticalChange != 0 || e.ViewportHeightChange != 0)
+            {
+                UpdateHoveredRowHighlight(forceRefresh: true);
+            }
+        }
+
+        private void OnPlaylistListViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (object item in e.RemovedItems)
+            {
+                ApplyRowHighlightToDataItem(item);
+            }
+
+            foreach (object item in e.AddedItems)
+            {
+                ApplyRowHighlightToDataItem(item);
+            }
+
+            UpdateHoveredRowHighlight(forceRefresh: true);
+        }
+
+        private void ApplyRowHighlightToDataItem(object item)
+        {
+            if (playlistListView?.ItemContainerGenerator.ContainerFromItem(item) is ListViewItem listViewItem)
+            {
+                ApplyRowHighlightForeground(listViewItem);
+            }
+        }
+
+        private void UpdateHoveredRowHighlight(bool forceRefresh, MouseEventArgs e = null)
+        {
+            ListViewItem current = GetListViewItemUnderMouse(e);
+            if (!forceRefresh && ReferenceEquals(current, hoveredRowHighlightItem))
+            {
+                return;
+            }
+
+            ListViewItem previous = hoveredRowHighlightItem;
+            hoveredRowHighlightItem = current;
+
+            if (previous != null && !ReferenceEquals(previous, current))
+            {
+                ApplyRowHighlightForeground(previous);
+            }
+
+            if (current != null)
+            {
+                ApplyRowHighlightForeground(current);
+            }
+        }
+
+        private ListViewItem GetListViewItemUnderMouse(MouseEventArgs e = null)
+        {
+            if (playlistListView == null)
+            {
+                return null;
+            }
+
+            Point position = e != null
+                ? e.GetPosition(playlistListView)
+                : Mouse.GetPosition(playlistListView);
+            if (position.X < 0 || position.Y < 0
+                || position.X > playlistListView.ActualWidth
+                || position.Y > playlistListView.ActualHeight)
+            {
+                return null;
+            }
+
+            HitTestResult hit = VisualTreeHelper.HitTest(playlistListView, position);
+            for (DependencyObject node = hit?.VisualHit; node != null; node = VisualTreeHelper.GetParent(node))
+            {
+                if (node is ListViewItem listViewItem)
+                {
+                    return listViewItem;
+                }
+            }
+
+            return null;
+        }
+
+        private void ApplyRowHighlightForeground(ListViewItem item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+
+            bool isHoverActive = ReferenceEquals(item, hoveredRowHighlightItem);
+            PlaylistSortHeaderLayout.ApplyListRowHighlightForeground(item, TryFindResource, isHoverActive);
+            SyncRowHighlightVisuals(item, isHoverActive);
+        }
+
+        private void ClearRowHighlightVisuals(ListViewItem item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+
+            item.ClearValue(Control.ForegroundProperty);
+
+            foreach (HowLongToBeatPluginButtonHost host in FindVisualChildren<HowLongToBeatPluginButtonHost>(item))
+            {
+                host.ClearHighlightChrome();
+            }
+
+            foreach (HowLongToBeatCachedProgressBar bar in FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
+            {
+                bar.SyncRowForegroundFromListViewItem(isHoverActive: false);
+            }
+
+            foreach (Button button in FindVisualChildren<Button>(item))
+            {
+                SyncPlayButtonStyle(button, item, isHoverActive: false);
+            }
+        }
+
+        private void SyncRowHighlightVisuals(ListViewItem item, bool isHoverActive)
+        {
+            foreach (HowLongToBeatPluginButtonHost host in FindVisualChildren<HowLongToBeatPluginButtonHost>(item))
+            {
+                host.SyncRowHighlightFromListViewItem(isHoverActive);
+            }
+
+            foreach (HowLongToBeatCachedProgressBar bar in FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
+            {
+                bar.SyncRowForegroundFromListViewItem(isHoverActive);
+            }
+
+            foreach (Button button in FindVisualChildren<Button>(item))
+            {
+                SyncPlayButtonStyle(button, item, isHoverActive);
+            }
+        }
+
+        private void EnsurePlayButtonStyles()
+        {
+            if (playButtonThemedStyle == null)
+            {
+                playButtonThemedStyle = FindResource("playlistIconPlayButtonStyleThemed") as Style;
+                playButtonManagedStyle = FindResource("playlistIconPlayButtonStyleManaged") as Style;
+            }
+        }
+
+        private void SyncPlayButtonStyle(Button button, ListViewItem item, bool isHoverActive)
+        {
+            EnsurePlayButtonStyles();
+            if (PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource))
+            {
+                if (playButtonManagedStyle != null && !ReferenceEquals(button.Style, playButtonManagedStyle))
+                {
+                    button.Style = playButtonManagedStyle;
+                }
+
+                EnsurePlayButtonDirectHoverHook(button, item);
+                ApplyManagedPlayButtonChrome(button, item);
+                return;
+            }
+
+            ReleasePlayButtonDirectHoverHook(button);
+            if (playButtonThemedStyle != null)
+            {
+                button.Style = playButtonThemedStyle;
+            }
+
+            PlaylistSortHeaderLayout.ClearListRowControlChrome(button);
+        }
+
+        private void EnsurePlayButtonDirectHoverHook(Button button, ListViewItem item)
+        {
+            playButtonRowContext[button] = item;
+            button.MouseEnter -= OnPlayButtonDirectHoverChanged;
+            button.MouseLeave -= OnPlayButtonDirectHoverChanged;
+            button.MouseEnter += OnPlayButtonDirectHoverChanged;
+            button.MouseLeave += OnPlayButtonDirectHoverChanged;
+        }
+
+        private void ReleasePlayButtonDirectHoverHook(Button button)
+        {
+            button.MouseEnter -= OnPlayButtonDirectHoverChanged;
+            button.MouseLeave -= OnPlayButtonDirectHoverChanged;
+            playButtonRowContext.Remove(button);
+        }
+
+        private void OnPlayButtonDirectHoverChanged(object sender, MouseEventArgs e)
+        {
+            if (!(sender is Button button) || !playButtonRowContext.TryGetValue(button, out ListViewItem item))
+            {
+                return;
+            }
+
+            ApplyManagedPlayButtonChrome(button, item);
+        }
+
+        private void ApplyManagedPlayButtonChrome(Button button, ListViewItem item)
+        {
+            bool isRowHighlightActive = item.IsSelected || ReferenceEquals(item, hoveredRowHighlightItem);
+            bool isDirectHover = button.IsMouseOver;
+            PlaylistSortHeaderLayout.ApplyListRowPlayButtonChrome(
+                button,
+                item,
+                isRowHighlightActive,
+                isDirectHover,
+                TryFindResource);
         }
 
         private void OnSortHeaderIsMouseOverChanged(object sender, EventArgs e)
@@ -288,6 +591,7 @@ namespace Playlist
             UpdateLastPlayedTimerState();
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
             ScheduleGridViewHeaderBodyOffsetSync();
+            SubscribeRowHighlightHooks();
         }
 
         private void ScheduleGridViewHeaderBodyOffsetSync()
@@ -302,7 +606,7 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Measure header vs body horizontal offset (RC3) and apply as row-presenter left margin.
+        /// Measure header vs body horizontal offset and apply as row-presenter left margin.
         /// </summary>
         /// <returns>True when the row-presenter margin was changed.</returns>
         private bool SyncGridViewHeaderBodyOffset()
@@ -328,7 +632,7 @@ namespace Playlist
         }
 
         /// <summary>
-        /// How far column headers are right of body cells (positive = headers right). ~1 on Dune, ~0 on DefaultExtend.
+        /// How far column headers are right of body cells (positive = headers right). Measured at runtime.
         /// </summary>
         private bool TryMeasureHeaderBodyOffset(out double offset)
         {
@@ -384,6 +688,7 @@ namespace Playlist
         private void OnPlaylistViewUnloaded(object sender, RoutedEventArgs e)
         {
             DetachSortHeaderMouseHooks();
+            UnsubscribeRowHighlightHooks();
             UnsubscribeGridColumnCollectionChanged();
             columnReorderDropIndicator?.Detach();
             PersistLayoutState();
@@ -1594,7 +1899,7 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Icon column is not sortable but uses the same header chrome as other columns (Dune/default themes).
+        /// Icon column is not sortable but uses the same header chrome as other columns.
         /// </summary>
         private void ApplyIconHeaderVisualState(
             GridViewColumnHeader header,
@@ -1766,6 +2071,16 @@ namespace Playlist
         }
 
         private static T FindFirstVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            foreach (T child in FindVisualChildren<T>(parent))
+            {
+                return child;
+            }
+
+            return null;
+        }
+
+        private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {
             foreach (T child in FindVisualChildren<T>(parent))
             {
