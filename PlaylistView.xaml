@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:local="clr-namespace:Playlist"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="600">
 
@@ -13,6 +14,13 @@
         <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
         <local:LastActivityValueConverter x:Key="lastActivityValueConverter" />
         <local:PlaytimeValueConverter x:Key="playtimeValueConverter" />
+
+        <!-- Keep in sync with PlaylistGridViewLayout.cs (x:Static cannot reference internal types). -->
+        <Thickness x:Key="PlaylistHeaderChromeMargin">1</Thickness>
+        <!-- Icon column: 38px slot (artwork width). Horizontal header/body offset applied on row presenter. -->
+        <Thickness x:Key="PlaylistIconColumnChromeMargin">0,1,0,1</Thickness>
+        <sys:Double x:Key="PlaylistIconArtworkSize">38</sys:Double>
+        <sys:Double x:Key="PlaylistIconColumnWidth">38</sys:Double>
 
         <Style x:Key="noGamesText" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
             <!-- Show instructions if no games in playlist -->
@@ -42,9 +50,40 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+        <ControlTemplate x:Key="playlistListViewItemTemplate" TargetType="{x:Type ListViewItem}">
+            <!-- Row height must fit IconArtworkSize; some themes (e.g. Dune) cap rows at 32px. -->
+            <Border
+                x:Name="RowBorder"
+                Padding="{TemplateBinding Padding}"
+                Background="Transparent"
+                MinHeight="{StaticResource PlaylistIconArtworkSize}"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                <local:PlaylistGridViewRowPresenter
+                    Margin="{Binding GridViewRowPresenterMargin, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                    VerticalAlignment="Stretch" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource HoverBrush}" />
+                </Trigger>
+                <Trigger Property="Selector.IsSelected" Value="True">
+                    <Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource GlyphBrush}" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="playlistListViewItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+            <!-- Dune (and some themes) add horizontal inset on ListViewItem chrome; override fully. -->
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Margin" Value="0" />
             <!-- Let each GridView cell use the full column width (needed for rank hit-testing + centering). -->
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="MinHeight" Value="{StaticResource PlaylistIconArtworkSize}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template" Value="{StaticResource playlistListViewItemTemplate}" />
             <EventSetter Event="MouseDoubleClick" Handler="OnItemDoubleClick"/>
 
             <Setter Property="ContextMenu">
@@ -179,7 +218,10 @@
         </Style>
 
         <DataTemplate x:Key="howLongToBeatColumn" DataType="GridViewColumn.CellTemplate">
-            <Grid HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid
+                    Height="{StaticResource HltbCellBlockHeight}"
+                    VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="48" />
@@ -198,6 +240,7 @@
                     HorizontalAlignment="Right"
                     DataContext="{Binding}"
                     IsDragReorderSuspended="{Binding DataContext.IsPlaylistDragReorderActive, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                </Grid>
             </Grid>
         </DataTemplate>
 
@@ -265,9 +308,11 @@
         <ListView
             x:Name="playlistListView"
             ItemsSource="{Binding PlaylistGamesView}"
+            ItemContainerStyle="{StaticResource playlistListViewItemStyle}"
             DockPanel.Dock="Top"
             Margin="0,10,0,0"
             BorderThickness="0"
+            HorizontalContentAlignment="Stretch"
             ScrollViewer.CanContentScroll="True"
             VirtualizingPanel.IsVirtualizing="True"
             VirtualizingPanel.VirtualizationMode="Recycling"
@@ -281,7 +326,8 @@
 
             <ListView.Resources>
                 <Style TargetType="GridViewRowPresenter">
-                    <Setter Property="HorizontalAlignment" Value="Left" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="Margin" Value="0" />
                 </Style>
 
                 <Style TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -298,7 +344,7 @@
 
                 <!-- HoverBg = border chrome; hover + active-sort fills are applied in RefreshSortHeaderVisualState. -->
                 <ControlTemplate x:Key="playlistSortableColumnHeaderTemplate" TargetType="{x:Type GridViewColumnHeader}">
-                    <Grid Margin="1">
+                    <Grid Margin="{StaticResource PlaylistHeaderChromeMargin}">
                         <Border
                             x:Name="HoverBg"
                             BorderThickness="1"
@@ -343,7 +389,7 @@
                 </ControlTemplate>
 
                 <ControlTemplate x:Key="playlistNonsortableColumnHeaderTemplate" TargetType="{x:Type GridViewColumnHeader}">
-                    <Grid Margin="1">
+                    <Grid Margin="{StaticResource PlaylistHeaderChromeMargin}">
                         <Border
                             x:Name="HoverBg"
                             BorderThickness="1"
@@ -387,10 +433,13 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
 
-                <ControlTemplate x:Key="playlistFixedColumnHeaderTemplate" TargetType="{x:Type GridViewColumnHeader}">
-                    <Grid Margin="1">
+                <!-- Icon column header: no left inset so row icons align with the rank/icon column divider. -->
+                <ControlTemplate x:Key="playlistIconColumnHeaderTemplate" TargetType="{x:Type GridViewColumnHeader}">
+                    <Grid Margin="{StaticResource PlaylistIconColumnChromeMargin}">
                         <Border
                             x:Name="HoverBg"
+                            HorizontalAlignment="Left"
+                            Width="{StaticResource PlaylistIconArtworkSize}"
                             BorderThickness="1"
                             Height="28"
                             CornerRadius="{DynamicResource ControlCornerRadius}"
@@ -404,7 +453,16 @@
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
                         </TextBlock>
+                        <Thumb x:Name="PART_HeaderGripper" Visibility="Collapsed" IsHitTestVisible="False" Width="0" Height="0" />
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource DarkControlBorderBrush}" TargetName="HoverBg" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="BorderBrush" Value="{DynamicResource ControlBorderBrush}" TargetName="HoverBg" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
 
                 <Style x:Key="sortableHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
@@ -452,11 +510,12 @@
                     <Setter Property="Template" Value="{StaticResource playlistNonsortableColumnHeaderTemplate}" />
                 </Style>
 
-                <Style x:Key="iconHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                <Style x:Key="iconHeaderContainerStyle" TargetType="GridViewColumnHeader">
                     <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                    <Setter Property="Template" Value="{StaticResource playlistFixedColumnHeaderTemplate}" />
+                    <Setter Property="Template" Value="{StaticResource playlistIconColumnHeaderTemplate}" />
                 </Style>
 
                 <DataTemplate x:Key="rankHeaderTemplate">
@@ -761,15 +820,16 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid
-                                    Margin="0"
                                     HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
                                     Background="Transparent"
                                     Tag="PlaylistRankCell"
                                     MouseLeftButtonDown="OnRankCellMouseLeftButtonDown">
                                     <TextBlock
                                         Cursor="Hand"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center">
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Margin="0,0,2,0">
                                         <TextBlock.Text>
                                             <MultiBinding Converter="{StaticResource gamePlaylistRankConverter}">
                                                 <Binding />
@@ -780,8 +840,9 @@
                                     </TextBlock>
                                     <TextBox
                                         Width="34"
-                                        HorizontalAlignment="Center"
+                                        HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
+                                        Margin="0,0,2,0"
                                         Visibility="Collapsed"
                                         TextAlignment="Center"
                                         MouseDoubleClick="OnRankTextBoxMouseDoubleClick"
@@ -794,21 +855,39 @@
                     <GridViewColumn
                         x:Name="iconGridViewColumn"
                         Header=""
-                        Width="55"
+                        Width="{StaticResource PlaylistIconColumnWidth}"
                         HeaderContainerStyle="{StaticResource iconHeaderContainerStyle}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Canvas Height="38" Margin="1">
-                                    <Image Style="{StaticResource imageIcon}" Stretch="Uniform" 
-                                        RenderOptions.BitmapScalingMode="Fant"
-                                        Height="38" Width="38" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                        Source="{Binding Icon, Mode=OneWay, Converter={StaticResource ImageStringToImageConverterCached}, FallbackValue={StaticResource DefaultGameIcon}}" />
-                                    <Button
-                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.StartGameCommand}"
-                                        CommandParameter="{Binding}"
-                                        Width="38" Height="38" Padding="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.FontFamily="{DynamicResource FontIcoFont}">
-                                    </Button>
-                                </Canvas>
+                                <Grid
+                                    Margin="{StaticResource PlaylistIconColumnChromeMargin}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                                    <Canvas
+                                            Width="{StaticResource PlaylistIconArtworkSize}"
+                                            Height="{StaticResource PlaylistIconArtworkSize}"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center">
+                                        <Image
+                                            Style="{StaticResource imageIcon}"
+                                            Canvas.Left="0"
+                                            Canvas.Top="0"
+                                            Stretch="Uniform"
+                                            RenderOptions.BitmapScalingMode="Fant"
+                                            Width="{StaticResource PlaylistIconArtworkSize}"
+                                            Height="{StaticResource PlaylistIconArtworkSize}"
+                                            Source="{Binding Icon, Mode=OneWay, Converter={StaticResource ImageStringToImageConverterCached}, FallbackValue={StaticResource DefaultGameIcon}}" />
+                                        <Button
+                                            Canvas.Left="0"
+                                            Canvas.Top="0"
+                                            Width="{StaticResource PlaylistIconArtworkSize}"
+                                            Height="{StaticResource PlaylistIconArtworkSize}"
+                                            Padding="0"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.StartGameCommand}"
+                                            CommandParameter="{Binding}"
+                                            TextBlock.FontFamily="{DynamicResource FontIcoFont}" />
+                                    </Canvas>
+                                </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -816,32 +895,76 @@
                         x:Name="nameGridViewColumn"
                         HeaderTemplate="{StaticResource nameHeaderTemplate}"
                         HeaderContainerStyle="{StaticResource nameHeaderContainerStyle}"
-                        Width="500"
-                        DisplayMemberBinding="{Binding Name}" />
+                        Width="500">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn
                         x:Name="playtimeGridViewColumn"
                         Width="168"
                         HeaderTemplate="{StaticResource playtimeHeaderTemplate}"
-                        HeaderContainerStyle="{StaticResource playtimeHeaderContainerStyle}"
-                        DisplayMemberBinding="{Binding Playtime, Converter={StaticResource playtimeValueConverter}}"/>
+                        HeaderContainerStyle="{StaticResource playtimeHeaderContainerStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        TextTrimming="CharacterEllipsis"
+                                        Text="{Binding Playtime, Converter={StaticResource playtimeValueConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn
                         x:Name="completionStatusGridViewColumn"
                         Width="174"
                         HeaderTemplate="{StaticResource completionHeaderTemplate}"
-                        HeaderContainerStyle="{StaticResource completionHeaderContainerStyle}"
-                        DisplayMemberBinding="{Binding CompletionStatus}" />
+                        HeaderContainerStyle="{StaticResource completionHeaderContainerStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding CompletionStatus}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn
                         x:Name="lastPlayedGridViewColumn"
                         Width="196"
                         HeaderTemplate="{StaticResource lastPlayedHeaderTemplate}"
-                        HeaderContainerStyle="{StaticResource lastPlayedHeaderContainerStyle}"
-                        DisplayMemberBinding="{Binding LastActivity, Converter={StaticResource lastPlayedValueConverter}}" />
+                        HeaderContainerStyle="{StaticResource lastPlayedHeaderContainerStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        TextTrimming="CharacterEllipsis"
+                                        Text="{Binding LastActivity, Converter={StaticResource lastPlayedValueConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn
                         x:Name="lastActivityGridViewColumn"
                         Width="196"
                         HeaderTemplate="{StaticResource lastActivityHeaderTemplate}"
-                        HeaderContainerStyle="{StaticResource lastActivityHeaderContainerStyle}"
-                        DisplayMemberBinding="{Binding Modified, Converter={StaticResource lastActivityValueConverter}}" />
+                        HeaderContainerStyle="{StaticResource lastActivityHeaderContainerStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        TextTrimming="CharacterEllipsis"
+                                        Text="{Binding Modified, Converter={StaticResource lastActivityValueConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn
                         x:Name="howLongToBeatGridViewColumn"
                         Width="400"

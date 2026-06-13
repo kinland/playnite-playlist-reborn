@@ -35,6 +35,23 @@ namespace Playlist
         private readonly HashSet<GridViewColumnHeader> sortHeaderMouseHooked = new HashSet<GridViewColumnHeader>();
         private readonly PlaylistColumnReorderDropIndicator columnReorderDropIndicator;
 
+        /// <summary>
+        /// Left margin applied to each row's <see cref="PlaylistGridViewRowPresenter"/> so body cells
+        /// align with column headers when the theme offsets the header row (RC3; Dune: 1px).
+        /// </summary>
+        public static readonly DependencyProperty GridViewRowPresenterMarginProperty =
+            DependencyProperty.Register(
+                nameof(GridViewRowPresenterMargin),
+                typeof(Thickness),
+                typeof(PlaylistView),
+                new PropertyMetadata(new Thickness(0)));
+
+        public Thickness GridViewRowPresenterMargin
+        {
+            get => (Thickness)GetValue(GridViewRowPresenterMarginProperty);
+            set => SetValue(GridViewRowPresenterMarginProperty, value);
+        }
+
         public PlaylistView()
         {
             InitializeComponent();
@@ -217,12 +234,14 @@ namespace Playlist
         private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateHowLongToBeatColumnFillWidth();
+            SyncGridViewHeaderBodyOffset();
             RefreshSortHeaderVisualState();
         }
 
         private void OnPlaylistListViewColumnThumbDragCompleted(object sender, DragCompletedEventArgs e)
         {
             TryHideColumnsCollapsedToZeroWidth();
+            EnforceMinimumIconColumnWidth();
             UpdateHowLongToBeatColumnFillWidth();
             RefreshSortHeaderVisualState();
             PersistLayoutState();
@@ -230,6 +249,7 @@ namespace Playlist
 
         private void OnPlaylistListViewColumnThumbDragDelta(object sender, DragDeltaEventArgs e)
         {
+            EnforceMinimumIconColumnWidth();
             RefreshSortHeaderVisualState();
         }
 
@@ -267,6 +287,98 @@ namespace Playlist
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+            ScheduleGridViewHeaderBodyOffsetSync();
+        }
+
+        private void ScheduleGridViewHeaderBodyOffsetSync()
+        {
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                if (SyncGridViewHeaderBodyOffset())
+                {
+                    Dispatcher.BeginInvoke((Action)(() => SyncGridViewHeaderBodyOffset()), DispatcherPriority.ApplicationIdle);
+                }
+            }), DispatcherPriority.ApplicationIdle);
+        }
+
+        /// <summary>
+        /// Measure header vs body horizontal offset (RC3) and apply as row-presenter left margin.
+        /// </summary>
+        /// <returns>True when the row-presenter margin was changed.</returns>
+        private bool SyncGridViewHeaderBodyOffset()
+        {
+            if (playlistListView == null || rankGridViewColumn == null)
+            {
+                return false;
+            }
+
+            if (!TryMeasureHeaderBodyOffset(out double offset))
+            {
+                return false;
+            }
+
+            Thickness target = new Thickness(Math.Max(0, offset), 0, 0, 0);
+            if (GridViewRowPresenterMargin == target)
+            {
+                return false;
+            }
+
+            GridViewRowPresenterMargin = target;
+            return true;
+        }
+
+        /// <summary>
+        /// How far column headers are right of body cells (positive = headers right). ~1 on Dune, ~0 on DefaultExtend.
+        /// </summary>
+        private bool TryMeasureHeaderBodyOffset(out double offset)
+        {
+            offset = 0;
+            if (playlistListView == null || rankGridViewColumn == null)
+            {
+                return false;
+            }
+
+            GridViewColumnHeader rankHeader = null;
+            foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
+            {
+                if (header.Column == rankGridViewColumn && header.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    rankHeader = header;
+                    break;
+                }
+            }
+
+            if (rankHeader == null
+                || playlistListView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated
+                || !(playlistListView.View is GridView gridView))
+            {
+                return false;
+            }
+
+            ListViewItem firstItem = FindFirstVisualChild<ListViewItem>(playlistListView);
+            if (firstItem == null)
+            {
+                return false;
+            }
+
+            int columnIndex = gridView.Columns.IndexOf(rankGridViewColumn);
+            GridViewRowPresenter rowPresenter = FindFirstVisualChild<GridViewRowPresenter>(firstItem);
+            if (columnIndex < 0
+                || rowPresenter == null
+                || columnIndex >= VisualTreeHelper.GetChildrenCount(rowPresenter))
+            {
+                return false;
+            }
+
+            if (!(VisualTreeHelper.GetChild(rowPresenter, columnIndex) is ContentPresenter rankCell))
+            {
+                return false;
+            }
+
+            double headerLeft = rankHeader.TransformToAncestor(playlistListView).Transform(new Point(0, 0)).X;
+            double cellLeft = rankCell.TransformToAncestor(playlistListView).Transform(new Point(0, 0)).X;
+            offset = headerLeft - cellLeft;
+            return true;
         }
 
         private void OnPlaylistViewUnloaded(object sender, RoutedEventArgs e)
@@ -354,7 +466,29 @@ namespace Playlist
             SetColumnVisible(gridView, lastActivityGridViewColumn, settings?.ShowLastActivityColumn ?? false);
             SetColumnVisible(gridView, howLongToBeatGridViewColumn, showHowLongToBeatColumn);
 
+            EnforceMinimumIconColumnWidth();
             UpdateHowLongToBeatColumnFillWidth();
+        }
+
+        /// <summary>
+        /// Icon column width is fixed (not user-resizable meaningfully); snap to target so persisted
+        /// 39/40px values from earlier layout iterations do not leave a 1px left gap.
+        /// </summary>
+        private void EnforceMinimumIconColumnWidth()
+        {
+            if (iconGridViewColumn == null)
+            {
+                return;
+            }
+
+            double targetWidth = PlaylistGridViewLayout.IconColumnWidth;
+            double width = iconGridViewColumn.Width;
+            if (!double.IsNaN(width) && Math.Abs(width - targetWidth) < 0.1)
+            {
+                return;
+            }
+
+            iconGridViewColumn.Width = targetWidth;
         }
 
         private void SetColumnVisible(GridView gridView, GridViewColumn column, bool shouldShow)
@@ -602,6 +736,8 @@ namespace Playlist
             {
                 case RankColumnKey:
                     return 56;
+                case IconColumnKey:
+                    return PlaylistGridViewLayout.IconColumnWidth;
                 case PlaytimeColumnKey:
                     return 168;
                 case CompletionStatusColumnKey:
@@ -638,6 +774,11 @@ namespace Playlist
 
             double restoredWidth = TryGetPersistedColumnWidth(settings, columnKey)
                 ?? GetDefaultColumnWidth(columnKey);
+            if (columnKey == IconColumnKey)
+            {
+                restoredWidth = PlaylistGridViewLayout.IconColumnWidth;
+            }
+
             if (double.IsNaN(restoredWidth) || restoredWidth <= CollapsedColumnWidthThreshold)
             {
                 return;
@@ -648,6 +789,11 @@ namespace Playlist
 
         private static double GetWidthForLayoutPersistence(PlaylistSettings settings, string columnKey, double currentWidth)
         {
+            if (columnKey == IconColumnKey)
+            {
+                return PlaylistGridViewLayout.IconColumnWidth;
+            }
+
             if (!double.IsNaN(currentWidth) && currentWidth > CollapsedColumnWidthThreshold)
             {
                 return currentWidth;
@@ -1149,6 +1295,8 @@ namespace Playlist
                 return;
             }
 
+            EnforceMinimumIconColumnWidth();
+
             if (!(DataContext is PlaylistViewModel model) || !(Playlist.StaticSettings is PlaylistSettings settings))
             {
                 return;
@@ -1193,6 +1341,7 @@ namespace Playlist
 
         private void OnGridColumnsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            EnforceMinimumIconColumnWidth();
             PersistLayoutState();
         }
 
@@ -1252,11 +1401,18 @@ namespace Playlist
 
                         if (!double.IsNaN(layout.Width) && layout.Width > 0)
                         {
-                            column.Width = layout.Width;
+                            column.Width = layout.Key == IconColumnKey
+                                ? PlaylistGridViewLayout.IconColumnWidth
+                                : layout.Width;
                         }
                     }
 
+                    EnforceMinimumIconColumnWidth();
                     UpdateHowLongToBeatColumnFillWidth();
+                }
+                else
+                {
+                    EnforceMinimumIconColumnWidth();
                 }
 
                 if (!string.IsNullOrWhiteSpace(settings.ActiveSortColumnKey))
@@ -1270,6 +1426,7 @@ namespace Playlist
             }
 
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+            ScheduleGridViewHeaderBodyOffsetSync();
         }
 
         private bool? cachedUseDarkeningOverlay;
@@ -1349,6 +1506,19 @@ namespace Playlist
                     continue;
                 }
 
+                if (header.Column == iconGridViewColumn)
+                {
+                    foundHeader = true;
+                    ApplyIconHeaderVisualState(
+                        header,
+                        sampleHeader,
+                        activeBackgroundBrush,
+                        activeBorderBrush,
+                        activeForegroundBrush,
+                        useDarkeningOverlay);
+                    continue;
+                }
+
                 if (!IsSortableColumn(header.Column))
                 {
                     continue;
@@ -1420,6 +1590,78 @@ namespace Playlist
             if (!foundHeader)
             {
                 Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+            }
+        }
+
+        /// <summary>
+        /// Icon column is not sortable but uses the same header chrome as other columns (Dune/default themes).
+        /// </summary>
+        private void ApplyIconHeaderVisualState(
+            GridViewColumnHeader header,
+            GridViewColumnHeader sampleHeader,
+            SolidColorBrush activeBackgroundBrush,
+            SolidColorBrush activeBorderBrush,
+            SolidColorBrush activeForegroundBrush,
+            bool useDarkeningOverlay)
+        {
+            if (header == null)
+            {
+                return;
+            }
+
+            if (header.Tag == null && sampleHeader?.Tag != null)
+            {
+                header.Tag = sampleHeader.Tag;
+            }
+
+            EnsureSortHeaderMouseHook(header);
+
+            HideColumnResizeGripper(header);
+
+            Border highlightBorder = PlaylistSortHeaderLayout.FindHeaderHighlightBorder(header);
+            if (header.IsMouseOver)
+            {
+                PlaylistSortHeaderLayout.ApplyActiveSortHighlight(
+                    highlightBorder,
+                    activeBackgroundBrush,
+                    activeBorderBrush,
+                    useDarkeningOverlay);
+            }
+            else
+            {
+                PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, useDarkeningOverlay);
+                PlaylistSortHeaderLayout.RestoreIdleHeaderBorderChrome(header, highlightBorder);
+            }
+        }
+
+        /// <summary>
+        /// Icon column width is fixed; hide the template gripper so no resize affordance shows at the name boundary.
+        /// </summary>
+        private static void HideColumnResizeGripper(GridViewColumnHeader header)
+        {
+            if (header == null)
+            {
+                return;
+            }
+
+            header.ApplyTemplate();
+            if (header.Template?.FindName("PART_HeaderGripper", header) is UIElement namedGripper)
+            {
+                namedGripper.Visibility = Visibility.Collapsed;
+                namedGripper.IsHitTestVisible = false;
+            }
+
+            foreach (Thumb gripper in FindVisualChildren<Thumb>(header))
+            {
+                if (gripper.Name != "PART_HeaderGripper")
+                {
+                    continue;
+                }
+
+                gripper.Visibility = Visibility.Collapsed;
+                gripper.IsHitTestVisible = false;
+                gripper.Width = 0;
+                gripper.Height = 0;
             }
         }
 
