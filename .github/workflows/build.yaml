@@ -25,23 +25,15 @@ jobs:
             throw "Release tag version ($tag) does not match extension.yaml Version ($manifestVersion)"
           }
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.3
-        
-      - name: Setup NuGet.exe
-        uses: nuget/setup-nuget@v1
-
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      
-      - name: Restore NuGet Packages
-        run: nuget restore Playlist.sln
-  
-      - name: Build and Publish
+
+      - name: Build
+        shell: pwsh
         run: |
-          msbuild Playlist.sln /p:Configuration=Release
+          dotnet build Playlist.sln -c Release --nologo
           $tag = ($env:GITHUB_REF -Split "/")[-1]
           $version = $tag -replace '^v', ''
           echo "RELEASE_TAG=$tag" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append

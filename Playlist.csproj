@@ -1,124 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4FDF1E89-5BC3-4C72-8FDA-0D580E7A5D5F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net462</TargetFramework>
+    <UseWPF>true</UseWPF>
     <RootNamespace>Playlist</RootNamespace>
     <AssemblyName>Playlist</AssemblyName>
-    <TargetFramework>net8.0</TargetFramework>
-    <RuntimeIdentifiers>win;win-x64;linux-x64</RuntimeIdentifiers>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <OutputType>Library</OutputType>
     <Deterministic>true</Deterministic>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests/**</DefaultItemExcludes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
     <PackageReference Include="PlayniteSDK" Version="6.15.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="GamePlaylistRankConverter.cs" />
-    <Compile Include="LastActivityValueConverter.cs" />
-    <Compile Include="LastPlayedRelativeFormatter.cs" />
-    <Compile Include="LastPlayedSortBucketComparer.cs" />
-    <Compile Include="LastPlayedValueConverter.cs" />
-    <Compile Include="MainSearchFilterNameResolver.cs" />
-    <Compile Include="MainSearchFilterMapper.cs" />
-    <Compile Include="MainSearchSync.cs" />
-    <Compile Include="PlaytimeSortComparer.cs" />
-    <Compile Include="PlaytimeValueConverter.cs" />
-    <Compile Include="SearchQueryMatcher.cs" />
-    <Compile Include="SearchQuerySpec.cs" />
-    <Compile Include="third_party\howlongtobeat\HowLongToBeatCache.cs" />
-    <Compile Include="third_party\howlongtobeat\HowLongToBeatCachedProgressBar.cs" />
-    <Compile Include="third_party\howlongtobeat\HowLongToBeatPluginButtonHost.cs" />
-    <Compile Include="third_party\howlongtobeat\HltbSettingsJson.cs" />
-    <Compile Include="third_party\howlongtobeat\HltbPlaytimeFormat.cs" />
-    <Compile Include="PlaylistColumnReorderDropIndicator.cs" />
-    <Compile Include="PlaylistDragSourceHandler.cs" />
-    <Compile Include="PlaylistListDropHandler.cs" />
-    <Compile Include="PlaylistReorderPlanner.cs" />
-    <Compile Include="PlaylistSortHeaderLayout.cs" />
-    <Compile Include="PlaylistViewModel.cs" />
-    <Compile Include="PlaylistSettings.cs" />
-    <Compile Include="Playlist.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PlaylistSettingsView.xaml.cs">
-      <DependentUpon>PlaylistSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlaylistView.xaml.cs">
-      <DependentUpon>PlaylistView.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="extension.yaml">
+    <None Update="extension.yaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Localization\**\*.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Localization\en_US.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Localization\es_ES.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <Page Include="PlaylistView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlaylistSettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="Zip" BeforeTargets="AfterBuild" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
+
+  <Target Name="Zip" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
     <ItemGroup>
       <ZipFiles Include="README.md" />
       <ZipFiles Include="LICENSE" />

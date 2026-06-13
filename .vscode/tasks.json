@@ -18,7 +18,7 @@
     {
       "label": "Build Debug",
       "type": "shell",
-      "command": "& { Import-Module $env:PLAYLIST_VS_DEVSHELL_MODULE; Enter-VsDevShell $env:PLAYLIST_VS_DEVSHELL_ID; msbuild Playlist.csproj -p:Configuration=Debug }",
+      "command": "dotnet build --configuration Debug",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -28,7 +28,7 @@
     {
       "label": "Build Release",
       "type": "shell",
-      "command": "& { Import-Module $env:PLAYLIST_VS_DEVSHELL_MODULE; Enter-VsDevShell $env:PLAYLIST_VS_DEVSHELL_ID; msbuild Playlist.csproj -p:Configuration=Release }",
+      "command": "dotnet build --configuration Release",
       "group": "build",
       "problemMatcher": "$msCompile"
     }
