@@ -9,8 +9,6 @@ namespace Playlist
 {
     /// <summary>
     /// Keeps the Playlist search box in sync with Playnite's filter-panel search fields.
-    /// Playlist scoped syntax is mapped to native filter fields when pushing to the library view,
-    /// while the full playlist query is preserved across tab switches when the main filters are unchanged.
     /// </summary>
     internal sealed class MainSearchSync
     {
@@ -91,17 +89,11 @@ namespace Playlist
             }
 
             FilterPresetSettings currentMain = GetCurrentMainSettings();
-            string nextQuery;
-            if (!string.IsNullOrEmpty(preservedPlaylistQuery)
-                && mainSnapshotAfterPush != null
-                && MainSearchFilterMapper.MatchesSyncedState(currentMain, mainSnapshotAfterPush, filterNameResolver))
-            {
-                nextQuery = preservedPlaylistQuery;
-            }
-            else
-            {
-                nextQuery = MainSearchFilterMapper.ToPlaylistQuery(currentMain, filterNameResolver);
-            }
+            string nextQuery = MainSearchFilterMapper.ResolveReturnQuery(
+                preservedPlaylistQuery,
+                mainSnapshotAfterPush,
+                currentMain,
+                filterNameResolver);
 
             if (string.Equals(viewModel.SearchQuery, nextQuery, StringComparison.Ordinal))
             {
@@ -128,8 +120,14 @@ namespace Playlist
 
             preservedPlaylistQuery = viewModel.SearchQuery ?? string.Empty;
             FilterPresetSettings currentMain = GetCurrentMainSettings();
-            FilterPresetSettings mapped = MainSearchFilterMapper.ApplyPlaylistQuery(currentMain, preservedPlaylistQuery, filterNameResolver);
-            mainSnapshotAfterPush = mapped;
+            FilterPresetSettings mapped = MainSearchFilterMapper.ApplySyncPush(
+                currentMain,
+                preservedPlaylistQuery,
+                filterNameResolver);
+            mainSnapshotAfterPush = MainSearchFilterMapper.BuildSyncSnapshot(
+                currentMain,
+                preservedPlaylistQuery,
+                filterNameResolver);
             ApplyMainFilterSettings(mapped);
         }
 
@@ -145,8 +143,14 @@ namespace Playlist
             {
                 preservedPlaylistQuery = viewModel.SearchQuery ?? string.Empty;
                 FilterPresetSettings currentMain = GetCurrentMainSettings();
-                FilterPresetSettings mapped = MainSearchFilterMapper.ApplyPlaylistQuery(currentMain, preservedPlaylistQuery, filterNameResolver);
-                mainSnapshotAfterPush = mapped;
+                FilterPresetSettings mapped = MainSearchFilterMapper.ApplySyncPush(
+                    currentMain,
+                    preservedPlaylistQuery,
+                    filterNameResolver);
+                mainSnapshotAfterPush = MainSearchFilterMapper.BuildSyncSnapshot(
+                    currentMain,
+                    preservedPlaylistQuery,
+                    filterNameResolver);
                 ApplyMainFilterSettings(mapped);
             }
             finally

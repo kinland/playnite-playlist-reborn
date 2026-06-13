@@ -19,7 +19,12 @@
     <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Mostrar columna de HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activar integracion de HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar la busqueda entre el panel principal y la lista</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip">Buscar en la lista (admite comodines * y ?; prefijos: tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:)</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Buscar en la lista. Admite:
+- coincidencia difusa y parcial con comodines * y ?
+- restriccion por ambito con tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- invertir la restriccion por ambito con ! (p. ej.: !genre:shooter)
+- comillar valores con espacios (p. ej. tag:"Action Roguelike")
+- coma o | (barra vertical) para OR; repetir ambito o &amp; para AND</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Borrar busqueda</sys:String>
 </ResourceDictionary>
 

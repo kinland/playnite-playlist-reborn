@@ -28,8 +28,12 @@
     <Compile Include="..\..\PlaylistReorderPlanner.cs" Link="Production\PlaylistReorderPlanner.cs" />
     <Compile Include="..\..\MainSearchFilterNameResolver.cs" Link="Production\MainSearchFilterNameResolver.cs" />
     <Compile Include="..\..\MainSearchFilterMapper.cs" Link="Production\MainSearchFilterMapper.cs" />
+    <Compile Include="..\..\MainSearchSyncAnalysis.cs" Link="Production\MainSearchSyncAnalysis.cs" />
+    <Compile Include="..\..\ScopedSearchClause.cs" Link="Production\ScopedSearchClause.cs" />
+    <Compile Include="..\..\ScopedSearchClauseGroup.cs" Link="Production\ScopedSearchClauseGroup.cs" />
     <Compile Include="..\..\SearchQueryMatcher.cs" Link="Production\SearchQueryMatcher.cs" />
     <Compile Include="..\..\SearchQuerySpec.cs" Link="Production\SearchQuerySpec.cs" />
+    <Compile Include="..\..\SearchQueryTokenizer.cs" Link="Production\SearchQueryTokenizer.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbSettingsJson.cs" Link="Production\HltbSettingsJson.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbPlaytimeFormat.cs" Link="Production\HltbPlaytimeFormat.cs" />
   </ItemGroup>

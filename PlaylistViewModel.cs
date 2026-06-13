@@ -82,12 +82,12 @@ namespace Playlist
 
         private bool isPlaylistDragReorderActive;
         private SearchQueryMatcher searchMatcher = SearchQueryMatcher.Create(string.Empty);
-        private List<SearchQueryMatcher> tagMatchers = new List<SearchQueryMatcher>();
-        private List<SearchQueryMatcher> genreMatchers = new List<SearchQueryMatcher>();
-        private List<SearchQueryMatcher> developerMatchers = new List<SearchQueryMatcher>();
-        private List<SearchQueryMatcher> publisherMatchers = new List<SearchQueryMatcher>();
-        private List<SearchQueryMatcher> categoryMatchers = new List<SearchQueryMatcher>();
-        private List<SearchQueryMatcher> featureMatchers = new List<SearchQueryMatcher>();
+        private ScopedSearchClauseGroup tagClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
+        private ScopedSearchClauseGroup genreClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
+        private ScopedSearchClauseGroup developerClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
+        private ScopedSearchClauseGroup publisherClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
+        private ScopedSearchClauseGroup categoryClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
+        private ScopedSearchClauseGroup featureClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
         private string searchQuery = string.Empty;
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace Playlist
                 searchQuery = nextValue;
                 SearchQuerySpec querySpec = SearchQuerySpec.Parse(searchQuery);
                 searchMatcher = SearchQueryMatcher.Create(querySpec.NameQuery);
-                tagMatchers = querySpec.TagQueries.Select(SearchQueryMatcher.Create).ToList();
-                genreMatchers = querySpec.GenreQueries.Select(SearchQueryMatcher.Create).ToList();
-                developerMatchers = querySpec.DeveloperQueries.Select(SearchQueryMatcher.Create).ToList();
-                publisherMatchers = querySpec.PublisherQueries.Select(SearchQueryMatcher.Create).ToList();
-                categoryMatchers = querySpec.CategoryQueries.Select(SearchQueryMatcher.Create).ToList();
-                featureMatchers = querySpec.FeatureQueries.Select(SearchQueryMatcher.Create).ToList();
+                tagClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Tag).ToList());
+                genreClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Genre).ToList());
+                developerClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Developer).ToList());
+                publisherClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Publisher).ToList());
+                categoryClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Category).ToList());
+                featureClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Feature).ToList());
                 PlaylistGamesView.Refresh();
                 OnPropertyChanged(nameof(SearchQuery));
             }
@@ -485,32 +485,32 @@ namespace Playlist
                     return false;
                 }
 
-                if (tagMatchers.Count > 0 && !MatchesAllScopedTerms(tagMatchers, GetSearchableTagNames(game)))
+                if (!tagClauses.Matches(GetSearchableTagNames(game)))
                 {
                     return false;
                 }
 
-                if (genreMatchers.Count > 0 && !MatchesAllScopedTerms(genreMatchers, GetSearchableGenreNames(game)))
+                if (!genreClauses.Matches(GetSearchableGenreNames(game)))
                 {
                     return false;
                 }
 
-                if (developerMatchers.Count > 0 && !MatchesAllScopedTerms(developerMatchers, GetSearchableDeveloperNames(game)))
+                if (!developerClauses.Matches(GetSearchableDeveloperNames(game)))
                 {
                     return false;
                 }
 
-                if (publisherMatchers.Count > 0 && !MatchesAllScopedTerms(publisherMatchers, GetSearchablePublisherNames(game)))
+                if (!publisherClauses.Matches(GetSearchablePublisherNames(game)))
                 {
                     return false;
                 }
 
-                if (categoryMatchers.Count > 0 && !MatchesAllScopedTerms(categoryMatchers, GetSearchableCategoryNames(game)))
+                if (!categoryClauses.Matches(GetSearchableCategoryNames(game)))
                 {
                     return false;
                 }
 
-                if (featureMatchers.Count > 0 && !MatchesAllScopedTerms(featureMatchers, GetSearchableFeatureNames(game)))
+                if (!featureClauses.Matches(GetSearchableFeatureNames(game)))
                 {
                     return false;
                 }
@@ -519,23 +519,6 @@ namespace Playlist
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Requires each scoped matcher to match at least one candidate value.
-        /// </summary>
-        private static bool MatchesAllScopedTerms(IEnumerable<SearchQueryMatcher> matchers, IEnumerable<string> candidates)
-        {
-            string[] scopedCandidates = candidates.Where((c) => !string.IsNullOrWhiteSpace(c)).ToArray();
-            foreach (SearchQueryMatcher matcher in matchers)
-            {
-                if (!scopedCandidates.Any((candidate) => matcher.IsMatch(candidate)))
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         /// <summary>
