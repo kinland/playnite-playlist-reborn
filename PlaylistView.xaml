@@ -387,6 +387,26 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
 
+                <ControlTemplate x:Key="playlistFixedColumnHeaderTemplate" TargetType="{x:Type GridViewColumnHeader}">
+                    <Grid Margin="1">
+                        <Border
+                            x:Name="HoverBg"
+                            BorderThickness="1"
+                            Height="28"
+                            CornerRadius="{DynamicResource ControlCornerRadius}"
+                            BorderBrush="{DynamicResource NormalBorderBrush}" />
+                        <TextBlock
+                            x:Name="ColumnHeader"
+                            Style="{DynamicResource BaseTextBlockStyle}"
+                            VerticalAlignment="Center"
+                            Margin="8,0,8,0">
+                            <ContentPresenter
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+
                 <Style x:Key="sortableHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -430,6 +450,13 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="VerticalContentAlignment" Value="Stretch" />
                     <Setter Property="Template" Value="{StaticResource playlistNonsortableColumnHeaderTemplate}" />
+                </Style>
+
+                <Style x:Key="iconHeaderContainerStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template" Value="{StaticResource playlistFixedColumnHeaderTemplate}" />
                 </Style>
 
                 <DataTemplate x:Key="rankHeaderTemplate">
@@ -768,7 +795,7 @@
                         x:Name="iconGridViewColumn"
                         Header=""
                         Width="55"
-                        HeaderContainerStyle="{StaticResource nonsortableHeaderContainerStyle}">
+                        HeaderContainerStyle="{StaticResource iconHeaderContainerStyle}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Canvas Height="38" Margin="1">
