@@ -852,10 +852,11 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Background="Transparent"
+                                    Cursor="Hand"
                                     Tag="PlaylistRankCell"
                                     MouseLeftButtonDown="OnRankCellMouseLeftButtonDown">
                                     <TextBlock
-                                        Cursor="Hand"
+                                        IsHitTestVisible="False"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
                                         Margin="0,0,2,0">

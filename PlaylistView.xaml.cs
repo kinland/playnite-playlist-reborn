@@ -1449,21 +1449,41 @@ namespace Playlist
                 return;
             }
 
-            if (!(sender is Grid container) || container.Children.Count < 2)
+            if (sender is Grid container && BeginRankEdit(container))
             {
-                return;
+                e.Handled = true;
+            }
+        }
+
+        private static bool IsUnderRankCell(DependencyObject source)
+        {
+            for (DependencyObject element = source; element != null; element = VisualTreeHelper.GetParent(element))
+            {
+                if (element is FrameworkElement fe && fe.Tag is string tag && tag == RankCellTag)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool BeginRankEdit(Grid container)
+        {
+            if (container == null || container.Children.Count < 2)
+            {
+                return false;
             }
 
             if (!(container.Children[0] is TextBlock textBlock) || !(container.Children[1] is TextBox rankEditor))
             {
-                return;
+                return false;
             }
 
-            // Already editing — still mark handled so the row does not start the game.
+            // Already editing — still treat as handled so the row does not start the game.
             if (rankEditor.Visibility == Visibility.Visible)
             {
-                e.Handled = true;
-                return;
+                return true;
             }
 
             rankEditor.Text = textBlock.Text;
@@ -1471,26 +1491,13 @@ namespace Playlist
             rankEditor.Visibility = Visibility.Visible;
             rankEditor.Focus();
             rankEditor.SelectAll();
-            e.Handled = true;
+            return true;
         }
 
         private void OnRankTextBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             // Row listens for double-click to launch; swallow while editing rank.
             e.Handled = true;
-        }
-
-        private static bool IsUnderRankCell(DependencyObject source)
-        {
-            for (DependencyObject d = source; d != null; d = VisualTreeHelper.GetParent(d))
-            {
-                if (d is FrameworkElement fe && fe.Tag is string s && s == RankCellTag)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private void OnRankTextBoxPreviewKeyDown(object sender, KeyEventArgs e)
