@@ -33,10 +33,13 @@ namespace Playlist
         private const string HowLongToBeatColumnKey = "HowLongToBeat";
 
         private readonly HashSet<GridViewColumnHeader> sortHeaderMouseHooked = new HashSet<GridViewColumnHeader>();
+        private readonly PlaylistColumnReorderDropIndicator columnReorderDropIndicator;
 
         public PlaylistView()
         {
             InitializeComponent();
+            columnReorderDropIndicator = new PlaylistColumnReorderDropIndicator(playlistListView);
+            columnReorderDropIndicator.Attach();
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
             playlistListView.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnPlaylistListViewColumnThumbDragDelta), handledEventsToo: true);
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
@@ -50,6 +53,8 @@ namespace Playlist
         {
             DataContext = model;
             InitializeComponent();
+            columnReorderDropIndicator = new PlaylistColumnReorderDropIndicator(playlistListView);
+            columnReorderDropIndicator.Attach();
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
             playlistListView.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnPlaylistListViewColumnThumbDragDelta), handledEventsToo: true);
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
@@ -268,6 +273,7 @@ namespace Playlist
         {
             DetachSortHeaderMouseHooks();
             UnsubscribeGridColumnCollectionChanged();
+            columnReorderDropIndicator?.Detach();
             PersistLayoutState();
             lastPlayedRefreshTimer?.Stop();
         }

@@ -68,6 +68,7 @@
     <Compile Include="third_party\howlongtobeat\HowLongToBeatPluginButtonHost.cs" />
     <Compile Include="third_party\howlongtobeat\HltbSettingsJson.cs" />
     <Compile Include="third_party\howlongtobeat\HltbPlaytimeFormat.cs" />
+    <Compile Include="PlaylistColumnReorderDropIndicator.cs" />
     <Compile Include="PlaylistDragSourceHandler.cs" />
     <Compile Include="PlaylistListDropHandler.cs" />
     <Compile Include="PlaylistReorderPlanner.cs" />

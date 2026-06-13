@@ -456,6 +456,34 @@ namespace Playlist
             return FindFirstBorderChild(header);
         }
 
+        private const double RoundedHeaderCutoutMinRadius = 4;
+
+        /// <summary>
+        /// Corner radius used to cut the top-center V gap out of the column reorder slot on rounded-header themes.
+        /// </summary>
+        internal static double GetRoundedHeaderSlotTopInset(GridViewColumnHeader header)
+        {
+            if (header == null)
+            {
+                return 0;
+            }
+
+            double topRadius = 0;
+            Border hoverBg = FindHeaderHighlightBorder(header);
+            if (hoverBg != null)
+            {
+                topRadius = Math.Max(hoverBg.CornerRadius.TopLeft, hoverBg.CornerRadius.TopRight);
+            }
+
+            if (topRadius < 1
+                && header.TryFindResource("ControlCornerRadius") is CornerRadius themeRadius)
+            {
+                topRadius = Math.Max(themeRadius.TopLeft, themeRadius.TopRight);
+            }
+
+            return topRadius >= RoundedHeaderCutoutMinRadius ? topRadius : 0;
+        }
+
         private static Border FindFirstBorderChild(DependencyObject parent)
         {
             foreach (Border border in FindVisualChildren<Border>(parent))
