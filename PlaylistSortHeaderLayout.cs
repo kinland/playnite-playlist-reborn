@@ -678,6 +678,8 @@ namespace Playlist
             return ResolveResourceBrush(tryFindResource, "DarkControlBorderBrush", "ControlBorderBrush");
         }
 
+        private static readonly Thickness StableEmbeddedBorderThickness = new Thickness(1);
+
         private static void ApplyEmbeddedChrome(Control control, Brush background, Brush foreground, Brush borderBrush)
         {
             if (background != null)
@@ -690,24 +692,16 @@ namespace Playlist
                 control.Foreground = foreground;
             }
 
-            if (borderBrush != null)
-            {
-                control.BorderBrush = borderBrush;
-                control.BorderThickness = new Thickness(1);
-            }
-            else
-            {
-                control.ClearValue(Control.BorderBrushProperty);
-                control.BorderThickness = new Thickness(0);
-            }
+            control.BorderThickness = StableEmbeddedBorderThickness;
+            control.BorderBrush = borderBrush ?? System.Windows.Media.Brushes.Transparent;
         }
 
         private static void ClearEmbeddedChrome(Control control)
         {
             control.ClearValue(Control.BackgroundProperty);
             control.ClearValue(Control.ForegroundProperty);
-            control.ClearValue(Control.BorderBrushProperty);
-            control.ClearValue(Control.BorderThicknessProperty);
+            control.BorderBrush = System.Windows.Media.Brushes.Transparent;
+            control.BorderThickness = new Thickness(0);
         }
 
         private static Brush ResolveResourceBrush(Func<string, object> tryFindResource, params string[] keys)

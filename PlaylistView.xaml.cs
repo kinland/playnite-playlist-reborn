@@ -38,6 +38,9 @@ namespace Playlist
         private Style playButtonThemedStyle;
         private Style playButtonManagedStyle;
         private readonly Dictionary<Button, ListViewItem> playButtonRowContext = new Dictionary<Button, ListViewItem>();
+        private int syncedHeaderBodyOffsetPixels = int.MinValue;
+        private bool headerBodyOffsetLocked;
+        private bool rowHighlightRefreshPending;
         private readonly PlaylistColumnReorderDropIndicator columnReorderDropIndicator;
 
         /// <summary>
@@ -171,7 +174,17 @@ namespace Playlist
 
         private void OnRowItemContainerGeneratorStatusChanged(object sender, EventArgs e)
         {
-            RefreshAllGeneratedRowHighlights();
+            if (rowHighlightRefreshPending)
+            {
+                return;
+            }
+
+            rowHighlightRefreshPending = true;
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                rowHighlightRefreshPending = false;
+                RefreshAllGeneratedRowHighlights();
+            }), DispatcherPriority.Loaded);
         }
 
         private void RefreshAllGeneratedRowHighlights()
@@ -537,7 +550,6 @@ namespace Playlist
         private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateHowLongToBeatColumnFillWidth();
-            SyncGridViewHeaderBodyOffset();
             RefreshSortHeaderVisualState();
         }
 
@@ -547,6 +559,7 @@ namespace Playlist
             EnforceMinimumIconColumnWidth();
             UpdateHowLongToBeatColumnFillWidth();
             RefreshSortHeaderVisualState();
+            RequestHeaderBodyOffsetSync();
             PersistLayoutState();
         }
 
@@ -590,28 +603,29 @@ namespace Playlist
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
-            ScheduleGridViewHeaderBodyOffsetSync();
             SubscribeRowHighlightHooks();
+        }
+
+        private void RequestHeaderBodyOffsetSync()
+        {
+            headerBodyOffsetLocked = false;
+            syncedHeaderBodyOffsetPixels = int.MinValue;
+            ScheduleGridViewHeaderBodyOffsetSync();
         }
 
         private void ScheduleGridViewHeaderBodyOffsetSync()
         {
-            Dispatcher.BeginInvoke((Action)(() =>
-            {
-                if (SyncGridViewHeaderBodyOffset())
-                {
-                    Dispatcher.BeginInvoke((Action)(() => SyncGridViewHeaderBodyOffset()), DispatcherPriority.ApplicationIdle);
-                }
-            }), DispatcherPriority.ApplicationIdle);
+            Dispatcher.BeginInvoke((Action)(() => SyncGridViewHeaderBodyOffset()), DispatcherPriority.Loaded);
         }
 
         /// <summary>
         /// Measure header vs body horizontal offset and apply as row-presenter left margin.
+        /// Measured once per layout pass — remeasuring after applying margin reads ~0 and causes 0/1px oscillation.
         /// </summary>
         /// <returns>True when the row-presenter margin was changed.</returns>
         private bool SyncGridViewHeaderBodyOffset()
         {
-            if (playlistListView == null || rankGridViewColumn == null)
+            if (headerBodyOffsetLocked || playlistListView == null || rankGridViewColumn == null)
             {
                 return false;
             }
@@ -621,13 +635,21 @@ namespace Playlist
                 return false;
             }
 
-            Thickness target = new Thickness(Math.Max(0, offset), 0, 0, 0);
+            int offsetPixels = (int)Math.Round(Math.Max(0, offset), MidpointRounding.AwayFromZero);
+            if (offsetPixels == syncedHeaderBodyOffsetPixels)
+            {
+                return false;
+            }
+
+            syncedHeaderBodyOffsetPixels = offsetPixels;
+            Thickness target = new Thickness(offsetPixels, 0, 0, 0);
             if (GridViewRowPresenterMargin == target)
             {
                 return false;
             }
 
             GridViewRowPresenterMargin = target;
+            headerBodyOffsetLocked = true;
             return true;
         }
 
@@ -679,8 +701,8 @@ namespace Playlist
                 return false;
             }
 
-            double headerLeft = rankHeader.TransformToAncestor(playlistListView).Transform(new Point(0, 0)).X;
-            double cellLeft = rankCell.TransformToAncestor(playlistListView).Transform(new Point(0, 0)).X;
+            double headerLeft = Math.Round(rankHeader.TransformToAncestor(playlistListView).Transform(new Point(0, 0)).X);
+            double cellLeft = Math.Round(rankCell.TransformToAncestor(playlistListView).Transform(new Point(0, 0)).X);
             offset = headerLeft - cellLeft;
             return true;
         }
@@ -691,6 +713,9 @@ namespace Playlist
             UnsubscribeRowHighlightHooks();
             UnsubscribeGridColumnCollectionChanged();
             columnReorderDropIndicator?.Detach();
+            headerBodyOffsetLocked = false;
+            syncedHeaderBodyOffsetPixels = int.MinValue;
+            rowHighlightRefreshPending = false;
             PersistLayoutState();
             lastPlayedRefreshTimer?.Stop();
         }
@@ -1731,7 +1756,7 @@ namespace Playlist
             }
 
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
-            ScheduleGridViewHeaderBodyOffsetSync();
+            RequestHeaderBodyOffsetSync();
         }
 
         private bool? cachedUseDarkeningOverlay;

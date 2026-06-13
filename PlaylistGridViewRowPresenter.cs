@@ -32,11 +32,11 @@ namespace Playlist
             {
                 if (VisualTreeHelper.GetChild(this, index) is FrameworkElement cell
                     && cell.ActualHeight > 0.1
-                    && arrangeSize.Height > cell.ActualHeight + 0.5)
+                    && arrangeSize.Height - cell.ActualHeight >= 2.0)
                 {
                     double offsetY = Math.Round((arrangeSize.Height - cell.ActualHeight) * 0.5);
                     Point topLeft = cell.TranslatePoint(new Point(0, 0), this);
-                    cell.Arrange(new Rect(topLeft.X, offsetY, cell.ActualWidth, cell.ActualHeight));
+                    cell.Arrange(new Rect(Math.Round(topLeft.X), offsetY, cell.ActualWidth, cell.ActualHeight));
                 }
             }
         }
