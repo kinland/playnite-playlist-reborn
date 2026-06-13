@@ -23,6 +23,8 @@ namespace Playlist
         private bool showHowLongToBeatColumn = true;
         private bool enableHowLongToBeatIntegration = true;
         private bool backupEnableHowLongToBeatIntegration = true;
+        private bool syncSearchWithMainPanel = true;
+        private bool backupSyncSearchWithMainPanel = true;
 
         public bool ShowRankColumn
         {
@@ -75,6 +77,15 @@ namespace Playlist
         {
             get => enableHowLongToBeatIntegration;
             set => SetValue(ref enableHowLongToBeatIntegration, value);
+        }
+
+        /// <summary>
+        /// When enabled, the Playlist search box stays in sync with Playnite's main search / filter fields.
+        /// </summary>
+        public bool SyncSearchWithMainPanel
+        {
+            get => syncSearchWithMainPanel;
+            set => SetValue(ref syncSearchWithMainPanel, value);
         }
 
         /// <summary>
@@ -170,11 +181,13 @@ namespace Playlist
             // Only the HowLongToBeat integration toggle lives on the settings page now; the rest of the
             // column visibility flags are edited via the column header right-click menu (persisted immediately).
             backupEnableHowLongToBeatIntegration = EnableHowLongToBeatIntegration;
+            backupSyncSearchWithMainPanel = SyncSearchWithMainPanel;
         }
 
         public void CancelEdit()
         {
             EnableHowLongToBeatIntegration = backupEnableHowLongToBeatIntegration;
+            SyncSearchWithMainPanel = backupSyncSearchWithMainPanel;
         }
 
         public void EndEdit()

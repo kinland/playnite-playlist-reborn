@@ -59,6 +59,9 @@
     <Compile Include="LastPlayedRelativeFormatter.cs" />
     <Compile Include="LastPlayedSortBucketComparer.cs" />
     <Compile Include="LastPlayedValueConverter.cs" />
+    <Compile Include="MainSearchFilterNameResolver.cs" />
+    <Compile Include="MainSearchFilterMapper.cs" />
+    <Compile Include="MainSearchSync.cs" />
     <Compile Include="PlaytimeSortComparer.cs" />
     <Compile Include="PlaytimeValueConverter.cs" />
     <Compile Include="SearchQueryMatcher.cs" />

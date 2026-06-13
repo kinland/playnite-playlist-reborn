@@ -28,6 +28,10 @@ namespace Playlist
 
         private PlaylistView PlaylistView { get; set; }
 
+        private MainSearchSync MainSearchSync { get; set; }
+
+        private bool isPlaylistViewOpen;
+
         public ObservableCollection<Game> PlaylistGames { get; set; }
         private readonly PlaylistSettings settings;
 
@@ -60,7 +64,16 @@ namespace Playlist
                         PlaylistViewModel = new PlaylistViewModel(PlaylistGames, PlayniteApi);
                         PlaylistView = new PlaylistView(PlaylistViewModel);
                     }
+
+                    MainSearchSync.Attach(PlaylistViewModel);
+                    isPlaylistViewOpen = true;
+                    MainSearchSync.OnViewOpened();
                     return PlaylistView;
+                },
+                Closed = () =>
+                {
+                    isPlaylistViewOpen = false;
+                    MainSearchSync.OnViewClosed();
                 }
             };
         }
@@ -99,6 +112,7 @@ namespace Playlist
             settings = LoadPluginSettings<PlaylistSettings>() ?? new PlaylistSettings(this);
             settings.AttachPlugin(this);
             StaticSettings = settings;
+            MainSearchSync = new MainSearchSync(api, () => settings.SyncSearchWithMainPanel);
         }
 
         public override ISettings GetSettings(bool firstRunSettings)
@@ -131,6 +145,7 @@ namespace Playlist
         {
             StaticSettings = settings;
             PlaylistView?.ApplySettings();
+            MainSearchSync?.ApplySettingsChange(isPlaylistViewOpen);
         }
 
         private IEnumerable<Game> LoadPlaylistFile()
