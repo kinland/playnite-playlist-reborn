@@ -898,7 +898,7 @@ namespace Playlist
 
         private GridViewColumnHeader FindSampleSortHeader(GridViewColumn activeColumn)
         {
-            GridViewColumnHeader fallback = null;
+            GridViewColumnHeader anyNonActive = null;
             foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
                 if (header == null || header.Role == GridViewColumnHeaderRole.Padding || !IsSortableColumn(header.Column))
@@ -906,18 +906,19 @@ namespace Playlist
                     continue;
                 }
 
-                if (activeColumn != null && header.Column != activeColumn)
+                if (header.Column == activeColumn)
+                {
+                    continue;
+                }
+
+                anyNonActive = header;
+                if (!header.IsMouseOver)
                 {
                     return header;
                 }
-
-                if (fallback == null)
-                {
-                    fallback = header;
-                }
             }
 
-            return fallback;
+            return anyNonActive;
         }
 
         private void RefreshSortHeaderVisualState()
@@ -982,7 +983,8 @@ namespace Playlist
                 }
 
                 Border highlightBorder = PlaylistSortHeaderLayout.FindHeaderHighlightBorder(header);
-                if (header.Column == activeColumn)
+                bool showSortHighlight = header.Column == activeColumn || header.IsMouseOver;
+                if (showSortHighlight)
                 {
                     PlaylistSortHeaderLayout.ApplyActiveSortHighlight(
                         highlightBorder,
@@ -1006,6 +1008,7 @@ namespace Playlist
                 else
                 {
                     PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, useDarkeningOverlay);
+                    PlaylistSortHeaderLayout.RestoreIdleHeaderBorderChrome(header, highlightBorder);
                     ClearActiveHeaderTextForeground(presenter);
                     header.BeginAnimation(Control.ForegroundProperty, null);
                     header.ClearValue(Control.ForegroundProperty);

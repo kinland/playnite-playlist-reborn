@@ -294,11 +294,14 @@ namespace Playlist
                 return null;
             }
 
-            // Style-set header foreground is the reliable signal; template TextBlocks often stay unset (black).
-            Brush headerForeground = (Brush)header.GetValue(Control.ForegroundProperty);
-            if (TryGetColor(headerForeground, out Color headerColor) && headerColor.A > 16)
+            // Ignore code-applied hover/active foreground; sample theme or style-inherited text color only.
+            if (header.ReadLocalValue(Control.ForegroundProperty) == DependencyProperty.UnsetValue)
             {
-                return headerColor;
+                Brush headerForeground = (Brush)header.GetValue(Control.ForegroundProperty);
+                if (TryGetColor(headerForeground, out Color headerColor) && headerColor.A > 16)
+                {
+                    return headerColor;
+                }
             }
 
             header.ApplyTemplate();
@@ -319,7 +322,7 @@ namespace Playlist
                     continue;
                 }
 
-                if (textBlock.ReadLocalValue(TextBlock.ForegroundProperty) == DependencyProperty.UnsetValue)
+                if (textBlock.ReadLocalValue(TextBlock.ForegroundProperty) != DependencyProperty.UnsetValue)
                 {
                     continue;
                 }
@@ -396,8 +399,38 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Finds the template chrome border used for header hover/selection fills (<c>HoverBg</c> or <c>SelectedBg</c>).
-        /// Lightening overlays rely on the template's native opacity; darkening overlays force opacity to 1.
+        /// Reapplies theme idle border chrome after clearing a code-applied hover/active highlight.
+        /// </summary>
+        internal static void RestoreIdleHeaderBorderChrome(GridViewColumnHeader header, Border border)
+        {
+            if (header == null || border == null)
+            {
+                return;
+            }
+
+            border.BeginAnimation(Border.BorderBrushProperty, null);
+            if (header.Tag is bool useDarkStyle)
+            {
+                string brushKey = useDarkStyle ? "DarkControlBorderBrush" : "ControlBorderBrush";
+                if (header.TryFindResource(brushKey) is Brush themeBorder)
+                {
+                    border.BorderBrush = themeBorder;
+                    return;
+                }
+            }
+
+            if (header.TryFindResource("NormalBorderBrush") is Brush normalBorder)
+            {
+                border.BorderBrush = normalBorder;
+            }
+            else
+            {
+                border.ClearValue(Border.BorderBrushProperty);
+            }
+        }
+
+        /// <summary>
+        /// Finds the header chrome border used for hover and active-sort highlighting (<c>HoverBg</c>).
         /// </summary>
         internal static Border FindHeaderHighlightBorder(GridViewColumnHeader header)
         {
