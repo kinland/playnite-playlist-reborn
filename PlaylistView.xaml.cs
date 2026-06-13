@@ -651,6 +651,17 @@ namespace Playlist
             }
         }
 
+        private void OnPlaylistSearchClearClick(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is PlaylistViewModel model)
+            {
+                model.SearchQuery = string.Empty;
+            }
+
+            playlistSearchTextBox?.Focus();
+            e.Handled = true;
+        }
+
         private static void TryManualCut(TextBox textBox)
         {
             if (textBox == null)

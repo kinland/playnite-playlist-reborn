@@ -19,5 +19,6 @@
     <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Show HowLongToBeat column</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Enable HowLongToBeat integration</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip">Search playlist (supports * and ? wildcards; prefixes: tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:)</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Clear search</sys:String>
 </ResourceDictionary>
 

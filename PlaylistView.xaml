@@ -219,7 +219,7 @@
                     <TextBox
                         x:Name="playlistSearchTextBox"
                         VerticalAlignment="Center"
-                        Padding="28,4,8,4"
+                        Padding="28,4,28,4"
                         BorderThickness="1"
                         PreviewKeyDown="OnPlaylistSearchTextBoxPreviewKeyDown"
                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
@@ -230,8 +230,34 @@
                         IsHitTestVisible="False"
                         Text="&#xE721;"
                         FontFamily="Segoe MDL2 Assets"
-                        FontSize="12"
+                        FontSize="14"
                         Foreground="{Binding Foreground, ElementName=playlistSearchTextBox}" />
+                    <ContentControl
+                        x:Name="playlistSearchClearButton"
+                        Margin="0,2,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="OnPlaylistSearchClearClick"
+                        Content=""
+                        ContentTemplate="{DynamicResource ClearTextIconTemplate}"
+                        Foreground="{Binding Foreground, ElementName=playlistSearchTextBox}"
+                        ToolTip="{DynamicResource LOCPlaylist_SearchClearTooltip}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SearchQuery, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.8" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
                 </Grid>
             </StackPanel>
         </Grid>
