@@ -35,6 +35,32 @@ public class SupplementalLocaleIntegrityTests
 
     [Theory]
     [MemberData(nameof(SupplementalLocaleFiles))]
+    public void Supplemental_locale_includes_borrowed_playnite_keys(string localePath)
+    {
+        IReadOnlyDictionary<string, string> locale = LocalizationXamlTestReader.ReadEntries(localePath);
+        foreach (string borrowedKey in PlaylistBorrowedPlayniteKeys.All)
+        {
+            Assert.True(
+                locale.ContainsKey(borrowedKey),
+                $"{Path.GetFileNameWithoutExtension(localePath)} missing borrowed key {borrowedKey}.");
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(SupplementalLocaleFiles))]
+    public void Supplemental_locale_does_not_include_deprecated_hltb_plugin_keys(string localePath)
+    {
+        IReadOnlyDictionary<string, string> locale = LocalizationXamlTestReader.ReadEntries(localePath);
+        foreach (string deprecatedKey in PlaylistBorrowedPlayniteKeys.DeprecatedHltbPluginKeys)
+        {
+            Assert.False(
+                locale.ContainsKey(deprecatedKey),
+                $"{Path.GetFileNameWithoutExtension(localePath)} should not include deprecated key {deprecatedKey}.");
+        }
+    }
+
+    [Theory]
+    [MemberData(nameof(SupplementalLocaleFiles))]
     public void Supplemental_locale_matches_enUs_baseline_keys(string localePath)
     {
         IReadOnlyDictionary<string, string> baseline = LocalizationXamlTestReader.ReadEntries(

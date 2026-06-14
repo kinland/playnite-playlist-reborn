@@ -13,7 +13,7 @@ internal static class PlaylistTestLocalization
     {
         PlaylistLocalization.TestGetString = key => key switch
         {
-            "LOCPlaylist_Hltb_EmptyTime" => "--",
+            "LOCPlaylist_HLTB_EmptyTime" => "--",
             "LOCPlaylist_Playtime_Minutes" => "{0} minutes",
             "LOCPlaylist_Playtime_HoursOnly" => "{0}h",
             "LOCPlaylist_Playtime_MinuteUnit" => "{0}m",

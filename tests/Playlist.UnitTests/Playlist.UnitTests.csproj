@@ -27,6 +27,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>playlist-os-locale-culture-map.json</Link>
     </None>
+    <EmbeddedResource Include="..\..\Localization\haw_US.xaml">
+      <LogicalName>haw_US.xaml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +41,8 @@
     <Compile Include="..\..\PlaylistColumnLayoutPersistence.cs" Link="Production\PlaylistColumnLayoutPersistence.cs" />
     <Compile Include="..\..\PlaylistGridViewLayout.cs" Link="Production\PlaylistGridViewLayout.cs" />
     <Compile Include="..\..\PlaylistColumnReorderDropIndicator.cs" Link="Production\PlaylistColumnReorderDropIndicator.cs" />
+    <Compile Include="..\..\PlaylistColumnReorderDragRules.cs" Link="Production\PlaylistColumnReorderDragRules.cs" />
+    <Compile Include="..\..\IPlaylistDragReorderState.cs" Link="Production\IPlaylistDragReorderState.cs" />
     <Compile Include="..\..\PlaylistSortHeaderLayout.cs" Link="Production\PlaylistSortHeaderLayout.cs" />
     <Compile Include="..\..\PlaylistVisualTree.cs" Link="Production\PlaylistVisualTree.cs" />
     <Compile Include="..\..\PlaylistThemeColors.cs" Link="Production\PlaylistThemeColors.cs" />
@@ -45,9 +50,12 @@
     <Compile Include="..\..\PlaylistReorderPlanner.cs" Link="Production\PlaylistReorderPlanner.cs" />
     <Compile Include="..\..\PlaylistRankInput.cs" Link="Production\PlaylistRankInput.cs" />
     <Compile Include="..\..\PlaylistLocalization.cs" Link="Production\PlaylistLocalization.cs" />
+    <Compile Include="..\..\CompletionStatusLocalization.cs" Link="Production\CompletionStatusLocalization.cs" />
+    <Compile Include="..\..\CompletionStatusDisplayConverter.cs" Link="Production\CompletionStatusDisplayConverter.cs" />
     <Compile Include="..\..\PlaylistLocaleCultureMap.cs" Link="Production\PlaylistLocaleCultureMap.cs" />
     <Compile Include="..\..\PlaylistLanguageOption.cs" Link="Production\PlaylistLanguageOption.cs" />
     <Compile Include="..\..\PlaylistLanguageOptionCatalog.cs" Link="Production\PlaylistLanguageOptionCatalog.cs" />
+    <Compile Include="..\..\PlaylistBorrowedPlayniteKeys.cs" Link="Production\PlaylistBorrowedPlayniteKeys.cs" />
     <Compile Include="..\..\PlaylistLocalizationOverride.cs" Link="Production\PlaylistLocalizationOverride.cs" />
     <Compile Include="..\..\PlaylistDragReorderMessages.cs" Link="Production\PlaylistDragReorderMessages.cs" />
     <Compile Include="..\..\HltbColumnHeaderLabels.cs" Link="Production\HltbColumnHeaderLabels.cs" />

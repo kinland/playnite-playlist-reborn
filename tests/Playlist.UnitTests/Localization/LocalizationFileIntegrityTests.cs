@@ -36,9 +36,9 @@ public class LocalizationFileIntegrityTests
         "LOCPlaylist_Playtime_HoursMinutes",
         "LOCPlaylist_Playtime_HoursOnly",
         "LOCPlaylist_Playtime_MinuteUnit",
-        "LOCPlaylist_Hltb_EmptyTime",
-        "LOCPlaylist_Hltb_SortSuffix_Active",
-        "LOCPlaylist_Hltb_SortSuffix_Hover",
+        "LOCPlaylist_HLTB_EmptyTime",
+        "LOCPlaylist_HLTB_SortSuffix_Active",
+        "LOCPlaylist_HLTB_SortSuffix_Hover",
     };
 
     [Fact]

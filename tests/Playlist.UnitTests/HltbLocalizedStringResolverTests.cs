@@ -1,6 +1,7 @@
 using Moq;
 using Playnite.SDK;
 using System.Globalization;
+using System.IO;
 using Xunit;
 
 namespace Playlist.UnitTests;
@@ -17,6 +18,7 @@ public class HltbLocalizedStringResolverTests : IDisposable
     public void Dispose()
     {
         HltbLocalizedStringResolver.TestResourceProvider = null;
+        PlaylistLocalizationOverride.SetActiveLocale(null);
     }
 
     [Theory]
@@ -66,10 +68,43 @@ public class HltbLocalizedStringResolverTests : IDisposable
     }
 
     [Fact]
+    public void Resolve_prefers_playlist_override_when_supplemental_locale_is_active()
+    {
+        const string hltbKey = "LOCHowLongToBeatMainStory";
+        const string playlistKey = "LOCPlaylist_HLTB_TimeType_MainStory";
+        const string englishBaseline = "Main story";
+        const string overrideValue = "Moʻolelo mua";
+
+        CultureInfo previous = CultureInfo.CurrentUICulture;
+        try
+        {
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+            resourceProvider.Setup(provider => provider.GetString(hltbKey)).Returns(englishBaseline);
+            resourceProvider.Setup(provider => provider.GetString(playlistKey)).Returns(playlistKey);
+
+            using (Stream localeStream = typeof(HltbLocalizedStringResolverTests).Assembly
+                .GetManifestResourceStream("haw_US.xaml"))
+            {
+                Assert.NotNull(localeStream);
+                PlaylistLocalizationOverride.SetActiveLocaleFromStream("haw_US", localeStream);
+            }
+
+            Assert.Equal(
+                overrideValue,
+                HltbLocalizedStringResolver.Resolve(hltbKey, playlistKey, englishBaseline));
+        }
+        finally
+        {
+            PlaylistLocalizationOverride.SetActiveLocale(null);
+            CultureInfo.CurrentUICulture = previous;
+        }
+    }
+
+    [Fact]
     public void Resolve_falls_back_to_english_baseline_when_hltb_and_playlist_are_missing()
     {
         const string hltbKey = "LOCHowLongToBeatMainStory";
-        const string playlistKey = "LOCPlaylist_Hltb_TimeType_MainStory";
+        const string playlistKey = "LOCPlaylist_HLTB_TimeType_MainStory";
         const string englishBaseline = "Main story";
 
         resourceProvider.Setup(provider => provider.GetString(hltbKey)).Returns(hltbKey);
@@ -84,7 +119,7 @@ public class HltbLocalizedStringResolverTests : IDisposable
     public void Resolve_uses_playlist_fallback_when_hltb_left_english_on_non_english_ui()
     {
         const string hltbKey = "LOCHowLongToBeatMainStory";
-        const string playlistKey = "LOCPlaylist_Hltb_TimeType_MainStory";
+        const string playlistKey = "LOCPlaylist_HLTB_TimeType_MainStory";
         const string englishBaseline = "Main story";
         const string playlistValue = "Hauptgeschichte";
 
@@ -109,7 +144,7 @@ public class HltbLocalizedStringResolverTests : IDisposable
     public void Resolve_uses_hltb_translation_when_playlist_key_is_absent()
     {
         const string hltbKey = "LOCHowLongToBeatMainStory";
-        const string playlistKey = "LOCPlaylist_Hltb_TimeType_MainStory";
+        const string playlistKey = "LOCPlaylist_HLTB_TimeType_MainStory";
         const string englishBaseline = "Main story";
         const string hltbValue = "メインストーリー";
 
@@ -134,7 +169,7 @@ public class HltbLocalizedStringResolverTests : IDisposable
     public void Resolve_uses_hltb_english_on_english_ui_when_playlist_key_is_absent()
     {
         const string hltbKey = "LOCHowLongToBeatMainStory";
-        const string playlistKey = "LOCPlaylist_Hltb_TimeType_MainStory";
+        const string playlistKey = "LOCPlaylist_HLTB_TimeType_MainStory";
         const string englishBaseline = "Main story";
 
         CultureInfo previous = CultureInfo.CurrentUICulture;
