@@ -35,6 +35,10 @@
     <Content Include="Localization\**\*.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="scripts\data\playlist-os-locale-culture-map.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>playlist-os-locale-culture-map.json</Link>
+    </None>
   </ItemGroup>
 
   <Target Name="PackExtension" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">

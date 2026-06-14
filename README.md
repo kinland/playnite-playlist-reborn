@@ -1,13 +1,15 @@
 # Playlist extension for [Playnite](https://playnite.link/)
 
-### Localization
+## Localization
 
-العربية · Български · Català · Čeština · Deutsch · Ελληνικά · Español · Français · עברית · 日本語 · 한국어 · Polski · Português · Русский · српски · 简体中文 · 繁體中文 · …
+Български · Català · Čeština · Deutsch · Ελληνικά · Español · Français · 日本語 · 한국어 · Polski · Português · Русский · српски · 简体中文 · 繁體中文 · …
 
 As long as your language is supported by Google Translate, feel free to make feature requests or report bugs in your native language.
 
 <details>
-<summary>Supports all 45 Playnite locales:</summary>
+<summary>Supports 45 Playnite + 14 supplemental Playlist Locales:</summary>
+
+**Playnite locales**
 
 | Locale | Language | Autonym |
 | --- | --- | --- |
@@ -57,11 +59,32 @@ As long as your language is supported by Google Translate, feel free to make fea
 | `zh_CN` | Chinese (Simplified) | 简体中文 |
 | `zh_TW` | Chinese (Traditional) | 繁體中文 |
 
+**Supplemental Playlist locales**
+
+| Locale | Language | Autonym |
+| --- | --- | --- |
+| `chr_US` | Cherokee | ᏣᎳᎩ |
+| `cr_CA` | Cree | Nēhiyawēwin |
+| `eu_ES` | Basque | euskara |
+| `gd_GB` | Scottish Gaelic | Gàidhlig |
+| `gn_PY` | Guaraní | Avañeʼẽ |
+| `haw_US` | Hawaiian | ʻŌlelo Hawaiʻi |
+| `iu_CA` | Inuktitut | ᐃᓄᒃᑎᑐᑦ |
+| `lkt_US` | Lakota | Lakȟólʼiyapi |
+| `mi_NZ` | Māori | te reo Māori |
+| `moh_CA` | Mohawk | Kanienʼkéha |
+| `nv_US` | Navajo | Diné Bizaad |
+| `oj_CA` | Ojibwe | Anishinaabemowin |
+| `sco_GB` | Scots | Scots |
+| `sm_WS` | Samoan | Gagana Samoa |
+
 </details>
 
-Playnite UI strings for this extension are available in every locale Playnite ships. I only speak English, so these are primarily machine translated — contributions welcome.
+Playnite UI strings for this extension are available in every locale Playnite ships. I only speak English, so these are primarily machine translated — contributions and corrections enthusiastically encouraged. No offense is intended by poor machine translations, so if you detect something like this, please inform me!
 
-**Additional Playlist locales** (14 supplemental: Hawaiian, Māori, Samoan, Guaraní, Scottish Gaelic, Scots, Cherokee, Inuktitut, Basque, Mohawk, Lakota, Navajo, Cree, Ojibwe, and others) ship with the extension. Playlist will add its own language picker in settings (Playnite-supported languages plus these additional choices). On first visit to Playlist settings, if your OS language differs from Playnite's, a localized prompt asks whether to switch the Playlist-only language to match your system. OS culture mappings live in `scripts/data/playlist-os-locale-culture-map.json`; regenerate supplemental xaml with `scripts/sync-supplemental-locales.ps1`.
+The supplemental locales in the table above ship with the extension and will be selectable via a Playlist-only language picker in settings (alongside Playnite's languages). On first visit to Playlist settings, if your OS language differs from Playnite's, a localized prompt asks whether to switch the Playlist-only language to match your system. OS culture mappings live in `scripts/data/playlist-os-locale-culture-map.json`; regenerate supplemental xaml with `scripts/sync-supplemental-locales.ps1`.
+
+## Playlist
 
 This extension provides a sidebar action with a manually ordered "playlist" queue of games.
 

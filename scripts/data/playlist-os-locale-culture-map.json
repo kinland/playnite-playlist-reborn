@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "osLocaleMismatchPrompt": {
+    "messageKey": "LOCPlaylist_Settings_OsLocaleMismatchPrompt",
+    "fallbackMessage": "Your system language is {0}. Use {1} for Playlist only?"
+  },
+  "locales": {
+    "chr_US": {
+      "englishName": "Cherokee",
+      "autonym": "ᏣᎳᎩ",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["chr-Cher-US", "chr-Cher", "chr"]
+    },
+    "cr_CA": {
+      "englishName": "Cree",
+      "autonym": "Nēhiyawēwin",
+      "category": "supplemental",
+      "windowsDisplayLanguage": false,
+      "osCulturePatterns": ["cr-Cans-CA", "cr-Latn-CA", "cr-Cans", "cr-Latn", "cr"]
+    },
+    "cy_GB": {
+      "englishName": "Welsh",
+      "autonym": "Cymraeg",
+      "category": "playnite",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["cy-GB", "cy"]
+    },
+    "eu_ES": {
+      "englishName": "Basque",
+      "autonym": "euskara",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["eu-ES", "eu"]
+    },
+    "ga_IE": {
+      "englishName": "Irish",
+      "autonym": "Gaeilge",
+      "category": "playnite",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["ga-IE", "ga"]
+    },
+    "gd_GB": {
+      "englishName": "Scottish Gaelic",
+      "autonym": "Gàidhlig",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["gd-GB", "gd"]
+    },
+    "gn_PY": {
+      "englishName": "Guaraní",
+      "autonym": "Avañeʼẽ",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["gn-PY", "gn"]
+    },
+    "haw_US": {
+      "englishName": "Hawaiian",
+      "autonym": "ʻŌlelo Hawaiʻi",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["haw-US", "haw"]
+    },
+    "iu_CA": {
+      "englishName": "Inuktitut",
+      "autonym": "ᐃᓄᒃᑎᑐᑦ",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["iu-Cans-CA", "iu-Latn-CA", "iu-Cans", "iu-Latn", "iu"]
+    },
+    "lkt_US": {
+      "englishName": "Lakota",
+      "autonym": "Lakȟólʼiyapi",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["lkt-US", "lkt"]
+    },
+    "mi_NZ": {
+      "englishName": "Māori",
+      "autonym": "te reo Māori",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["mi-NZ", "mi"]
+    },
+    "moh_CA": {
+      "englishName": "Mohawk",
+      "autonym": "Kanienʼkéha",
+      "category": "supplemental",
+      "windowsDisplayLanguage": true,
+      "osCulturePatterns": ["moh-CA", "moh"]
+    },
+    "nv_US": {
+      "englishName": "Navajo",
+      "autonym": "Diné Bizaad",
+      "category": "supplemental",
+      "windowsDisplayLanguage": false,
+      "osCulturePatterns": ["nv-US", "nv"]
+    },
+    "oj_CA": {
+      "englishName": "Ojibwe",
+      "autonym": "Anishinaabemowin",
+      "category": "supplemental",
+      "windowsDisplayLanguage": false,
+      "osCulturePatterns": ["oj-Cans-CA", "oj-Latn-CA", "oj-Cans", "oj-Latn", "oj"]
+    },
+    "sco_GB": {
+      "englishName": "Scots",
+      "autonym": "Scots",
+      "category": "supplemental",
+      "windowsDisplayLanguage": false,
+      "osCulturePatterns": ["sco-GB", "sco"]
+    },
+    "sm_WS": {
+      "englishName": "Samoan",
+      "autonym": "Gagana Samoa",
+      "category": "supplemental",
+      "windowsDisplayLanguage": false,
+      "osCulturePatterns": ["sm-WS", "sm-AS", "sm"]
+    }
+  },
+  "windowsEndangeredGaps": []
+}

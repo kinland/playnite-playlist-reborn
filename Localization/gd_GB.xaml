@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Cuir ris an liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Àite (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Ath-shòrachadh dìreach am broinn an aon bhuidheann-tìm ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Tha ath-shòrachadh à comas fhad 's a tha sòrtachadh a rèir {0}. Sòraich a rèir {1} gus ath-shòrachadh.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Cliog deas air geama sa leabharlann agus tagh "Cuir ris an liosta-chluich"</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Cha b' urrainn le leudachan Liosta-chluich am faidhle a luchdadh:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sòraich a rèir {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Crìochnachaidh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-obrachail</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Prìomh + a bharrachd</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Sgeulachd phrìomhach</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Aonar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">An aghaidh</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">Tha HowLongToBeat air a stàladh ach tha e ciorramach — cliog gus Add-ons fhosgladh agus a chur an comas</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">Chan eil HowLongToBeat air a stàladh — cliog gus Add-ons fhosgladh agus a stàladh</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Tha eadar-obrachadh HowLongToBeat ciorramach — cliog gus roghainnean Liosta-chluich fhosgladh</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Gnìomhachd mu dheireadh</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} latha air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} uair a thìde air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">O chionn fhada</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">{0} mionaid air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">An-dràsta</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">{0} mìos air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">{0} latha air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">{0} uair a thìde air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">{0} mionaid air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">{0} mìos air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">{0} seachdain air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} bliadhna air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} seachdain air ais</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Air a chluich mu dheireadh</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Gluais gu bun</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Gluais gu mullach</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}u {1}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}u</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} mionaid</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Thoir air falbh on liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Falamhaich an lorg</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Lorg sa liosta-chluich. Taic:
+- freagairteachd mhearachdach agus freagairteachd phàirteach le * agus ?
+- caolachadh le tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- aghaidh air caolachadh le ! (m.e.: !genre:shooter)
+- cuir luachan le beàrnan ann an comharran (m.e. tag:"Action Roguelike")
+- coma no | airson NO; ath-aithris scòp no &amp; airson AGUS</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Cuir an comas eadar-obrachadh HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaich bogsa-luirg eadar am prìomh phannal agus Liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Seall sa leabharlann</sys:String>
+</ResourceDictionary>
