@@ -987,10 +987,10 @@ namespace Playlist
             }
 
             PlaylistSettings settings = Playlist.StaticSettings;
+            bool hltbPluginEnabled = HowLongToBeatAddonNavigation.IsPluginEnabledInPlaynite(Playlist.StaticPlayniteApi);
             bool hltbIntegrationEnabled = settings?.EnableHowLongToBeatIntegration ?? true;
-            bool hltbAvailable = HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi);
-            bool showHowLongToBeatColumn = hltbIntegrationEnabled
-                && hltbAvailable
+            bool showHowLongToBeatColumn = hltbPluginEnabled
+                && hltbIntegrationEnabled
                 && (settings?.ShowHowLongToBeatColumn ?? true);
 
             SetColumnVisible(gridView, rankGridViewColumn, settings?.ShowRankColumn ?? true);
@@ -1415,7 +1415,7 @@ namespace Playlist
                 return false;
             }
 
-            if (!HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi))
+            if (!HowLongToBeatAddonNavigation.IsPluginEnabledInPlaynite(Playlist.StaticPlayniteApi))
             {
                 return false;
             }
@@ -1424,58 +1424,88 @@ namespace Playlist
         }
 
         /// <summary>
-        /// HowLongToBeat is a normal visibility toggle when integration is on. When integration is off but the
-        /// HLTB plugin is installed, the item stays clickable and opens this plugin's settings instead.
+        /// HowLongToBeat column menu item: opens Playlist settings when integration is off; toggles column
+        /// visibility when integration is on; opens Playnite Add-ons when the HLTB add-on is missing or disabled.
         /// </summary>
         private MenuItem BuildHowLongToBeatColumnMenuItem(PlaylistSettings settings)
         {
             string header = ResourceProvider.GetString("LOCPlaylist_Column_HowLongToBeat");
-            bool hltbAvailable = HowLongToBeatCache.IsAvailable(Playlist.StaticPlayniteApi);
-            bool columnVisible = IsHowLongToBeatColumnVisible(settings);
+            HltbInstallState installState = HowLongToBeatAddonNavigation.GetInstallState(Playlist.StaticPlayniteApi);
 
-            if (!hltbAvailable)
+            if (installState == HltbInstallState.NotInstalled)
             {
-                return BuildColumnToggleItem(
-                    HowLongToBeatColumnKey,
+                return BuildHowLongToBeatDisabledAppearanceMenuItem(
                     header,
                     isChecked: false,
-                    isEnabled: false,
-                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbRequiresPlugin"));
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbOpenAddonsToInstall"),
+                    onClick: () => HowLongToBeatAddonNavigation.OpenBrowseAddonPageFromPlaylistPrompt(Playlist.StaticPlayniteApi));
+            }
+
+            if (installState == HltbInstallState.InstalledDisabled)
+            {
+                return BuildHowLongToBeatDisabledAppearanceMenuItem(
+                    header,
+                    isChecked: false,
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbOpenAddonsToEnable"),
+                    onClick: () => HowLongToBeatAddonNavigation.OpenInstalledAddonPageFromPlaylistPrompt(Playlist.StaticPlayniteApi));
             }
 
             if (!settings.EnableHowLongToBeatIntegration)
             {
-                MenuItem item = new MenuItem
-                {
-                    Header = header,
-                    IsCheckable = true,
-                    IsChecked = false,
-                    IsEnabled = true,
-                    ToolTip = ResourceProvider.GetString("LOCPlaylist_HltbOpenSettingsToEnable"),
-                };
-                // MenuItem auto-toggles IsChecked on click; keep unchecked until integration is enabled.
-                item.Click += (s, e) =>
-                {
-                    item.IsChecked = false;
-                    OpenPlaylistPluginSettings();
-                };
-                return item;
+                return BuildHowLongToBeatDisabledAppearanceMenuItem(
+                    header,
+                    isChecked: false,
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbOpenSettingsToEnable"),
+                    onClick: () => OpenPlaylistPluginSettings(fromHltbColumnMenu: true));
             }
 
             return BuildColumnToggleItem(
                 HowLongToBeatColumnKey,
                 header,
-                columnVisible,
+                IsHowLongToBeatColumnVisible(settings),
                 isEnabled: true,
                 disabledToolTip: null);
         }
 
         /// <summary>
+        /// Grayed-out checkable menu item that stays clickable (integration off, or HLTB add-on unavailable).
+        /// </summary>
+        private MenuItem BuildHowLongToBeatDisabledAppearanceMenuItem(string header, bool isChecked, string disabledToolTip, Action onClick)
+        {
+            MenuItem item = new MenuItem
+            {
+                Header = header,
+                IsCheckable = true,
+                IsChecked = isChecked,
+                IsEnabled = true,
+                Opacity = 0.55,
+            };
+
+            if (!string.IsNullOrEmpty(disabledToolTip))
+            {
+                item.ToolTip = disabledToolTip;
+            }
+
+            item.Click += (s, e) =>
+            {
+                item.IsChecked = false;
+                onClick();
+            };
+            return item;
+        }
+
+        /// <summary>
         /// Opens this extension's settings dialog (Playnite SDK <c>Plugin.OpenSettingsView</c>, desktop only).
         /// </summary>
-        private void OpenPlaylistPluginSettings()
+        private void OpenPlaylistPluginSettings(bool fromHltbColumnMenu = false)
         {
+            if (fromHltbColumnMenu)
+            {
+                (Playlist.StaticSettings as PlaylistSettings)?.MarkPendingShowHowLongToBeatColumnFromHeaderMenu();
+            }
+
             Playlist.StaticPluginInstance?.OpenSettingsView();
+            (Playlist.StaticSettings as PlaylistSettings)?.ExpireSessionOnlyHltbPendingFlags();
             ApplyColumnVisibility();
             UpdateLastPlayedTimerState();
             PersistLayoutState();

@@ -42,5 +42,7 @@
     <Compile Include="..\..\SearchQueryTokenizer.cs" Link="Production\SearchQueryTokenizer.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbSettingsJson.cs" Link="Production\HltbSettingsJson.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbPlaytimeFormat.cs" Link="Production\HltbPlaytimeFormat.cs" />
+    <Compile Include="..\..\PlaylistSettings.cs" Link="Production\PlaylistSettings.cs" />
+    <Compile Include="..\..\third_party\howlongtobeat\HowLongToBeatAddonNavigation.cs" Link="Production\HowLongToBeatAddonNavigation.cs" />
   </ItemGroup>
 </Project>

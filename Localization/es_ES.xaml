@@ -14,6 +14,8 @@
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbRequiresPlugin">Requiere que el complemento HowLongToBeat este instalado</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbRequiresIntegration">Active la integracion de HowLongToBeat en la configuracion del complemento</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat esta instalado pero desactivado; haga clic para abrir Complementos y activarlo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat no esta instalado; haga clic para abrir Complementos e instalarlo</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">La integracion de HowLongToBeat esta desactivada; haga clic para abrir la configuracion de Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_ShowLastPlayedColumn">Mostrar columna de ultimo juego</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Mostrar columna de HowLongToBeat</sys:String>

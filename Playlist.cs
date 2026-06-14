@@ -122,6 +122,7 @@ namespace Playlist
 
         public override UserControl GetSettingsView(bool firstRunSettings)
         {
+            settings.RefreshHowLongToBeatInstallState();
             PlaylistSettingsView view = new PlaylistSettingsView
             {
                 DataContext = settings,
@@ -314,6 +315,10 @@ namespace Playlist
                     }
                 };
 
+                settings.ExpireSessionOnlyHltbPendingFlags();
+                settings.ExpireAddonPendingIfHltbStillUnavailable();
+                settings.RefreshHowLongToBeatInstallState();
+                ApplySettingsToOpenView();
             }
             catch (Exception e)
             {

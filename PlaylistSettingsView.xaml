@@ -12,17 +12,33 @@
             plugin's data, not just column visibility.
         -->
         <CheckBox
+            x:Name="enableHowLongToBeatIntegrationCheckBox"
             VerticalAlignment="Center"
-            IsChecked="{Binding EnableHowLongToBeatIntegration}"
-            IsEnabled="{Binding IsHowLongToBeatAvailable}"
-            ToolTipService.ShowOnDisabled="True"
+            IsChecked="{Binding HowLongToBeatIntegrationCheckboxDisplay, Mode=TwoWay}"
+            IsEnabled="True"
+            PreviewMouseLeftButtonDown="EnableHowLongToBeatIntegrationCheckBox_PreviewMouseLeftButtonDown"
             Content="{DynamicResource LOCPlaylist_Settings_EnableHowLongToBeatIntegration}">
             <CheckBox.Style>
                 <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsHowLongToBeatAvailable}" Value="False">
-                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HltbRequiresPlugin}" />
+                            <Setter Property="Opacity" Value="0.55" />
+                            <Setter Property="Cursor" Value="Hand" />
                         </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsHowLongToBeatAvailable}" Value="False" />
+                                <Condition Binding="{Binding IsHowLongToBeatInstalledDisabled}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HltbOpenAddonsToEnable}" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsHowLongToBeatAvailable}" Value="False" />
+                                <Condition Binding="{Binding IsHowLongToBeatNotInstalled}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HltbOpenAddonsToInstall}" />
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </CheckBox.Style>
