@@ -437,7 +437,7 @@ namespace Playlist
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.ApplicationIdle);
         }
 
-        private const double CollapsedColumnWidthThreshold = 0.5;
+        private const double CollapsedColumnWidthThreshold = PlaylistColumnLayoutPersistence.CollapsedColumnWidthThreshold;
 
         /// <summary>
         /// When a toggleable column is resized to zero width, hide it via the same settings as the header menu.
@@ -1131,76 +1131,6 @@ namespace Playlist
                 .ToDictionary(group => group.Key, group => group.First());
         }
 
-        private static List<string> MergeVisibleAndHiddenColumnOrder(
-            IReadOnlyList<string> visibleKeysInOrder,
-            IReadOnlyList<string> hiddenKeys,
-            IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey,
-            int totalColumns)
-        {
-            // Hidden columns keep their prior DisplayIndex slots so re-showing restores position.
-            var hiddenSlotAssignments = new SortedDictionary<int, string>();
-            var unassignedHidden = new List<string>();
-
-            foreach (string key in hiddenKeys)
-            {
-                int slot = previousByKey.TryGetValue(key, out PlaylistColumnLayoutState layout)
-                    ? layout.DisplayIndex
-                    : int.MaxValue;
-                if (slot >= 0 && slot < totalColumns && !hiddenSlotAssignments.ContainsKey(slot))
-                {
-                    hiddenSlotAssignments[slot] = key;
-                }
-                else
-                {
-                    unassignedHidden.Add(key);
-                }
-            }
-
-            var result = new List<string>(totalColumns);
-            int visibleIndex = 0;
-            int hiddenFallbackIndex = 0;
-
-            for (int slot = 0; slot < totalColumns; slot++)
-            {
-                if (hiddenSlotAssignments.TryGetValue(slot, out string hiddenKey))
-                {
-                    result.Add(hiddenKey);
-                    continue;
-                }
-
-                if (visibleIndex < visibleKeysInOrder.Count)
-                {
-                    result.Add(visibleKeysInOrder[visibleIndex++]);
-                    continue;
-                }
-
-                while (hiddenFallbackIndex < unassignedHidden.Count)
-                {
-                    string key = unassignedHidden[hiddenFallbackIndex++];
-                    if (!result.Contains(key))
-                    {
-                        result.Add(key);
-                        break;
-                    }
-                }
-            }
-
-            while (visibleIndex < visibleKeysInOrder.Count)
-            {
-                result.Add(visibleKeysInOrder[visibleIndex++]);
-            }
-
-            foreach (string key in hiddenKeys)
-            {
-                if (!result.Contains(key))
-                {
-                    result.Add(key);
-                }
-            }
-
-            return result;
-        }
-
         private double GetPersistedWidthForColumnKey(
             string columnKey,
             GridView gridView,
@@ -1208,46 +1138,16 @@ namespace Playlist
             IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey,
             bool persistColumnWidths)
         {
-            if (columnKey == IconColumnKey)
-            {
-                return PlaylistGridViewLayout.IconColumnWidth;
-            }
-
-            if (!persistColumnWidths)
-            {
-                if (previousByKey.TryGetValue(columnKey, out PlaylistColumnLayoutState previousLayout)
-                    && !double.IsNaN(previousLayout.Width)
-                    && previousLayout.Width > CollapsedColumnWidthThreshold)
-                {
-                    return previousLayout.Width;
-                }
-
-                double defaultWidth = GetDefaultColumnWidth(columnKey);
-                return double.IsNaN(defaultWidth) ? 0 : defaultWidth;
-            }
-
             GridViewColumn column = GetColumnByKey(columnKey);
-            if (column != null && gridView.Columns.Contains(column))
-            {
-                return GetWidthForLayoutPersistence(settings, columnKey, column.Width);
-            }
-
-            if (previousByKey.TryGetValue(columnKey, out PlaylistColumnLayoutState hiddenLayout)
-                && !double.IsNaN(hiddenLayout.Width)
-                && hiddenLayout.Width > CollapsedColumnWidthThreshold)
-            {
-                return hiddenLayout.Width;
-            }
-
-            if (column != null
-                && !double.IsNaN(column.Width)
-                && column.Width > CollapsedColumnWidthThreshold)
-            {
-                return column.Width;
-            }
-
-            double restoredWidth = TryGetPersistedColumnWidth(settings, columnKey) ?? GetDefaultColumnWidth(columnKey);
-            return double.IsNaN(restoredWidth) ? 0 : restoredWidth;
+            bool isVisible = column != null && gridView.Columns.Contains(column);
+            double? visibleWidth = isVisible ? column.Width : (double?)null;
+            return PlaylistColumnLayoutPersistence.ResolvePersistedWidthForColumnKey(
+                columnKey,
+                visibleWidth,
+                isVisible,
+                persistColumnWidths,
+                previousByKey,
+                settings?.ColumnLayouts);
         }
 
         private List<PlaylistColumnLayoutState> BuildColumnLayoutsForPersistence(
@@ -1277,7 +1177,7 @@ namespace Playlist
                 })
                 .ToList();
 
-            List<string> fullOrder = MergeVisibleAndHiddenColumnOrder(
+            List<string> fullOrder = PlaylistColumnLayoutPersistence.MergeVisibleAndHiddenColumnOrder(
                 visibleKeysInOrder,
                 hiddenKeys,
                 previousByKey,
@@ -1295,19 +1195,7 @@ namespace Playlist
 
         private static double? TryGetPersistedColumnWidth(PlaylistSettings settings, string columnKey)
         {
-            if (settings?.ColumnLayouts == null || string.IsNullOrEmpty(columnKey))
-            {
-                return null;
-            }
-
-            PlaylistColumnLayoutState layout = settings.ColumnLayouts
-                .FirstOrDefault(item => item != null && item.Key == columnKey);
-            if (layout == null || double.IsNaN(layout.Width) || layout.Width <= CollapsedColumnWidthThreshold)
-            {
-                return null;
-            }
-
-            return layout.Width;
+            return PlaylistColumnLayoutPersistence.TryGetPersistedColumnWidth(settings?.ColumnLayouts, columnKey);
         }
 
         private static double GetDefaultColumnWidth(string columnKey)
@@ -1351,17 +1239,10 @@ namespace Playlist
 
         private static double GetWidthForLayoutPersistence(PlaylistSettings settings, string columnKey, double currentWidth)
         {
-            if (columnKey == IconColumnKey)
-            {
-                return PlaylistGridViewLayout.IconColumnWidth;
-            }
-
-            if (!double.IsNaN(currentWidth) && currentWidth > CollapsedColumnWidthThreshold)
-            {
-                return currentWidth;
-            }
-
-            return TryGetPersistedColumnWidth(settings, columnKey) ?? currentWidth;
+            return PlaylistColumnLayoutPersistence.GetWidthForLayoutPersistence(
+                columnKey,
+                currentWidth,
+                settings?.ColumnLayouts);
         }
 
         /// <summary>
