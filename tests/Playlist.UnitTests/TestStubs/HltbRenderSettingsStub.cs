@@ -69,3 +69,23 @@ internal sealed class HltbRenderSettings
         };
     }
 }
+
+// Test-only minimal shapes required by HltbSortKeyBuilder tests.
+internal sealed class HltbCachedTimes
+{
+    public HltbTimeVariants MainStory { get; set; }
+    public HltbTimeVariants MainExtra { get; set; }
+    public HltbTimeVariants Completionist { get; set; }
+    public HltbTimeVariants Solo { get; set; }
+    public HltbTimeVariants CoOp { get; set; }
+    public HltbTimeVariants Vs { get; set; }
+}
+
+internal sealed class HltbTimeVariants
+{
+    public long Classic { get; set; }
+    public long Median { get; set; }
+    public long Average { get; set; }
+    public long Rushed { get; set; }
+    public long Leisure { get; set; }
+}
