@@ -1,21 +1,20 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">A�adir a la lista de juegos pendientes</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Posicion (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Reordena solo dentro del mismo grupo temporal ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">La reordenación está desactivada mientras se ordena por {0}. Ordena por {1} para reordenar.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">En la biblioteca haga clic derecho en un juego y seleccione "A�adir a la lista de juegos pendientes"</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">La extension Playlist no pudo cargar el archivo:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (ordenar por {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Completista</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Historia + extras</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Historia principal</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat esta instalado pero desactivado; haga clic para abrir Complementos y activarlo</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat no esta instalado; haga clic para abrir Complementos e instalarlo</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">La integracion de HowLongToBeat esta desactivada; haga clic para abrir la configuracion de Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat esta instalado pero desactivado; haga clic para abrir Complementos y activarlo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat no esta instalado; haga clic para abrir Complementos e instalarlo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">La integracion de HowLongToBeat esta desactivada; haga clic para abrir la configuracion de Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (ordenar por {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Completista</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Historia + extras</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Historia principal</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Ultima actividad</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">hace {0} días</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">hace {0} horas</sys:String>
@@ -31,24 +30,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">hace {0} año</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">hace {0} semanas</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Jugado por ultima vez</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Mover al final</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Mover al principio</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">A�adir a la lista de juegos pendientes</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Mover al final</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Mover al principio</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Eliminar de la lista de juegos pendientes</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Mostrar en biblioteca</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Lista de juegos pendientes</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0} h {1} min</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0} h</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minutos</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0} min</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Eliminar de la lista de juegos pendientes</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Borrar busqueda</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Buscar en la lista. Admite:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Buscar en la lista. Admite:
 - coincidencia difusa y parcial con comodines * y ?
 - restriccion por ambito con tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - invertir la restriccion por ambito con ! (p. ej.: !genre:shooter)
 - comillar valores con espacios (p. ej. tag:"Action Roguelike")
 - coma o | (barra vertical) para OR; repetir ambito o &amp; para AND</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activar integracion de HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Activar integracion de HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Idioma de la lista de reproducción</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">El idioma de tu sistema es {0}. ¿Usar {1} solo para la lista de reproducción?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar la busqueda entre el panel principal y la lista</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Mostrar en biblioteca</sys:String>
 </ResourceDictionary>

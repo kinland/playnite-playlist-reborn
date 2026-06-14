@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Pridėti į grojaraštį</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Vieta (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Keiskite tvarką tik toje pačioje laiko grupėje ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Keitimas išjungtas, kai rūšiuojama pagal {0}. Norėdami keisti tvarką, rūšiuokite pagal {1}.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Dešiniuoju pelės mygtuku spustelėkite žaidimą bibliotekoje ir pasirinkite „Pridėti į grojaraštį“</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Grojaraščio plėtinys negalėjo įkelti failo:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (rūšiuoti pagal {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Pilnas įveikimas</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Kooperacija</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Pagrindinė + papildoma</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Pagrindinė istorija</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat įdiegtas, bet išjungtas — spustelėkite, kad atidarytumėte Papildinius ir jį įjungtumėte</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat neįdiegtas — spustelėkite, kad atidarytumėte Papildinius ir jį įdiegtumėte</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat integracija išjungta — spustelėkite, kad atidarytumėte Grojaraščio nustatymus</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat įdiegtas, bet išjungtas — spustelėkite, kad atidarytumėte Papildinius ir jį įjungtumėte</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat neįdiegtas — spustelėkite, kad atidarytumėte Papildinius ir jį įdiegtumėte</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">HowLongToBeat integracija išjungta — spustelėkite, kad atidarytumėte Grojaraščio nustatymus</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (rūšiuoti pagal {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Pilnas įveikimas</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Kooperacija</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Pagrindinė + papildoma</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Pagrindinė istorija</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Paskutinė veikla</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">prieš {0} dienas</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">prieš {0} valandas</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">prieš {0} metus</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">prieš {0} savaites</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Paskutinį kartą žaista</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Perkelti į apačią</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Perkelti į viršų</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Pridėti į grojaraštį</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Perkelti į apačią</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Perkelti į viršų</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Pašalinti iš grojaraščio</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Rodyti bibliotekoje</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Grojaraštis</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}val. {1}min.</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}val.</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} min.</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}min.</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Pašalinti iš grojaraščio</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Išvalyti paiešką</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Ieškoti grojaraštyje. Palaiko:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Ieškoti grojaraštyje. Palaiko:
 - neaiškų ir dalinį atitikimą su pakaitos simboliais * ir ?
 - srities susiaurinimą naudojant tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - susiaurinimo apvertimą su ! (pvz.: !genre:shooter)
 - reikšmes su tarpais kabutėse (pvz. tag:"Action Roguelike")
 - kablelį arba | (vertikalią brūkšnį) ARBA; pakartokite sritį arba &amp; IR</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Įjungti HowLongToBeat integraciją</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Įjungti HowLongToBeat integraciją</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Grojaraščio kalba</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jūsų sistemos kalba – {0}. Naudoti {1} tik grojaraščiui?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinchronizuoti paieškos lauką tarp pagrindinio skydelio ir Grojaraščio</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Rodyti bibliotekoje</sys:String>
 </ResourceDictionary>

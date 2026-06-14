@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">प्लेलिस्टमध्ये जोडा</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">क्रमांक (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">त्याच वेळ गटात ({0})च पुनर्क्रमन करा.</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">{0} नुसार क्रमवारी असताना पुनर्क्रमन अक्षम आहे. पुनर्क्रमनासाठी {1} नुसार क्रमवारी करा.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">वाचनालयातील खेळावर उजवे क्लिक करा आणि "प्लेलिस्टमध्ये जोडा" निवडा</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">प्लेलिस्ट विस्तारक फाइल लोड करू शकला नाही:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> ({0} नुसार क्रमवारी)</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">पूर्ण पूर्णत्व</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">सहकार्य</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">मुख्य + अतिरिक्त</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">मुख्य कथा</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">एकटा</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">विरुद्ध</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat स्थापित आहे पण अक्षम आहे — ऍड-ऑन्स उघडा आणि सक्षम करा यासाठी क्लिक करा</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat स्थापित नाही — ऍड-ऑन्स उघडा आणि स्थापित करा यासाठी क्लिक करा</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat समावेश अक्षम आहे — प्लेलिस्ट सेटिंग्ज उघडा यासाठी क्लिक करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat स्थापित आहे पण अक्षम आहे — ऍड-ऑन्स उघडा आणि सक्षम करा यासाठी क्लिक करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat स्थापित नाही — ऍड-ऑन्स उघडा आणि स्थापित करा यासाठी क्लिक करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">HowLongToBeat समावेश अक्षम आहे — प्लेलिस्ट सेटिंग्ज उघडा यासाठी क्लिक करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> ({0} नुसार क्रमवारी)</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">पूर्ण पूर्णत्व</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">सहकार्य</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">मुख्य + अतिरिक्त</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">मुख्य कथा</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">एकटा</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">विरुद्ध</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">शेवटची क्रिया</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} दिवसांपूर्वी</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} तासांपूर्वी</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} वर्षापूर्वी</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} आठवड्यांपूर्वी</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">शेवटचे खेळले</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">खाली हलवा</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">वर हलवा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">प्लेलिस्टमध्ये जोडा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">खाली हलवा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">वर हलवा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">प्लेलिस्टमधून काढा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">वाचनालयात दाखवा</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">प्लेलिस्ट</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}ता {1}मि</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}ता</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} मिनिटे</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}मि</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">प्लेलिस्टमधून काढा</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">शोध साफ करा</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">प्लेलिस्टमध्ये शोधा. समर्थन करते:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">प्लेलिस्टमध्ये शोधा. समर्थन करते:
 - * आणि ? wildcards सह fuzzy आणि partial matching
 - tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat: वापरून scope संकुचित करणे
 - ! वापरून scope संकुचित करणे उलटा (उदा.: !genre:shooter)
 - space असणारे values quotes मध्ये (उदा. tag:"Action Roguelike")
 - OR साठी comma किंवा | (pipe); AND साठी scope पुन्हा किंवा &amp;</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat समावेश सक्षम करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat समावेश सक्षम करा</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">प्लेलिस्ट भाषा</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">तुमच्या प्रणालीची भाषा {0} आहे. फक्त प्लेलिस्टसाठी {1} वापरायचे?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">मुख्य पॅनेल आणि प्लेलिस्ट दरम्यान शोध बॉक्स समक्रमित करा</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">वाचनालयात दाखवा</sys:String>
 </ResourceDictionary>

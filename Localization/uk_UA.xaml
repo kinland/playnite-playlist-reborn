@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Додати до списку відтворення</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Місце (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Змінюйте порядок лише в межах однієї часової групи ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Змінення порядку вимкнено під час сортування за {0}. Відсортуйте за {1}, щоб змінити порядок.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Клацніть правою кнопкою миші на гру в бібліотеці та виберіть «Додати до списку відтворення»</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Розширення Список відтворення не змогло завантажити файл:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (сортування за {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Повне проходження</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Кооп</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Основна + додатково</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Основна історія</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Одиночна</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat встановлено, але вимкнено — клацніть, щоб відкрити Додатки та увімкнути його</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat не встановлено — клацніть, щоб відкрити Додатки та встановити його</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Інтеграцію HowLongToBeat вимкнено — клацніть, щоб відкрити налаштування Списку відтворення</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat встановлено, але вимкнено — клацніть, щоб відкрити Додатки та увімкнути його</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat не встановлено — клацніть, щоб відкрити Додатки та встановити його</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">Інтеграцію HowLongToBeat вимкнено — клацніть, щоб відкрити налаштування Списку відтворення</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (сортування за {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Повне проходження</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Кооп</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Основна + додатково</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Основна історія</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Одиночна</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Остання активність</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} днів тому</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} годин тому</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} рік тому</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} тижнів тому</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Остання гра</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Перемістити вниз</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Перемістити вгору</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Додати до списку відтворення</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Перемістити вниз</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Перемістити вгору</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Видалити зі списку відтворення</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Показати в бібліотеці</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Список відтворення</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}год {1}хв</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}год</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} хв</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}хв</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Видалити зі списку відтворення</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Очистити пошук</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Пошук у списку відтворення. Підтримує:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Пошук у списку відтворення. Підтримує:
 - нечітке та часткове збігання з символами підстановки * і ?
 - звуження області за допомогою tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - інвертування звуження за допомогою ! (напр.: !genre:shooter)
 - значення з пробілами в лапках (напр. tag:"Action Roguelike")
 - кому або | (вертикальну риску) для АБО; повторення області або &amp; для І</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Увімкнути інтеграцію HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Увімкнути інтеграцію HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Мова плейлиста</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Мова вашої системи — {0}. Використовувати {1} лише для плейлиста?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронізувати поле пошуку між головною панеллю та Списком відтворення</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Показати в бібліотеці</sys:String>
 </ResourceDictionary>

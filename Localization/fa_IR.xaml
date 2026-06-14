@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">افزودن به فهرست پخش</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">رتبه (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">فقط در همان گروه زمانی ({0}) مرتب‌سازی مجدد انجام دهید.</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">مرتب‌سازی مجدد هنگام مرتب‌سازی بر اساس {0} غیرفعال است. برای مرتب‌سازی مجدد بر اساس {1} مرتب کنید.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">روی یک بازی در کتابخانه راست‌کلیک کنید و «افزودن به فهرست پخش» را انتخاب کنید</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">افزونه فهرست پخش نتوانست فایل را بارگذاری کند:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (مرتب‌سازی بر اساس {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">تکمیل کامل</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">همکاری</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">اصلی + فرعی</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">داستان اصلی</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">انفرادی</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">مقابل</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat نصب شده اما غیرفعال است — برای باز کردن افزونه‌ها و فعال‌سازی آن کلیک کنید</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat نصب نشده — برای باز کردن افزونه‌ها و نصب آن کلیک کنید</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">یکپارچه‌سازی HowLongToBeat غیرفعال است — برای باز کردن تنظیمات فهرست پخش کلیک کنید</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat نصب شده اما غیرفعال است — برای باز کردن افزونه‌ها و فعال‌سازی آن کلیک کنید</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat نصب نشده — برای باز کردن افزونه‌ها و نصب آن کلیک کنید</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">یکپارچه‌سازی HowLongToBeat غیرفعال است — برای باز کردن تنظیمات فهرست پخش کلیک کنید</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (مرتب‌سازی بر اساس {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">تکمیل کامل</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">همکاری</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">اصلی + فرعی</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">داستان اصلی</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">انفرادی</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">مقابل</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">آخرین فعالیت</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} روز پیش</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} ساعت پیش</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} سال پیش</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} هفته پیش</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">آخرین بازی</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">انتقال به پایین</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">انتقال به بالا</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">افزودن به فهرست پخش</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">انتقال به پایین</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">انتقال به بالا</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">حذف از فهرست پخش</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">نمایش در کتابخانه</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">فهرست پخش</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}س {1}د</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}س</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} دقیقه</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}د</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">حذف از فهرست پخش</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">پاک کردن جستجو</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">جستجو در فهرست پخش. پشتیبانی می‌کند از:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">جستجو در فهرست پخش. پشتیبانی می‌کند از:
 - تطابق تقریبی و جزئی با wildcardهای * و ?
 - محدود کردن دامنه با tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - معکوس کردن محدودیت دامنه با ! (مثال: !genre:shooter)
 - قرار دادن مقادیر دارای فاصله در گیومه (مثال tag:"Action Roguelike")
 - ویرگول یا | (خط عمودی) برای OR؛ تکرار دامنه یا &amp; برای AND</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">فعال‌سازی یکپارچه‌سازی HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">فعال‌سازی یکپارچه‌سازی HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">زبان فهرست پخش</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">زبان سیستم شما {0} است. {1} فقط برای فهرست پخش استفاده شود؟</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">همگام‌سازی جعبه جستجو بین پنل اصلی و فهرست پخش</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">نمایش در کتابخانه</sys:String>
 </ResourceDictionary>

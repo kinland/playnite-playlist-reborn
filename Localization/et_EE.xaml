@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Lisa esitusloendisse</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Koht (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Ümberjärjesta ainult samas ajagrupis ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Ümberjärjestamine on keelatud, kui sorteeritakse {0} järgi. Ümberjärjestamiseks sorteeri {1} järgi.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Klõpsa raamatukogus mängul parema hiireklahviga ja vali „Lisa esitusloendisse“</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Esitusloendi laiendus ei saanud faili laadida:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sorteeri {0} järgi)</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Lõpuni</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Koostöö</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Põhi + lisa</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Põhiline lugu</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Üksik</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat on installitud, kuid keelatud — klõpsa, et avada Lisad ja see lubada</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat pole installitud — klõpsa, et avada Lisad ja see installida</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat integratsioon on keelatud — klõpsa, et avada Esitusloendi seaded</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat on installitud, kuid keelatud — klõpsa, et avada Lisad ja see lubada</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat pole installitud — klõpsa, et avada Lisad ja see installida</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">HowLongToBeat integratsioon on keelatud — klõpsa, et avada Esitusloendi seaded</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (sorteeri {0} järgi)</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Lõpuni</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Koostöö</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Põhi + lisa</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Põhiline lugu</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Üksik</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Viimane tegevus</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} päeva tagasi</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} tundi tagasi</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} aasta tagasi</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} nädalat tagasi</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Viimati mängitud</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Liiguta alla</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Liiguta üles</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Lisa esitusloendisse</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Liiguta alla</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Liiguta üles</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Eemalda esitusloendist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Näita raamatukogus</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Esitusloend</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0} h {1} min</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0} h</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minutit</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0} min</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Eemalda esitusloendist</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Tühjenda otsing</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Otsi esitusloendist. Toetab:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Otsi esitusloendist. Toetab:
 - hägust ja osalist vastavust metamärkidega * ja ?
 - ulatuse kitsendamist tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - ulatuse kitsendamise pöördamist ! abil (nt: !genre:shooter)
 - tühikutega väärtuste jutumärkidesse panemist (nt tag:"Action Roguelike")
 - koma või | (toru) VÕI jaoks; ulatuse kordamist või &amp; JA jaoks</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Luba HowLongToBeat integratsioon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Luba HowLongToBeat integratsioon</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Esitusloendi keel</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Teie süsteemi keel on {0}. Kas kasutada {1} ainult esitusloendi jaoks?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sünkroniseeri otsingukast peapaneeli ja Esitusloendi vahel</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Näita raamatukogus</sys:String>
 </ResourceDictionary>

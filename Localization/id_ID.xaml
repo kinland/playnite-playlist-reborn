@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Tambahkan ke Daftar Putar</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Peringkat (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Urutkan ulang hanya dalam kelompok waktu yang sama ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Pengurutan ulang dinonaktifkan saat diurutkan menurut {0}. Urutkan menurut {1} untuk mengurutkan ulang.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Klik kanan game di perpustakaan dan pilih "Tambahkan ke Daftar Putar"</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Ekstensi Daftar Putar tidak dapat memuat file:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (urutkan menurut {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Penyelesaian lengkap</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Ko-op</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Utama + ekstra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Cerita utama</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat terpasang tetapi dinonaktifkan — klik untuk membuka Add-on dan mengaktifkannya</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat belum terpasang — klik untuk membuka Add-on dan memasangnya</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Integrasi HowLongToBeat dinonaktifkan — klik untuk membuka pengaturan Daftar Putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat terpasang tetapi dinonaktifkan — klik untuk membuka Add-on dan mengaktifkannya</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat belum terpasang — klik untuk membuka Add-on dan memasangnya</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">Integrasi HowLongToBeat dinonaktifkan — klik untuk membuka pengaturan Daftar Putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (urutkan menurut {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Penyelesaian lengkap</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Ko-op</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Utama + ekstra</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Cerita utama</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Aktivitas Terakhir</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} hari yang lalu</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} jam yang lalu</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} tahun yang lalu</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} minggu yang lalu</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Terakhir Dimainkan</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Pindah ke Bawah</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Pindah ke Atas</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Tambahkan ke Daftar Putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Pindah ke Bawah</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Pindah ke Atas</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Hapus dari Daftar Putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Tampilkan di Perpustakaan</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Daftar Putar</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}j {1}m</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}j</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} menit</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Hapus dari Daftar Putar</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Hapus pencarian</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Cari di daftar putar. Mendukung:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Cari di daftar putar. Mendukung:
 - pencocokan fuzzy dan parsial dengan wildcard * dan ?
 - pembatasan ruang lingkup dengan tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - membalik pembatasan ruang lingkup dengan ! (contoh: !genre:shooter)
 - nilai dengan spasi dalam tanda kutip (contoh tag:"Action Roguelike")
 - koma atau | (pipa) untuk ATAU; ulangi ruang lingkup atau &amp; untuk DAN</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktifkan integrasi HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktifkan integrasi HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Bahasa daftar putar</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Bahasa sistem Anda adalah {0}. Gunakan {1} hanya untuk Daftar Putar?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronkan kotak pencarian antara panel utama dan Daftar Putar</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Tampilkan di Perpustakaan</sys:String>
 </ResourceDictionary>

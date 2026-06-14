@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Adaugă la lista de redare</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Poziție (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Reordonează doar în același grup de timp ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Reordonarea este dezactivată cât timp sortarea este după {0}. Sortează după {1} pentru a reordona.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Faceți clic dreapta pe un joc din bibliotecă și selectați „Adaugă la lista de redare”</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Extensia Listă de redare nu a putut încărca fișierul:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sortare după {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Completist</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Principal + extra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Poveste principală</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat este instalat, dar dezactivat — faceți clic pentru a deschide Suplimentele și a-l activa</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat nu este instalat — faceți clic pentru a deschide Suplimentele și a-l instala</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Integrarea HowLongToBeat este dezactivată — faceți clic pentru a deschide setările Listei de redare</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat este instalat, dar dezactivat — faceți clic pentru a deschide Suplimentele și a-l activa</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat nu este instalat — faceți clic pentru a deschide Suplimentele și a-l instala</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">Integrarea HowLongToBeat este dezactivată — faceți clic pentru a deschide setările Listei de redare</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (sortare după {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Completist</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Co-op</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Principal + extra</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Poveste principală</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Ultima activitate</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">acum {0} zile</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">acum {0} ore</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">acum {0} an</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">acum {0} săptămâni</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Ultima sesiune</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Mută jos</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Mută sus</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Adaugă la lista de redare</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Mută jos</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Mută sus</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Elimină din lista de redare</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Afișează în bibliotecă</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Listă de redare</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}h {1}m</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}h</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minute</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Elimină din lista de redare</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Șterge căutarea</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Căutați în lista de redare. Suportă:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Căutați în lista de redare. Suportă:
 - potrivire fuzzy și parțială cu caracterele wildcard * și ?
 - restrângerea domeniului cu tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - inversarea restrângerii cu ! (ex.: !genre:shooter)
 - valori cu spații între ghilimele (ex. tag:"Action Roguelike")
 - virgulă sau | (bară verticală) pentru SAU; repetați domeniul sau &amp; pentru ȘI</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activează integrarea HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Activează integrarea HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Limba playlistului</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Limba sistemului tău este {0}. Folosiți {1} doar pentru playlist?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizează caseta de căutare între panoul principal și Lista de redare</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Afișează în bibliotecă</sys:String>
 </ResourceDictionary>

@@ -1,24 +1,23 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Cuir leis an tSeinnliosta Seinm</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Céim (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Athordaigh laistigh den ghrúpa ama céanna amháin ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Tá athordú díchumasaithe agus sórtáil de réir {0} i bhfeidhm. Sórtáil de réir {1} chun athordú.</sys:String>
     <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Cliceáil ar dheis ar chluiche sa leabharlann agus roghnaigh "Cuir leis an tSeinnliosta Seinm"</sys:String>
     <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Níorbh fhéidir leis an síneadh Seinnliosta Seinm an comhad a lódáil:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sórtáil de réir {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Críochnaitheoir</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Comhoibríocht</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Príomh + breise</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Príomhscéal</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Aonair</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">Tá HowLongToBeat suiteáilte ach díchumasaithe — cliceáil chun Breiseáin a oscailt agus é a chumasú</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">Níl HowLongToBeat suiteáilte — cliceáil chun Breiseáin a oscailt agus é a shuiteáil</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Tá comhtháthú HowLongToBeat díchumasaithe — cliceáil chun socruithe Seinnliosta Seinm a oscailt</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">Tá HowLongToBeat suiteáilte ach díchumasaithe — cliceáil chun Breiseáin a oscailt agus é a chumasú</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">Níl HowLongToBeat suiteáilte — cliceáil chun Breiseáin a oscailt agus é a shuiteáil</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">Tá comhtháthú HowLongToBeat díchumasaithe — cliceáil chun socruithe Seinnliosta Seinm a oscailt</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (sórtáil de réir {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Críochnaitheoir</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Comhoibríocht</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Príomh + breise</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Príomhscéal</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Aonair</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Gníomhaíocht is Déanaí</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} lá ó shin</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} uair an chloig ó shin</sys:String>
@@ -34,24 +33,25 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} bliain ó shin</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} seachtain ó shin</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Seinneadh go Deireanach</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Bog go dtí an Bun</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Bog go dtí an Barr</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Cuir leis an tSeinnliosta Seinm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Bog go dtí an Bun</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Bog go dtí an Barr</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Bain den tSeinnliosta Seinm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Taispeáin sa Leabharlann</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Seinnliosta Seinm</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}u {1}n</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}u</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} nóiméad</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}n</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Bain den tSeinnliosta Seinm</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Glan an cuardach</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Cuardaigh sa tseinnliosta seinm. Tacaíonn sé le:
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Cuardaigh sa tseinnliosta seinm. Tacaíonn sé le:
 - meaitseáil mhéil agus pháirteach le carachtair fhiáin * agus ?
 - scóip a chaolú le tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - caolú scóip a chur ar gcúl le ! (m.sh.: !genre:shooter)
 - luachanna le spásanna a chur idir comharthaí athfhriotail (m.sh. tag:"Action Roguelike")
 - camóg nó | (barr ingearach) le haghaidh NÓ; scóip a athdhéanamh nó &amp; le haghaidh AGUS</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Cumasaigh comhtháthú HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Cumasaigh comhtháthú HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Teanga an tSeinnliosta Seinm</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Is é {0} teanga do chórais. An n-úsáidfear {1} don tSeinnliosta Seinm amháin?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaigh an bosca cuardaigh idir an phríomhpainéal agus an tSeinnliosta Seinm</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Taispeáin sa Leabharlann</sys:String>
 </ResourceDictionary>
