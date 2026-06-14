@@ -12,13 +12,9 @@
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Last Activity</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Rank (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbRequiresPlugin">Requires the HowLongToBeat plugin to be installed</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbRequiresIntegration">Enable HowLongToBeat integration in plugin settings</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat is installed but disabled — click to open Add-ons and enable it</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat is not installed — click to open Add-ons and install it</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat integration is disabled — click to open Playlist settings</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_ShowLastPlayedColumn">Show Last Played column</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Show HowLongToBeat column</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Enable HowLongToBeat integration</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Search playlist. Supports:

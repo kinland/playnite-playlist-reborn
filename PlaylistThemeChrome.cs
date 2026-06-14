@@ -98,11 +98,6 @@ namespace Playlist
             return new SortHeaderHighlightAppearance(background, border, foreground, useDarkeningOverlay);
         }
 
-        internal static SortHeaderHighlightAppearance GetSortHeaderHighlightAppearance(GridViewColumnHeader sampleHeader)
-        {
-            return GetSortHeaderHighlightAppearance(TryGetHeaderLabelColor(sampleHeader), sampleHeader == null ? null : sampleHeader.TryFindResource);
-        }
-
         internal static DropMarkerPalette GetDropMarkerPalette(
             Color? headerLabelColor,
             Func<string, object> tryFindResource = null)
@@ -110,13 +105,6 @@ namespace Playlist
             (Color slotCenter, Color glyph) = PlaylistThemeColors.GetDropMarkerPaletteColors(
                 PlaylistThemeColors.UseDarkeningOverlay(headerLabelColor, tryFindResource));
             return new DropMarkerPalette(slotCenter, glyph);
-        }
-
-        internal static DropMarkerPalette GetDropMarkerPalette(GridViewColumnHeader sampleHeader)
-        {
-            return GetDropMarkerPalette(
-                TryGetHeaderLabelColor(sampleHeader),
-                sampleHeader == null ? null : sampleHeader.TryFindResource);
         }
 
         internal static HltbEmptyTrackAppearance GetHltbEmptyTrackAppearance(
@@ -172,12 +160,6 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Foreground that contrasts with a solid fill (segment labels, badges, etc.).
-        /// </summary>
-        internal static Color GetContrastTextColor(Color background)
-            => PlaylistThemeColors.GetContrastTextColor(background);
-
-        /// <summary>
         /// Samples inherited header label color without code-applied hover/active foreground overrides.
         /// </summary>
         internal static Color? TryGetHeaderLabelColor(GridViewColumnHeader header)
@@ -197,7 +179,7 @@ namespace Playlist
             }
 
             header.ApplyTemplate();
-            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(header))
+            foreach (TextBlock textBlock in PlaylistVisualTree.FindVisualChildren<TextBlock>(header))
             {
                 if (textBlock.Visibility != Visibility.Visible)
                 {
@@ -298,30 +280,6 @@ namespace Playlist
             }
 
             return true;
-        }
-
-        private static System.Collections.Generic.IEnumerable<T> FindVisualChildren<T>(DependencyObject parent)
-            where T : DependencyObject
-        {
-            if (parent == null)
-            {
-                yield break;
-            }
-
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int index = 0; index < childCount; index++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, index);
-                if (child is T typedChild)
-                {
-                    yield return typedChild;
-                }
-
-                foreach (T nestedChild in FindVisualChildren<T>(child))
-                {
-                    yield return nestedChild;
-                }
-            }
         }
     }
 }

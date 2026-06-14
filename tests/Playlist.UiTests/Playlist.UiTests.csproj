@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Compile Include="..\..\PlaylistSortHeaderLayout.cs" Link="Production\PlaylistSortHeaderLayout.cs" />
+    <Compile Include="..\..\PlaylistVisualTree.cs" Link="Production\PlaylistVisualTree.cs" />
     <Compile Include="..\..\PlaylistThemeColors.cs" Link="Production\PlaylistThemeColors.cs" />
     <Compile Include="..\..\PlaylistThemeChrome.cs" Link="Production\PlaylistThemeChrome.cs" />
     <Compile Include="..\..\PlaylistManagedRowChrome.cs" Link="Production\PlaylistManagedRowChrome.cs" />

@@ -136,7 +136,7 @@ namespace Playlist
             playlistListView.SelectionChanged += OnPlaylistListViewSelectionChanged;
             playlistListView.ItemContainerGenerator.StatusChanged += OnRowItemContainerGeneratorStatusChanged;
 
-            rowHighlightScrollViewer = FindVisualChild<ScrollViewer>(playlistListView);
+            rowHighlightScrollViewer = PlaylistVisualTree.FindFirstVisualChild<ScrollViewer>(playlistListView);
             if (rowHighlightScrollViewer != null)
             {
                 rowHighlightScrollViewer.ScrollChanged += OnPlaylistListViewScrollChanged;
@@ -327,17 +327,17 @@ namespace Playlist
 
             item.ClearValue(Control.ForegroundProperty);
 
-            foreach (HowLongToBeatPluginButtonHost host in FindVisualChildren<HowLongToBeatPluginButtonHost>(item))
+            foreach (HowLongToBeatPluginButtonHost host in PlaylistVisualTree.FindVisualChildren<HowLongToBeatPluginButtonHost>(item))
             {
                 host.ClearHighlightChrome();
             }
 
-            foreach (HowLongToBeatCachedProgressBar bar in FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
+            foreach (HowLongToBeatCachedProgressBar bar in PlaylistVisualTree.FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
             {
                 bar.SyncRowForegroundFromListViewItem(isHoverActive: false);
             }
 
-            foreach (Button button in FindVisualChildren<Button>(item))
+            foreach (Button button in PlaylistVisualTree.FindVisualChildren<Button>(item))
             {
                 SyncPlayButtonStyle(button, item, isHoverActive: false);
             }
@@ -345,17 +345,17 @@ namespace Playlist
 
         private void SyncRowHighlightVisuals(ListViewItem item, bool isHoverActive)
         {
-            foreach (HowLongToBeatPluginButtonHost host in FindVisualChildren<HowLongToBeatPluginButtonHost>(item))
+            foreach (HowLongToBeatPluginButtonHost host in PlaylistVisualTree.FindVisualChildren<HowLongToBeatPluginButtonHost>(item))
             {
                 host.SyncRowHighlightFromListViewItem(isHoverActive);
             }
 
-            foreach (HowLongToBeatCachedProgressBar bar in FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
+            foreach (HowLongToBeatCachedProgressBar bar in PlaylistVisualTree.FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
             {
                 bar.SyncRowForegroundFromListViewItem(isHoverActive);
             }
 
-            foreach (Button button in FindVisualChildren<Button>(item))
+            foreach (Button button in PlaylistVisualTree.FindVisualChildren<Button>(item))
             {
                 SyncPlayButtonStyle(button, item, isHoverActive);
             }
@@ -736,7 +736,7 @@ namespace Playlist
             }
 
             double width = playlistListView.ActualWidth;
-            ScrollViewer scrollViewer = rowHighlightScrollViewer ?? FindVisualChild<ScrollViewer>(playlistListView);
+            ScrollViewer scrollViewer = rowHighlightScrollViewer ?? PlaylistVisualTree.FindFirstVisualChild<ScrollViewer>(playlistListView);
             if (scrollViewer != null
                 && scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible)
             {
@@ -869,7 +869,7 @@ namespace Playlist
             }
 
             GridViewColumnHeader rankHeader = null;
-            foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
+            foreach (GridViewColumnHeader header in PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
                 if (header.Column == rankGridViewColumn && header.Role != GridViewColumnHeaderRole.Padding)
                 {
@@ -885,14 +885,14 @@ namespace Playlist
                 return false;
             }
 
-            ListViewItem firstItem = FindFirstVisualChild<ListViewItem>(playlistListView);
+            ListViewItem firstItem = PlaylistVisualTree.FindFirstVisualChild<ListViewItem>(playlistListView);
             if (firstItem == null)
             {
                 return false;
             }
 
             int columnIndex = gridView.Columns.IndexOf(rankGridViewColumn);
-            GridViewRowPresenter rowPresenter = FindFirstVisualChild<GridViewRowPresenter>(firstItem);
+            GridViewRowPresenter rowPresenter = PlaylistVisualTree.FindFirstVisualChild<GridViewRowPresenter>(firstItem);
             if (columnIndex < 0
                 || rowPresenter == null
                 || columnIndex >= VisualTreeHelper.GetChildrenCount(rowPresenter))
@@ -1992,29 +1992,10 @@ namespace Playlist
         private bool? cachedUseLightHeaderText;
         private PlaylistThemeChrome.SortHeaderHighlightAppearance cachedSortHeaderHighlight;
 
-        private PlaylistThemeChrome.SortHeaderHighlightAppearance GetSortHeaderHighlightAppearance(
-            GridViewColumnHeader sampleHeader)
-        {
-            PlaylistThemeChrome.SortHeaderHighlightAppearance appearance =
-                PlaylistThemeChrome.GetSortHeaderHighlightAppearance(
-                    PlaylistThemeChrome.TryGetHeaderLabelColor(sampleHeader),
-                    key => TryFindResource(key));
-
-            if (cachedUseLightHeaderText == appearance.UseLightHeaderText
-                && cachedSortHeaderHighlight.Background != null)
-            {
-                return cachedSortHeaderHighlight;
-            }
-
-            cachedUseLightHeaderText = appearance.UseLightHeaderText;
-            cachedSortHeaderHighlight = appearance;
-            return appearance;
-        }
-
         private GridViewColumnHeader FindSampleSortHeader(GridViewColumn activeColumn)
         {
             GridViewColumnHeader anyNonActive = null;
-            foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
+            foreach (GridViewColumnHeader header in PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
                 if (header == null || header.Role == GridViewColumnHeaderRole.Padding || !IsSortableColumn(header.Column))
                 {
@@ -2045,10 +2026,20 @@ namespace Playlist
 
             GridViewColumn activeColumn = GetColumnByKey(model.ActiveViewSortColumn);
             GridViewColumnHeader sampleHeader = FindSampleSortHeader(activeColumn);
-            PlaylistThemeChrome.SortHeaderHighlightAppearance sortHeaderHighlight =
-                GetSortHeaderHighlightAppearance(sampleHeader);
+            PlaylistThemeChrome.SortHeaderHighlightAppearance appearance =
+                PlaylistThemeChrome.GetSortHeaderHighlightAppearance(
+                    PlaylistThemeChrome.TryGetHeaderLabelColor(sampleHeader),
+                    key => TryFindResource(key));
+            if (cachedUseLightHeaderText != appearance.UseLightHeaderText
+                || cachedSortHeaderHighlight.Background == null)
+            {
+                cachedUseLightHeaderText = appearance.UseLightHeaderText;
+                cachedSortHeaderHighlight = appearance;
+            }
+
+            PlaylistThemeChrome.SortHeaderHighlightAppearance sortHeaderHighlight = cachedSortHeaderHighlight;
             bool foundHeader = false;
-            foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
+            foreach (GridViewColumnHeader header in PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
                 if (header == null)
                 {
@@ -2080,7 +2071,7 @@ namespace Playlist
                 EnsureSortHeaderMouseHook(header);
 
                 // Ensure header content can consume full cell width for right-aligned glyphs.
-                ContentPresenter presenter = FindFirstVisualChild<ContentPresenter>(header);
+                ContentPresenter presenter = PlaylistVisualTree.FindFirstVisualChild<ContentPresenter>(header);
                 if (presenter != null)
                 {
                     presenter.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -2200,7 +2191,7 @@ namespace Playlist
                 namedGripper.IsHitTestVisible = false;
             }
 
-            foreach (Thumb gripper in FindVisualChildren<Thumb>(header))
+            foreach (Thumb gripper in PlaylistVisualTree.FindVisualChildren<Thumb>(header))
             {
                 if (gripper.Name != "PART_HeaderGripper")
                 {
@@ -2269,7 +2260,7 @@ namespace Playlist
                 return;
             }
 
-            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(presenter))
+            foreach (TextBlock textBlock in PlaylistVisualTree.FindVisualChildren<TextBlock>(presenter))
             {
                 textBlock.BeginAnimation(TextBlock.ForegroundProperty, null);
                 textBlock.Foreground = foreground;
@@ -2283,7 +2274,7 @@ namespace Playlist
                 return;
             }
 
-            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(presenter))
+            foreach (TextBlock textBlock in PlaylistVisualTree.FindVisualChildren<TextBlock>(presenter))
             {
                 textBlock.BeginAnimation(TextBlock.ForegroundProperty, null);
                 textBlock.ClearValue(TextBlock.ForegroundProperty);
@@ -2292,7 +2283,7 @@ namespace Playlist
 
         private static T FindChildByTag<T>(DependencyObject parent, string tag) where T : FrameworkElement
         {
-            foreach (T child in FindVisualChildren<T>(parent))
+            foreach (T child in PlaylistVisualTree.FindVisualChildren<T>(parent))
             {
                 if (child.Tag as string == tag)
                 {
@@ -2312,49 +2303,6 @@ namespace Playlist
                 || column == lastPlayedGridViewColumn
                 || column == lastActivityGridViewColumn
                 || column == howLongToBeatGridViewColumn;
-        }
-
-        private static T FindFirstVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            foreach (T child in FindVisualChildren<T>(parent))
-            {
-                return child;
-            }
-
-            return null;
-        }
-
-        private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
-        {
-            foreach (T child in FindVisualChildren<T>(parent))
-            {
-                return child;
-            }
-
-            return null;
-        }
-
-        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
-        {
-            if (parent == null)
-            {
-                yield break;
-            }
-
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int index = 0; index < childCount; index++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, index);
-                if (child is T typedChild)
-                {
-                    yield return typedChild;
-                }
-
-                foreach (T nestedChild in FindVisualChildren<T>(child))
-                {
-                    yield return nestedChild;
-                }
-            }
         }
 
         private bool TryGetGridView(out GridView gridView)

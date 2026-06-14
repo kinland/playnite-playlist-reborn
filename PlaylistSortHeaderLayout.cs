@@ -267,21 +267,6 @@ namespace Playlist
         /// <summary>
         /// Chooses a darkening overlay when header text reads dark, otherwise a lightening overlay.
         /// </summary>
-        internal static bool UseDarkeningOverlay(Color? headerTextColor, Func<string, object> tryFindResource = null)
-            => PlaylistThemeColors.UseDarkeningOverlay(headerTextColor, tryFindResource);
-
-        internal static Color? TryGetHeaderLabelColor(GridViewColumnHeader header)
-            => PlaylistThemeChrome.TryGetHeaderLabelColor(header);
-
-        /// <summary>
-        /// Brushes used for active sort-header and selected-row emphasis overlays.
-        /// </summary>
-        internal static (SolidColorBrush Background, SolidColorBrush Border, SolidColorBrush Foreground) CreateActiveSortHighlightBrushes(bool useDarkeningOverlay)
-            => PlaylistThemeColors.CreateActiveSortHighlightBrushes(useDarkeningOverlay);
-
-        internal static double GetRelativeLuminance(Color color)
-            => PlaylistThemeColors.GetRelativeLuminance(color);
-
         internal static void ApplyActiveSortHighlight(
             Border border,
             SolidColorBrush background,
@@ -403,7 +388,7 @@ namespace Playlist
 
         private static Border FindFirstBorderChild(DependencyObject parent)
         {
-            foreach (Border border in FindVisualChildren<Border>(parent))
+            foreach (Border border in PlaylistVisualTree.FindVisualChildren<Border>(parent))
             {
                 return border;
             }
@@ -413,7 +398,7 @@ namespace Playlist
 
         private static TextBlock FindVisibleSortGlyph(DependencyObject root)
         {
-            foreach (TextBlock textBlock in FindVisualChildren<TextBlock>(root))
+            foreach (TextBlock textBlock in PlaylistVisualTree.FindVisualChildren<TextBlock>(root))
             {
                 if (textBlock.Visibility != Visibility.Visible)
                 {
@@ -436,7 +421,7 @@ namespace Playlist
 
         private static Thumb FindColumnResizeGripper(GridViewColumnHeader header)
         {
-            foreach (Thumb thumb in FindVisualChildren<Thumb>(header))
+            foreach (Thumb thumb in PlaylistVisualTree.FindVisualChildren<Thumb>(header))
             {
                 if (thumb.Visibility == Visibility.Collapsed)
                 {
@@ -450,30 +435,6 @@ namespace Playlist
             }
 
             return null;
-        }
-
-        private static System.Collections.Generic.IEnumerable<T> FindVisualChildren<T>(DependencyObject parent)
-            where T : DependencyObject
-        {
-            if (parent == null)
-            {
-                yield break;
-            }
-
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int index = 0; index < childCount; index++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, index);
-                if (child is T typedChild)
-                {
-                    yield return typedChild;
-                }
-
-                foreach (T nestedChild in FindVisualChildren<T>(child))
-                {
-                    yield return nestedChild;
-                }
-            }
         }
     }
 }

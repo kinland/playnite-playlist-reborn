@@ -42,15 +42,6 @@ namespace Playlist
             Control control,
             ListViewItem row,
             bool isHoverActive,
-            Func<string, object> tryFindResource)
-        {
-            ApplyListRowPlayButtonChrome(control, row, isHoverActive, isDirectHover: false, tryFindResource);
-        }
-
-        internal static void ApplyListRowPlayButtonChrome(
-            Control control,
-            ListViewItem row,
-            bool isHoverActive,
             bool isDirectHover,
             Func<string, object> tryFindResource)
         {
@@ -76,15 +67,6 @@ namespace Playlist
         /// <summary>
         /// HLTB plugin button host: managed embedded chrome when <see cref="PlaylistThemeColors.UsesInvertedRowHighlightChrome"/> is true.
         /// </summary>
-        internal static void ApplyListRowEmbeddedControlChrome(
-            Control control,
-            ListViewItem row,
-            bool isHoverActive,
-            Func<string, object> tryFindResource)
-        {
-            ApplyListRowEmbeddedControlChrome(control, row, isHoverActive, isDirectHover: false, tryFindResource);
-        }
-
         internal static void ApplyListRowEmbeddedControlChrome(
             Control control,
             ListViewItem row,

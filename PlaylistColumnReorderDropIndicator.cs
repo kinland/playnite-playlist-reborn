@@ -70,7 +70,7 @@ namespace Playlist
                 return;
             }
 
-            headerRowPresenter = FindVisualChildren<GridViewHeaderRowPresenter>(listView).FirstOrDefault();
+            headerRowPresenter = PlaylistVisualTree.FindVisualChildren<GridViewHeaderRowPresenter>(listView).FirstOrDefault();
             if (headerRowPresenter == null)
             {
                 listView.Dispatcher.BeginInvoke(
@@ -147,13 +147,13 @@ namespace Playlist
                 return false;
             }
 
-            return FindVisualChildren<GridViewColumnHeader>(listView)
+            return PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(listView)
                 .Any(header => header.Role == GridViewColumnHeaderRole.Floating);
         }
 
         private static List<GridViewColumnHeader> GetReorderableHeaders(GridViewHeaderRowPresenter presenter)
         {
-            return FindVisualChildren<GridViewColumnHeader>(presenter)
+            return PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(presenter)
                 .Where(header => header.Role != GridViewColumnHeaderRole.Padding
                     && header.Role != GridViewColumnHeaderRole.Floating
                     && header.IsVisible)
@@ -196,7 +196,7 @@ namespace Playlist
         {
             Point listBottomInTarget = listView.TranslatePoint(new Point(0, listView.ActualHeight), adornerTarget);
             GridViewColumnHeader anchorHeader = GetReorderableHeaders(headerRowPresenter).FirstOrDefault()
-                ?? FindVisualChildren<GridViewColumnHeader>(listView)
+                ?? PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(listView)
                     .FirstOrDefault(header => header.Role != GridViewColumnHeaderRole.Padding);
             if (anchorHeader != null)
             {
@@ -230,7 +230,7 @@ namespace Playlist
 
         private static void SuppressBuiltInDropSeparators(GridViewHeaderRowPresenter presenter)
         {
-            foreach (Separator separator in FindVisualChildren<Separator>(presenter))
+            foreach (Separator separator in PlaylistVisualTree.FindVisualChildren<Separator>(presenter))
             {
                 separator.Visibility = Visibility.Collapsed;
                 separator.Opacity = 0;
@@ -240,32 +240,11 @@ namespace Playlist
 
         private PlaylistThemeChrome.DropMarkerPalette CreateDropMarkerPalette()
         {
-            GridViewColumnHeader sampleHeader = FindVisualChildren<GridViewColumnHeader>(listView)
+            GridViewColumnHeader sampleHeader = PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(listView)
                 .FirstOrDefault(header => header.Role != GridViewColumnHeaderRole.Padding);
-            return PlaylistThemeChrome.GetDropMarkerPalette(sampleHeader);
-        }
-
-        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
-        {
-            if (parent == null)
-            {
-                yield break;
-            }
-
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-            for (int index = 0; index < childCount; index++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, index);
-                if (child is T typedChild)
-                {
-                    yield return typedChild;
-                }
-
-                foreach (T nestedChild in FindVisualChildren<T>(child))
-                {
-                    yield return nestedChild;
-                }
-            }
+            return PlaylistThemeChrome.GetDropMarkerPalette(
+                PlaylistThemeChrome.TryGetHeaderLabelColor(sampleHeader),
+                sampleHeader == null ? null : sampleHeader.TryFindResource);
         }
 
         private sealed class ColumnReorderFullHeightDropAdorner : Adorner

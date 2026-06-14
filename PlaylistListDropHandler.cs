@@ -164,7 +164,7 @@ namespace Playlist
             DateTime nowUtc = DateTime.UtcNow;
             Func<Game, DateTime?> timestampSelector = viewModel.IsLastActivitySortActive
                 ? (Func<Game, DateTime?>)(game => LastActivityValueConverter.ExtractModifiedUtc(game))
-                : ExtractLastPlayedUtc;
+                : (Func<Game, DateTime?>)(game => LastPlayedValueConverter.ExtractLastActivityUtc(game));
             return PlaylistReorderPlanner.CanInsertWithinSameBucket(
                 visibleOrderVisual: visualOrder,
                 draggedItemsVisual: dragged,
@@ -180,28 +180,6 @@ namespace Playlist
                 .Distinct()
                 .OrderBy(game => visualOrder.IndexOf(game))
                 .ToList();
-        }
-
-        private static DateTime? ExtractLastPlayedUtc(Game game)
-        {
-            DateTime? dt = game?.LastActivity;
-            if (!dt.HasValue || dt.Value == default)
-            {
-                return null;
-            }
-
-            DateTime value = dt.Value;
-            if (value.Kind == DateTimeKind.Utc)
-            {
-                return value;
-            }
-
-            if (value.Kind == DateTimeKind.Local)
-            {
-                return value.ToUniversalTime();
-            }
-
-            return DateTime.SpecifyKind(value, DateTimeKind.Utc);
         }
 
         private static int GetInsertIndex(IDropInfo dropInfo)

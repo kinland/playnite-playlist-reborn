@@ -3,8 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -35,15 +38,27 @@ namespace Playlist
         private const int BrowseGenericTreeTag = 7;
         private const int MaxNavigationAttempts = 40;
 
+        private const string PackedExtensionFileExtension = ".pext";
+        private const string ExtensionManifestFileName = "extension.yaml";
+        private const int ExtInstallTypeInstall = 0;
+
+        private static readonly JsonSerializerOptions ExtensionQueueJsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        };
+
         /// <summary>Unit tests only; when set, bypasses Playnite add-on detection.</summary>
         internal static Func<IPlayniteAPI, HltbInstallState> TestInstallStateResolver { get; set; }
 
         /// <summary>Unit tests only; when set, bypasses Playnite extension install queue detection.</summary>
         internal static Func<bool> TestExtensionInstallQueuePendingResolver { get; set; }
 
+        /// <summary>Unit tests only; overrides the Playnite extension queue JSON file path.</summary>
+        internal static string TestExtensionQueueFilePathOverride { get; set; }
+
         /// <summary>
-        /// True when Playnite has a queued extension install waiting for restart (e.g. user installed
-        /// HLTB from Add-ons but chose restart later).
+        /// True when Playnite has a queued HowLongToBeat extension install waiting for restart
+        /// (e.g. user installed HLTB from Add-ons but chose restart later).
         /// </summary>
         internal static bool IsExtensionInstallQueuedForRestart()
         {
@@ -52,6 +67,39 @@ namespace Playlist
                 return TestExtensionInstallQueuePendingResolver();
             }
 
+            bool sawQueuedExtensionPackage = false;
+            foreach (string packagePath in TryGetQueuedExtensionInstallPaths())
+            {
+                sawQueuedExtensionPackage = true;
+                if (TryGetPackedExtensionId(packagePath, out string extensionId)
+                    && string.Equals(extensionId, HltbExtensionId, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            if (sawQueuedExtensionPackage)
+            {
+                logger.Warn("Playnite has queued extension installs, but none match HowLongToBeat.");
+            }
+
+            return false;
+        }
+
+        private static IEnumerable<string> TryGetQueuedExtensionInstallPaths()
+        {
+            List<string> paths = TryGetQueuedExtensionInstallPathsViaReflection();
+            if (paths.Count > 0)
+            {
+                return paths;
+            }
+
+            return TryGetQueuedExtensionInstallPathsViaQueueFile();
+        }
+
+        private static List<string> TryGetQueuedExtensionInstallPathsViaReflection()
+        {
+            var paths = new List<string>();
             try
             {
                 Type installerType = Type.GetType("Playnite.Plugins.ExtensionInstaller, Playnite");
@@ -69,28 +117,176 @@ namespace Playlist
                         ? Enum.Parse(installTypeEnum, "Install")
                         : null;
                     PropertyInfo installTypeProperty = queueItemType?.GetProperty("InstallType");
+                    PropertyInfo pathProperty = queueItemType?.GetProperty("Path");
 
                     foreach (object item in queueItems)
                     {
-                        if (item == null || installTypeProperty == null || installValue == null)
+                        if (item == null || installTypeProperty == null || installValue == null || pathProperty == null)
                         {
                             continue;
                         }
 
-                        object itemInstallType = installTypeProperty.GetValue(item);
-                        if (Equals(itemInstallType, installValue))
+                        if (!Equals(installTypeProperty.GetValue(item), installValue))
                         {
-                            return true;
+                            continue;
+                        }
+
+                        string path = pathProperty.GetValue(item) as string;
+                        if (IsQueuedExtensionPackagePath(path))
+                        {
+                            paths.Add(path);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Failed to read Playnite extension install queue.");
+                logger.Error(ex, "Failed to read Playnite extension install queue via reflection.");
             }
 
-            return false;
+            return paths;
+        }
+
+        private static IEnumerable<string> TryGetQueuedExtensionInstallPathsViaQueueFile()
+        {
+            string queueFilePath = TryGetExtensionQueueFilePath();
+            if (string.IsNullOrEmpty(queueFilePath) || !File.Exists(queueFilePath))
+            {
+                yield break;
+            }
+
+            List<ExtensionInstallQueueItemDto> queueItems;
+            try
+            {
+                string json = File.ReadAllText(queueFilePath);
+                queueItems = JsonSerializer.Deserialize<List<ExtensionInstallQueueItemDto>>(json, ExtensionQueueJsonOptions);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Failed to read Playnite extension install queue file.");
+                yield break;
+            }
+
+            if (queueItems == null)
+            {
+                yield break;
+            }
+
+            foreach (ExtensionInstallQueueItemDto item in queueItems)
+            {
+                if (item?.InstallType != ExtInstallTypeInstall || !IsQueuedExtensionPackagePath(item.Path))
+                {
+                    continue;
+                }
+
+                yield return item.Path;
+            }
+        }
+
+        private static string TryGetExtensionQueueFilePath()
+        {
+            if (!string.IsNullOrEmpty(TestExtensionQueueFilePathOverride))
+            {
+                return TestExtensionQueueFilePathOverride;
+            }
+
+            Type pathsType = Type.GetType("Playnite.PlaynitePaths, Playnite");
+            return pathsType?.GetProperty(
+                "ExtensionQueueFilePath",
+                BindingFlags.Public | BindingFlags.Static)?.GetValue(null) as string;
+        }
+
+        private static bool IsQueuedExtensionPackagePath(string path)
+        {
+            return !string.IsNullOrEmpty(path)
+                && path.EndsWith(PackedExtensionFileExtension, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool TryGetPackedExtensionId(string packagePath, out string extensionId)
+        {
+            extensionId = null;
+            if (!IsQueuedExtensionPackagePath(packagePath) || !File.Exists(packagePath))
+            {
+                return false;
+            }
+
+            try
+            {
+                Type installerType = Type.GetType("Playnite.Plugins.ExtensionInstaller, Playnite");
+                MethodInfo getManifest = installerType?.GetMethod(
+                    "GetPackedExtensionManifest",
+                    BindingFlags.Public | BindingFlags.Static,
+                    null,
+                    new[] { typeof(string) },
+                    null);
+                object manifest = getManifest?.Invoke(null, new object[] { packagePath });
+                extensionId = GetProperty(manifest, "Id") as string;
+                if (!string.IsNullOrEmpty(extensionId))
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"Failed to read queued extension manifest via Playnite for {packagePath}.");
+            }
+
+            return TryGetExtensionIdFromZip(packagePath, out extensionId);
+        }
+
+        private static bool TryGetExtensionIdFromZip(string packagePath, out string extensionId)
+        {
+            extensionId = null;
+            try
+            {
+                using (var archive = ZipFile.OpenRead(packagePath))
+                {
+                    var manifestEntry = archive.GetEntry(ExtensionManifestFileName)
+                        ?? archive.Entries.FirstOrDefault(entry =>
+                            string.Equals(entry.Name, ExtensionManifestFileName, StringComparison.OrdinalIgnoreCase));
+                    if (manifestEntry == null)
+                    {
+                        return false;
+                    }
+
+                    using (StreamReader reader = new StreamReader(manifestEntry.Open()))
+                    {
+                        extensionId = ParseExtensionIdFromYaml(reader.ReadToEnd());
+                        return !string.IsNullOrEmpty(extensionId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"Failed to read extension manifest from {packagePath}.");
+                return false;
+            }
+        }
+
+        internal static string ParseExtensionIdFromYaml(string yaml)
+        {
+            if (string.IsNullOrEmpty(yaml))
+            {
+                return null;
+            }
+
+            foreach (string line in yaml.Split('\n'))
+            {
+                string trimmed = line.Trim();
+                if (trimmed.StartsWith("Id:", StringComparison.OrdinalIgnoreCase))
+                {
+                    return trimmed.Substring(3).Trim();
+                }
+            }
+
+            return null;
+        }
+
+        private sealed class ExtensionInstallQueueItemDto
+        {
+            public int InstallType { get; set; }
+
+            public string Path { get; set; }
         }
 
         public static HltbInstallState GetInstallState(IPlayniteAPI api)
@@ -163,11 +359,6 @@ namespace Playlist
             object addonsViewModel = null;
             try
             {
-                if (fromPlaylistPrompt)
-                {
-                    (Playlist.StaticSettings as PlaylistSettings)?.MarkPendingIntegrationEnableFromPlaylistPrompt();
-                }
-
                 addonsViewModel = CreateAddonsViewModel();
                 if (addonsViewModel == null)
                 {
@@ -195,12 +386,19 @@ namespace Playlist
                 };
 
                 SchedulePostOpenNavigation(addonsViewModel, api.MainView.UIDispatcher, navigation);
+                if (fromPlaylistPrompt)
+                {
+                    (Playlist.StaticSettings as PlaylistSettings)?.MarkPendingIntegrationEnableFromPlaylistPrompt();
+                }
+
                 InvokeOpenView(addonsViewModel);
                 RefreshSettingsInstallState();
 
                 if (fromPlaylistPrompt)
                 {
-                    ExpireAddonPendingAfterPlaylistPromptIfAbandoned(addonsViewModel);
+                    // Keep persisted pending intent when Add-ons closed with HLTB install queued for restart;
+                    // otherwise clear if HLTB is still unavailable (user cancelled the prompt flow).
+                    (Playlist.StaticSettings as PlaylistSettings)?.ExpireAddonPendingIfHltbStillUnavailable();
                 }
             }
             catch (Exception ex)
@@ -208,18 +406,9 @@ namespace Playlist
                 logger.Error(ex, "Failed to open HowLongToBeat add-on page.");
                 if (fromPlaylistPrompt)
                 {
-                    ExpireAddonPendingAfterPlaylistPromptIfAbandoned(addonsViewModel);
+                    (Playlist.StaticSettings as PlaylistSettings)?.ExpireAddonPendingIfHltbStillUnavailable();
                 }
             }
-        }
-
-        /// <summary>
-        /// Keep persisted pending intent when Add-ons closed with install queued for restart;
-        /// otherwise clear if HLTB is still unavailable (user cancelled the prompt flow).
-        /// </summary>
-        private static void ExpireAddonPendingAfterPlaylistPromptIfAbandoned(object _)
-        {
-            (Playlist.StaticSettings as PlaylistSettings)?.ExpireAddonPendingIfHltbStillUnavailable();
         }
 
         private static void RefreshSettingsInstallState()
@@ -337,7 +526,7 @@ namespace Playlist
         private static TextBox FindBrowseSearchTextBox(Window addonsWindow)
         {
             object sectionView = GetProperty(addonsWindow.DataContext, "SelectedSectionView");
-            return FindVisualChild<TextBox>(sectionView as DependencyObject, _ => true);
+            return PlaylistVisualTree.FindFirstVisualChild<TextBox>(sectionView as DependencyObject, _ => true);
         }
 
         private static void EnsureBrowseNavigationHandler(
@@ -448,9 +637,9 @@ namespace Playlist
             }
         }
 
-        private static bool? InvokeOpenView(object addonsViewModel)
+        private static void InvokeOpenView(object addonsViewModel)
         {
-            return InvokeMethodWithReturn(addonsViewModel, "OpenView") as bool?;
+            InvokeMethodWithReturn(addonsViewModel, "OpenView");
         }
 
         private static void SchedulePostOpenNavigation(object addonsViewModel, Dispatcher dispatcher, PendingAddonsNavigation navigation)
@@ -625,7 +814,7 @@ namespace Playlist
 
         private static ListBox FindBrowseOnlineList(Window addonsWindow)
         {
-            return FindVisualChild<ListBox>(addonsWindow, listBox => listBox.Name == "ListOnlineAddons");
+            return PlaylistVisualTree.FindFirstVisualChild<ListBox>(addonsWindow, listBox => listBox.Name == "ListOnlineAddons");
         }
 
         private static bool JumpToInstalledExtension(object addonsViewModel, PendingAddonsNavigation navigation)
@@ -636,7 +825,7 @@ namespace Playlist
             }
 
             DependencyObject sectionRoot = GetProperty(addonsViewModel, "SelectedSectionView") as DependencyObject;
-            ListBox listBox = FindVisualChild<ListBox>(sectionRoot, child => child.Name == "ListPlugins");
+            ListBox listBox = PlaylistVisualTree.FindFirstVisualChild<ListBox>(sectionRoot, child => child.Name == "ListPlugins");
             if (listBox == null || listBox.Items.Count <= navigation.InstalledPluginIndex)
             {
                 return false;
@@ -777,33 +966,6 @@ namespace Playlist
             return Application.Current?.Windows
                 .OfType<Window>()
                 .FirstOrDefault(window => window.GetType().FullName == "Playnite.DesktopApp.Windows.AddonsWindow");
-        }
-
-        private static T FindVisualChild<T>(DependencyObject parent, Func<T, bool> predicate)
-            where T : DependencyObject
-        {
-            if (parent == null)
-            {
-                return null;
-            }
-
-            int count = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T typed && predicate(typed))
-                {
-                    return typed;
-                }
-
-                T nested = FindVisualChild(child, predicate);
-                if (nested != null)
-                {
-                    return nested;
-                }
-            }
-
-            return null;
         }
 
         private static object GetProperty(object target, string name)

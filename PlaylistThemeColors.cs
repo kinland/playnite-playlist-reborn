@@ -158,13 +158,6 @@ namespace Playlist
                 : (DropMarkerLightSlotCenterColor, DropMarkerLightGlyphColor);
         }
 
-        internal static Color GetContrastTextColor(Color background)
-        {
-            return IsLightForeground(background)
-                ? ContrastTextOnLightFillColor
-                : ContrastTextOnDarkFillColor;
-        }
-
         internal static Color GetContrastTextColorFromByteLuminance(Color background)
         {
             double luminance = (RelativeLuminanceRed * background.R)

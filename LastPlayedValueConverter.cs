@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using Playnite.SDK.Models;
 
 namespace Playlist
 {
@@ -25,6 +26,14 @@ namespace Playlist
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Normalizes a game's LastActivity timestamp to nullable UTC for formatting and sorting.
+        /// </summary>
+        internal static DateTime? ExtractLastActivityUtc(Game game)
+        {
+            return ConvertToUtcNullable(game?.LastActivity);
         }
 
         /// <summary>

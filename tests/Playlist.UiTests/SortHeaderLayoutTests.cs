@@ -63,13 +63,13 @@ public class SortHeaderLayoutTests
     public void UseDarkeningOverlay_FollowsHeaderTextLuminance(byte r, byte g, byte b, bool expected)
     {
         var color = Color.FromRgb(r, g, b);
-        Assert.Equal(expected, PlaylistSortHeaderLayout.UseDarkeningOverlay(color));
+        Assert.Equal(expected, PlaylistThemeColors.UseDarkeningOverlay(color));
     }
 
     [Fact]
     public void UseDarkeningOverlay_DefaultsToLighteningOverlay()
     {
-        Assert.False(PlaylistSortHeaderLayout.UseDarkeningOverlay(null));
+        Assert.False(PlaylistThemeColors.UseDarkeningOverlay(null));
     }
 
     [Theory]
@@ -78,7 +78,7 @@ public class SortHeaderLayoutTests
     public void CreateActiveSortHighlightBrushes_PicksContrastingOverlay(bool useDarkeningOverlay, byte expectedAlpha, byte expectedRgb)
     {
         (SolidColorBrush background, SolidColorBrush border, SolidColorBrush foreground) =
-            PlaylistSortHeaderLayout.CreateActiveSortHighlightBrushes(useDarkeningOverlay);
+            PlaylistThemeColors.CreateActiveSortHighlightBrushes(useDarkeningOverlay);
 
         Assert.Equal(expectedAlpha, background.Color.A);
         Assert.Equal(expectedRgb, background.Color.R);
@@ -94,7 +94,7 @@ public class SortHeaderLayoutTests
         EnsureApplication();
 
         var header = CreateMeasuredHeader();
-        ContentPresenter presenter = FindFirstVisualChild<ContentPresenter>(header);
+        ContentPresenter presenter = PlaylistVisualTree.FindFirstVisualChild<ContentPresenter>(header);
         Assert.NotNull(presenter);
 
         double width = PlaylistSortHeaderLayout.MeasurePresenterWidth(header, presenter, PlaylistSortHeaderLayout.HeadRightEdgeReserve);
@@ -121,32 +121,6 @@ public class SortHeaderLayoutTests
         host.Children.Add(header);
         PrepareLayout(host);
         return header;
-    }
-
-    private static T FindFirstVisualChild<T>(DependencyObject parent) where T : DependencyObject
-    {
-        if (parent == null)
-        {
-            return null;
-        }
-
-        int childCount = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
-        for (int index = 0; index < childCount; index++)
-        {
-            DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(parent, index);
-            if (child is T match)
-            {
-                return match;
-            }
-
-            T nested = FindFirstVisualChild<T>(child);
-            if (nested != null)
-            {
-                return nested;
-            }
-        }
-
-        return null;
     }
 
     private static void EnsureApplication()

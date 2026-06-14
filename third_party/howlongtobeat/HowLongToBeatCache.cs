@@ -51,17 +51,6 @@ namespace Playlist
             return api.Addons.Plugins.Any(p => p.Id == HltbPluginId);
         }
 
-        public static bool IsAvailable(IPlayniteAPI api)
-        {
-            if (!IsPluginLoaded(api))
-            {
-                return false;
-            }
-
-            string path = GetHltbDatabasePath(api);
-            return !string.IsNullOrEmpty(path) && Directory.Exists(path);
-        }
-
         public static bool TryGetCachedTimes(IPlayniteAPI api, Game game, out HltbCachedTimes times)
         {
             times = null;

@@ -11,17 +11,12 @@ public class Playlist
     public static PlaylistSettings StaticSettings { get; set; }
     internal static Playlist StaticPluginInstance { get; set; }
 
-    public int PersistSettingsCallCount { get; private set; }
-    public int SaveSettingsCallCount { get; private set; }
-
     internal void PersistSettings()
     {
-        PersistSettingsCallCount++;
     }
 
     internal void SaveSettings(PlaylistSettings updatedSettings)
     {
-        SaveSettingsCallCount++;
         StaticSettings = updatedSettings;
     }
 

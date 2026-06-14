@@ -13,16 +13,17 @@ namespace Playlist
         public static MainSearchSyncAnalysis AnalyzePlaylistQuery(string playlistQuery)
         {
             SearchQuerySpec spec = SearchQuerySpec.Parse(playlistQuery);
-            bool hasConflict = false;
-            ScopePushPlan developer = BuildScopePlan(spec, ScopedFilterKind.Developer, ref hasConflict);
-            ScopePushPlan tag = BuildScopePlan(spec, ScopedFilterKind.Tag, ref hasConflict);
-            ScopePushPlan genre = BuildScopePlan(spec, ScopedFilterKind.Genre, ref hasConflict);
-            ScopePushPlan publisher = BuildScopePlan(spec, ScopedFilterKind.Publisher, ref hasConflict);
-            ScopePushPlan category = BuildScopePlan(spec, ScopedFilterKind.Category, ref hasConflict);
-            ScopePushPlan feature = BuildScopePlan(spec, ScopedFilterKind.Feature, ref hasConflict);
+            bool hasIntraKindConflict = false;
+            ScopePushPlan developer = BuildScopePlan(spec, ScopedFilterKind.Developer, ref hasIntraKindConflict);
+            ScopePushPlan tag = BuildScopePlan(spec, ScopedFilterKind.Tag, ref hasIntraKindConflict);
+            ScopePushPlan genre = BuildScopePlan(spec, ScopedFilterKind.Genre, ref hasIntraKindConflict);
+            ScopePushPlan publisher = BuildScopePlan(spec, ScopedFilterKind.Publisher, ref hasIntraKindConflict);
+            ScopePushPlan category = BuildScopePlan(spec, ScopedFilterKind.Category, ref hasIntraKindConflict);
+            ScopePushPlan feature = BuildScopePlan(spec, ScopedFilterKind.Feature, ref hasIntraKindConflict);
 
             bool? useAndFilteringStyle = ResolveUseAndFilteringStyle(
-                developer, tag, genre, publisher, category, feature, hasConflict);
+                developer, tag, genre, publisher, category, feature, hasIntraKindConflict);
+            bool hasMatchAllConflict = HasMatchAllConflict(developer, tag, genre, publisher, category, feature);
 
             return new MainSearchSyncAnalysis(
                 spec.NameQuery,
@@ -33,6 +34,7 @@ namespace Playlist
                 category,
                 feature,
                 spec.HasPlaylistOnlySyntax,
+                hasMatchAllConflict,
                 useAndFilteringStyle);
         }
 
@@ -232,7 +234,7 @@ namespace Playlist
 
             foreach (ScopedFilterKind kind in ManagedScopedFilterKinds)
             {
-                IEnumerable<ScopedSearchClause> clauses = KindHasPlaylistOnlySyntax(preserved, kind)
+                IEnumerable<ScopedSearchClause> clauses = preserved.KindHasPlaylistOnlySyntax(kind)
                     ? preserved.GetClauses(kind)
                     : mainSpec.GetClauses(kind);
 
@@ -258,31 +260,6 @@ namespace Playlist
             ScopedFilterKind.Category,
             ScopedFilterKind.Feature,
         };
-
-        private static bool KindHasPlaylistOnlySyntax(SearchQuerySpec spec, ScopedFilterKind kind)
-        {
-            ScopedSearchClause[] kindClauses = spec.GetClauses(kind).ToArray();
-            if (kindClauses.Length == 0)
-            {
-                return false;
-            }
-
-            if (kindClauses.Any(clause => clause.Negated))
-            {
-                return true;
-            }
-
-            if (kindClauses.Length > 1
-                && kindClauses.Any(clause => clause.CombineWithin == ScopedValueCombine.Or && clause.Values.Count > 1))
-            {
-                return true;
-            }
-
-            return kindClauses.Any(clause =>
-                clause.CombineWithin == ScopedValueCombine.And
-                && clause.Values.Count > 1
-                && kindClauses.Length > 1);
-        }
 
         private static string FormatScopedClause(ScopedSearchClause clause)
         {
@@ -348,7 +325,7 @@ namespace Playlist
         private static ScopePushPlan BuildScopePlan(
             SearchQuerySpec spec,
             ScopedFilterKind kind,
-            ref bool hasConflict)
+            ref bool hasIntraKindConflict)
         {
             ScopedSearchClause[] clauses = spec.GetClauses(kind).ToArray();
             if (clauses.Length == 0)
@@ -365,7 +342,7 @@ namespace Playlist
             {
                 if (clauses.Any(clause => clause.Values.Count > 1))
                 {
-                    hasConflict = true;
+                    hasIntraKindConflict = true;
                     return ScopePushPlan.Skip;
                 }
 
@@ -399,26 +376,17 @@ namespace Playlist
             ScopePushPlan publisher,
             ScopePushPlan category,
             ScopePushPlan feature,
-            bool hasConflict)
+            bool hasIntraKindConflict)
         {
-            if (hasConflict)
+            if (hasIntraKindConflict)
             {
                 return false;
             }
 
-            bool needsAnd = developer.Mode == ScopePushMode.PushAndList
-                || tag.Mode == ScopePushMode.PushAndList
-                || genre.Mode == ScopePushMode.PushAndList
-                || publisher.Mode == ScopePushMode.PushAndList
-                || category.Mode == ScopePushMode.PushAndList
-                || feature.Mode == ScopePushMode.PushAndList;
-
-            bool needsOr = developer.Mode == ScopePushMode.PushOrList
-                || tag.Mode == ScopePushMode.PushOrList
-                || genre.Mode == ScopePushMode.PushOrList
-                || publisher.Mode == ScopePushMode.PushOrList
-                || category.Mode == ScopePushMode.PushOrList
-                || feature.Mode == ScopePushMode.PushOrList;
+            GetCrossKindAndOrNeeds(
+                developer, tag, genre, publisher, category, feature,
+                out bool needsAnd,
+                out bool needsOr);
 
             if (needsAnd)
             {
@@ -432,6 +400,51 @@ namespace Playlist
 
             return null;
         }
+
+        private static bool HasMatchAllConflict(
+            ScopePushPlan developer,
+            ScopePushPlan tag,
+            ScopePushPlan genre,
+            ScopePushPlan publisher,
+            ScopePushPlan category,
+            ScopePushPlan feature)
+        {
+            GetCrossKindAndOrNeeds(
+                developer, tag, genre, publisher, category, feature,
+                out bool needsAnd,
+                out bool needsOr);
+            return needsAnd && needsOr;
+        }
+
+        private static void GetCrossKindAndOrNeeds(
+            ScopePushPlan developer,
+            ScopePushPlan tag,
+            ScopePushPlan genre,
+            ScopePushPlan publisher,
+            ScopePushPlan category,
+            ScopePushPlan feature,
+            out bool needsAnd,
+            out bool needsOr)
+        {
+            needsAnd = IsPushAndList(developer)
+                || IsPushAndList(tag)
+                || IsPushAndList(genre)
+                || IsPushAndList(publisher)
+                || IsPushAndList(category)
+                || IsPushAndList(feature);
+
+            needsOr = IsPushOrOrSingle(developer)
+                || IsPushOrOrSingle(tag)
+                || IsPushOrOrSingle(genre)
+                || IsPushOrOrSingle(publisher)
+                || IsPushOrOrSingle(category)
+                || IsPushOrOrSingle(feature);
+        }
+
+        private static bool IsPushAndList(ScopePushPlan plan) => plan.Mode == ScopePushMode.PushAndList;
+
+        private static bool IsPushOrOrSingle(ScopePushPlan plan) =>
+            plan.Mode == ScopePushMode.PushOrList || plan.Mode == ScopePushMode.PushSingle;
 
         private static void ApplyScopePush(
             FilterPresetSettings settings,

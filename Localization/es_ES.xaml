@@ -12,13 +12,9 @@
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Ultima actividad</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Posicion (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbRequiresPlugin">Requiere que el complemento HowLongToBeat este instalado</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbRequiresIntegration">Active la integracion de HowLongToBeat en la configuracion del complemento</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat esta instalado pero desactivado; haga clic para abrir Complementos y activarlo</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat no esta instalado; haga clic para abrir Complementos e instalarlo</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">La integracion de HowLongToBeat esta desactivada; haga clic para abrir la configuracion de Playlist</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_ShowLastPlayedColumn">Mostrar columna de ultimo juego</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_ShowHowLongToBeatColumn">Mostrar columna de HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activar integracion de HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar la busqueda entre el panel principal y la lista</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Buscar en la lista. Admite:

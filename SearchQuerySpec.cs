@@ -27,34 +27,52 @@ namespace Playlist
             foreach (ScopedFilterKind kind in Enum.GetValues(typeof(ScopedFilterKind)))
             {
                 ScopedSearchClause[] kindClauses = GetClauses(kind).ToArray();
-                if (kindClauses.Length == 0)
+                if (kindClauses.Length == 0
+                    || kindClauses.Any(clause => clause.Negated))
                 {
                     continue;
                 }
 
-                if (kindClauses.Any(clause => clause.Negated))
-                {
-                    continue;
-                }
-
-                if (kindClauses.Length > 1)
-                {
-                    if (kindClauses.Any(clause => clause.CombineWithin == ScopedValueCombine.Or && clause.Values.Count > 1))
-                    {
-                        return true;
-                    }
-                }
-
-                if (kindClauses.Any(clause =>
-                    clause.CombineWithin == ScopedValueCombine.And
-                    && clause.Values.Count > 1
-                    && kindClauses.Length > 1))
+                if (HasNonSyncableStructureForClauses(kindClauses))
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Per-kind playlist-only syntax for merge: negation, or non-syncable AND/OR structure within the kind.
+        /// </summary>
+        internal bool KindHasPlaylistOnlySyntax(ScopedFilterKind kind)
+        {
+            ScopedSearchClause[] kindClauses = GetClauses(kind).ToArray();
+            if (kindClauses.Length == 0)
+            {
+                return false;
+            }
+
+            if (kindClauses.Any(clause => clause.Negated))
+            {
+                return true;
+            }
+
+            return HasNonSyncableStructureForClauses(kindClauses);
+        }
+
+        private static bool HasNonSyncableStructureForClauses(ScopedSearchClause[] kindClauses)
+        {
+            if (kindClauses.Length > 1
+                && kindClauses.Any(clause => clause.CombineWithin == ScopedValueCombine.Or && clause.Values.Count > 1))
+            {
+                return true;
+            }
+
+            return kindClauses.Any(clause =>
+                clause.CombineWithin == ScopedValueCombine.And
+                && clause.Values.Count > 1
+                && kindClauses.Length > 1);
         }
 
         public static SearchQuerySpec Parse(string rawQuery)

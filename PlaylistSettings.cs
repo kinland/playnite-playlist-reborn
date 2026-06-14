@@ -216,7 +216,7 @@ namespace Playlist
 
         /// <summary>
         /// Clears persisted add-on pending intent when HLTB is still not enabled after a prompt flow.
-        /// Skips when an extension install is queued for restart (user chose restart later).
+        /// Skips when a HowLongToBeat extension install is queued for restart (user chose restart later).
         /// </summary>
         internal void ExpireAddonPendingIfHltbStillUnavailable()
         {

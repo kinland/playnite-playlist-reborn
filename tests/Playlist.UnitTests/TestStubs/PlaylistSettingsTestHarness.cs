@@ -55,6 +55,7 @@ internal sealed class PlaylistSettingsTestHarness : IDisposable
     {
         HowLongToBeatAddonNavigation.TestInstallStateResolver = null;
         HowLongToBeatAddonNavigation.TestExtensionInstallQueuePendingResolver = null;
+        HowLongToBeatAddonNavigation.TestExtensionQueueFilePathOverride = null;
         Playlist.StaticPlayniteApi = null;
         Playlist.StaticSettings = null;
         Playlist.StaticPluginInstance = null;

@@ -772,35 +772,10 @@ namespace Playlist
                     rankIndex = int.MaxValue;
                 }
 
-                DateTime? lastPlayedUtc = ExtractLastPlayedUtc(game);
+                DateTime? lastPlayedUtc = LastPlayedValueConverter.ExtractLastActivityUtc(game);
                 LastPlayedDisplayValue formatted = LastPlayedRelativeFormatter.Format(lastPlayedUtc, nowUtc);
                 long ticksUtc = lastPlayedUtc?.Ticks ?? 0;
                 return new LastPlayedSortKey(formatted.SortBucket, ticksUtc, rankIndex);
-            }
-
-            /// <summary>
-            /// Normalizes LastActivity to UTC nullable value for formatting and sorting.
-            /// </summary>
-            private static DateTime? ExtractLastPlayedUtc(Game game)
-            {
-                DateTime? dt = game.LastActivity;
-                if (!dt.HasValue || dt.Value == default)
-                {
-                    return null;
-                }
-
-                DateTime value = dt.Value;
-                if (value.Kind == DateTimeKind.Utc)
-                {
-                    return value;
-                }
-
-                if (value.Kind == DateTimeKind.Local)
-                {
-                    return value.ToUniversalTime();
-                }
-
-                return DateTime.SpecifyKind(value, DateTimeKind.Utc);
             }
         }
 

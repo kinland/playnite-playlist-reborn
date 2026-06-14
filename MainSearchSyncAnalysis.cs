@@ -42,6 +42,7 @@ namespace Playlist
             ScopePushPlan category,
             ScopePushPlan feature,
             bool hasPlaylistOnlySyntax,
+            bool hasMatchAllConflict,
             bool? useAndFilteringStyle)
         {
             Name = name ?? string.Empty;
@@ -52,8 +53,8 @@ namespace Playlist
             Category = category ?? ScopePushPlan.Skip;
             Feature = feature ?? ScopePushPlan.Skip;
             HasPlaylistOnlySyntax = hasPlaylistOnlySyntax;
+            HasMatchAllConflict = hasMatchAllConflict;
             UseAndFilteringStyle = useAndFilteringStyle;
-            HasMatchAllConflict = ComputeMatchAllConflict();
         }
 
         public string Name { get; }
@@ -68,36 +69,5 @@ namespace Playlist
         public bool HasMatchAllConflict { get; }
 
         public bool IsFullySyncable => !HasPlaylistOnlySyntax;
-
-        private bool ComputeMatchAllConflict()
-        {
-            bool needsAnd = HasMode(ScopePushMode.PushAndList);
-            bool needsOr = HasMode(ScopePushMode.PushOrList) || HasMode(ScopePushMode.PushSingle);
-            return needsAnd && needsOr;
-        }
-
-        private bool HasMode(ScopePushMode mode)
-        {
-            return Developer.Mode == mode
-                || Tag.Mode == mode
-                || Genre.Mode == mode
-                || Publisher.Mode == mode
-                || Category.Mode == mode
-                || Feature.Mode == mode;
-        }
-
-        public ScopePushPlan GetPlan(ScopedFilterKind kind)
-        {
-            switch (kind)
-            {
-                case ScopedFilterKind.Developer: return Developer;
-                case ScopedFilterKind.Tag: return Tag;
-                case ScopedFilterKind.Genre: return Genre;
-                case ScopedFilterKind.Publisher: return Publisher;
-                case ScopedFilterKind.Category: return Category;
-                case ScopedFilterKind.Feature: return Feature;
-                default: return ScopePushPlan.Skip;
-            }
-        }
     }
 }
