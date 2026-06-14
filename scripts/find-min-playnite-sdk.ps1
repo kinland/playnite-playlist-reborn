@@ -1,5 +1,10 @@
-# Sweeps PlayniteSDK versions and keeps Installer_Manifest RequiredApiVersion in sync.
-# Restores all files to their pre-run content when finished.
+# Sweeps PlayniteSDK versions and keeps all SDK version surfaces in sync during the probe.
+# Restores every touched file to its pre-run content when finished.
+#
+# Maintained surfaces (when present):
+#   - Any repo *.csproj with PackageReference Include="PlayniteSDK" (Playlist, UnitTests, UiTests, …)
+#   - Installer_Manifest.yaml RequiredApiVersion
+#   - Installer_Manifest.yaml changelog "Requires Playnite API … or newer"
 #
 # Re-run before the SDK/manifest commit (after other review fixes land). Default sweep
 # starts at 6.5.0 (known minimum on 2026-06-13 HEAD); pass -Versions to probe lower.
@@ -14,19 +19,46 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $repoRoot
 
-$mainCsproj = "Playlist.csproj"
-$testCsproj = "tests/Playlist.UnitTests/Playlist.UnitTests.csproj"
 $manifest = "Installer_Manifest.yaml"
+$sdkCsprojPattern = 'PackageReference Include="PlayniteSDK"'
 
-$mainOrig = Get-Content $mainCsproj -Raw
-$testOrig = Get-Content $testCsproj -Raw
-$manifestOrig = Get-Content $manifest -Raw
+function Get-SdkCsprojPaths {
+    Get-ChildItem -Path $repoRoot -Recurse -Filter *.csproj -File |
+        Where-Object {
+            $_.FullName -notlike "*\.tools\*" -and
+            (Get-Content -LiteralPath $_.FullName -Raw) -match $sdkCsprojPattern
+        } |
+        ForEach-Object {
+            $_.FullName.Substring($repoRoot.Length + 1) -replace '\\', '/'
+        } |
+        Sort-Object
+}
+
+$sdkCsprojPaths = @(Get-SdkCsprojPaths)
+if ($sdkCsprojPaths.Count -eq 0) {
+    throw "No csproj files with PlayniteSDK PackageReference found under $repoRoot"
+}
+
+$originalContents = @{}
+foreach ($path in $sdkCsprojPaths) {
+    $originalContents[$path] = Get-Content -LiteralPath $path -Raw
+}
+$originalContents[$manifest] = Get-Content -LiteralPath $manifest -Raw
+
+Write-Output ("PlayniteSDK surfaces: {0}, {1}" -f ($sdkCsprojPaths -join ", "), $manifest)
 
 function Set-SdkVersion {
     param([string] $Version)
-    ($mainOrig -replace 'PlayniteSDK" Version="[^"]+"', "PlayniteSDK`" Version=`"$Version`"") | Set-Content $mainCsproj -NoNewline
-    ($testOrig -replace 'PlayniteSDK" Version="[^"]+"', "PlayniteSDK`" Version=`"$Version`"") | Set-Content $testCsproj -NoNewline
-    ($manifestOrig -replace '(?m)^(\s*RequiredApiVersion:\s*).+$', "`${1}$Version") | Set-Content $manifest -NoNewline
+
+    foreach ($path in $sdkCsprojPaths) {
+        $content = $originalContents[$path] -replace 'PlayniteSDK" Version="[^"]+"', "PlayniteSDK`" Version=`"$Version`""
+        Set-Content -LiteralPath $path -Value $content -NoNewline
+    }
+
+    $manifestContent = $originalContents[$manifest]
+    $manifestContent = $manifestContent -replace '(?m)^(\s*RequiredApiVersion:\s*).+$', "`${1}$Version"
+    $manifestContent = $manifestContent -replace 'Requires Playnite API [0-9.]+ or newer', "Requires Playnite API $Version or newer"
+    Set-Content -LiteralPath $manifest -Value $manifestContent -NoNewline
 }
 
 try {
@@ -48,8 +80,8 @@ try {
     }
 }
 finally {
-    $mainOrig | Set-Content $mainCsproj -NoNewline
-    $testOrig | Set-Content $testCsproj -NoNewline
-    $manifestOrig | Set-Content $manifest -NoNewline
-    Write-Output "Restored Playlist.csproj, Playlist.UnitTests.csproj, Installer_Manifest.yaml"
+    foreach ($path in ($sdkCsprojPaths + @($manifest))) {
+        Set-Content -LiteralPath $path -Value $originalContents[$path] -NoNewline
+    }
+    Write-Output ("Restored {0}" -f (($sdkCsprojPaths + @($manifest)) -join ", "))
 }
