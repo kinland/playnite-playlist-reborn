@@ -73,6 +73,25 @@ public class MainSearchSyncLifecycleTests
         Assert.Equal("After", target.SearchQuery);
     }
 
+    [Fact]
+    public void Playlist_search_edit_pushes_to_main_filter_while_view_is_open()
+    {
+        var bridge = new FakeMainFilterPanelBridge
+        {
+            Current = new Playnite.SDK.Models.FilterPresetSettings(),
+        };
+        var sync = CreateSync(bridge, enabled: true);
+        var target = new PlaylistSearchSyncTarget();
+        sync.Attach(target);
+        sync.OnViewOpened();
+
+        target.SearchQuery = "dev:remedy";
+
+        Assert.Equal(1, bridge.ApplyCount);
+        Assert.NotNull(bridge.LastApplied.Developer);
+        Assert.Equal("remedy", bridge.LastApplied.Developer.Text);
+    }
+
     private static MainSearchSync CreateSync(FakeMainFilterPanelBridge bridge, bool enabled)
     {
         var lookup = new DictionaryScopedFilterNameLookup();

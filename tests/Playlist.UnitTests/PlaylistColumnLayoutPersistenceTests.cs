@@ -46,6 +46,25 @@ public class PlaylistColumnLayoutPersistenceTests
     }
 
     [Fact]
+    public void ResolvePersistedWidthForColumnKey_with_gripper_drag_uses_visible_width()
+    {
+        var previous = new Dictionary<string, PlaylistColumnLayoutState>
+        {
+            ["Name"] = new PlaylistColumnLayoutState { Key = "Name", DisplayIndex = 1, Width = 320 },
+        };
+
+        double width = PlaylistColumnLayoutPersistence.ResolvePersistedWidthForColumnKey(
+            "Name",
+            visibleColumnWidth: 240,
+            isVisibleInGrid: true,
+            persistColumnWidths: true,
+            previous,
+            columnLayouts: previous.Values);
+
+        Assert.Equal(240, width);
+    }
+
+    [Fact]
     public void GetWidthForLayoutPersistence_ignores_collapsed_on_screen_width()
     {
         var layouts = new[]

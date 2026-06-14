@@ -109,7 +109,7 @@ namespace Playlist
         }
     }
 
-    /// <summary>Playnite database-backed implementation of <see cref="IScopedFilterNameLookup"/>.</summary>
+    /// <summary>Delegates <see cref="IScopedFilterNameLookup"/> for main-panel search sync.</summary>
     internal sealed class MainSearchFilterNameResolver : IScopedFilterNameLookup
     {
         private readonly IScopedFilterNameLookup inner;
