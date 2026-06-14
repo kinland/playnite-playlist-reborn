@@ -29,32 +29,41 @@ public class SortHeaderLayoutTests
         Assert.Equal(expected, PlaylistSortHeaderLayout.ComputePresenterWidth(contentLeft, clipRight));
     }
 
-    [StaFact]
+    [Fact]
     public void GetGlyphUniformInset_ReadsGlyphMarginRight()
     {
-        var glyph = new TextBlock { Margin = new Thickness(0, 2, 2, 2) };
-        Assert.Equal(2, PlaylistSortHeaderLayout.GetGlyphUniformInset(glyph));
+        StaUiTest.Run(() =>
+        {
+            var glyph = new TextBlock { Margin = new Thickness(0, 2, 2, 2) };
+            Assert.Equal(2, PlaylistSortHeaderLayout.GetGlyphUniformInset(glyph));
+        });
     }
 
-    [StaTheory]
+    [Theory]
     [InlineData(8)]
     [InlineData(1)]
     public void GetParentRightInset_UsesTextBlockMargin(double marginRight)
     {
-        var textBlock = new TextBlock { Margin = new Thickness(0, 0, marginRight, 0) };
-        Assert.Equal(marginRight, PlaylistSortHeaderLayout.GetParentRightInset(textBlock));
+        StaUiTest.Run(() =>
+        {
+            var textBlock = new TextBlock { Margin = new Thickness(0, 0, marginRight, 0) };
+            Assert.Equal(marginRight, PlaylistSortHeaderLayout.GetParentRightInset(textBlock));
+        });
     }
 
-    [StaFact]
+    [Fact]
     public void GetParentRightInset_UsesBorderChrome()
     {
-        var border = new Border
+        StaUiTest.Run(() =>
         {
-            BorderThickness = new Thickness(0, 0, 2, 0),
-            Padding = new Thickness(0, 0, 6, 0)
-        };
+            var border = new Border
+            {
+                BorderThickness = new Thickness(0, 0, 2, 0),
+                Padding = new Thickness(0, 0, 6, 0)
+            };
 
-        Assert.Equal(8, PlaylistSortHeaderLayout.GetParentRightInset(border));
+            Assert.Equal(8, PlaylistSortHeaderLayout.GetParentRightInset(border));
+        });
     }
 
     [Theory]
@@ -88,18 +97,19 @@ public class SortHeaderLayoutTests
         Assert.Equal(PlaylistThemeColors.ActiveSortHighlightForegroundColor, foreground.Color);
     }
 
-    [StaFact]
+    [Fact]
     public void MeasurePresenterWidth_IsPositiveForThemedHeader()
     {
-        EnsureApplication();
+        StaUiTest.Run(() =>
+        {
+            var header = CreateMeasuredHeader();
+            ContentPresenter presenter = PlaylistVisualTree.FindFirstVisualChild<ContentPresenter>(header);
+            Assert.NotNull(presenter);
 
-        var header = CreateMeasuredHeader();
-        ContentPresenter presenter = PlaylistVisualTree.FindFirstVisualChild<ContentPresenter>(header);
-        Assert.NotNull(presenter);
-
-        double width = PlaylistSortHeaderLayout.MeasurePresenterWidth(header, presenter, PlaylistSortHeaderLayout.HeadRightEdgeReserve);
-        Assert.True(width > 0);
-        Assert.True(width <= header.ActualWidth);
+            double width = PlaylistSortHeaderLayout.MeasurePresenterWidth(header, presenter, PlaylistSortHeaderLayout.HeadRightEdgeReserve);
+            Assert.True(width > 0);
+            Assert.True(width <= header.ActualWidth);
+        });
     }
 
     private static GridViewColumnHeader CreateMeasuredHeader()
@@ -121,14 +131,6 @@ public class SortHeaderLayoutTests
         host.Children.Add(header);
         PrepareLayout(host);
         return header;
-    }
-
-    private static void EnsureApplication()
-    {
-        if (Application.Current == null)
-        {
-            new Application();
-        }
     }
 
     private static void PrepareLayout(FrameworkElement element)

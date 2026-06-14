@@ -89,7 +89,30 @@ namespace Playlist
 
         public static HltbRenderSettings GetRenderSettings(IPlayniteAPI api)
         {
-            return TestSettings ?? new HltbRenderSettings();
+            HltbRenderSettings settings = TestSettings ?? new HltbRenderSettings();
+            EnsureDefaultSegmentBrushes(settings);
+            return settings;
+        }
+
+        private static void EnsureDefaultSegmentBrushes(HltbRenderSettings settings)
+        {
+            if (settings == null)
+            {
+                return;
+            }
+
+            settings.FirstBrush ??= CreateDefaultBrush(settings.FirstColor, Colors.SteelBlue);
+            settings.SecondBrush ??= CreateDefaultBrush(settings.SecondColor, Colors.MediumSeaGreen);
+            settings.ThirdBrush ??= CreateDefaultBrush(settings.ThirdColor, Colors.Goldenrod);
+            settings.FirstMultiBrush ??= CreateDefaultBrush(settings.FirstMultiColor, Colors.SteelBlue);
+            settings.SecondMultiBrush ??= CreateDefaultBrush(settings.SecondMultiColor, Colors.MediumSeaGreen);
+            settings.ThirdMultiBrush ??= CreateDefaultBrush(settings.ThirdMultiColor, Colors.Goldenrod);
+        }
+
+        private static SolidColorBrush CreateDefaultBrush(Color explicitColor, Color fallbackColor)
+        {
+            Color color = explicitColor.A != 0 ? explicitColor : fallbackColor;
+            return new SolidColorBrush(color);
         }
 
         public static bool TryGetCachedTimes(IPlayniteAPI api, Game game, out HltbCachedTimes times)
