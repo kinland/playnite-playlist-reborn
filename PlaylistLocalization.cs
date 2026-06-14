@@ -18,6 +18,11 @@ namespace Playlist
                 return TestGetString(resourceKey);
             }
 
+            if (PlaylistLocalizationOverride.TryGetString(resourceKey, out string overrideValue))
+            {
+                return overrideValue;
+            }
+
             return ResourceProvider.GetString(resourceKey);
         }
 

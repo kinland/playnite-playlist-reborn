@@ -46,6 +46,9 @@
     <Compile Include="..\..\PlaylistRankInput.cs" Link="Production\PlaylistRankInput.cs" />
     <Compile Include="..\..\PlaylistLocalization.cs" Link="Production\PlaylistLocalization.cs" />
     <Compile Include="..\..\PlaylistLocaleCultureMap.cs" Link="Production\PlaylistLocaleCultureMap.cs" />
+    <Compile Include="..\..\PlaylistLanguageOption.cs" Link="Production\PlaylistLanguageOption.cs" />
+    <Compile Include="..\..\PlaylistLanguageOptionCatalog.cs" Link="Production\PlaylistLanguageOptionCatalog.cs" />
+    <Compile Include="..\..\PlaylistLocalizationOverride.cs" Link="Production\PlaylistLocalizationOverride.cs" />
     <Compile Include="..\..\PlaylistDragReorderMessages.cs" Link="Production\PlaylistDragReorderMessages.cs" />
     <Compile Include="..\..\HltbColumnHeaderLabels.cs" Link="Production\HltbColumnHeaderLabels.cs" />
     <Compile Include="..\..\HltbLocalizedStringResolver.cs" Link="Production\HltbLocalizedStringResolver.cs" />
