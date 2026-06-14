@@ -35,6 +35,7 @@
     <Compile Include="..\..\PlaylistThemeChrome.cs" Link="Production\PlaylistThemeChrome.cs" />
     <Compile Include="..\..\PlaylistReorderPlanner.cs" Link="Production\PlaylistReorderPlanner.cs" />
     <Compile Include="..\..\PlaylistRankInput.cs" Link="Production\PlaylistRankInput.cs" />
+    <Compile Include="..\..\HltbColumnHeaderLabels.cs" Link="Production\HltbColumnHeaderLabels.cs" />
     <Compile Include="..\..\MainSearchFilterNameResolver.cs" Link="Production\MainSearchFilterNameResolver.cs" />
     <Compile Include="..\..\MainSearchFilterMapper.cs" Link="Production\MainSearchFilterMapper.cs" />
     <Compile Include="..\..\MainSearchSyncAnalysis.cs" Link="Production\MainSearchSyncAnalysis.cs" />

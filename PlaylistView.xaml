@@ -800,7 +800,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Margin="2,0,0,0" Text="{Binding DataContext.HowLongToBeatHeaderSuffixText, Source={x:Reference playlistListView}}">
+                            <TextBlock Margin="2,0,0,0" Text="{Binding DataContext.HowLongToBeatHeaderActiveSortSuffixText, Source={x:Reference playlistListView}}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Visibility" Value="Collapsed" />
@@ -810,9 +810,23 @@
                                                 <Setter Property="Visibility" Value="Visible" />
                                                 <Setter Property="FontWeight" Value="Bold" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True">
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Margin="2,0,0,0" Text="{Binding DataContext.HowLongToBeatHeaderHoverSortSuffixText, Source={x:Reference playlistListView}}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Setter Property="FontWeight" Value="Normal" />
+                                        <Style.Triggers>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=GridViewColumnHeader}}" Value="True" />
+                                                    <Condition Binding="{Binding DataContext.IsHowLongToBeatSortActive, Source={x:Reference playlistListView}}" Value="False" />
+                                                </MultiDataTrigger.Conditions>
                                                 <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
+                                            </MultiDataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>

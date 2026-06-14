@@ -40,6 +40,7 @@ namespace Playlist
         public bool IsDragInteractionEnabled => PlaylistGames != null && PlaylistGames.Count > 0;
         public bool IsLastPlayedSortActive => activeViewSortColumn == "LastPlayed";
         public bool IsLastActivitySortActive => activeViewSortColumn == "LastActivity";
+        public bool IsHowLongToBeatSortActive => activeViewSortColumn == "HowLongToBeat";
 
         /// <summary>
         /// True when a bucketed activity sort (Last Played / Last Activity) is active; drag moves are
@@ -262,8 +263,15 @@ namespace Playlist
         private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
         public string ActiveViewSortColumn => activeViewSortColumn;
         public ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
-        public string HowLongToBeatHeaderText => "HowLongToBeat";
-        public string HowLongToBeatHeaderSuffixText => " (" + GetHltbPreferredTypeLabel() + ")";
+        public string HowLongToBeatHeaderText => HltbColumnHeaderLabels.BaseText;
+
+        public string HowLongToBeatHeaderActiveSortSuffixText =>
+            activeViewSortColumn == "HowLongToBeat"
+                ? HltbColumnHeaderLabels.FormatActiveSortSuffix(GetHltbPreferredTypeLabel())
+                : string.Empty;
+
+        public string HowLongToBeatHeaderHoverSortSuffixText =>
+            HltbColumnHeaderLabels.FormatHoverSortSuffix(GetHltbPreferredTypeLabel());
 
         /// <summary>
         /// Toggles ascending/descending when the same column is clicked again. Does not mutate <see cref="PlaylistGames"/>.
@@ -345,11 +353,11 @@ namespace Playlist
             listView.Refresh();
             OnPropertyChanged(nameof(ActiveViewSortColumn));
             OnPropertyChanged(nameof(ActiveViewSortDirection));
-            OnPropertyChanged(nameof(HowLongToBeatHeaderText));
-            OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
+            NotifyHowLongToBeatHeaderProperties();
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
             OnPropertyChanged(nameof(IsLastActivitySortActive));
+            OnPropertyChanged(nameof(IsHowLongToBeatSortActive));
             OnPropertyChanged(nameof(IsBucketConstrainedSortActive));
         }
 
@@ -421,11 +429,11 @@ namespace Playlist
             listView.Refresh();
             OnPropertyChanged(nameof(ActiveViewSortColumn));
             OnPropertyChanged(nameof(ActiveViewSortDirection));
-            OnPropertyChanged(nameof(HowLongToBeatHeaderText));
-            OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
+            NotifyHowLongToBeatHeaderProperties();
             OnPropertyChanged(nameof(IsDragReorderEnabled));
             OnPropertyChanged(nameof(IsLastPlayedSortActive));
             OnPropertyChanged(nameof(IsLastActivitySortActive));
+            OnPropertyChanged(nameof(IsHowLongToBeatSortActive));
             OnPropertyChanged(nameof(IsBucketConstrainedSortActive));
         }
 
@@ -459,8 +467,14 @@ namespace Playlist
 
         internal void RefreshHowLongToBeatHeaderText()
         {
+            NotifyHowLongToBeatHeaderProperties();
+        }
+
+        private void NotifyHowLongToBeatHeaderProperties()
+        {
             OnPropertyChanged(nameof(HowLongToBeatHeaderText));
-            OnPropertyChanged(nameof(HowLongToBeatHeaderSuffixText));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderActiveSortSuffixText));
+            OnPropertyChanged(nameof(HowLongToBeatHeaderHoverSortSuffixText));
         }
 
         private void OnPlaylistGamesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
