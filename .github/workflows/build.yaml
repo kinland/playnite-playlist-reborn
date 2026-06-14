@@ -4,6 +4,9 @@ on:
 
 name: Build and Upload Release Asset
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build and Upload Release Asset
