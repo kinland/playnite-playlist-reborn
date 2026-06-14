@@ -627,7 +627,10 @@ namespace Playlist
             interiorLabelStrip.Width = barWidth;
             var labelWidths = plans.Select(plan => MeasureLabelTextWidth(plan.DisplayLabel)).ToArray();
             var show = plans.Select(_ => true).ToArray();
-            SuppressOverlappingInteriorLabels(plans, labelWidths, show);
+            var overlapPlans = plans
+                .Select(plan => new HltbInteriorLabelOverlap.LabelPlan(plan.CenterX, plan.SliceWidth))
+                .ToArray();
+            HltbInteriorLabelOverlap.SuppressOverlapping(overlapPlans, labelWidths, show);
 
             for (int i = 0; i < plans.Count; i++)
             {
@@ -664,50 +667,6 @@ namespace Playlist
             ApplyInheritedTextMetrics(probe);
             probe.Measure(new Size(double.PositiveInfinity, SegmentStripHeight));
             return probe.DesiredSize.Width;
-        }
-
-        private static void SuppressOverlappingInteriorLabels(
-            IReadOnlyList<InteriorLabelPlan> plans,
-            IReadOnlyList<double> labelWidths,
-            bool[] show,
-            double padding = 2)
-        {
-            for (int i = 0; i < plans.Count; i++)
-            {
-                if (!show[i])
-                {
-                    continue;
-                }
-
-                for (int j = i + 1; j < plans.Count; j++)
-                {
-                    if (!show[j])
-                    {
-                        continue;
-                    }
-
-                    double centerGap = plans[j].CenterX - plans[i].CenterX;
-                    double requiredGap = (labelWidths[i] + labelWidths[j]) / 2.0 + padding;
-                    if (centerGap >= requiredGap)
-                    {
-                        continue;
-                    }
-
-                    if (plans[i].SliceWidth > plans[j].SliceWidth)
-                    {
-                        show[j] = false;
-                    }
-                    else if (plans[j].SliceWidth > plans[i].SliceWidth)
-                    {
-                        show[i] = false;
-                        break;
-                    }
-                    else
-                    {
-                        show[j] = false;
-                    }
-                }
-            }
         }
 
         /// <summary>Same heuristic as HowLongToBeat <c>PluginProgressBar.FitTimeLabel</c> for above/below strips.</summary>
