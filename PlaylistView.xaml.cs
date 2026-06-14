@@ -1345,7 +1345,7 @@ namespace Playlist
         /// </summary>
         private MenuItem BuildHowLongToBeatColumnMenuItem(PlaylistSettings settings)
         {
-            string header = ResourceProvider.GetString("LOCPlaylist_Column_HowLongToBeat");
+            string header = HltbColumnHeaderLabels.GetColumnBaseText();
             HltbInstallState installState = HowLongToBeatAddonNavigation.GetInstallState(Playlist.StaticPlayniteApi);
 
             if (installState == HltbInstallState.NotInstalled)

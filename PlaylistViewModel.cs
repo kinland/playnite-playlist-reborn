@@ -266,7 +266,7 @@ namespace Playlist
         private ListSortDirection activeViewSortDirection = ListSortDirection.Ascending;
         public string ActiveViewSortColumn => activeViewSortColumn;
         public ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
-        public string HowLongToBeatHeaderText => HltbColumnHeaderLabels.BaseText;
+        public string HowLongToBeatHeaderText => HltbColumnHeaderLabels.GetColumnBaseText();
 
         public string HowLongToBeatHeaderActiveSortSuffixText =>
             activeViewSortColumn == "HowLongToBeat"
@@ -451,22 +451,8 @@ namespace Playlist
         private string GetHltbPreferredTypeLabel()
         {
             HltbRenderSettings settings = HowLongToBeatCache.GetRenderSettings(playniteApi);
-            switch (settings?.PreferredForTimeToBeat ?? HltbPreferredTimeType.MainStory)
-            {
-                case HltbPreferredTimeType.MainStoryExtra:
-                    return "Main + Extra";
-                case HltbPreferredTimeType.Completionist:
-                    return "Completionist";
-                case HltbPreferredTimeType.Solo:
-                    return "Solo";
-                case HltbPreferredTimeType.CoOp:
-                    return "Co-Op";
-                case HltbPreferredTimeType.Versus:
-                    return "Versus";
-                case HltbPreferredTimeType.MainStory:
-                default:
-                    return "Main Story";
-            }
+            return HltbColumnHeaderLabels.GetPreferredTimeTypeLabel(
+                settings?.PreferredForTimeToBeat ?? HltbPreferredTimeType.MainStory);
         }
 
         internal void RefreshHowLongToBeatHeaderText()

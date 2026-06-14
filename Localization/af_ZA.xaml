@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Speellys</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Voeg by speellys</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Speellys-uitbreiding kon nie lêer laai nie:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Wys in biblioteek</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Skuif na bo</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Skuif na onder</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Verwyder van speellys</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Regsklik op 'n speletjie in die biblioteek en kies "Voeg by speellys"</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Laas gespeel</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Laaste aktiwiteit</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Rang (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat is geïnstalleer maar gedeaktiveer — klik om Byvoegings oop te maak en dit te aktiveer</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat is nie geïnstalleer nie — klik om Byvoegings oop te maak en dit te installeer</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat-integrasie is gedeaktiveer — klik om Speellys-instellings oop te maak</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktiveer HowLongToBeat-integrasie</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkroniseer soekboks tussen hoofpaneel en Speellys</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Deursoek speellys. Ondersteun:
+- wasige en gedeeltelike ooreenstemming met * en ? jokertekens
+- reikwiddte beperk met tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- keer reikwiddte beperking om met ! (bv.: !genre:shooter)
+- sit waardes met spasies tussen aanhalingstekens (bv. tag:"Action Roguelike")
+- komma of | (pyp) vir OF; herhaal reikwiddte of &amp; vir EN</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Maak soektog skoon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Hoofverhaal</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Hoof + ekstra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Voltooiing</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Samewerking</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

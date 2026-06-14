@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Esitusloend</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Lisa esitusloendisse</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Esitusloendi laiendus ei saanud faili laadida:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Näita raamatukogus</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Liiguta üles</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Liiguta alla</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Eemalda esitusloendist</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Klõpsa raamatukogus mängul parema hiireklahviga ja vali „Lisa esitusloendisse“</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Viimati mängitud</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Viimane tegevus</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Koht (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat on installitud, kuid keelatud — klõpsa, et avada Lisad ja see lubada</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat pole installitud — klõpsa, et avada Lisad ja see installida</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat integratsioon on keelatud — klõpsa, et avada Esitusloendi seaded</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Luba HowLongToBeat integratsioon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sünkroniseeri otsingukast peapaneeli ja Esitusloendi vahel</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Otsi esitusloendist. Toetab:
+- hägust ja osalist vastavust metamärkidega * ja ?
+- ulatuse kitsendamist tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- ulatuse kitsendamise pöördamist ! abil (nt: !genre:shooter)
+- tühikutega väärtuste jutumärkidesse panemist (nt tag:"Action Roguelike")
+- koma või | (toru) VÕI jaoks; ulatuse kordamist või &amp; JA jaoks</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Tühjenda otsing</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Põhiline lugu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Põhi + lisa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Lõpuni</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Üksik</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Koostöö</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

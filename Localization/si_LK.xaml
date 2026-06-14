@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">ප්‍රසිද්ධ ලැයිස්තුව</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">ප්‍රසිද්ධ ලැයිස්තුවට එක් කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">ප්‍රසිද්ධ ලැයිස්තු දිගුව ගොනුව පූරණය කළ නොහැකි විය:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">පුස්තකාලයේ පෙන්වන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">ඉහළට ගෙන යන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">පහළට ගෙන යන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">ප්‍රසිද්ධ ලැයිස්තුවෙන් ඉවත් කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">පුස්තකාලයේ ක්‍රීඩාවක් මත දකුණු-ක්ලික් කර "ප්‍රසිද්ධ ලැයිස්තුවට එක් කරන්න" තෝරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">අවසන් වරට ක්‍රීඩා කළ</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">අවසන් ක්‍රියාකාරකම</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">ශ්‍රේණිය (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat ස්ථාපනය කර ඇති නමුත් අක්‍රිය කර ඇත — Add-ons විවෘත කර සක්‍රිය කිරීමට ක්ලික් කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat ස්ථාපනය කර නැත — Add-ons විවෘත කර ස්ථාපනය කිරීමට ක්ලික් කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat ඒකාබද්ධතාව අක්‍රිය කර ඇත — ප්‍රසිද්ධ ලැයිස්තු සැකසුම් විවෘත කිරීමට ක්ලික් කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat ඒකාබද්ධතාව සක්‍රිය කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ප්‍රධාන අංශය සහ ප්‍රසිද්ධ ලැයිස්තුව අතර සෙවුම් කොටුව සමමුහුර්ත කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">ප්‍රසිද්ධ ලැයිස්තුව සොයන්න. සහාය දක්වයි:
+- * සහ ? wildcard සමඟ fuzzy සහ partial matching
+- tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat: සමඟ scope සීමා කිරීම
+- ! සමඟ scope සීමා කිරීම ප්‍රතිලෝම (උදා.: !genre:shooter)
+- space සහිත values quotes තුළ (උදා. tag:"Action Roguelike")
+- OR සඳහා comma හෝ | (pipe); AND සඳහා scope නැවත හෝ &amp;</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">සෙවුම ඉවත් කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">ප්‍රධාන කථාව</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">ප්‍රධාන + අමතර</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">සම්පූර්ණ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">තනි</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">සහයෝගී</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

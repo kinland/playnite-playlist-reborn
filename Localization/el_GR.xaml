@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Λίστα αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Προσθήκη στη λίστα αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Η επέκταση Λίστα αναπαραγωγής δεν μπόρεσε να φορτώσει το αρχείο:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Εμφάνιση στη βιβλιοθήκη</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Μετακίνηση στην κορυφή</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Μετακίνηση στο τέλος</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Αφαίρεση από τη λίστα αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Κάντε δεξί κλικ σε ένα παιχνίδι στη βιβλιοθήκη και επιλέξτε «Προσθήκη στη λίστα αναπαραγωγής»</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Τελευταία παιχνίδι</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Τελευταία δραστηριότητα</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Κατάταξη (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">Το HowLongToBeat είναι εγκατεστημένο αλλά απενεργοποιημένο — κάντε κλικ για να ανοίξετε τα Πρόσθετα και να το ενεργοποιήσετε</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">Το HowLongToBeat δεν είναι εγκατεστημένο — κάντε κλικ για να ανοίξετε τα Πρόσθετα και να το εγκαταστήσετε</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Η ενσωμάτωση HowLongToBeat είναι απενεργοποιημένη — κάντε κλικ για να ανοίξετε τις ρυθμίσεις της Λίστας αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ενεργοποίηση ενσωμάτωσης HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Συγχρονισμός πεδίου αναζήτησης μεταξύ κύριου πίνακα και Λίστας αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Αναζήτηση στη λίστα αναπαραγωγής. Υποστηρίζει:
+- ασαφή και μερική αντιστοίχιση με μπαλαντέρ * και ?
+- περιορισμό εύρους με tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- αντιστροφή περιορισμού με ! (π.χ.: !genre:shooter)
+- τιμές με κενά σε εισαγωγικά (π.χ. tag:"Action Roguelike")
+- κόμμα ή | (κάθετη γραμμή) για Ή· επανάληψη εύρους ή &amp; για ΚΑΙ</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Εκκαθάριση αναζήτησης</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Ολοκληρωτής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Μονόπαιχνο</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

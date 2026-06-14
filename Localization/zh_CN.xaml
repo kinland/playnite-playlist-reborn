@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">播放列表</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">添加到播放列表</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist 扩展无法加载文件：</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">在库中显示</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">移至顶部</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">移至底部</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">从播放列表中移除</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">在库中右键单击游戏并选择“添加到播放列表”</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">上次游玩</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">上次活动</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">排名 (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat 已安装但已禁用 — 点击打开附加组件并启用</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat 未安装 — 点击打开附加组件并安装</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat 集成已禁用 — 点击打开 Playlist 设置</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">启用 HowLongToBeat 集成</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">同步主面板与播放列表的搜索框</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">搜索播放列表。支持：
+- 使用 * 和 ? 通配符进行模糊和部分匹配
+- 使用 tag:、genre:、developer:/dev:、publisher:/pub:、category:/cat:、feature:/feat: 限定范围
+- 使用 ! 反转范围限定（例如：!genre:shooter）
+- 对含空格的值加引号（例如 tag:"Action Roguelike"）
+- 逗号或 |（竖线）表示 OR；重复范围或 &amp; 表示 AND</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">清除搜索</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

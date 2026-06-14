@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Spilleliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Legg til i spilleliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Spilleliste-utvidelsen kunne ikke laste filen:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Vis i bibliotek</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Flytt til toppen</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Flytt til bunnen</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Fjern fra spilleliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Høyreklikk på et spill i biblioteket og velg «Legg til i spilleliste»</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Sist spilt</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Siste aktivitet</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Rang (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat er installert, men deaktivert — klikk for å åpne Tillegg og aktivere det</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat er ikke installert — klikk for å åpne Tillegg og installere det</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat-integrasjon er deaktivert — klikk for å åpne Spilleliste-innstillinger</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktiver HowLongToBeat-integrasjon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkroniser søkefelt mellom hovedpanel og Spilleliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Søk i spilleliste. Støtter:
+- fuzzy og delvis treff med jokertegnene * og ?
+- avgrensing med tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- omvendt avgrensing med ! (f.eks.: !genre:shooter)
+- verdier med mellomrom i anførselstegn (f.eks. tag:"Action Roguelike")
+- komma eller | (pipe) for ELLER; gjenta omfang eller &amp; for OG</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Tøm søk</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Hovedhistorie</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Hoved + ekstra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Completionist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

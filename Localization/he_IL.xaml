@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">רשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">הוסף לרשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">תוסף רשימת השמעה לא הצליח לטעון את הקובץ:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">הצג בספרייה</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">העבר לראש</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">העבר לסוף</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">הסר מרשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">לחץ לחיצה ימנית על משחק בספרייה ובחר "הוסף לרשימת השמעה"</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">שוחק לאחרונה</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">פעילות אחרונה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">דירוג (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat מותקן אך מושבת — לחץ לפתיחת תוספות והפעלתו</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat אינו מותקן — לחץ לפתיחת תוספות והתקנתו</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">שילוב HowLongToBeat מושבת — לחץ לפתיחת הגדרות רשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">הפעל שילוב HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">סנכרן תיבת חיפוש בין הלוח הראשי לרשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">חיפוש ברשימת השמעה. תומך ב:
+- התאמה מטושטשת וחלקית עם תווים כלליים * ו-?
+- צמצום היקף עם tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- היפוך צמצום היקף עם ! (לדוגמה: !genre:shooter)
+- ערכים עם רווחים במרכאות (לדוגמה tag:"Action Roguelike")
+- פסיק או | (קו אנכי) עבור OR; חזרה על היקף או &amp; עבור AND</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">נקה חיפוש</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">עלילה ראשית</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">ראשית + נוסף</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">השלמה מלאה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">סולו</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">שיתופי</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">נגד</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

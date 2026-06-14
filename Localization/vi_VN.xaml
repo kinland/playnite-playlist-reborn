@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Thêm vào danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Tiện ích Danh sách phát không thể tải tệp:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Hiển thị trong thư viện</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Di chuyển lên đầu</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Di chuyển xuống cuối</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Xóa khỏi danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Nhấp chuột phải vào trò chơi trong thư viện và chọn "Thêm vào danh sách phát"</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Chơi lần cuối</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Hoạt động gần nhất</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Hạng (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat đã cài đặt nhưng bị tắt — nhấp để mở Add-ons và bật</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat chưa được cài đặt — nhấp để mở Add-ons và cài đặt</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Tích hợp HowLongToBeat đã bị tắt — nhấp để mở cài đặt Danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Bật tích hợp HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Đồng bộ hộp tìm kiếm giữa bảng chính và Danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Tìm kiếm trong danh sách phát. Hỗ trợ:
+- khớp mờ và khớp một phần với ký tự đại diện * và ?
+- thu hẹp phạm vi bằng tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- đảo ngược thu hẹp phạm vi bằng ! (vd.: !genre:shooter)
+- đặt giá trị có khoảng trắng trong dấu ngoặc kép (vd. tag:"Action Roguelike")
+- dấu phẩy hoặc | (pipe) cho HOẶC; lặp phạm vi hoặc &amp; cho VÀ</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Xóa tìm kiếm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Cốt truyện chính</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Chính + phụ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Hoàn thành 100%</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Ychwanegu at y Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Ni allai estyniad Rhestr Chwarae lwytho'r ffeil:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Dangos yn y Llyfrgell</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Symud i'r Brig</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Symud i'r Gwaelod</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Tynnu o'r Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Cliciwch de ar gêm yn y llyfrgell a dewiswch "Ychwanegu at y Rhestr Chwarae"</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Chwaraewyd Diwethaf</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Gweithgarwch Diwethaf</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Safle (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">Mae HowLongToBeat wedi'i osod ond wedi'i analluogi — cliciwch i agor Ychwanegion ac ei alluogi</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">Nid yw HowLongToBeat wedi'i osod — cliciwch i agor Ychwanegion ac ei osod</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Mae integreiddio HowLongToBeat wedi'i analluogi — cliciwch i agor gosodiadau Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Galluogi integreiddio HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Cysoni'r blwch chwilio rhwng y brif banel a'r Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Chwilio'r rhestr chwarae. Mae'n cynnal:
+- cyfatebiaeth feddal a rhannol gyda nodau gwyllt * a ?
+- culhau'r cwmpas gyda tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- gwrthdroi culhau'r cwmpas gyda ! (e.e.: !genre:shooter)
+- rhoi gwerthoedd gyda bylchau mewn dyfyniadau (e.e. tag:"Action Roguelike")
+- coma neu | (pibell) ar gyfer NEU; ailadrodd cwmpas neu &amp; ar gyfer AC</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Clirio'r chwiliad</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Prif stori</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Prif + ychwanegol</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Cwblhawr</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Unigol</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Cydweithredol</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

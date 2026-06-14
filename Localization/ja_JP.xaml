@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">プレイリスト</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">プレイリストに追加</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist 拡張機能がファイルを読み込めませんでした:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">ライブラリで表示</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">先頭に移動</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">末尾に移動</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">プレイリストから削除</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">ライブラリでゲームを右クリックし、「プレイリストに追加」を選択してください</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">最終プレイ</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">最終アクティビティ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">順位 (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat はインストール済みですが無効です — クリックしてアドオンを開き、有効にしてください</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat はインストールされていません — クリックしてアドオンを開き、インストールしてください</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat 連携が無効です — クリックして Playlist の設定を開いてください</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat 連携を有効にする</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">メインパネルとプレイリストの検索ボックスを同期する</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">プレイリストを検索します。次をサポート:
+- * と ? ワイルドカードによるあいまい一致と部分一致
+- tag:、genre:、developer:/dev:、publisher:/pub:、category:/cat:、feature:/feat: によるスコープ絞り込み
+- ! によるスコープ絞り込みの反転（例: !genre:shooter）
+- 空白を含む値は引用符で囲む（例: tag:"Action Roguelike"）
+- カンマまたは |（縦棒）で OR、スコープの繰り返しまたは &amp; で AND</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">検索をクリア</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>

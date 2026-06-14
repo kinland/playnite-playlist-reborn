@@ -365,6 +365,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Local sync script cache (generated from Localization/*.xaml when missing)
+scripts/data/hltb-time-type-gap-overrides.json
+
 # VS Code files for those working on multiple tools
 .vscode/*
 !.vscode/settings.json

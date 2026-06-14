@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="LOCPlaylist_Playlist">Llista de reproducció</sys:String>
+    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Afegeix a la llista de reproducció</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">L'extensió Llista de reproducció no ha pogut carregar el fitxer:</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Mostra a la biblioteca</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Mou a dalt</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Mou a baix</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Elimina de la llista de reproducció</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Fes clic dret sobre un joc a la biblioteca i selecciona "Afegeix a la llista de reproducció"</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Última partida</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Última activitat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Posició (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat està instal·lat però desactivat — fes clic per obrir Complements i activar-lo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat no està instal·lat — fes clic per obrir Complements i instal·lar-lo</sys:String>
+    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">La integració de HowLongToBeat està desactivada — fes clic per obrir la configuració de Llista de reproducció</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activa la integració de HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronitza la cerca entre el panell principal i la llista de reproducció</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Cerca a la llista de reproducció. Admet:
+- coincidència difusa i parcial amb comodins * i ?
+- restringir l'àmbit amb tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- invertir la restricció amb ! (p. ex.: !genre:shooter)
+- posar entre cometes valors amb espais (p. ex. tag:"Action Roguelike")
+- coma o | (barra vertical) per O; repetir l'àmbit o &amp; per I</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Esborra la cerca</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Història principal</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Principal + extra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Completista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Individual</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Cooperatiu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+</ResourceDictionary>
