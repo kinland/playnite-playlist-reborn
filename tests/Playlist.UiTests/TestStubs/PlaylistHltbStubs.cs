@@ -12,7 +12,7 @@ namespace Playlist
         {
             PlaylistLocalization.TestGetString = key => key switch
             {
-                "LOCPlaylist_Hltb_EmptyTime" => "--",
+                "LOCPlaylist_HLTB_EmptyTime" => "--",
                 "LOCPlaylist_Playtime_HoursOnly" => "{0}h",
                 "LOCPlaylist_Playtime_MinuteUnit" => "{0}m",
                 "LOCPlaylist_Playtime_HoursMinutes" => "{0}h {1}m",
@@ -146,7 +146,7 @@ namespace Playlist
         {
             if (seconds <= 0)
             {
-                return PlaylistLocalization.GetString("LOCPlaylist_Hltb_EmptyTime");
+                return PlaylistLocalization.GetString("LOCPlaylist_HLTB_EmptyTime");
             }
 
             if (integrationViewItemOnlyHour)

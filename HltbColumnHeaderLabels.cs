@@ -8,7 +8,7 @@ namespace Playlist
     /// </summary>
     internal static class HltbColumnHeaderLabels
     {
-        internal const string ColumnHeaderLocKey = "LOCPlaylist_Column_HowLongToBeat";
+        internal const string ColumnHeaderLocKey = "LOCPlaylist_Column_HLTB";
         private const string HltbColumnLocKey = "LOCHowLongToBeat";
         private const string HltbColumnEnglishBaseline = "HowLongToBeat";
 
@@ -53,18 +53,18 @@ namespace Playlist
             switch (type)
             {
                 case HltbPreferredTimeType.MainStoryExtra:
-                    return "LOCPlaylist_Hltb_TimeType_MainExtra";
+                    return "LOCPlaylist_HLTB_TimeType_MainExtra";
                 case HltbPreferredTimeType.Completionist:
-                    return "LOCPlaylist_Hltb_TimeType_Completionist";
+                    return "LOCPlaylist_HLTB_TimeType_Completionist";
                 case HltbPreferredTimeType.Solo:
-                    return "LOCPlaylist_Hltb_TimeType_Solo";
+                    return "LOCPlaylist_HLTB_TimeType_Solo";
                 case HltbPreferredTimeType.CoOp:
-                    return "LOCPlaylist_Hltb_TimeType_CoOp";
+                    return "LOCPlaylist_HLTB_TimeType_CoOp";
                 case HltbPreferredTimeType.Versus:
-                    return "LOCPlaylist_Hltb_TimeType_Versus";
+                    return "LOCPlaylist_HLTB_TimeType_Versus";
                 case HltbPreferredTimeType.MainStory:
                 default:
-                    return "LOCPlaylist_Hltb_TimeType_MainStory";
+                    return "LOCPlaylist_HLTB_TimeType_MainStory";
             }
         }
 
@@ -90,12 +90,12 @@ namespace Playlist
 
         public static string FormatActiveSortSuffix(string typeLabel)
         {
-            return PlaylistLocalization.Format("LOCPlaylist_Hltb_SortSuffix_Active", typeLabel);
+            return PlaylistLocalization.Format("LOCPlaylist_HLTB_SortSuffix_Active", typeLabel);
         }
 
         public static string FormatHoverSortSuffix(string typeLabel)
         {
-            return PlaylistLocalization.Format("LOCPlaylist_Hltb_SortSuffix_Hover", typeLabel);
+            return PlaylistLocalization.Format("LOCPlaylist_HLTB_SortSuffix_Hover", typeLabel);
         }
     }
 }

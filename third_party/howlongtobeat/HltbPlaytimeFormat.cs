@@ -17,7 +17,7 @@ namespace Playlist
         {
             if (seconds <= 0)
             {
-                return PlaylistLocalization.GetString("LOCPlaylist_Hltb_EmptyTime");
+                return PlaylistLocalization.GetString("LOCPlaylist_HLTB_EmptyTime");
             }
 
             var conv = ResolvePlayTimeConverter(themeScope);

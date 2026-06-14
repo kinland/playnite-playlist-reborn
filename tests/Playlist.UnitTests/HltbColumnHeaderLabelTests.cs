@@ -21,12 +21,12 @@ public class HltbColumnHeaderLabelTests
     }
 
     [Theory]
-    [InlineData(0, "LOCPlaylist_Hltb_TimeType_MainStory", "LOCHowLongToBeatMainStory", "Main story")]
-    [InlineData(1, "LOCPlaylist_Hltb_TimeType_MainExtra", "LOCHowLongToBeatMainExtra", "Main + extra")]
-    [InlineData(2, "LOCPlaylist_Hltb_TimeType_Completionist", "LOCHowLongToBeatCompletionist", "Completionist")]
-    [InlineData(3, "LOCPlaylist_Hltb_TimeType_Solo", "LOCHowLongToBeatSolo", "Solo")]
-    [InlineData(4, "LOCPlaylist_Hltb_TimeType_CoOp", "LOCHowLongToBeatCoOp", "Co-Op")]
-    [InlineData(5, "LOCPlaylist_Hltb_TimeType_Versus", "LOCHowLongToBeatVs", "Vs")]
+    [InlineData(0, "LOCPlaylist_HLTB_TimeType_MainStory", "LOCHowLongToBeatMainStory", "Main story")]
+    [InlineData(1, "LOCPlaylist_HLTB_TimeType_MainExtra", "LOCHowLongToBeatMainExtra", "Main + extra")]
+    [InlineData(2, "LOCPlaylist_HLTB_TimeType_Completionist", "LOCHowLongToBeatCompletionist", "Completionist")]
+    [InlineData(3, "LOCPlaylist_HLTB_TimeType_Solo", "LOCHowLongToBeatSolo", "Solo")]
+    [InlineData(4, "LOCPlaylist_HLTB_TimeType_CoOp", "LOCHowLongToBeatCoOp", "Co-Op")]
+    [InlineData(5, "LOCPlaylist_HLTB_TimeType_Versus", "LOCHowLongToBeatVs", "Vs")]
     public void GetPreferredTimeTypeResourceKey_maps_each_preferred_time_type(
         int rawType,
         string expectedPlaylistKey,
@@ -42,6 +42,6 @@ public class HltbColumnHeaderLabelTests
     [Fact]
     public void ColumnHeaderLocKey_matches_column_toggle_menu_key()
     {
-        Assert.Equal("LOCPlaylist_Column_HowLongToBeat", HltbColumnHeaderLabels.ColumnHeaderLocKey);
+        Assert.Equal("LOCPlaylist_Column_HLTB", HltbColumnHeaderLabels.ColumnHeaderLocKey);
     }
 }
