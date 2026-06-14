@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
-    <PackageReference Include="PlayniteSDK" Version="6.15.0" />
+    <PackageReference Include="PlayniteSDK" Version="6.5.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
