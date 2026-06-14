@@ -4,6 +4,8 @@
 
 العربية · Български · Català · Čeština · Deutsch · Ελληνικά · Español · Français · עברית · 日本語 · 한국어 · Polski · Português · Русский · српски · 简体中文 · 繁體中文 · …
 
+As long as your language is supported by Google Translate, feel free to make feature requests or report bugs in your native language.
+
 <details>
 <summary>Supports all 45 Playnite locales:</summary>
 
@@ -58,6 +60,8 @@
 </details>
 
 Playnite UI strings for this extension are available in every locale Playnite ships. I only speak English, so these are primarily machine translated — contributions welcome.
+
+**Additional Playlist locales** (14 supplemental: Hawaiian, Māori, Samoan, Guaraní, Scottish Gaelic, Scots, Cherokee, Inuktitut, Basque, Mohawk, Lakota, Navajo, Cree, Ojibwe, and others) ship with the extension. Playlist will add its own language picker in settings (Playnite-supported languages plus these additional choices). On first visit to Playlist settings, if your OS language differs from Playnite's, a localized prompt asks whether to switch the Playlist-only language to match your system. OS culture mappings live in `scripts/data/playlist-os-locale-culture-map.json`; regenerate supplemental xaml with `scripts/sync-supplemental-locales.ps1`.
 
 This extension provides a sidebar action with a manually ordered "playlist" queue of games.
 
@@ -139,10 +143,15 @@ Supported scoped keywords:
 | `category:` | `cat:` | Game categories |
 | `feature:` | `feat:` | Game features |
 
+## Development
+
+See [TESTING.md](TESTING.md) for how to run unit and UI tests locally (`dotnet test Playlist.sln`).
+
 ## External libraries, etc.
 
 * Drag and drop is implemented using [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)
 * `ui-play` and `play-alt-1` icons are used from [Icofont](https://icofont.com/) (CC BY 4.0)
+* HowLongToBeat interoperability code is MIT-licensed separately — see [third_party/howlongtobeat/LICENSE](third_party/howlongtobeat/LICENSE) and [third_party/howlongtobeat/NOTICE.md](third_party/howlongtobeat/NOTICE.md)
 
 ## HowLongToBeat integration
 
@@ -186,6 +195,9 @@ Supported HLTB appearance/settings in Playlist:
 Segment colors are read from the HLTB plugin appearance settings when available.
 
 ## Credits
-This project was forked from https://github.com/bburky/playnite-playlist
+This plugin was originally created by @bburky, but active maintenance and feature work has been handled by @Kinland since v1.5.0. @bburky retains `committer` access and is involved with PRs as able and willing.
 
-HLTB render code and data file formats were recreated by analysing the HLTB plugin source code: https://github.com/Lacro59/playnite-howlongtobeat-plugin
+HLTB integration began as a draft by @bburky; render code and data file formats were later recreated by analysing the HLTB plugin source code. Kudos to @Lacro59 for the excellent HLTB plugin: https://github.com/Lacro59/playnite-howlongtobeat-plugin
+
+Additional Contributors:
+- @BanCrash (Initial localization implementation and Spanish translations)

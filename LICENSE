@@ -119,7 +119,10 @@ License: MIT (scoped to interoperability sources in this repository only)
 Playlist contains HowLongToBeat interoperability code under
 `third_party/howlongtobeat/` (cache/settings consumption, progress bar UI,
 add-on navigation, sorting, and related helpers). The MIT text in that folder's
-`LICENSE` applies only to those files, not to the whole extension. See also:
+[third_party/howlongtobeat/LICENSE](third_party/howlongtobeat/LICENSE) applies
+only to those files, not to the whole extension. Attribution and provenance
+notes are in
+[third_party/howlongtobeat/NOTICE.md](third_party/howlongtobeat/NOTICE.md).
 
-- `third_party/howlongtobeat/LICENSE`
-- `third_party/howlongtobeat/NOTICE.md`
+The full MIT license text is not duplicated here; read the linked LICENSE file
+for the complete terms, scoped file list, and copyright notices.
