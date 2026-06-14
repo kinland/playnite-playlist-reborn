@@ -24,14 +24,16 @@ namespace Playlist
         IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query);
     }
 
-    /// <summary>Playnite database-backed implementation of <see cref="IScopedFilterNameLookup"/>.</summary>
-    internal sealed class MainSearchFilterNameResolver : IScopedFilterNameLookup
+    /// <summary>
+    /// Resolves scoped filter names and IDs from the Playnite game database.
+    /// </summary>
+    internal sealed class DatabaseScopedFilterNameLookup : IScopedFilterNameLookup
     {
-        private readonly IPlayniteAPI playniteApi;
+        private readonly IGameDatabaseAPI database;
 
-        public MainSearchFilterNameResolver(IPlayniteAPI playniteApi)
+        public DatabaseScopedFilterNameLookup(IGameDatabaseAPI database)
         {
-            this.playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
+            this.database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
         public string ResolveId(ScopedFilterKind kind, Guid id)
@@ -40,15 +42,15 @@ namespace Playlist
             {
                 case ScopedFilterKind.Developer:
                 case ScopedFilterKind.Publisher:
-                    return playniteApi.Database.Companies.Get(id)?.Name;
+                    return database.Companies.Get(id)?.Name;
                 case ScopedFilterKind.Tag:
-                    return playniteApi.Database.Tags.Get(id)?.Name;
+                    return database.Tags.Get(id)?.Name;
                 case ScopedFilterKind.Genre:
-                    return playniteApi.Database.Genres.Get(id)?.Name;
+                    return database.Genres.Get(id)?.Name;
                 case ScopedFilterKind.Category:
-                    return playniteApi.Database.Categories.Get(id)?.Name;
+                    return database.Categories.Get(id)?.Name;
                 case ScopedFilterKind.Feature:
-                    return playniteApi.Database.Features.Get(id)?.Name;
+                    return database.Features.Get(id)?.Name;
                 default:
                     return null;
             }
@@ -82,28 +84,48 @@ namespace Playlist
             {
                 case ScopedFilterKind.Developer:
                 case ScopedFilterKind.Publisher:
-                    return playniteApi.Database.Companies
+                    return database.Companies
                         .FirstOrDefault(company => string.Equals(company.Name, name, StringComparison.OrdinalIgnoreCase))
                         ?.Id;
                 case ScopedFilterKind.Tag:
-                    return playniteApi.Database.Tags
+                    return database.Tags
                         .FirstOrDefault(tag => string.Equals(tag.Name, name, StringComparison.OrdinalIgnoreCase))
                         ?.Id;
                 case ScopedFilterKind.Genre:
-                    return playniteApi.Database.Genres
+                    return database.Genres
                         .FirstOrDefault(genre => string.Equals(genre.Name, name, StringComparison.OrdinalIgnoreCase))
                         ?.Id;
                 case ScopedFilterKind.Category:
-                    return playniteApi.Database.Categories
+                    return database.Categories
                         .FirstOrDefault(category => string.Equals(category.Name, name, StringComparison.OrdinalIgnoreCase))
                         ?.Id;
                 case ScopedFilterKind.Feature:
-                    return playniteApi.Database.Features
+                    return database.Features
                         .FirstOrDefault(feature => string.Equals(feature.Name, name, StringComparison.OrdinalIgnoreCase))
                         ?.Id;
                 default:
                     return null;
             }
         }
+    }
+
+    /// <summary>Playnite database-backed implementation of <see cref="IScopedFilterNameLookup"/>.</summary>
+    internal sealed class MainSearchFilterNameResolver : IScopedFilterNameLookup
+    {
+        private readonly IScopedFilterNameLookup inner;
+
+        public MainSearchFilterNameResolver(IPlayniteAPI playniteApi)
+            : this(new DatabaseScopedFilterNameLookup(playniteApi?.Database ?? throw new ArgumentNullException(nameof(playniteApi))))
+        {
+        }
+
+        internal MainSearchFilterNameResolver(IScopedFilterNameLookup inner)
+        {
+            this.inner = inner ?? throw new ArgumentNullException(nameof(inner));
+        }
+
+        public string ResolveId(ScopedFilterKind kind, Guid id) => inner.ResolveId(kind, id);
+
+        public IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query) => inner.ResolveQuery(kind, query);
     }
 }
