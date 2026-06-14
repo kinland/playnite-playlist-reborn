@@ -15,6 +15,7 @@
         <local:LastActivityValueConverter x:Key="lastActivityValueConverter" />
         <local:PlaytimeValueConverter x:Key="playtimeConverter" />
         <local:CompletionStatusDisplayConverter x:Key="completionStatusDisplayConverter" />
+        <local:CompletionStatusIsCurrentConverter x:Key="completionStatusIsCurrentConverter" />
 
         <Style x:Key="playlistTextColumnCellOuterStyle" TargetType="Grid">
             <Setter Property="Margin" Value="{x:Static local:PlaylistGridViewLayout.HeaderChromeMargin}" />
@@ -130,6 +131,15 @@
                         <MenuItem Header="{DynamicResource LOCSetCompletionStatus}" ItemsSource="{Binding DataContext.CompletionStatusCommands, Source={x:Reference Name=playlistListView}}">
                             <MenuItem.ItemContainerStyle>
                                 <Style TargetType="MenuItem">
+                                    <Setter Property="IsCheckable" Value="True" />
+                                    <Setter Property="IsChecked">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource completionStatusIsCurrentConverter}" Mode="OneWay">
+                                                <Binding Path="Status.Id" />
+                                                <Binding Path="PlacementTarget.DataContext.CompletionStatusId" RelativeSource="{RelativeSource AncestorType=ContextMenu}" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Setter Property="Command" Value="{Binding Command}"/>
                                     <Setter Property="CommandParameter" Value="{Binding SelectedItems, Source={x:Reference Name=playlistListView}}" />
                                     <Setter Property="HeaderTemplate">
