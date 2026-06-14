@@ -1,0 +1,16 @@
+{
+  "LOCNameLabel": "Name",
+  "LOCTimePlayed": "Time Played",
+  "LOCCompletionStatus": "Completion Status",
+  "LOCSetCompletionStatus": "Set Completion Status",
+  "LOCPlayGame": "Play",
+  "LOCInstallGame": "Install",
+  "LOCCompletionStatusNotPlayed": "Not Played",
+  "LOCCompletionStatusPlayed": "Played",
+  "LOCCompletionStatusBeaten": "Beaten",
+  "LOCCompletionStatusCompleted": "Completed",
+  "LOCCompletionStatusPlaying": "Playing",
+  "LOCCompletionStatusAbandoned": "Abandoned",
+  "LOCCompletionStatusOnHold": "On Hold",
+  "LOCCompletionStatusPlanToPlay": "Plan to Play"
+}
