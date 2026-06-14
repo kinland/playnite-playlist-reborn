@@ -47,8 +47,20 @@
 - 空白を含む値は引用符で囲む（例: tag:"Action Roguelike"）
 - カンマまたは |（縦棒）で OR、スコープの繰り返しまたは &amp; で AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat 連携を有効にする</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">クリア</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">コンプリート</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">各 HowLongToBeat 同期行は異なる Playnite 完了ステータスを使用する必要があります。</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">HowLongToBeat プラグイン経由で外向き同期をトリガーする Playnite の完了ステータスを選択します。保存すると HowLongToBeat の自動 Playnite から HLTB へのステータス同期が有効になり、これらのマッピングがプラグイン設定に書き込まれます。</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">各 HowLongToBeat 同期行に Playnite の完了ステータスを選択してください。</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">プレイ中</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite ステータス</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: クリア</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">同期先</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: クリア</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: プレイ中</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}の言語</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playniteの言語に合わせる: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">システムの言語は {0} です。プレイリストのみ {1} を使用しますか？</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">HowLongToBeat と完了ステータスを同期する</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">メインパネルと{0}の検索ボックスを同期する</sys:String>
 </ResourceDictionary>

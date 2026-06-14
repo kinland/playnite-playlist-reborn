@@ -53,8 +53,20 @@
 - стойности с интервали в кавички (напр. tag:"Action Roguelike")
 - запетая или | (вертикална черта) за ИЛИ; повторение на обхват или &amp; за И</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Активиране на интеграция с HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Завършено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Пълно преминаване</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Всеки ред за синхронизация с HowLongToBeat трябва да използва различен статус на завършване в Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Изберете кои статуси на завършване в Playnite задействат изходяща синхронизация чрез приставката HowLongToBeat. Запазването активира автоматичната синхронизация на статус Playnite към HLTB на HowLongToBeat и записва тези съпоставяния в конфигурацията на приставката.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Изберете статус на завършване в Playnite за всеки ред за синхронизация с HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Играе се</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Статус в Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Победено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Синхронизира се с</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Завършено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Играе се</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Използване на езика на Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Езикът на вашата система е {0}. Да използвате {1} само за плейлиста?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Синхронизиране на статуса на завършване с HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронизиране на полето за търсене между основния панел и {0}а</sys:String>
 </ResourceDictionary>

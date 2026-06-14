@@ -53,8 +53,20 @@
 - значення з пробілами в лапках (напр. tag:"Action Roguelike")
 - кому або | (вертикальну риску) для АБО; повторення області або &amp; для І</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Увімкнути інтеграцію HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Завершено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Повне проходження</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Кожен рядок синхронізації HowLongToBeat має використовувати інший статус завершення Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Виберіть, які статуси завершення Playnite запускають вихідну синхронізацію через плагін HowLongToBeat. Збереження вмикає автоматичну синхронізацію статусу Playnite з HLTB у HowLongToBeat і записує ці відповідності до конфігурації плагіна.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Виберіть статус завершення Playnite для кожного рядка синхронізації HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Граю</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Статус Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Пройдено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Синхронізується з</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Завершено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Граю</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Використовувати мову Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Мова вашої системи — {0}. Використовувати {1} лише для плейлиста?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Синхронізувати статус завершення з HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

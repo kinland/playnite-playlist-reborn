@@ -152,6 +152,7 @@ namespace Playlist
 
         internal void SaveSettings(PlaylistSettings updatedSettings)
         {
+            HltbCompletionStatusSyncConfig.ApplyPlaylistSettings(StaticPlayniteApi, updatedSettings);
             SavePluginSettings(updatedSettings);
             StaticSettings = updatedSettings;
         }
@@ -341,6 +342,7 @@ namespace Playlist
                 settings.ExpireAddonPendingIfHltbStillUnavailable();
                 settings.RefreshHowLongToBeatInstallState();
                 PlaylistLocalizationOverride.ApplyFromSettings(settings);
+                HltbCompletionStatusSyncConfig.ApplyPlaylistSettings(PlayniteApi, settings);
                 ApplySettingsToOpenView();
             }
             catch (Exception e)

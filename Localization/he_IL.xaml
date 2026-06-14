@@ -53,8 +53,20 @@
 - ערכים עם רווחים במרכאות (לדוגמה tag:"Action Roguelike")
 - פסיק או | (קו אנכי) עבור OR; חזרה על היקף או &amp; עבור AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">הפעל שילוב HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">הושלם</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">השלמה מלאה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">כל שורת סנכרון HowLongToBeat חייבת להשתמש בסטטוס השלמה שונה של Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">בחר אילו סטטוסי השלמה של Playnite מפעילים סנכרון יוצא דרך תוסף HowLongToBeat. שמירה מפעילה את הסנכרון האוטומטי של סטטוס Playnite ל-HLTB של HowLongToBeat וכותבת את המיפויים האלה להגדרות התוסף.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">בחר סטטוס השלמה של Playnite עבור כל שורת סנכרון HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">משחק</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">סטטוס Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: הובס</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">מסתנכרן אל</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: הושלם</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: משחק</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">השתמש בשפת Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">שפת המערכת שלך היא {0}. להשתמש ב-{1} עבור רשימת ההשמעה בלבד?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">סנכרן סטטוס השלמה עם HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">סנכרן תיבת חיפוש בין הלוח הראשי ל{0}</sys:String>
 </ResourceDictionary>

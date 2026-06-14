@@ -53,8 +53,20 @@
 - وضع القيم التي تحتوي على مسافات بين علامات اقتباس (مثال tag:"Action Roguelike")
 - الفاصلة أو | (الخط العمودي) للـ OR؛ تكرار النطاق أو &amp; للـ AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">تفعيل تكامل HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">مكتمل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">الإكمال الكامل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">يجب أن يستخدم كل صف مزامنة HowLongToBeat حالة إكمال Playnite مختلفة.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">اختر حالات إكمال Playnite التي تطلق المزامنة الصادرة عبر إضافة HowLongToBeat. يؤدي الحفظ إلى تمكين المزامنة التلقائية لحالة Playnite إلى HLTB في HowLongToBeat وكتابة هذه التعيينات إلى إعدادات الإضافة.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">اختر حالة إكمال Playnite لكل صف مزامنة HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">يلعب</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">حالة Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: منتهٍ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">يُزامَن إلى</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: مكتمل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: يلعب</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">لغة {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">استخدام لغة Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">لغة نظامك هي {0}. هل تريد استخدام {1} لقائمة التشغيل فقط؟</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">مزامنة حالة الإكمال مع HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">مزامنة مربع البحث بين اللوحة الرئيسية و{0}</sys:String>
 </ResourceDictionary>

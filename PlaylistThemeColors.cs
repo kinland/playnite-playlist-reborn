@@ -57,6 +57,18 @@ namespace Playlist
         internal static readonly Color EmptyHltbTrackBorderNormalColor = Color.FromArgb(0x8C, 0x50, 0x5A, 0x64);
         internal static readonly Color EmptyHltbTrackBorderOnDarkRowColor = Color.FromArgb(0xDC, 0x78, 0x80, 0x8A);
 
+        /// <summary>Accent-tinted fill for HLTB-syncable completion status chips on normal rows.</summary>
+        internal const byte SyncableChipBackgroundAlpha = 0x2E;
+
+        /// <summary>Accent-tinted border for HLTB-syncable completion status chips on normal rows.</summary>
+        internal const byte SyncableChipBorderAlpha = 0x8C;
+
+        /// <summary>Muted label opacity for non-syncable completion status chips on normal rows.</summary>
+        internal const double NonSyncableChipForegroundOpacity = 0.72;
+
+        /// <summary>Muted label opacity for non-syncable chips on managed dark hover/selection rows.</summary>
+        internal const double NonSyncableChipForegroundOpacityOnManagedRow = 0.85;
+
         internal const byte SegmentOutlineAlpha = 0xD2;
         internal const byte SegmentOutlineDarkenAmount = 0x1E;
 

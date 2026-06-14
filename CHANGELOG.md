@@ -7,6 +7,7 @@ Regenerate with `pwsh ./scripts/sync-changelog.ps1` (appends new commit summarie
 
 ## [Unreleased]
 
+- Add Playlist settings to map Playnite completion statuses to HowLongToBeat outbound sync tiers.
 - Rename HLTB resource keys in column headers and embedded progress UI.
 - Localize completion status names for playlist override mode.
 - Refresh localized column headers when language override changes.

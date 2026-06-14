@@ -52,8 +52,10 @@
     <Compile Include="..\..\PlaylistLocalization.cs" Link="Production\PlaylistLocalization.cs" />
     <Compile Include="..\..\CompletionStatusLocalization.cs" Link="Production\CompletionStatusLocalization.cs" />
     <Compile Include="..\..\CompletionStatusDisplayConverter.cs" Link="Production\CompletionStatusDisplayConverter.cs" />
+    <Compile Include="..\..\CompletionStatusSyncTier.cs" Link="Production\CompletionStatusSyncTier.cs" />
     <Compile Include="..\..\PlaylistLocaleCultureMap.cs" Link="Production\PlaylistLocaleCultureMap.cs" />
     <Compile Include="..\..\PlaylistLanguageOption.cs" Link="Production\PlaylistLanguageOption.cs" />
+    <Compile Include="..\..\PlaylistCompletionStatusOption.cs" Link="Production\PlaylistCompletionStatusOption.cs" />
     <Compile Include="..\..\PlaylistLanguageOptionCatalog.cs" Link="Production\PlaylistLanguageOptionCatalog.cs" />
     <Compile Include="..\..\PlaylistBorrowedPlayniteKeys.cs" Link="Production\PlaylistBorrowedPlayniteKeys.cs" />
     <Compile Include="..\..\PlaylistLocalizationOverride.cs" Link="Production\PlaylistLocalizationOverride.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="..\..\SearchQuerySpec.cs" Link="Production\SearchQuerySpec.cs" />
     <Compile Include="..\..\SearchQueryTokenizer.cs" Link="Production\SearchQueryTokenizer.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbSettingsJson.cs" Link="Production\HltbSettingsJson.cs" />
+    <Compile Include="..\..\third_party\howlongtobeat\HltbCompletionStatusSyncConfig.cs" Link="Production\HltbCompletionStatusSyncConfig.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbPlaytimeFormat.cs" Link="Production\HltbPlaytimeFormat.cs" />
     <Compile Include="..\..\PlaylistSettings.cs" Link="Production\PlaylistSettings.cs" />
     <Compile Include="..\..\PlaylistColumnVisibilitySettings.cs" Link="Production\PlaylistColumnVisibilitySettings.cs" />

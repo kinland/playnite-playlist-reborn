@@ -65,9 +65,21 @@
 - cuir luachan le beàrnan ann an comharran (m.e. tag:"Action Roguelike")
 - coma no | airson NO; ath-aithris scòp no &amp; airson AGUS</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Cuir an comas eadar-obrachadh HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Crìochnichte</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Crìochnachaidh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Feumaidh gach sreath sioncronachaidh HowLongToBeat cor a' chrìochnachaidh Playnite eadar-dhealaichte a chleachdadh.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Tagh dè na cor a' chrìochnachaidh Playnite a tha a' cuideachadh le sioncronachadh a-mach tro plugan HowLongToBeat. Le sàbhaladh, tha sioncronachadh stàta Playnite-gu-HLTB fèin-obrachail HowLongToBeat air comas agus thèid na mapadh seo a sgrìobhadh chun rèiteachadh a' phlugan.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Tagh cor a' chrìochnachaidh Playnite airson gach sreath sioncronachaidh HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">A' cluiche</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Cor Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Air a bhuain</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sioncronaich gu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Crìochnichte</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: A' cluiche</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Cleachd cànan Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Is e {0} cànan an t-siostaim agad. A bheil thu airson {1} a chleachdadh dìreach airson an liosta-chluich?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sioncronaich cor a' chrìochnachaidh le HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaich bogsa-luirg eadar am prìomh phannal agus {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Suidhich cor a' chrìochnachaidh</sys:String>
     <sys:String x:Key="LOCTimePlayed">Ùine cluiche</sys:String>

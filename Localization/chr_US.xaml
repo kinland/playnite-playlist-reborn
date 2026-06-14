@@ -65,9 +65,21 @@
 - tag:"Action Roguelike" ᎤᏬᏢᎢ
 - comma térã | OR-rã; &amp; AND-rã</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">ᎤᏍᏆᏂᏱᏍᏗ HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">ᎤᎬᏁᎢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">ᎤᎬᏁᎯ ᏂᎪᎯᎸᏍᏗ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat ᎤᏍᏆᏂᏱᏍᏗ ᎠᏓᏁᏍᏗ ᎤᏍᏆᏂᏱᏍᏗ Playnite ᎠᏓᎬᏗ ᎤᎬᏫᏳᏒᏂ ᎤᏍᏆᏂᏱᏍᏗ.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">ᎤᏍᏆᏂᏱᏍᏗ ᎠᏓᎬᏗ ᎤᎬᏫᏳᏒᏂ Playnite ᎤᏍᏆᏂᏱᏍᏗ HowLongToBeat plugin ᎠᎴ ᎠᏓᏁᏍᏗ. ᎤᏍᏆᏂᏱᏍᏗ HowLongToBeat ᎤᏍᏆᏂᏱᏍᏗ Playnite-ᎠᏴ HLTB ᎠᎴ ᎠᏓᏁᏍᏗ plugin config.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">ᎤᏍᏆᏂᏱᏍᏗ Playnite ᎠᏓᎬᏗ ᎤᎬᏫᏳᏒᏂ HowLongToBeat ᎤᏍᏆᏂᏱᏍᏗ ᎠᏓᏁᏍᏗ.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">ᏥᎠᏯᏙᎭ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite ᎤᎬᏫᏳᏒᏂ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: ᎤᏂᎩᏒᏗ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">ᎤᏍᏆᏂᏱᏍᏗ ᎢᏗᏢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: ᎤᎬᏁᎢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: ᏥᎠᏯᏙᎭ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} ᎤᏬᏢᎢ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">ᎤᏍᏆᏂᏱᏍᏗ Playnite ᎠᏓᏁᏟᎶᏍᏗ: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">ᎤᎾᏛᏅᎢ ᎤᏬᏢᎢ {0}. Playlist ᎤᎬᏫᏳᏒᏂ {1}?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">ᎤᏍᏆᏂᏱᏍᏗ ᎠᏓᎬᏗ ᎤᎬᏫᏳᏒᏂ HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ᎠᏓᏁᏟᎶᏍᏗ ᎠᏕᏲᏍᏗ {0} ᎠᎴ ᏧᎾᎵᏍᏙᏗ ᏗᎦᎳᏫᎢ</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">ᎠᏓᎬᏗ ᎤᎬᏫᏳᏒᏂ ᎤᏍᏆᏂᏱᏍᏗ</sys:String>
     <sys:String x:Key="LOCTimePlayed">ᎠᏯᏙᏗ ᎤᎵᏏᎩ</sys:String>

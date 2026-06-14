@@ -54,5 +54,11 @@ namespace Playlist
 
         /// <summary>Shared row-block height for HLTB bar + plugin button vertical alignment.</summary>
         public const double HltbCellBlockHeight = 30;
+
+        /// <summary>Completion status chip corner radius in list cells.</summary>
+        public const double CompletionStatusChipCornerRadius = 3;
+
+        /// <summary>Completion status chip interior padding.</summary>
+        public static readonly Thickness CompletionStatusChipPadding = new Thickness(6, 1, 6, 1);
     }
 }

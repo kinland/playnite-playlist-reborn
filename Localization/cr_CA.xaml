@@ -65,9 +65,21 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Kī-matwē</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Kahkiyaw matwēwin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat kî-mâmawi row kî-mâmawi tapwēwin matwēwin Playnite ohci.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Kî-pîkiskwêwin tapwēwin matwēwin Playnite kî-mâmawi HowLongToBeat plugin ohci. Kî-mâmawi HowLongToBeat kî-mâmawi Playnite-HLTB tapwēwin matwēwin ohci kî-mâmawi plugin config ohci.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Kî-pîkiskwêwin tapwēwin matwēwin Playnite HowLongToBeat kî-mâmawi row ohci.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Pêyakowan</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite tapwēwin matwēwin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Kī-miyo-wīcihitow</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Kî-mâmawi ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Kī-matwē</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Pêyakowan</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} pîkiskwêwin</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite pîkiskwêwin kî-mâmawi: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Owóksape pîkiskwêwin {0}. Playlist ohci {1}?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Tapwēwin matwēwin kî-mâmawi HowLongToBeat ohci</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">{0} owóksape pêhtâw atoskâkan ohci</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Matwēwin itācihow</sys:String>
     <sys:String x:Key="LOCTimePlayed">Kī-pêyak pîsimowin</sys:String>

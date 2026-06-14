@@ -65,9 +65,21 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ííníshta'</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Yíłtsą́ą́'</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Tʼáá łáʼí</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat ííníshta' row Playnite baa ndaakoh t'áá át'é.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Playnite baa ndaakoh HowLongToBeat plugin bich'į' ííníshta'. Yisdá'ííł HowLongToBeat Playnite-HLTB baa ndaakoh ííníshta' plugin config bich'į'.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">HowLongToBeat ííníshta' row Playnite baa ndaakoh yee adoolnííł.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Naalkid yíníłta' yá'át'ééh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite baa ndaakoh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Yeeʼ ndaakai</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Ííníshta' hane'</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Yíłtsą́ą́'</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Naalkid yíníłta' yá'át'ééh</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} bizaad</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite bizaad yee adoolnííł: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Naaltsoos bizaad {0}. Playlist bich'į' {1}?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Baa ndaakoh HowLongToBeat bich'į' ííníshta'</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">{0} tʼáá áłtsé panel bich'į'</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Baa ndaakoh áádóó ííníshta'</sys:String>
     <sys:String x:Key="LOCTimePlayed">Naalkid bée anáhálá</sys:String>

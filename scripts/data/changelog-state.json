@@ -1,5 +1,18 @@
 {
-  "recordedSyncOperations": {},
+  "recordedSyncOperations": {
+    "sync-playlist-owned-locales": {
+      "version": "1.7.0",
+      "entry": "Synced playlist-owned UI strings across Playnite locales"
+    },
+    "sync-hltb-time-type-locales": {
+      "version": "1.7.0",
+      "entry": "Synced HowLongToBeat time-type labels across Playnite locales"
+    },
+    "sort-localization-files": {
+      "version": "1.7.0",
+      "entry": "Sorted localization xaml files by key"
+    }
+  },
   "repositoryUrl": "https://github.com/kinland/playnite-playlist-reborn",
   "packageFilePattern": "Playlist-v{version}.pext",
   "maintainerChange": {

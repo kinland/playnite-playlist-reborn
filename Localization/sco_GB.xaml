@@ -65,9 +65,21 @@
 - pit values wi spaces in quotes (e.g. tag:"Action Roguelike")
 - uise comma or | for OR; repeat a scope or &amp; for AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Hae HowLongToBeat workin thegither wi Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Duin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Duin wi awthing</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Ilk HowLongToBeat sync row maun uise a different Playnite completion staun.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Pick whilk Playnite completion stattuses trigger ootbound sync throu the HowLongToBeat plugin. Sauin enables HowLongToBeat's automatic Playnite-tae-HLTB status sync an writes thae mappings tae the plugin config.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Select a Playnite completion staun for ilk HowLongToBeat sync row.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Playin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite staun</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Beaten</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Syncs tae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Duin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Playin</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} leid</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Match Playnite leid: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Yer seestem leid is {0}. Dae ye want tae uise {1} for Playlist only?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sync completion staun wi HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keep the sairch box the same in the main paneel an {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Set the gemme staun</sys:String>
     <sys:String x:Key="LOCTimePlayed">Hou lang playt</sys:String>

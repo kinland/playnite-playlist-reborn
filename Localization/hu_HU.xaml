@@ -53,8 +53,20 @@
 - szóközt tartalmazó értékek idézőjelezését (pl. tag:"Action Roguelike")
 - vesszőt vagy | (függőleges vonal) VAGY művelethez; hatókör ismétlése vagy &amp; ÉS művelethez</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat integráció engedélyezése</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Befejezve</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Teljes végigjátszás</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Minden HowLongToBeat-szinkronizálási sornak más Playnite-befejezési állapotot kell használnia.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Válassza ki, mely Playnite-befejezési állapotok indítják el a kimenő szinkronizálást a HowLongToBeat bővítményen keresztül. A mentés engedélyezi a HowLongToBeat automatikus Playnite–HLTB állapotszinkronizálását, és ezeket a leképezéseket a bővítmény konfigurációjába írja.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Válasszon Playnite-befejezési állapotot minden HowLongToBeat-szinkronizálási sorhoz.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Játékban</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite állapot</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Legyőzve</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Szinkronizálás ide</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Befejezve</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Játékban</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} nyelve</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite nyelv használata: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">A rendszer nyelve: {0}. Csak a lejátszási listához használja a(z) {1} nyelvet?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Befejezési állapot szinkronizálása a HowLongToBeattel</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keresőmező szinkronizálása a főpanel és a {0} között</sys:String>
 </ResourceDictionary>

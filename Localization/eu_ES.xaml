@@ -64,9 +64,21 @@
 - ! alderantzizkatzeko
 - komatxo edo | OR-rako; &amp; AND-rako</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Gaitu HowLongToBeat integrazioa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Osatua</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Osatzailea</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat sinkronizazio lerro bakoitzak Playnite osatze egoera desberdin bat erabili behar du.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Aukeratu zein Playnite osatze egoerek abiarazten duten irteerako sinkronizazioa HowLongToBeat pluginaren bidez. Gordetzean HowLongToBeat-en Playnite-tik HLTB-ra egoera sinkronizazio automatikoa gaitzen da eta mapak pluginaren konfigurazioan idazten dira.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Aukeratu Playnite osatze egoera HowLongToBeat sinkronizazio lerro bakoitzeko.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Jokatzen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite egoera</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Garaitua</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Honakoarekin sinkronizatu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Osatua</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Jokatzen</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} hizkuntza</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Erabili Playnite hizkuntza: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Zure sistemaren hizkuntza {0} da. {1} Playlist-erako soilik erabili?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sinkronizatu osatze egoera HowLongToBeat-ekin</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronizatu bilaketa-koadroa panel nagusiaren eta {0}-aren artean</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Ezarri osatze egoera</sys:String>
     <sys:String x:Key="LOCTimePlayed">Jokatutako denbora</sys:String>

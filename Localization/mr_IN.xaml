@@ -53,8 +53,20 @@
 - space असणारे values quotes मध्ये (उदा. tag:"Action Roguelike")
 - OR साठी comma किंवा | (pipe); AND साठी scope पुन्हा किंवा &amp;</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat समावेश सक्षम करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">पूर्ण</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">पूर्ण पूर्णत्व</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">प्रत्येक HowLongToBeat समक्रमण पंक्तीला वेगळी Playnite पूर्णता स्थिती वापरावी लागेल.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">HowLongToBeat प्लगइनद्वारे बाह्य समक्रमण सुरू करणारे Playnite पूर्णता स्थिती निवडा. जतन केल्याने HowLongToBeat चे स्वयंचलित Playnite-ते-HLTB स्थिती समक्रमण सक्षम होते आणि ही मॅपिंग प्लगइन कॉन्फिगमध्ये लिहिली जातात.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">प्रत्येक HowLongToBeat समक्रमण पंक्तीसाठी Playnite पूर्णता स्थिती निवडा.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">खेळत आहे</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite स्थिती</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: जिंकले</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">येथे समक्रमित</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: पूर्ण</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: खेळत आहे</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} भाषा</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite भाषा वापरा: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">तुमच्या प्रणालीची भाषा {0} आहे. फक्त प्लेलिस्टसाठी {1} वापरायचे?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">HowLongToBeat सह पूर्णता स्थिती समक्रमित करा</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">मुख्य पॅनेल आणि {0} दरम्यान शोध बॉक्स समक्रमित करा</sys:String>
 </ResourceDictionary>

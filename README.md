@@ -187,6 +187,22 @@ Release workflow:
 
 When the HowLongToBeat plugin is installed and integration is enabled, Playlist renders HLTB playtime, a multi-segment progress bar, and the HLTB detail button in the playlist grid. Sorting and display respect the HLTB plugin's preferred time type and appearance settings.
 
+### Completion status sync
+
+When **Enable HowLongToBeat integration** is on and the HLTB plugin is available, Playlist settings also offer **Sync completion status with HowLongToBeat**. This configures which **Playnite completion statuses** (the same values shown in Playlist's right-click menu and Completion Status column) map to the HowLongToBeat plugin's three outbound sync tiers:
+
+| Playlist setting row | Written to HLTB as |
+| --- | --- |
+| Playing | HLTB **Playing** |
+| Completed | HLTB **Beaten** (main-story completion path in the plugin) |
+| Completionist | HLTB **Completed** (100% / completionist path in the plugin) |
+
+Saving Playlist settings writes these mappings and enables the HLTB plugin's **Automatically update game status on HowLongToBeat when changing game status in Playnite** option in the plugin's `config.json`. After that, changing completion status in Playlist (or elsewhere in Playnite) triggers the HLTB plugin's normal outbound sync for the mapped statuses only.
+
+Playlist does not sync every Playnite completion status — only the three rows you configure. Statuses such as *Played*, *Beaten*, *Not Played*, and *On Hold* participate only if you assign them to one of the three sync rows.
+
+On first use, Playlist imports existing mappings from the HLTB plugin config when present; otherwise it suggests defaults based on common Playnite status names (*Playing*, *Beaten*, *Completed*).
+
 Playlist reads HLTB data from the plugin's on-disk per-game cache files in `ExtensionsData/{hltb-plugin-id}/HowLongToBeat`. Cache reads use shared read access so Playlist does not lock files while the HLTB plugin updates them; malformed or partially written JSON is ignored and treated as missing data.
 
 Because those cache files do not include the `HltbUserData` payload used by HLTB's own user-time overlay logic, the HLTB setting `ProgressBarShowTimeUser` is currently not supported in Playlist.

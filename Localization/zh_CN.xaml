@@ -47,8 +47,20 @@
 - 对含空格的值加引号（例如 tag:"Action Roguelike"）
 - 逗号或 |（竖线）表示 OR；重复范围或 &amp; 表示 AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">启用 HowLongToBeat 集成</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">已完成</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">全收集</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">每个 HowLongToBeat 同步行必须使用不同的 Playnite 完成状态。</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">选择哪些 Playnite 完成状态会通过 HowLongToBeat 插件触发向外同步。保存后将启用 HowLongToBeat 的自动 Playnite 到 HLTB 状态同步，并将这些映射写入插件配置。</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">为每个 HowLongToBeat 同步行选择 Playnite 完成状态。</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">游玩中</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite 状态</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: 已通关</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">同步到</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: 已完成</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: 游玩中</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}语言</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">使用 Playnite 语言：{0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">您的系统语言是 {0}。仅为播放列表使用 {1}？</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">与 HowLongToBeat 同步完成状态</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">同步主面板与{0}的搜索框</sys:String>
 </ResourceDictionary>

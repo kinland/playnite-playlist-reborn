@@ -18,6 +18,33 @@ namespace Playlist
             new HltbEmptyTrackAppearance(PlaylistThemeColors.EmptyHltbTrackFillOnDarkRow, PlaylistThemeColors.EmptyHltbTrackBorderOnDarkRow);
 
         /// <summary>
+        /// Pill chrome for a completion status label in the playlist grid.
+        /// </summary>
+        internal readonly struct CompletionStatusChipAppearance
+        {
+            public CompletionStatusChipAppearance(
+                SolidColorBrush background,
+                SolidColorBrush border,
+                SolidColorBrush foreground,
+                double foregroundOpacity)
+            {
+                Background = background;
+                Border = border;
+                Foreground = foreground;
+                ForegroundOpacity = foregroundOpacity;
+            }
+
+            public SolidColorBrush Background { get; }
+
+            public SolidColorBrush Border { get; }
+
+            /// <summary>When null, callers should inherit row or TextBrush foreground.</summary>
+            public SolidColorBrush Foreground { get; }
+
+            public double ForegroundOpacity { get; }
+        }
+
+        /// <summary>
         /// Active sort-header / hover highlight fill derived from sampled header label color.
         /// </summary>
         internal readonly struct SortHeaderHighlightAppearance
@@ -115,6 +142,30 @@ namespace Playlist
             return IsManagedDarkHoverRow(row, isRowHoverActive, tryFindResource)
                 ? HltbEmptyTrackOnDarkRowAppearance
                 : HltbEmptyTrackNormalAppearance;
+        }
+
+        internal static CompletionStatusChipAppearance GetCompletionStatusChipAppearance(
+            bool isSyncableTier,
+            ListViewItem row,
+            bool isRowHoverActive,
+            Func<string, object> tryFindResource)
+        {
+            RowEmbeddedChromeStyle chromeStyle = GetRowEmbeddedChromeStyle(row, isRowHoverActive, tryFindResource);
+            switch (chromeStyle)
+            {
+                case RowEmbeddedChromeStyle.LightPanelDarkGlyph:
+                    return isSyncableTier
+                        ? CreateManagedLightPanelSyncableChipAppearance(tryFindResource)
+                        : CreateManagedLightPanelNonSyncableChipAppearance();
+                case RowEmbeddedChromeStyle.DarkPanelLightGlyph:
+                    return isSyncableTier
+                        ? CreateManagedDarkPanelSyncableChipAppearance(tryFindResource)
+                        : CreateManagedDarkPanelNonSyncableChipAppearance(tryFindResource);
+                default:
+                    return isSyncableTier
+                        ? CreateNormalSyncableChipAppearance(tryFindResource)
+                        : CreateNormalNonSyncableChipAppearance(tryFindResource);
+            }
         }
 
         internal static bool IsManagedDarkHoverRow(
@@ -280,6 +331,152 @@ namespace Playlist
             }
 
             return true;
+        }
+
+        private static CompletionStatusChipAppearance CreateNormalSyncableChipAppearance(Func<string, object> tryFindResource)
+        {
+            if (!TrySampleResourceColor(tryFindResource, "GlyphBrush", out Color accentColor))
+            {
+                accentColor = Color.FromRgb(0x50, 0xA0, 0xE8);
+            }
+
+            TrySampleResourceColor(tryFindResource, "TextBrush", out Color textColor);
+            return CreateNormalSyncableChipAppearance(accentColor, textColor);
+        }
+
+        private static CompletionStatusChipAppearance CreateNormalSyncableChipAppearance(Color accentColor, Color textColor)
+        {
+            SolidColorBrush background = CreateFrozenBrush(Color.FromArgb(
+                PlaylistThemeColors.SyncableChipBackgroundAlpha,
+                accentColor.R,
+                accentColor.G,
+                accentColor.B));
+            SolidColorBrush border = CreateFrozenBrush(Color.FromArgb(
+                PlaylistThemeColors.SyncableChipBorderAlpha,
+                accentColor.R,
+                accentColor.G,
+                accentColor.B));
+            SolidColorBrush foreground = textColor.A > 0
+                ? CreateFrozenBrush(textColor)
+                : null;
+            return new CompletionStatusChipAppearance(background, border, foreground, foregroundOpacity: 1.0);
+        }
+
+        private static CompletionStatusChipAppearance CreateNormalNonSyncableChipAppearance(Func<string, object> tryFindResource)
+        {
+            TrySampleResourceColor(tryFindResource, "TextBrush", out Color textColor);
+            return new CompletionStatusChipAppearance(
+                PlaylistThemeColors.EmptyHltbTrackFillNormal,
+                PlaylistThemeColors.EmptyHltbTrackBorderNormal,
+                textColor.A > 0 ? CreateFrozenBrush(textColor) : null,
+                PlaylistThemeColors.NonSyncableChipForegroundOpacity);
+        }
+
+        private static CompletionStatusChipAppearance CreateManagedLightPanelSyncableChipAppearance(Func<string, object> tryFindResource)
+        {
+            SolidColorBrush background = ResolveSolidResourceBrush(
+                tryFindResource,
+                "PopupBackgroundBrush",
+                "ControlBackgroundBrush")
+                ?? PlaylistThemeColors.EmbeddedChromeDarkPanelFallback;
+            SolidColorBrush border = ResolveSolidResourceBrush(
+                tryFindResource,
+                "ControlBorderBrush",
+                "DarkControlBorderBrush")
+                ?? PlaylistThemeColors.EmptyHltbTrackBorderNormal;
+            SolidColorBrush foreground = ResolveDarkGlyphSolidBrush(tryFindResource);
+            return new CompletionStatusChipAppearance(background, border, foreground, foregroundOpacity: 1.0);
+        }
+
+        private static CompletionStatusChipAppearance CreateManagedLightPanelNonSyncableChipAppearance()
+        {
+            return new CompletionStatusChipAppearance(
+                PlaylistThemeColors.EmptyHltbTrackFillOnDarkRow,
+                PlaylistThemeColors.EmptyHltbTrackBorderOnDarkRow,
+                foreground: null,
+                PlaylistThemeColors.NonSyncableChipForegroundOpacityOnManagedRow);
+        }
+
+        private static CompletionStatusChipAppearance CreateManagedDarkPanelSyncableChipAppearance(Func<string, object> tryFindResource)
+        {
+            SolidColorBrush background = ResolveDarkPanelBackgroundBrush(tryFindResource);
+            SolidColorBrush border = ResolveSolidResourceBrush(
+                tryFindResource,
+                "DarkControlBorderBrush",
+                "ControlBorderBrush")
+                ?? PlaylistThemeColors.EmptyHltbTrackBorderNormal;
+            SolidColorBrush foreground = PlaylistThemeColors.CreateActiveSortHighlightBrushes(useDarkeningOverlay: true).Foreground;
+            return new CompletionStatusChipAppearance(background, border, foreground, foregroundOpacity: 1.0);
+        }
+
+        private static CompletionStatusChipAppearance CreateManagedDarkPanelNonSyncableChipAppearance(Func<string, object> tryFindResource)
+        {
+            SolidColorBrush foreground = ResolveSolidResourceBrush(tryFindResource, "GlyphBrush")
+                ?? PlaylistThemeColors.CreateActiveSortHighlightBrushes(useDarkeningOverlay: true).Foreground;
+            return new CompletionStatusChipAppearance(
+                PlaylistThemeColors.EmptyHltbTrackFillOnDarkRow,
+                PlaylistThemeColors.EmptyHltbTrackBorderOnDarkRow,
+                foreground,
+                PlaylistThemeColors.NonSyncableChipForegroundOpacityOnManagedRow);
+        }
+
+        private static SolidColorBrush ResolveDarkPanelBackgroundBrush(Func<string, object> tryFindResource)
+        {
+            SolidColorBrush hoverBrush = ResolveSolidResourceBrush(tryFindResource, "HoverBrush");
+            if (hoverBrush != null
+                && PlaylistThemeColors.TryGetColor(hoverBrush, out Color hoverColor)
+                && PlaylistThemeColors.IsDarkForeground(hoverColor))
+            {
+                return hoverBrush;
+            }
+
+            return PlaylistThemeColors.EmbeddedChromeDarkPanelFallback;
+        }
+
+        private static SolidColorBrush ResolveDarkGlyphSolidBrush(Func<string, object> tryFindResource)
+        {
+            SolidColorBrush textBrush = ResolveSolidResourceBrush(tryFindResource, "TextBrush");
+            if (textBrush != null
+                && PlaylistThemeColors.TryGetColor(textBrush, out Color textColor)
+                && PlaylistThemeColors.IsDarkForeground(textColor))
+            {
+                return textBrush;
+            }
+
+            return PlaylistThemeColors.EmbeddedChromeDarkGlyphFallback;
+        }
+
+        private static SolidColorBrush ResolveSolidResourceBrush(Func<string, object> tryFindResource, params string[] keys)
+        {
+            if (tryFindResource == null)
+            {
+                return null;
+            }
+
+            foreach (string key in keys)
+            {
+                if (tryFindResource.Invoke(key) is SolidColorBrush brush)
+                {
+                    return brush;
+                }
+            }
+
+            return null;
+        }
+
+        private static bool TrySampleResourceColor(Func<string, object> tryFindResource, string key, out Color color)
+        {
+            color = default;
+            return tryFindResource != null
+                && tryFindResource.Invoke(key) is SolidColorBrush brush
+                && PlaylistThemeColors.TryGetColor(brush, out color);
+        }
+
+        private static SolidColorBrush CreateFrozenBrush(Color color)
+        {
+            var brush = new SolidColorBrush(color);
+            brush.Freeze();
+            return brush;
         }
     }
 }

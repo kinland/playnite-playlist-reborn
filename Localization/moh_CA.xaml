@@ -65,9 +65,21 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Iontáhonton HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Ioianerén:ni</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Akatátie</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat iontáhonton row iontáhonton Playnite arien'sa'òn:ni.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Sewatahson Playnite arien'sa'òn:ni HowLongToBeat plugin iontáhonton. Iontáhonton HowLongToBeat Playnite-HLTB arien'sa'òn:ni iontáhonton plugin config.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Sewatahson Playnite arien'sa'òn:ni HowLongToBeat iontáhonton row.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Óntkon ki'</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite arien'sa'òn:ni</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Ionkwatkanón:we</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Iontáhonton</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Ioianerén:ni</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Óntkon ki'</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} ken'nha</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Sewatahson Playnite ken'nha: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Owóksape ken'nha {0}. Playlist iontáhonton {1}?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Iontáhonton arien'sa'òn:ni HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Owóksape {0} ne owóksape íyotȟaŋ</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Shako'ó:ten arien'sa'òn:ni</sys:String>
     <sys:String x:Key="LOCTimePlayed">Iakwé:ron óntkon</sys:String>

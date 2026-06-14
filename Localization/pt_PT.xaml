@@ -53,8 +53,20 @@
 - valores com espaços entre aspas (ex. tag:"Action Roguelike")
 - vírgula ou | (barra vertical) para OU; repetir âmbito ou &amp; para E</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Ativar integração HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Concluído</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Completista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Cada linha de sincronização do HowLongToBeat deve usar um estado de conclusão do Playnite diferente.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Escolha quais estados de conclusão do Playnite acionam a sincronização de saída através do plugin HowLongToBeat. Guardar ativa a sincronização automática de estado Playnite para HLTB do HowLongToBeat e escreve estes mapeamentos na configuração do plugin.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Selecione um estado de conclusão do Playnite para cada linha de sincronização do HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">A jogar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Estado do Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Vencido</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sincroniza para</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Concluído</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: A jogar</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Usar o idioma do Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">O idioma do seu sistema é {0}. Utilizar {1} apenas para a lista de reprodução?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sincronizar estado de conclusão com HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar a pesquisa entre o painel principal e {0}</sys:String>
 </ResourceDictionary>

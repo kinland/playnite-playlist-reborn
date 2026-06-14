@@ -8,6 +8,7 @@ namespace Playlist;
 public class Playlist
 {
     public static IPlayniteAPI StaticPlayniteApi { get; set; }
+    public static string StaticPluginUserDataPath { get; set; }
     public static PlaylistSettings StaticSettings { get; set; }
     internal static Playlist StaticPluginInstance { get; set; }
 

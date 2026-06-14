@@ -350,6 +350,11 @@ namespace Playlist
                 bar.SyncRowForegroundFromListViewItem(isHoverActive: false);
             }
 
+            foreach (CompletionStatusChip chip in PlaylistVisualTree.FindVisualChildren<CompletionStatusChip>(item))
+            {
+                chip.SyncRowHighlightFromListViewItem(isHoverActive: false);
+            }
+
             foreach (Button button in PlaylistVisualTree.FindVisualChildren<Button>(item))
             {
                 SyncPlayButtonStyle(button, item, isHoverActive: false);
@@ -366,6 +371,11 @@ namespace Playlist
             foreach (HowLongToBeatCachedProgressBar bar in PlaylistVisualTree.FindVisualChildren<HowLongToBeatCachedProgressBar>(item))
             {
                 bar.SyncRowForegroundFromListViewItem(isHoverActive);
+            }
+
+            foreach (CompletionStatusChip chip in PlaylistVisualTree.FindVisualChildren<CompletionStatusChip>(item))
+            {
+                chip.SyncRowHighlightFromListViewItem(isHoverActive);
             }
 
             foreach (Button button in PlaylistVisualTree.FindVisualChildren<Button>(item))
@@ -1026,9 +1036,24 @@ namespace Playlist
             PlaylistLocalizationOverride.MergeInto(this);
             ApplyColumnVisibility();
             (DataContext as PlaylistViewModel)?.RefreshHowLongToBeatHeaderText();
+            (DataContext as PlaylistViewModel)?.RefreshCompletionStatusPresentation();
             RestoreLayoutState();
             UpdateLastPlayedTimerState();
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
+            Dispatcher.BeginInvoke((Action)RefreshCompletionStatusChips, DispatcherPriority.Loaded);
+        }
+
+        private void RefreshCompletionStatusChips()
+        {
+            if (playlistListView == null)
+            {
+                return;
+            }
+
+            foreach (CompletionStatusChip chip in PlaylistVisualTree.FindVisualChildren<CompletionStatusChip>(playlistListView))
+            {
+                chip.RefreshAppearance();
+            }
         }
 
         private DispatcherTimer CreateLastPlayedRefreshTimer()

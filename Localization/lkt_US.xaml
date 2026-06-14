@@ -65,9 +65,21 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat íyotȟaŋ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Okáy</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Tȟoká waŋ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat íyotȟaŋ row yuktó kiŋ Playnite tȟuŋkášila.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Playnite yuktó kiŋ HowLongToBeat plugin íyotȟaŋ. Wíčazo waúŋspe HowLongToBeat Playnite-HLTB yuktó kiŋ íyotȟaŋ k'úŋ plugin config uŋ.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">HowLongToBeat íyotȟaŋ row Playnite yuktó kiŋ wíčazo.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Ówaŋze kiŋ ló</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite yuktó kiŋ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Oíyokšiče</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Íyotȟaŋ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Okáy</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Ówaŋze kiŋ ló</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} iyé</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite iyé oúŋspe: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Owóksape iyé {0}. Playlist uŋ {1}?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Yuktó kiŋ HowLongToBeat íyotȟaŋ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Owóksape {0} íyotȟaŋ uŋ</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Yuktó kiŋ íyotȟaŋ</sys:String>
     <sys:String x:Key="LOCTimePlayed">Ówaŋze owápȟe</sys:String>

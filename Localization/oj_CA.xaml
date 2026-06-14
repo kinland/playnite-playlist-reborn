@@ -65,9 +65,21 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat aabii</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Gii-bimose</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Gwayak</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat izhi-ayaawag row gwayakodewin Playnite izhi-ayaawag.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Playnite gwayakodewin HowLongToBeat plugin izhi-ayaawag. Gii-izhi HowLongToBeat Playnite-HLTB gwayakodewin izhi-ayaawag plugin config.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">HowLongToBeat izhi-ayaawag row Playnite gwayakodewin izhi-ayaawag.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Naadamaadizod</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite gwayakodewin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Gii-mikawaad</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Izhi-ayaawag</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Gii-bimose</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Naadamaadizod</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} inwewin</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite inwewin izhi-ayaawag: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Naaltsoos inwewin {0}. Playlist-mi {1} gii-izhi?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Gwayakodewin HowLongToBeat izhi-ayaawag</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">{0} naaltsoos panel aabii</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Aabijigaade gwayakodewin</sys:String>
     <sys:String x:Key="LOCTimePlayed">Naadamaadizi-bii'aan</sys:String>

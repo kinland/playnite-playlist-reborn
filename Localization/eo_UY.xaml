@@ -53,8 +53,20 @@
 - valorojn kun spacoj inter citiloj (ekz. tag:"Action Roguelike")
 - komo aŭ | (vertikala streko) por AŬ; ripeti amplekson aŭ &amp; por KAJ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Ŝalti HowLongToBeat-integradon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Finita</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Kompletisto</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Ĉiu HowLongToBeat-sinkroniga vico devas uzi alian Playnite-finstaton.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Elektu kiujn Playnite-finstatojn aktivigas eliran sinkronigon per la kromprogramo HowLongToBeat. Savado ebligas la aŭtomatan Playnite-al-HLTB-stat-sinkronigon de HowLongToBeat kaj skribas tiujn mapojn al la kromprograma agordo.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Elektu Playnite-finstaton por ĉiu HowLongToBeat-sinkroniga vico.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Ludata</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite-stato</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Venita</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sinkronigas al</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Finita</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Ludata</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Uzi Playnite-lingvon: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">La lingvo de via sistemo estas {0}. Ĉu uzi {1} nur por la ludlisto?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sinkronigi finstaton kun HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronigi serĉujon inter ĉefa panelo kaj {0}</sys:String>
 </ResourceDictionary>

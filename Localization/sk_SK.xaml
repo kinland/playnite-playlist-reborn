@@ -53,8 +53,20 @@
 - hodnoty s medzerami v úvodzovkách (napr. tag:"Action Roguelike")
 - čiarku alebo | (zvislá čiara) pre ALEBO; opakovanie rozsahu alebo &amp; pre A</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Povoliť integráciu HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Dokončené</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Stoprocentné</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Každý riadok synchronizácie HowLongToBeat musí používať iný stav dokončenia Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Vyberte, ktoré stavy dokončenia Playnite spúšťajú odchádzajúcu synchronizáciu cez doplnok HowLongToBeat. Uloženie povolí automatickú synchronizáciu stavu Playnite do HLTB v HowLongToBeat a zapíše tieto mapovania do konfigurácie doplnku.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Vyberte stav dokončenia Playnite pre každý riadok synchronizácie HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Hrá sa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Stav Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Dohrané</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Synchronizuje sa do</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Dokončené</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Hrá sa</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Použiť jazyk Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jazyk vášho systému je {0}. Použiť {1} len pre zoznam skladieb?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Synchronizovať stav dokončenia s HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

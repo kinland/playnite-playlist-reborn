@@ -168,14 +168,19 @@ namespace Playlist
             return true;
         }
 
-        public IEnumerable<KeyValuePair<CompletionStatus, RelayCommand<IEnumerable<object>>>> CompletionStatusCommands
+        public IEnumerable<CompletionStatusMenuEntry> CompletionStatusCommands
         {
             get
             {
+                PlaylistSettings settings = Playlist.StaticSettings as PlaylistSettings;
                 foreach (CompletionStatus completionStatus in playniteApi.Database.CompletionStatuses.OrderBy(a => a.Name))
                 {
-                    yield return new KeyValuePair<CompletionStatus, RelayCommand<IEnumerable<object>>>(
+                    yield return new CompletionStatusMenuEntry(
                         completionStatus,
+                        CompletionStatusSyncTier.IsSyncableTier(
+                            completionStatus.Id,
+                            playniteApi.Database.CompletionStatuses,
+                            settings),
                         new RelayCommand<IEnumerable<object>>((games) =>
                         {
                             foreach (Game game in games.Cast<Game>())
@@ -183,10 +188,14 @@ namespace Playlist
                                 game.CompletionStatusId = completionStatus.Id;
                                 playniteApi.Database.Games.Update(game);
                             }
-                        })
-                    );
+                        }));
                 }
             }
+        }
+
+        public void RefreshCompletionStatusPresentation()
+        {
+            OnPropertyChanged(nameof(CompletionStatusCommands));
         }
 
         public PlaylistViewModel(ObservableCollection<Game> playlistGames, IPlayniteAPI playniteApi)

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="280" d:DesignWidth="400">
+             d:DesignHeight="420" d:DesignWidth="520">
     <StackPanel Margin="12">
         <TextBlock
             Margin="0,0,0,4"
@@ -54,6 +54,95 @@
                 </Style>
             </CheckBox.Style>
         </CheckBox>
+
+        <StackPanel Margin="24,8,0,8">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowHltbCompletionStatusSyncSection}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+
+            <CheckBox
+                Margin="0,0,0,8"
+                IsChecked="{Binding SyncCompletionStatusWithHltb}"
+                Content="{DynamicResource LOCPlaylist_Settings_SyncCompletionStatusWithHltb}" />
+
+            <TextBlock
+                Margin="0,0,0,8"
+                TextWrapping="Wrap"
+                Opacity="0.85"
+                Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncHelp}" />
+
+            <Grid Margin="0,0,0,4">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SyncCompletionStatusWithHltb}" Value="True">
+                                <Setter Property="IsEnabled" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Opacity="0.8"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn}" />
+                <TextBlock Grid.Row="0" Grid.Column="4" Opacity="0.8"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetColumn}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncPlayingRow}" />
+                <ComboBox Grid.Row="2" Grid.Column="2"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          ItemsSource="{Binding CompletionStatusOptions}"
+                          SelectedValue="{Binding HltbSyncStatusPlayingId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="2" Grid.Column="4" VerticalAlignment="Center"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncCompletedRow}" />
+                <ComboBox Grid.Row="4" Grid.Column="2"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          ItemsSource="{Binding CompletionStatusOptions}"
+                          SelectedValue="{Binding HltbSyncStatusCompletedId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="4" Grid.Column="4" VerticalAlignment="Center"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten}" />
+
+                <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow}" />
+                <ComboBox Grid.Row="6" Grid.Column="2"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Id"
+                          ItemsSource="{Binding CompletionStatusOptions}"
+                          SelectedValue="{Binding HltbSyncStatusCompletionistId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="6" Grid.Column="4" VerticalAlignment="Center"
+                           Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted}" />
+            </Grid>
+        </StackPanel>
+
         <CheckBox
             VerticalAlignment="Center"
             Margin="0,0,0,8"

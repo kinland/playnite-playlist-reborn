@@ -53,8 +53,20 @@
 - reikšmes su tarpais kabutėse (pvz. tag:"Action Roguelike")
 - kablelį arba | (vertikalią brūkšnį) ARBA; pakartokite sritį arba &amp; IR</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Įjungti HowLongToBeat integraciją</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Užbaigta</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Pilnas įveikimas</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Kiekviena HowLongToBeat sinchronizavimo eilutė turi naudoti kitą Playnite užbaigimo būseną.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Pasirinkite, kurios Playnite užbaigimo būsenos paleidžia išeinančią sinchronizaciją per HowLongToBeat papildinį. Išsaugojimas įjungia HowLongToBeat automatinę Playnite į HLTB būsenos sinchronizaciją ir įrašo šiuos susiejimus į papildinio konfigūraciją.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Pasirinkite Playnite užbaigimo būseną kiekvienai HowLongToBeat sinchronizavimo eilutei.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Žaidžiama</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite būsena</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Įveikta</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sinchronizuojama į</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Užbaigta</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Žaidžiama</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Naudoti Playnite kalbą: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jūsų sistemos kalba – {0}. Naudoti {1} tik grojaraščiui?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sinchronizuoti užbaigimo būseną su HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

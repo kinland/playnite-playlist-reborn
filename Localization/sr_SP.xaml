@@ -53,8 +53,20 @@
 - vrednosti sa razmacima u navodnicima (npr. tag:"Action Roguelike")
 - zarez ili | (uspravna crta) za ILI; ponovi opseg ili &amp; za I</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Omogući HowLongToBeat integraciju</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Завршено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Комплетиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Сваки ред синхронизације HowLongToBeat мора да користи другačiji статус завршетка Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Изаберите који статуси завршетка Playnite покрећу одлазну синхронизацију преко додатка HowLongToBeat. Чување омогућава аутоматску синхронизацију статуса Playnite у HLTB у HowLongToBeat и уписује та мапирања у конфигурацију додатка.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Изаберите статус завршетка Playnite за сваки ред синхронизације HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Игра се</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite статус</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Побеђено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Синхронизује се у</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Завршено</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Игра се</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Користи Playnite језик: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jezik vašeg sistema je {0}. Koristiti {1} samo za plejlistu?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Синхронизуј статус завршетка са HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinhronizuj polje za pretragu između glavnog panela i {0}</sys:String>
 </ResourceDictionary>

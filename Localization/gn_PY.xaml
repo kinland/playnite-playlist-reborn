@@ -65,9 +65,21 @@
 - emboty umi valor oguerekóva espacio (techapyrã tag:"Action Roguelike")
 - koma térã | OR hag̃ua; ejapo jey térã &amp; AND hag̃ua</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Emyandy HowLongToBeat joajuha</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Opa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Opaite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Peteĩteĩva HowLongToBeat jehechaukaha row oipuru'ete peteĩ teko osatia Playnite iñambuéva.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Eiporavo mba'eichagua teko osatia Playnite ombohasáva jehechaukaha okápe HowLongToBeat plugin rupive. Oñongatu omboguata HowLongToBeat jehechaukaha ijeheguíva Playnite-gui HLTB-pe ha ohai ko'ã mapeo plugin config-pe.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Eiporavo peteĩ teko osatia Playnite peteĩteĩva HowLongToBeat jehechaukaha row-pe guarã.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Oñembopuku hína</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Teko osatia Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Ojey</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Emoĩ peteĩchagua</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Opa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Oñembopuku hína</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ñe'ẽ {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Eipuru ñe'ẽ Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ne rembipuru'í ñe'ẽ ha'e {0}. Ojepuru {1} Playlist-pe año?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Emoĩ peteĩchagua teko osatia HowLongToBeat ndive</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Emoĩ peteĩcha jeheka kãha panel principal ha {0} apytépe</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Emoëngatu teko osatia</sys:String>
     <sys:String x:Key="LOCTimePlayed">Aravo oñembopukuvéva</sys:String>

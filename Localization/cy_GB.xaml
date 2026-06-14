@@ -53,8 +53,20 @@
 - rhoi gwerthoedd gyda bylchau mewn dyfyniadau (e.e. tag:"Action Roguelike")
 - coma neu | (pibell) ar gyfer NEU; ailadrodd cwmpas neu &amp; ar gyfer AC</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Galluogi integreiddio HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Wedi gorffen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Cwblhawr</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Rhaid i bob rhes cysoni HowLongToBeat ddefnyddio statws cwblhau Playnite gwahanol.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Dewiswch pa statws cwblhau Playnite sy'n sbarduno cysoni allan trwy'r ategyn HowLongToBeat. Mae cadw yn galluogi cysoni statws Playnite-i-HLTB awtomatig HowLongToBeat ac yn ysgrifennu'r mapiau hyn i ffurfweddiad yr ategyn.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Dewiswch statws cwblhau Playnite ar gyfer pob rhes cysoni HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Yn chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Statws Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Wedi trechu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Cysoni i</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Wedi gorffen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Yn chwarae</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Defnyddio iaith Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Iaith eich system yw {0}. Defnyddio {1} ar gyfer y rhestr chwarae yn unig?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Cysoni statws cwblhau gyda HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Cysoni'r blwch chwilio rhwng y brif banel a'r {0}</sys:String>
 </ResourceDictionary>

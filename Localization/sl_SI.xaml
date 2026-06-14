@@ -53,8 +53,20 @@
 - vrednosti s presledki v narekovajih (npr. tag:"Action Roguelike")
 - vejico ali | (navpično črto) za ALI; ponovitev obsega ali &amp; za IN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Omogoči integracijo HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Dokončano</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Popolnoma</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Vsaka vrstica sinhronizacije HowLongToBeat mora uporabljati drugačen status dokončanja Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Izberite, kateri statusi dokončanja Playnite sprožijo odhodno sinhronizacijo prek vtičnika HowLongToBeat. Shranjevanje omogoči samodejno sinhronizacijo statusa Playnite v HLTB v HowLongToBeat in zapiše ta preslikovanja v konfiguracijo vtičnika.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Izberite status dokončanja Playnite za vsako vrstico sinhronizacije HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Igra se</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Status Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Premagano</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sinhronizira v</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Dokončano</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Igra se</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Uporabi Playnite jezik: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jezik vašega sistema je {0}. Ali {1} uporabiti samo za seznam predvajanja?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sinhroniziraj status dokončanja s HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

@@ -53,8 +53,20 @@
 - nilai dengan spasi dalam tanda kutip (contoh tag:"Action Roguelike")
 - koma atau | (pipa) untuk ATAU; ulangi ruang lingkup atau &amp; untuk DAN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktifkan integrasi HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Selesai</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Penyelesaian lengkap</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Setiap baris sinkronisasi HowLongToBeat harus menggunakan status penyelesaian Playnite yang berbeda.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Pilih status penyelesaian Playnite mana yang memicu sinkronisasi keluar melalui plugin HowLongToBeat. Menyimpan mengaktifkan sinkronisasi status Playnite ke HLTB otomatis HowLongToBeat dan menulis pemetaan ini ke konfigurasi plugin.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Pilih status penyelesaian Playnite untuk setiap baris sinkronisasi HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Sedang dimainkan</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Status Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Ditaklukkan</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sinkronkan ke</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Selesai</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Sedang dimainkan</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Gunakan bahasa Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Bahasa sistem Anda adalah {0}. Gunakan {1} hanya untuk Daftar Putar?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sinkronkan status penyelesaian dengan HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronkan kotak pencarian antara panel utama dan {0}</sys:String>
 </ResourceDictionary>

@@ -53,8 +53,20 @@
 - probel-იანი მნიშვნელობების ბრჭყალებში ჩასმას (მაგ. tag:"Action Roguelike")
 - მძიმეს ან | (შვეულ ხაზს) ანისთვის; ფართის გამეორებას ან &amp; და-სთვის</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ინტეგრაციის ჩართვა</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">დასრულებული</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">სრული გავლა</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat სინქრონიზაციის თითოეულმა ხაზმა უნდა გამოიყენოს Playnite-ის სხვა დასრულების სტატუსი.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">აირჩიეთ, რომელი Playnite-ის დასრულების სტატუსები გამოიწვევს გამავალ სინქრონიზაციას HowLongToBeat პლაგინის მეშვეობით. შენახვა ჩართავს HowLongToBeat-ის ავტომატურ Playnite-დან HLTB-მდე სტატუსის სინქრონიზაციას და ჩაწერს ამ შესაბამისობებს პლაგინის კონფიგურაციაში.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">აირჩიეთ Playnite-ის დასრულების სტატუსი HowLongToBeat სინქრონიზაციის თითოეული ხაზისთვის.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">ითამაშება</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite სტატუსი</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: დამარცხებული</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">სინქრონიზდება</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: დასრულებული</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: ითამაშება</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite ენის გამოყენება: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">თქვენი სისტემის ენაა {0}. გამოიყენოთ {1} მხოლოდ პლეილისტისთვის?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">HowLongToBeat-თან დასრულების სტატუსის სინქრონიზაცია</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ძიების ველის სინქრონიზაცია მთავარ პანელსა და {0}ს შორის</sys:String>
 </ResourceDictionary>

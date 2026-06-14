@@ -49,8 +49,20 @@
 - τιμές με κενά σε εισαγωγικά (π.χ. tag:"Action Roguelike")
 - κόμμα ή | (κάθετη γραμμή) για Ή· επανάληψη εύρους ή &amp; για ΚΑΙ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Ενεργοποίηση ενσωμάτωσης HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Ολοκληρωμένο</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Ολοκληρωτής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Κάθε γραμμή συγχρονισμού HowLongToBeat πρέπει να χρησιμοποιεί διαφορετική κατάσταση ολοκλήρωσης Playnite.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Επιλέξτε ποιες καταστάσεις ολοκλήρωσης του Playnite ενεργοποιούν εξερχόμενο συγχρονισμό μέσω του πρόσθετου HowLongToBeat. Η αποθήκευση ενεργοποιεί τον αυτόματο συγχρονισμό κατάστασης Playnite προς HLTB του HowLongToBeat και γράφει αυτές τις αντιστοιχίες στη ρύθμιση του πρόσθετου.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Επιλέξτε κατάσταση ολοκλήρωσης Playnite για κάθε γραμμή συγχρονισμού HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Παίζεται</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Κατάσταση Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Νικήθηκε</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Συγχρονίζεται με</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Ολοκληρωμένο</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Παίζεται</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Χρήση γλώσσας Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Η γλώσσα του συστήματός σας είναι {0}. Να χρησιμοποιηθεί το {1} μόνο για το playlist;</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Συγχρονισμός κατάστασης ολοκλήρωσης με το HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

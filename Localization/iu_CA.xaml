@@ -65,9 +65,21 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat aturtauniqaliqtittijiuk</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Naammassiaq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Tamarmik naammassiaq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat atausiullugu row atausiullugu Playnite naammassiaruti aturtauniqarariaqaliq.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Playnite naammassiaruti HowLongToBeat plugin-kut atausiullugu qanuq aturumagavit. Naqqiijaujumi HowLongToBeat Playnite-mit HLTB-mut naammassiaruti aturtauniqaliqtittijuq ammalu tamakkua mapping-kut plugin config-mut allagiaqtittijuq.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">HowLongToBeat atausiullugu row-mi Playnite naammassiaruti niruaqtit.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Pinnguarninga</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite naammassiaruti</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Angijuq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Atausiullugu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Naammassiaq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Pinnguarninga</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} uqallausiq</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite uqallausiq atuqtuq: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Piliriarisimajut uqallausiq {0}. Playlist-mut {1} aturumagavit?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Naammassiaruti HowLongToBeat-mut atausiullugu</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Qinirniq {0} ammalu saqqiqaqtuq talavi atausiullutik</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Naammassiaruti alingnguijiuk</sys:String>
     <sys:String x:Key="LOCTimePlayed">Pinnguarusiq</sys:String>

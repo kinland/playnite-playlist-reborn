@@ -53,8 +53,20 @@
 - sit waardes met spasies tussen aanhalingstekens (bv. tag:"Action Roguelike")
 - komma of | (pyp) vir OF; herhaal reikwiddte of &amp; vir EN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktiveer HowLongToBeat-integrasie</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Voltooi</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Voltooiing</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Elke HowLongToBeat-sinkroniseringsry moet 'n ander Playnite-voltooiingstatus gebruik.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Kies watter Playnite-voltooiingstatusse uitgaande sinkronisering deur die HowLongToBeat-inprop aktiveer. Deur te stoor aktiveer jy HowLongToBeat se outomatiese Playnite-na-HLTB-statussinkronisering en skryf hierdie toewysings na die inprop-config.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Kies 'n Playnite-voltooiingstatus vir elke HowLongToBeat-sinkroniseringsry.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Speel tans</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite-status</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Oorklomp</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Sinkroniseer na</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Voltooi</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Speel tans</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Gebruik Playnite-taal: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jou stelseltaal is {0}. {1} net vir Playlist gebruik?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Sinkroniseer voltooiingstatus met HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkroniseer soekboks tussen hoofpaneel en {0}</sys:String>
 </ResourceDictionary>

@@ -53,8 +53,20 @@
 - värden med mellanslag inom citattecken (t.ex. tag:"Action Roguelike")
 - komma eller | (pipe) för ELLER; upprepa omfång eller &amp; för OCH</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktivera HowLongToBeat-integration</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Slutfört</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Completionist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Varje HowLongToBeat-synkroniseringsrad måste använda en annan Playnite-slutförandestatus.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Välj vilka Playnite-slutförandestatusar som utlöser utgående synkronisering via HowLongToBeat-tillägget. Sparning aktiverar HowLongToBeats automatiska Playnite-till-HLTB-statussynkronisering och skriver dessa mappningar till tilläggets konfiguration.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Välj en Playnite-slutförandestatus för varje HowLongToBeat-synkroniseringsrad.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Spelar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite-status</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Klarat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Synkroniseras till</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Slutfört</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Spelar</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Använd Playnite-språk: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ditt systemspråk är {0}. Använda {1} endast för spellistan?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Synkronisera slutförandestatus med HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronisera sökrutan mellan huvudpanelen och {0}</sys:String>
 </ResourceDictionary>

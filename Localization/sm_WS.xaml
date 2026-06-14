@@ -65,9 +65,21 @@
 - faʻamama numera ma avanoa (faʻataʻitaʻiga tag:"Action Roguelike")
 - komi poʻo | mo OR; toe faʻaaogā le vaega poʻo &amp; mo AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Faʻagaoioi le faʻatasiga HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Ua faʻamaeʻa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Faʻamaeʻa atoa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">O le tatau ona faʻaaoga se tulaga faʻamaeʻa Playnite ese mo le laina faʻafetaui HowLongToBeat taʻitasi.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Filifili tulaga faʻamaeʻa Playnite e faʻaola ai le faʻafetaui i fafo e ala i le plugin HowLongToBeat. O le teuina o loʻo faʻagaoioi ai le faʻafetaui faʻaola Playnite iā HLTB a HowLongToBeat ma tusi ai faʻamatalaga i le faʻatonuga plugin.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Filifili se tulaga faʻamaeʻa Playnite mo le laina faʻafetaui HowLongToBeat taʻitasi.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">O loʻo taʻalo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Tulaga Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Ua malo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Faʻafetaui i</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Ua faʻamaeʻa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: O loʻo taʻalo</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Gagana o le {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Faʻaaogā le gagana Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">O le {0} le gagana o lau masini. Faʻaaoga le {1} mo le Playlist naʻo?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Faʻafetaui le tulaga faʻamaeʻa ma HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Faʻafetaui le pusa saili i le va o le faʻailoga autu ma le {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Seti le tulaga faʻamaeʻa</sys:String>
     <sys:String x:Key="LOCTimePlayed">Taimi taʻalo</sys:String>

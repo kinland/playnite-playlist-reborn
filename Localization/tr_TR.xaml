@@ -53,8 +53,20 @@
 - boşluk içeren değerleri tırnak içine alma (örn. tag:"Action Roguelike")
 - virgül veya | (dikey çizgi) ile VEYA; kapsamı tekrarlama veya &amp; ile VE</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat entegrasyonunu etkinleştir</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Tamamlandı</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Tamamlayıcı</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Her HowLongToBeat eşitleme satırı farklı bir Playnite tamamlanma durumu kullanmalıdır.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">HowLongToBeat eklentisi üzerinden giden eşitlemeyi tetikleyen Playnite tamamlanma durumlarını seçin. Kaydetmek, HowLongToBeat'in otomatik Playnite-HLTB durum eşitlemesini etkinleştirir ve bu eşlemeleri eklenti yapılandırmasına yazar.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Her HowLongToBeat eşitleme satırı için bir Playnite tamamlanma durumu seçin.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Oynanıyor</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite durumu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Bitirildi</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Eşitlenir</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Tamamlandı</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Oynanıyor</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} dili</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite dilini kullan: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Sistem diliniz {0}. {1} yalnızca çalma listesi için kullanılsın mı?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Tamamlanma durumunu HowLongToBeat ile eşitle</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Ana panel ile {0} arama kutusunu eşitle</sys:String>
 </ResourceDictionary>

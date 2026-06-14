@@ -53,8 +53,20 @@
 - đặt giá trị có khoảng trắng trong dấu ngoặc kép (vd. tag:"Action Roguelike")
 - dấu phẩy hoặc | (pipe) cho HOẶC; lặp phạm vi hoặc &amp; cho VÀ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Bật tích hợp HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">Hoàn thành</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">Hoàn thành 100%</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">Mỗi dòng đồng bộ HowLongToBeat phải dùng trạng thái hoàn thành Playnite khác nhau.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">Chọn trạng thái hoàn thành Playnite nào kích hoạt đồng bộ đi qua plugin HowLongToBeat. Lưu sẽ bật đồng bộ trạng thái Playnite sang HLTB tự động của HowLongToBeat và ghi các ánh xạ này vào cấu hình plugin.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">Chọn trạng thái hoàn thành Playnite cho từng dòng đồng bộ HowLongToBeat.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">Đang chơi</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Trạng thái Playnite</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: Đã chơi xong</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">Đồng bộ tới</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: Hoàn thành</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: Đang chơi</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Dùng ngôn ngữ Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ngôn ngữ hệ thống của bạn là {0}. Chỉ dùng {1} cho Danh sách phát?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">Đồng bộ trạng thái hoàn thành với HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Đồng bộ hộp tìm kiếm giữa bảng chính và {0}</sys:String>
 </ResourceDictionary>

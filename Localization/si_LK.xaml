@@ -53,8 +53,20 @@
 - space සහිත values quotes තුළ (උදා. tag:"Action Roguelike")
 - OR සඳහා comma හෝ | (pipe); AND සඳහා scope නැවත හෝ &amp;</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ඒකාබද්ධතාව සක්‍රිය කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletedRow">සම්පූර්ණ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncCompletionistRow">සම්පූර්ණ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping">HowLongToBeat සමමුහුර්ත පේළියක් Playnite සම්පූර්ණතා තත්ත්වයක් වෙනස් එකක් භාවිතා කළ යුතුය.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncHelp">HowLongToBeat පේනුව හරහා පිටතට සමමුහුර්ත කිරීම ආරම්භ කරන Playnite සම්පූර්ණතා තත්ත්ව තෝරන්න. සුරැකීම HowLongToBeat හි ස්වයංක්‍රීය Playnite-සිට-HLTB තත්ත්ව සමමුහුර්තකරණය සක්‍රිය කර මෙම සිතියම්කරණ plugin වින්‍යාසයට ලියයි.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncMissingMapping">HowLongToBeat සමමුහුර්ත පේළියක් සඳහා Playnite සම්පූර්ණතා තත්ත්වයක් තෝරන්න.</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayingRow">ක්‍රීඩා කරමින්</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncPlayniteColumn">Playnite තත්ත්වය</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten">HLTB: ජයගත්</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetColumn">සමමුහුර්ත වන්නේ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted">HLTB: සම්පූර්ණ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying">HLTB: ක්‍රීඩා කරමින්</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite භාෂාව භාවිත කරන්න: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">ඔබේ පද්ධතියේ භාෂාව {0} වේ. ප්ලේලිස්ට් සඳහා පමණක් {1} භාවිතා කරන්න ද?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncCompletionStatusWithHltb">HowLongToBeat සමඟ සම්පූර්ණතා තත්ත්වය සමමුහුර්ත කරන්න</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ප්‍රධාන අංශය සහ {0} අතර සෙවුම් කොටුව සමමුහුර්ත කරන්න</sys:String>
 </ResourceDictionary>
