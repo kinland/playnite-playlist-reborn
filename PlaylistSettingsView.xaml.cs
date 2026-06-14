@@ -1,18 +1,34 @@
+using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Playlist
 {
     public partial class PlaylistSettingsView : UserControl
     {
         private bool isApplyingLanguageOverridePreview;
+        private bool isSyncingLanguageComboBox;
+        private bool languageComboBoxSyncQueued;
+        private PlaylistSettings subscribedSettings;
 
         public PlaylistSettingsView()
         {
             InitializeComponent();
             Loaded += PlaylistSettingsView_Loaded;
+            Unloaded += PlaylistSettingsView_Unloaded;
+            DataContextChanged += PlaylistSettingsView_DataContextChanged;
+        }
+
+        private void PlaylistSettingsView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            UnsubscribeFromSettings(subscribedSettings);
+            subscribedSettings = DataContext as PlaylistSettings;
+            SubscribeToSettings(subscribedSettings);
+            QueueLanguageComboBoxSync();
         }
 
         private void PlaylistSettingsView_Loaded(object sender, RoutedEventArgs e)
@@ -30,7 +46,90 @@ namespace Playlist
                 PlaylistLocalizationOverride.MergeInto(this);
             }
 
-            languageOverrideComboBox.GetBindingExpression(ComboBox.SelectedValueProperty)?.UpdateTarget();
+            QueueLanguageComboBoxSync();
+        }
+
+        private void PlaylistSettingsView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnsubscribeFromSettings(subscribedSettings);
+            subscribedSettings = null;
+            languageComboBoxSyncQueued = false;
+        }
+
+        private void SubscribeToSettings(PlaylistSettings settings)
+        {
+            if (settings == null)
+            {
+                return;
+            }
+
+            settings.PropertyChanged += Settings_PropertyChanged;
+        }
+
+        private void UnsubscribeFromSettings(PlaylistSettings settings)
+        {
+            if (settings == null)
+            {
+                return;
+            }
+
+            settings.PropertyChanged -= Settings_PropertyChanged;
+        }
+
+        private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Only re-sync when the option list is rebuilt. Do not react to combo value
+            // changes; that creates binding feedback loops and can exhaust WPF weak tables.
+            if (e.PropertyName == nameof(PlaylistSettings.LanguageOptions))
+            {
+                QueueLanguageComboBoxSync();
+            }
+        }
+
+        private void QueueLanguageComboBoxSync()
+        {
+            if (!IsLoaded || languageComboBoxSyncQueued)
+            {
+                return;
+            }
+
+            languageComboBoxSyncQueued = true;
+            Dispatcher.BeginInvoke(
+                new Action(() =>
+                {
+                    languageComboBoxSyncQueued = false;
+                    SyncLanguageComboBoxSelection();
+                }),
+                DispatcherPriority.DataBind);
+        }
+
+        private void SyncLanguageComboBoxSelection()
+        {
+            if (isSyncingLanguageComboBox || !(DataContext is PlaylistSettings settings))
+            {
+                return;
+            }
+
+            string expectedLocaleId = settings.LanguageOverrideComboValue ?? string.Empty;
+            string currentLocaleId = languageOverrideComboBox.SelectedValue?.ToString() ?? string.Empty;
+            if (string.Equals(currentLocaleId, expectedLocaleId, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            isSyncingLanguageComboBox = true;
+            isApplyingLanguageOverridePreview = true;
+            try
+            {
+                // SelectedValue is already two-way bound to LanguageOverrideComboValue.
+                // After RefreshLanguageOptions rebuilds option instances, nudge the target once.
+                languageOverrideComboBox.GetBindingExpression(ComboBox.SelectedValueProperty)?.UpdateTarget();
+            }
+            finally
+            {
+                isApplyingLanguageOverridePreview = false;
+                isSyncingLanguageComboBox = false;
+            }
         }
 
         private void LanguageOverrideComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,6 +144,7 @@ namespace Playlist
             {
                 PlaylistLocalizationOverride.ApplyFromSettings(settings);
                 PlaylistLocalizationOverride.MergeInto(this);
+                Playlist.StaticPluginInstance?.ApplySettingsToOpenView();
             }
             finally
             {

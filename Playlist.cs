@@ -81,7 +81,7 @@ namespace Playlist
         {
             yield return new GameMenuItem
             {
-                Description = ResourceProvider.GetString("LOCPlaylist_AddToPlaylist"),
+                Description = ResourceProvider.GetString("LOCPlaylist_Menu_AddToPlaylist"),
                 Icon = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "icon.png"),
                 Action = (itemArgs) =>
                 {
@@ -124,6 +124,7 @@ namespace Playlist
         public override UserControl GetSettingsView(bool firstRunSettings)
         {
             settings.RefreshHowLongToBeatInstallState();
+            settings.RefreshLanguageOptions();
             PlaylistSettingsView view = new PlaylistSettingsView
             {
                 DataContext = settings,

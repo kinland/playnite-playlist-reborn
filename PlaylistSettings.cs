@@ -111,14 +111,37 @@ namespace Playlist
         public string LanguageOverrideLocaleId
         {
             get => languageOverrideLocaleId;
-            set => SetValue(ref languageOverrideLocaleId, NormalizeLanguageOverrideLocaleId(value));
+            set
+            {
+                SetValue(ref languageOverrideLocaleId, NormalizeLanguageOverrideLocaleId(value));
+                OnPropertyChanged(nameof(SelectedLanguageOption));
+                OnPropertyChanged(nameof(LanguageOverrideComboValue));
+            }
         }
 
-        /// <summary>Binding-friendly alias for <see cref="LanguageOverrideLocaleId"/> (empty string = follow Playnite).</summary>
-        public string SelectedLanguageOverrideLocaleId
+        /// <summary>
+        /// ComboBox <c>SelectedValue</c> binding. Empty string is the follow-Playnite option.
+        /// Value-based matching survives <see cref="RefreshLanguageOptions"/> rebuilding option instances.
+        /// </summary>
+        public string LanguageOverrideComboValue
         {
             get => languageOverrideLocaleId ?? string.Empty;
-            set => LanguageOverrideLocaleId = value;
+            set => LanguageOverrideLocaleId = string.IsNullOrEmpty(value) ? null : value;
+        }
+
+        /// <summary>ComboBox binding; survives <see cref="RefreshLanguageOptions"/> replacing <see cref="LanguageOptions"/>.</summary>
+        public PlaylistLanguageOption SelectedLanguageOption
+        {
+            get
+            {
+                string localeId = languageOverrideLocaleId ?? string.Empty;
+                return LanguageOptions?.FirstOrDefault(option =>
+                    string.Equals(option.LocaleId, localeId, StringComparison.OrdinalIgnoreCase));
+            }
+            set
+            {
+                LanguageOverrideLocaleId = string.IsNullOrEmpty(value?.LocaleId) ? null : value.LocaleId;
+            }
         }
 
         public bool HasPromptedOsLocaleMismatch
@@ -396,7 +419,23 @@ namespace Playlist
             IReadOnlyList<PlaylistLanguageOption> options = PlaylistLanguageOptionCatalog.BuildOptions(
                 playniteLanguage,
                 CultureInfo.CurrentUICulture);
-            LanguageOptions = new ObservableCollection<PlaylistLanguageOption>(options);
+
+            if (languageOptions == null)
+            {
+                LanguageOptions = new ObservableCollection<PlaylistLanguageOption>(options);
+            }
+            else
+            {
+                languageOptions.Clear();
+                foreach (PlaylistLanguageOption option in options)
+                {
+                    languageOptions.Add(option);
+                }
+            }
+
+            OnPropertyChanged(nameof(LanguageOptions));
+            OnPropertyChanged(nameof(SelectedLanguageOption));
+            OnPropertyChanged(nameof(LanguageOverrideComboValue));
         }
 
         internal bool TryOfferOsLocaleMismatchPrompt()

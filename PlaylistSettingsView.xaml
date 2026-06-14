@@ -14,7 +14,7 @@
             Margin="0,0,0,12"
             DisplayMemberPath="DisplayName"
             SelectedValuePath="LocaleId"
-            SelectedValue="{Binding SelectedLanguageOverrideLocaleId, Mode=TwoWay}"
+            SelectedValue="{Binding LanguageOverrideComboValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ItemsSource="{Binding LanguageOptions}"
             SelectionChanged="LanguageOverrideComboBox_SelectionChanged" />
         <!--
@@ -28,7 +28,7 @@
             IsChecked="{Binding HowLongToBeatIntegrationCheckboxDisplay, Mode=TwoWay}"
             IsEnabled="True"
             PreviewMouseLeftButtonDown="EnableHowLongToBeatIntegrationCheckBox_PreviewMouseLeftButtonDown"
-            Content="{DynamicResource LOCPlaylist_Settings_EnableHowLongToBeatIntegration}">
+            Content="{DynamicResource LOCPlaylist_Settings_EnableHLTBIntegration}">
             <CheckBox.Style>
                 <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
                     <Style.Triggers>
@@ -41,14 +41,14 @@
                                 <Condition Binding="{Binding IsHowLongToBeatAvailable}" Value="False" />
                                 <Condition Binding="{Binding IsHowLongToBeatInstalledDisabled}" Value="True" />
                             </MultiDataTrigger.Conditions>
-                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HltbOpenAddonsToEnable}" />
+                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HLTB_OpenAddonsToEnable}" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsHowLongToBeatAvailable}" Value="False" />
                                 <Condition Binding="{Binding IsHowLongToBeatNotInstalled}" Value="True" />
                             </MultiDataTrigger.Conditions>
-                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HltbOpenAddonsToInstall}" />
+                            <Setter Property="ToolTip" Value="{DynamicResource LOCPlaylist_HLTB_OpenAddonsToInstall}" />
                         </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
