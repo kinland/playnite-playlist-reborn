@@ -162,4 +162,28 @@ public class SearchQuerySpecTests
         Assert.Equal("Alan Wake", spec.NameQuery);
         Assert.Equal("remedy", FirstValue(spec, ScopedFilterKind.Developer));
     }
+
+    [Fact]
+    public void HasNonSyncableClauseStructure_true_for_and_list_across_multiple_clauses()
+    {
+        SearchQuerySpec spec = SearchQuerySpec.Parse("dev:a&b dev:c");
+        Assert.True(spec.HasNonSyncableClauseStructure());
+        Assert.True(spec.HasPlaylistOnlySyntax);
+    }
+
+    [Fact]
+    public void HasNonSyncableClauseStructure_false_for_single_and_within_clause()
+    {
+        SearchQuerySpec spec = SearchQuerySpec.Parse("tag:fps&roguelike");
+        Assert.False(spec.HasNonSyncableClauseStructure());
+        Assert.False(spec.HasPlaylistOnlySyntax);
+    }
+
+    [Fact]
+    public void KindHasPlaylistOnlySyntax_true_for_negated_kind_only()
+    {
+        SearchQuerySpec spec = SearchQuerySpec.Parse("Alan !dev:remedy");
+        Assert.True(spec.KindHasPlaylistOnlySyntax(ScopedFilterKind.Developer));
+        Assert.False(spec.KindHasPlaylistOnlySyntax(ScopedFilterKind.Tag));
+    }
 }
