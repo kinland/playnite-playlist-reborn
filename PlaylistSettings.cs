@@ -1,7 +1,11 @@
-using Playnite.SDK;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Windows;
+using Playnite.SDK;
 
 namespace Playlist
 {
@@ -29,6 +33,11 @@ namespace Playlist
         private bool pendingShowHowLongToBeatColumnFromHeaderMenu;
         private bool isHowLongToBeatAvailable;
         private HltbInstallState howLongToBeatInstallState = HltbInstallState.NotInstalled;
+        private string languageOverrideLocaleId;
+        private string backupLanguageOverrideLocaleId;
+        private bool hasPromptedOsLocaleMismatch;
+        private bool backupHasPromptedOsLocaleMismatch;
+        private ObservableCollection<PlaylistLanguageOption> languageOptions = new ObservableCollection<PlaylistLanguageOption>();
 
         public bool ShowRankColumn
         {
@@ -94,6 +103,34 @@ namespace Playlist
         {
             get => syncSearchWithMainPanel;
             set => SetValue(ref syncSearchWithMainPanel, value);
+        }
+
+        /// <summary>
+        /// Playlist-only locale override (<c>gd_GB</c>, etc.). Empty follows Playnite's language setting.
+        /// </summary>
+        public string LanguageOverrideLocaleId
+        {
+            get => languageOverrideLocaleId;
+            set => SetValue(ref languageOverrideLocaleId, NormalizeLanguageOverrideLocaleId(value));
+        }
+
+        /// <summary>Binding-friendly alias for <see cref="LanguageOverrideLocaleId"/> (empty string = follow Playnite).</summary>
+        public string SelectedLanguageOverrideLocaleId
+        {
+            get => languageOverrideLocaleId ?? string.Empty;
+            set => LanguageOverrideLocaleId = value;
+        }
+
+        public bool HasPromptedOsLocaleMismatch
+        {
+            get => hasPromptedOsLocaleMismatch;
+            set => SetValue(ref hasPromptedOsLocaleMismatch, value);
+        }
+
+        public ObservableCollection<PlaylistLanguageOption> LanguageOptions
+        {
+            get => languageOptions;
+            private set => SetValue(ref languageOptions, value);
         }
 
         /// <summary>
@@ -327,6 +364,9 @@ namespace Playlist
             RefreshHowLongToBeatInstallState();
             backupEnableHowLongToBeatIntegration = EnableHowLongToBeatIntegration;
             backupSyncSearchWithMainPanel = SyncSearchWithMainPanel;
+            backupLanguageOverrideLocaleId = LanguageOverrideLocaleId;
+            backupHasPromptedOsLocaleMismatch = HasPromptedOsLocaleMismatch;
+            RefreshLanguageOptions();
         }
 
         public void CancelEdit()
@@ -334,6 +374,9 @@ namespace Playlist
             ClearPendingShowHowLongToBeatColumnFromHeaderMenu();
             EnableHowLongToBeatIntegration = backupEnableHowLongToBeatIntegration;
             SyncSearchWithMainPanel = backupSyncSearchWithMainPanel;
+            LanguageOverrideLocaleId = backupLanguageOverrideLocaleId;
+            HasPromptedOsLocaleMismatch = backupHasPromptedOsLocaleMismatch;
+            PlaylistLocalizationOverride.ApplyFromSettings(this);
             ExpireAddonPendingIfHltbStillUnavailable();
         }
 
@@ -342,8 +385,69 @@ namespace Playlist
             RefreshHowLongToBeatInstallState();
             TryApplyPendingShowHowLongToBeatColumnFromHeaderMenu();
             ExpireAddonPendingIfHltbStillUnavailable();
+            PlaylistLocalizationOverride.ApplyFromSettings(this);
             plugin?.SaveSettings(this);
             plugin?.ApplySettingsToOpenView();
+        }
+
+        internal void RefreshLanguageOptions()
+        {
+            string playniteLanguage = Playlist.StaticPlayniteApi?.ApplicationSettings?.Language ?? "en_US";
+            IReadOnlyList<PlaylistLanguageOption> options = PlaylistLanguageOptionCatalog.BuildOptions(
+                playniteLanguage,
+                CultureInfo.CurrentUICulture);
+            LanguageOptions = new ObservableCollection<PlaylistLanguageOption>(options);
+        }
+
+        internal bool TryOfferOsLocaleMismatchPrompt()
+        {
+            if (HasPromptedOsLocaleMismatch)
+            {
+                return false;
+            }
+
+            string playniteLanguage = Playlist.StaticPlayniteApi?.ApplicationSettings?.Language ?? "en_US";
+            if (!PlaylistLanguageOptionCatalog.ShouldOfferOsLocaleMismatchPrompt(
+                HasPromptedOsLocaleMismatch,
+                playniteLanguage,
+                CultureInfo.CurrentUICulture,
+                out string osLocaleId))
+            {
+                return false;
+            }
+
+            HasPromptedOsLocaleMismatch = true;
+            plugin?.PersistSettings();
+
+            string message = PlaylistLanguageOptionCatalog.FormatOsLocaleMismatchPrompt(
+                playniteLanguage,
+                osLocaleId,
+                CultureInfo.CurrentUICulture);
+            string title = PlaylistLocalization.GetString("LOCPlaylist_Settings_LanguageOverride");
+            MessageBoxResult result = Playlist.StaticPlayniteApi?.Dialogs.ShowMessage(
+                message,
+                title,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) ?? MessageBoxResult.No;
+
+            if (result == MessageBoxResult.Yes)
+            {
+                LanguageOverrideLocaleId = osLocaleId;
+                PlaylistLocalizationOverride.ApplyFromSettings(this);
+                plugin?.PersistSettings();
+            }
+
+            return true;
+        }
+
+        private static string NormalizeLanguageOverrideLocaleId(string localeId)
+        {
+            if (string.IsNullOrWhiteSpace(localeId))
+            {
+                return null;
+            }
+
+            return localeId.Trim().Replace('-', '_');
         }
 
         public bool VerifySettings(out List<string> errors)
