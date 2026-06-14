@@ -364,6 +364,7 @@ namespace Playlist
             OnPropertyChanged(nameof(IsBucketConstrainedSortActive));
         }
 
+        /// <summary>Applies persisted sort without toggling direction (used on layout restore).</summary>
         internal void RestoreViewSort(string columnKey, ListSortDirection direction)
         {
             if (string.IsNullOrWhiteSpace(columnKey))

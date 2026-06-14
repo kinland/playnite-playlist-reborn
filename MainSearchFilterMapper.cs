@@ -10,6 +10,7 @@ namespace Playlist
     /// </summary>
     internal static class MainSearchFilterMapper
     {
+        /// <summary>Parses a Playlist query into per-scope push plans and syncability metadata.</summary>
         public static MainSearchSyncAnalysis AnalyzePlaylistQuery(string playlistQuery)
         {
             SearchQuerySpec spec = SearchQuerySpec.Parse(playlistQuery);
@@ -38,6 +39,7 @@ namespace Playlist
                 useAndFilteringStyle);
         }
 
+        /// <summary>Writes syncable Playlist query parts into a copy of the main filter preset.</summary>
         public static FilterPresetSettings ApplySyncPush(
             FilterPresetSettings currentMain,
             string playlistQuery,
@@ -62,6 +64,7 @@ namespace Playlist
             return settings;
         }
 
+        /// <summary>Builds a snapshot of syncable fields without clearing playlist-only negations on the live main preset.</summary>
         public static FilterPresetSettings BuildSyncSnapshot(
             FilterPresetSettings currentMain,
             string playlistQuery,
@@ -86,6 +89,7 @@ namespace Playlist
             return settings;
         }
 
+        /// <summary>Reconstructs Playlist scoped syntax from the main filter preset.</summary>
         public static string ToPlaylistQuery(FilterPresetSettings mainSettings, IScopedFilterNameLookup nameLookup)
         {
             if (mainSettings == null)
@@ -110,6 +114,7 @@ namespace Playlist
             return string.Join(" ", parts).Trim();
         }
 
+        /// <summary>Compares syncable main-panel fields, resolving IDs to names where needed.</summary>
         public static bool MatchesSyncedState(
             FilterPresetSettings left,
             FilterPresetSettings right,
@@ -135,6 +140,7 @@ namespace Playlist
                 && SyncedScopeEqual(left.Feature, right.Feature, ScopedFilterKind.Feature, nameLookup);
         }
 
+        /// <summary>True when the user cleared every syncable field that existed in a prior push snapshot.</summary>
         public static bool SyncedFieldsCleared(FilterPresetSettings main, FilterPresetSettings snapshot)
         {
             if (snapshot == null)
@@ -185,6 +191,10 @@ namespace Playlist
             return true;
         }
 
+        /// <summary>
+        /// Chooses the Playlist query to show when opening the view or after main-panel edits.
+        /// Merges preserved playlist-only syntax with current main fields when appropriate.
+        /// </summary>
         public static string ResolveReturnQuery(
             string preservedPlaylistQuery,
             FilterPresetSettings snapshot,
@@ -218,6 +228,10 @@ namespace Playlist
             return ToPlaylistQuery(currentMain, nameLookup);
         }
 
+        /// <summary>
+        /// Rebuilds a query that still contains playlist-only clauses while replacing syncable kinds
+        /// with the current main-panel values.
+        /// </summary>
         private static string MergeSyncableMainWithPlaylistOnlyParts(
             string preservedPlaylistQuery,
             FilterPresetSettings currentMain,
@@ -327,6 +341,7 @@ namespace Playlist
             ScopedFilterKind kind,
             ref bool hasIntraKindConflict)
         {
+            // Multiple clauses for one kind (e.g. dev:a dev:b) are playlist-only OR and cannot be pushed as a single main field.
             ScopedSearchClause[] clauses = spec.GetClauses(kind).ToArray();
             if (clauses.Length == 0)
             {

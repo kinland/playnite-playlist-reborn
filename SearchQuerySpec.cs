@@ -22,6 +22,7 @@ namespace Playlist
             return Clauses.Where(clause => clause.Kind == kind);
         }
 
+        /// <summary>True when any scoped kind uses negation or AND/OR shapes that cannot map to the main panel.</summary>
         public bool HasNonSyncableClauseStructure()
         {
             foreach (ScopedFilterKind kind in Enum.GetValues(typeof(ScopedFilterKind)))
@@ -63,6 +64,7 @@ namespace Playlist
 
         private static bool HasNonSyncableStructureForClauses(ScopedSearchClause[] kindClauses)
         {
+            // Multiple clauses for one kind, or AND lists spanning multiple clauses, stay playlist-local.
             if (kindClauses.Length > 1
                 && kindClauses.Any(clause => clause.CombineWithin == ScopedValueCombine.Or && clause.Values.Count > 1))
             {
@@ -75,6 +77,7 @@ namespace Playlist
                 && kindClauses.Length > 1);
         }
 
+        /// <summary>Parses free-text and scoped playlist search syntax into name and clause parts.</summary>
         public static SearchQuerySpec Parse(string rawQuery)
         {
             string trimmed = rawQuery?.Trim() ?? string.Empty;

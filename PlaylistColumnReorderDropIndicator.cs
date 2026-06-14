@@ -30,6 +30,7 @@ namespace Playlist
             this.listView = listView ?? throw new ArgumentNullException(nameof(listView));
         }
 
+        /// <summary>Hooks list/header input events for the column reorder drop indicator.</summary>
         public void Attach()
         {
             listView.Loaded += OnListViewLoaded;
@@ -42,6 +43,7 @@ namespace Playlist
             }
         }
 
+        /// <summary>Unhooks events and removes any active drop indicator adorners.</summary>
         public void Detach()
         {
             listView.Loaded -= OnListViewLoaded;

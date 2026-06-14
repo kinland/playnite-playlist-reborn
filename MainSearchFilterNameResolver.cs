@@ -17,11 +17,14 @@ namespace Playlist
 
     internal interface IScopedFilterNameLookup
     {
+        /// <summary>Resolves a database ID to its display name for the given scope kind.</summary>
         string ResolveId(ScopedFilterKind kind, Guid id);
 
+        /// <summary>Resolves user text to an ID filter when possible; otherwise returns a text-only filter.</summary>
         IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query);
     }
 
+    /// <summary>Playnite database-backed implementation of <see cref="IScopedFilterNameLookup"/>.</summary>
     internal sealed class MainSearchFilterNameResolver : IScopedFilterNameLookup
     {
         private readonly IPlayniteAPI playniteApi;

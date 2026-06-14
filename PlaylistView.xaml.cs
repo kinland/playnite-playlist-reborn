@@ -1137,6 +1137,7 @@ namespace Playlist
             IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey,
             int totalColumns)
         {
+            // Hidden columns keep their prior DisplayIndex slots so re-showing restores position.
             var hiddenSlotAssignments = new SortedDictionary<int, string>();
             var unassignedHidden = new List<string>();
 
@@ -1254,6 +1255,7 @@ namespace Playlist
             PlaylistSettings settings,
             bool persistColumnWidths)
         {
+            // persistColumnWidths is true only after a user gripper drag; other callers keep saved widths.
             List<string> visibleKeysInOrder = gridView.Columns
                 .Select(GetColumnKey)
                 .Where(key => !string.IsNullOrEmpty(key))
@@ -1885,6 +1887,10 @@ namespace Playlist
             }
         }
 
+        /// <summary>
+        /// Persists sort and column order. Column widths are written only when
+        /// <paramref name="persistColumnWidths"/> is true (user gripper drag).
+        /// </summary>
         private void PersistLayoutState(bool persistColumnWidths = false)
         {
             if (isRestoringLayoutState)

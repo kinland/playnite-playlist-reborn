@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Playlist
 {
+    /// <summary>Tokenizes playlist search text, honoring quoted segments and scoped prefixes.</summary>
     internal static class SearchQueryTokenizer
     {
         public static List<string> Tokenize(string query)

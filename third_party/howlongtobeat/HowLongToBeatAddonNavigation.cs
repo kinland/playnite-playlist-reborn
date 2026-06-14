@@ -289,6 +289,10 @@ namespace Playlist
             public string Path { get; set; }
         }
 
+        /// <summary>
+        /// Reports whether HLTB is missing, installed-but-disabled, or installed and enabled.
+        /// A running HLTB plugin takes precedence over the disabled-addons list.
+        /// </summary>
         public static HltbInstallState GetInstallState(IPlayniteAPI api)
         {
             if (TestInstallStateResolver != null)
@@ -321,6 +325,7 @@ namespace Playlist
             return disabled ? HltbInstallState.InstalledDisabled : HltbInstallState.InstalledEnabled;
         }
 
+        /// <summary>Convenience wrapper around <see cref="GetInstallState"/>.</summary>
         public static bool IsPluginEnabledInPlaynite(IPlayniteAPI api)
         {
             return GetInstallState(api) == HltbInstallState.InstalledEnabled;

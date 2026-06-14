@@ -51,6 +51,7 @@ namespace Playlist
             return api.Addons.Plugins.Any(p => p.Id == HltbPluginId);
         }
 
+        /// <summary>Reads per-game HLTB JSON from the plugin cache; failures are cached as absent.</summary>
         public static bool TryGetCachedTimes(IPlayniteAPI api, Game game, out HltbCachedTimes times)
         {
             times = null;
@@ -163,6 +164,7 @@ namespace Playlist
             }
         }
 
+        /// <summary>Loads HLTB appearance settings, with in-memory caching keyed on file write time.</summary>
         public static HltbRenderSettings GetRenderSettings(IPlayniteAPI api)
         {
             string settingsPath = GetHltbSettingsPath(api);
@@ -229,6 +231,7 @@ namespace Playlist
 
         private static FileStream OpenCacheFileForSharedRead(string filePath)
         {
+            // Allow the HLTB plugin to keep writing while Playlist reads cache JSON.
             return new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         }
 

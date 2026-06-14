@@ -298,6 +298,7 @@ namespace Playlist
             plugin?.PersistSettings();
         }
 
+        /// <summary>Persists active sort and column layout snapshot to plugin settings.</summary>
         internal void SaveRuntimeState(
             string activeSortColumnKey,
             ListSortDirection activeSortDirection,

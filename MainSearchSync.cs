@@ -32,6 +32,7 @@ namespace Playlist
             filterNameResolver = new MainSearchFilterNameResolver(playniteApi);
         }
 
+        /// <summary>Subscribes or unsubscribes from main-panel changes when the sync setting toggles.</summary>
         public void ApplySettingsChange(bool playlistViewActive)
         {
             if (!IsEnabled)
@@ -46,6 +47,7 @@ namespace Playlist
             }
         }
 
+        /// <summary>Wires playlist search edits to this sync instance.</summary>
         public void Attach(PlaylistViewModel playlistViewModel)
         {
             if (viewModel != null)
@@ -57,6 +59,7 @@ namespace Playlist
             viewModel.PropertyChanged += OnViewModelPropertyChanged;
         }
 
+        /// <summary>Pulls the main filter panel into the playlist search box when the view opens.</summary>
         public void OnViewOpened()
         {
             if (!IsEnabled)
@@ -68,6 +71,7 @@ namespace Playlist
             SubscribeToMainFilterChanges();
         }
 
+        /// <summary>Pushes the playlist search box back to the main filter panel when the view closes.</summary>
         public void OnViewClosed()
         {
             if (!IsEnabled)
@@ -83,6 +87,8 @@ namespace Playlist
 
         private void PullFromMain()
         {
+            // preservedPlaylistQuery holds playlist-only syntax across a main-panel edit session;
+            // mainSnapshotAfterPush detects when the user reverts main fields to the last pushed state.
             if (viewModel == null)
             {
                 return;

@@ -5,16 +5,24 @@ using System.Linq;
 
 namespace Playlist
 {
+    /// <summary>How a scoped filter field should be updated when pushing Playlist syntax to the main panel.</summary>
     internal enum ScopePushMode
     {
+        /// <summary>Leave the main-panel field unchanged.</summary>
         Skip,
+        /// <summary>Clear the main-panel field.</summary>
         Clear,
+        /// <summary>Clear a negated scoped field (playlist-only syntax).</summary>
         ClearNegated,
+        /// <summary>Replace with a single resolved value.</summary>
         PushSingle,
+        /// <summary>Replace with an OR list of values.</summary>
         PushOrList,
+        /// <summary>Replace with an AND list of values.</summary>
         PushAndList,
     }
 
+    /// <summary>Per-scope push instruction produced by <see cref="MainSearchFilterMapper.AnalyzePlaylistQuery"/>.</summary>
     internal sealed class ScopePushPlan
     {
         public static ScopePushPlan Skip { get; } = new ScopePushPlan(ScopePushMode.Skip, Array.Empty<string>());
@@ -31,6 +39,7 @@ namespace Playlist
         public IReadOnlyList<string> Values { get; }
     }
 
+    /// <summary>Parsed push plan for one Playlist query, including syncability flags.</summary>
     internal sealed class MainSearchSyncAnalysis
     {
         public MainSearchSyncAnalysis(
@@ -68,6 +77,7 @@ namespace Playlist
         public bool? UseAndFilteringStyle { get; }
         public bool HasMatchAllConflict { get; }
 
+        /// <summary>True when every clause in the query can be represented on the main filter panel.</summary>
         public bool IsFullySyncable => !HasPlaylistOnlySyntax;
     }
 }

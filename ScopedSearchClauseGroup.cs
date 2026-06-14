@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Playlist
 {
+    /// <summary>AND-combines scoped clauses; each clause may OR or AND its values.</summary>
     internal sealed class ScopedSearchClauseGroup
     {
         public ScopedSearchClauseGroup(IReadOnlyList<ScopedSearchClause> clauses)
@@ -12,6 +13,7 @@ namespace Playlist
 
         public IReadOnlyList<ScopedSearchClause> Clauses { get; }
 
+        /// <summary>Returns true when every clause matches at least one candidate string (tags, genres, etc.).</summary>
         public bool Matches(IEnumerable<string> candidates)
         {
             string[] scopedCandidates = candidates
