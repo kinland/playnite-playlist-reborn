@@ -18,6 +18,9 @@ namespace Playlist
     {
         // Keep in sync with PlaylistGridViewLayout.HltbSegmentStripHeight (UiTests compile this file alone).
         private const double SegmentStripHeight = 22;
+        private const double PlaytimeMarkerWidth = 12;
+        private const double PlaytimeMarkerVerticalOverhang = 4;
+        private static readonly double PlaytimeMarkerHeight = SegmentStripHeight + (PlaytimeMarkerVerticalOverhang * 2);
 
         private static readonly PlaylistThemeChrome.HltbEmptyTrackAppearance DefaultEmptyTrackAppearance =
             PlaylistThemeChrome.GetHltbEmptyTrackAppearance(row: null, isRowHoverActive: false, tryFindResource: null);
@@ -25,6 +28,7 @@ namespace Playlist
         private readonly Grid barOverlay;
         private readonly Border segmentStripHost;
         private readonly StackPanel segmentStrip;
+        private readonly Canvas interiorLabelStrip;
         private readonly StackPanel topLabelStrip;
         private readonly StackPanel bottomLabelStrip;
         private readonly Border playtimeMarker;
@@ -33,10 +37,10 @@ namespace Playlist
 
         public HowLongToBeatCachedProgressBar()
         {
-            MinHeight = SegmentStripHeight;
+            MinHeight = PlaytimeMarkerHeight;
             HorizontalAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Center;
-            ClipToBounds = true;
+            ClipToBounds = false;
 
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -71,10 +75,20 @@ namespace Playlist
                 Child = segmentStrip,
             };
 
+            interiorLabelStrip = new Canvas
+            {
+                Height = SegmentStripHeight,
+                Background = Brushes.Transparent,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                IsHitTestVisible = false,
+                Visibility = Visibility.Collapsed,
+            };
+
             playtimeMarker = new Border
             {
-                Width = 12,
-                Height = 18,
+                Width = PlaytimeMarkerWidth,
+                Height = PlaytimeMarkerHeight,
                 Background = Brushes.Transparent,
                 BorderBrush = Brushes.Transparent,
                 BorderThickness = new Thickness(1),
@@ -87,12 +101,15 @@ namespace Playlist
 
             barOverlay = new Grid
             {
-                ClipToBounds = true,
+                ClipToBounds = false,
                 VerticalAlignment = VerticalAlignment.Center,
             };
             barOverlay.Children.Add(segmentStripHost);
             barOverlay.Children.Add(playtimeMarker);
-            Panel.SetZIndex(playtimeMarker, 2);
+            barOverlay.Children.Add(interiorLabelStrip);
+            Panel.SetZIndex(segmentStripHost, 0);
+            Panel.SetZIndex(playtimeMarker, 1);
+            Panel.SetZIndex(interiorLabelStrip, 2);
             Grid.SetRow(barOverlay, 1);
 
             bottomLabelStrip = new StackPanel
@@ -201,8 +218,10 @@ namespace Playlist
         private void SetUnknown()
         {
             segmentStrip.Children.Clear();
+            interiorLabelStrip.Children.Clear();
             topLabelStrip.Children.Clear();
             bottomLabelStrip.Children.Clear();
+            interiorLabelStrip.Visibility = Visibility.Collapsed;
             topLabelStrip.Visibility = Visibility.Collapsed;
             bottomLabelStrip.Visibility = Visibility.Collapsed;
             barOverlay.Visibility = Visibility.Visible;
@@ -260,12 +279,34 @@ namespace Playlist
             return Math.Max(maxValue, 1);
         }
 
+        private static bool TryGetPlaytimeMarkerSpan(
+            double barWidth,
+            long playtimeSeconds,
+            long scaleMax,
+            double markerWidth,
+            out double markerStart,
+            out double markerEnd)
+        {
+            markerStart = 0;
+            markerEnd = 0;
+            if (barWidth <= 0 || scaleMax <= 0 || playtimeSeconds <= 0)
+            {
+                return false;
+            }
+
+            double x = barWidth * Math.Min(1.0, playtimeSeconds / (double)scaleMax);
+            markerStart = Math.Max(0, Math.Min(barWidth - markerWidth, x - (markerWidth / 2.0)));
+            markerEnd = markerStart + markerWidth;
+            return true;
+        }
+
         private void RenderSegments(IReadOnlyList<Segment> segments, long scaleMax, HltbRenderSettings settings)
         {
             emptyLabel.Visibility = Visibility.Collapsed;
             barOverlay.Visibility = Visibility.Visible;
             ResetSegmentStripHostForData();
             segmentStrip.Children.Clear();
+            interiorLabelStrip.Children.Clear();
             topLabelStrip.Children.Clear();
             bottomLabelStrip.Children.Clear();
 
@@ -281,6 +322,7 @@ namespace Playlist
             bool showBelow = showLabels && settings.ProgressBarShowTimeBelow;
             topLabelStrip.Visibility = showAbove ? Visibility.Visible : Visibility.Collapsed;
             bottomLabelStrip.Visibility = showBelow ? Visibility.Visible : Visibility.Collapsed;
+            interiorLabelStrip.Visibility = showInside ? Visibility.Visible : Visibility.Collapsed;
 
             double scale = scaleMax;
             var cumulativeEnds = new double[segments.Count];
@@ -296,6 +338,7 @@ namespace Playlist
             }
 
             double prev = 0;
+            var interiorPlans = new List<InteriorLabelPlan>();
             for (int i = 0; i < segments.Count; i++)
             {
                 double slice = cumulativeEnds[i] - prev;
@@ -310,20 +353,9 @@ namespace Playlist
                     settings.IntegrationViewItemOnlyHour,
                     this);
                 string displayLabel = showLabels ? FitTimeLabel(fullLabel, slice) : string.Empty;
+                string interiorLabel = showLabels ? fullLabel : string.Empty;
                 Color textColor = PlaylistThemeColors.GetContrastTextColorFromByteLuminance(segments[i].Color);
                 Brush fillBrush = CloneBrush(segments[i].FillBrush, segments[i].Color);
-
-                var text = new TextBlock
-                {
-                    Text = showInside ? displayLabel : string.Empty,
-                    TextTrimming = TextTrimming.CharacterEllipsis,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    TextAlignment = TextAlignment.Center,
-                    Margin = new Thickness(2, 0, 2, 0),
-                    Visibility = showInside ? Visibility.Visible : Visibility.Collapsed,
-                    Foreground = new SolidColorBrush(textColor),
-                };
 
                 var border = new Border
                 {
@@ -335,7 +367,6 @@ namespace Playlist
                     BorderThickness = new Thickness(1),
                     CornerRadius = GetSegmentCornerRadius(i, segments.Count),
                     VerticalAlignment = VerticalAlignment.Center,
-                    Child = text,
                 };
 
                 if (settings.ProgressBarShowToolTip && !string.IsNullOrEmpty(fullLabel))
@@ -344,16 +375,33 @@ namespace Playlist
                 }
 
                 segmentStrip.Children.Add(border);
+                if (showInside && !string.IsNullOrEmpty(interiorLabel))
+                {
+                    interiorPlans.Add(new InteriorLabelPlan
+                    {
+                        CenterX = prev + (slice / 2.0),
+                        SliceWidth = slice,
+                        DisplayLabel = interiorLabel,
+                        TextColor = textColor,
+                    });
+                }
+
                 if (showAbove)
                 {
-                    topLabelStrip.Children.Add(CreateExternalLabelSlice(slice, displayLabel, textColor));
+                    topLabelStrip.Children.Add(CreateLabelSlice(slice, displayLabel, textColor, 12));
                 }
 
                 if (showBelow)
                 {
-                    bottomLabelStrip.Children.Add(CreateExternalLabelSlice(slice, displayLabel, textColor));
+                    bottomLabelStrip.Children.Add(CreateLabelSlice(slice, displayLabel, textColor, 12));
                 }
+
                 prev = cumulativeEnds[i];
+            }
+
+            if (showInside)
+            {
+                RenderInteriorLabels(interiorPlans, width);
             }
 
             if (segmentStrip.Children.Count == 0)
@@ -377,10 +425,13 @@ namespace Playlist
                 return;
             }
 
-            double x = width * Math.Min(1.0, playtimeSeconds / (double)scaleMax);
-            double markerWidth = playtimeMarker.Width;
-            double left = Math.Max(0, Math.Min(width - markerWidth, x - (markerWidth / 2.0)));
-            playtimeMarker.Margin = new Thickness(left, 0, 0, 0);
+            if (!TryGetPlaytimeMarkerSpan(width, playtimeSeconds, scaleMax, playtimeMarker.Width, out double left, out _))
+            {
+                playtimeMarker.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            playtimeMarker.Margin = new Thickness(left, -PlaytimeMarkerVerticalOverhang, 0, -PlaytimeMarkerVerticalOverhang);
             playtimeMarker.Visibility = Visibility.Visible;
 
             if (settings.ThumbPlaytimeBrush != null)
@@ -513,13 +564,13 @@ namespace Playlist
             return new CornerRadius(first ? 2 : 0, last ? 2 : 0, last ? 2 : 0, first ? 2 : 0);
         }
 
-        private static Border CreateExternalLabelSlice(double width, string text, Color color)
+        private static Border CreateLabelSlice(double width, string text, Color color, double height)
         {
             return new Border
             {
                 Width = width,
                 MinWidth = 1,
-                Height = 12,
+                Height = height,
                 Background = Brushes.Transparent,
                 Child = new TextBlock
                 {
@@ -550,7 +601,116 @@ namespace Playlist
             return clone;
         }
 
-        /// <summary>Same heuristic as HowLongToBeat <c>PluginProgressBar.FitTimeLabel</c>.</summary>
+        private void ApplyInheritedTextMetrics(TextBlock text)
+        {
+            double fontSize = TextElement.GetFontSize(this);
+            if (double.IsNaN(fontSize) || fontSize <= 0)
+            {
+                fontSize = GetEffectiveTextFontSize(this);
+            }
+
+            text.FontSize = fontSize;
+            text.FontFamily = TextElement.GetFontFamily(this);
+            text.FontStyle = TextElement.GetFontStyle(this);
+            text.FontWeight = TextElement.GetFontWeight(this);
+            text.FontStretch = TextElement.GetFontStretch(this);
+        }
+
+        private void RenderInteriorLabels(IReadOnlyList<InteriorLabelPlan> plans, double barWidth)
+        {
+            interiorLabelStrip.Children.Clear();
+            if (plans.Count == 0)
+            {
+                return;
+            }
+
+            interiorLabelStrip.Width = barWidth;
+            var labelWidths = plans.Select(plan => MeasureLabelTextWidth(plan.DisplayLabel)).ToArray();
+            var show = plans.Select(_ => true).ToArray();
+            SuppressOverlappingInteriorLabels(plans, labelWidths, show);
+
+            for (int i = 0; i < plans.Count; i++)
+            {
+                if (!show[i])
+                {
+                    continue;
+                }
+
+                InteriorLabelPlan plan = plans[i];
+                var text = new TextBlock
+                {
+                    Text = plan.DisplayLabel,
+                    IsHitTestVisible = false,
+                    TextTrimming = TextTrimming.None,
+                    TextAlignment = TextAlignment.Center,
+                    Foreground = new SolidColorBrush(plan.TextColor),
+                };
+                ApplyInheritedTextMetrics(text);
+                text.Measure(new Size(double.PositiveInfinity, SegmentStripHeight));
+                Canvas.SetLeft(text, plan.CenterX - (text.DesiredSize.Width / 2.0));
+                Canvas.SetTop(text, Math.Max(0, (SegmentStripHeight - text.DesiredSize.Height) / 2.0));
+                interiorLabelStrip.Children.Add(text);
+            }
+        }
+
+        private double MeasureLabelTextWidth(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+
+            var probe = new TextBlock { Text = text };
+            ApplyInheritedTextMetrics(probe);
+            probe.Measure(new Size(double.PositiveInfinity, SegmentStripHeight));
+            return probe.DesiredSize.Width;
+        }
+
+        private static void SuppressOverlappingInteriorLabels(
+            IReadOnlyList<InteriorLabelPlan> plans,
+            IReadOnlyList<double> labelWidths,
+            bool[] show,
+            double padding = 2)
+        {
+            for (int i = 0; i < plans.Count; i++)
+            {
+                if (!show[i])
+                {
+                    continue;
+                }
+
+                for (int j = i + 1; j < plans.Count; j++)
+                {
+                    if (!show[j])
+                    {
+                        continue;
+                    }
+
+                    double centerGap = plans[j].CenterX - plans[i].CenterX;
+                    double requiredGap = (labelWidths[i] + labelWidths[j]) / 2.0 + padding;
+                    if (centerGap >= requiredGap)
+                    {
+                        continue;
+                    }
+
+                    if (plans[i].SliceWidth > plans[j].SliceWidth)
+                    {
+                        show[j] = false;
+                    }
+                    else if (plans[j].SliceWidth > plans[i].SliceWidth)
+                    {
+                        show[i] = false;
+                        break;
+                    }
+                    else
+                    {
+                        show[j] = false;
+                    }
+                }
+            }
+        }
+
+        /// <summary>Same heuristic as HowLongToBeat <c>PluginProgressBar.FitTimeLabel</c> for above/below strips.</summary>
         private static string FitTimeLabel(string label, double availableWidthPx)
         {
             if (string.IsNullOrWhiteSpace(label))
@@ -667,6 +827,17 @@ namespace Playlist
             }
 
             return 0;
+        }
+
+        private sealed class InteriorLabelPlan
+        {
+            public double CenterX { get; set; }
+
+            public double SliceWidth { get; set; }
+
+            public string DisplayLabel { get; set; }
+
+            public Color TextColor { get; set; }
         }
 
         private sealed class Segment

@@ -16,7 +16,7 @@ public class ManualUiSmokeTests
         Border marker = GetPrivateField<Border>(control, "playtimeMarker");
 
         Assert.Equal(12, marker.Width);
-        Assert.Equal(18, marker.Height);
+        Assert.Equal(30, marker.Height);
         Assert.Equal(new CornerRadius(2), marker.CornerRadius);
         Assert.Equal(Visibility.Collapsed, marker.Visibility);
     }
