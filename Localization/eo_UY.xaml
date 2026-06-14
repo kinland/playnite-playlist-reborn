@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Ludlisto</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Aldoni al ludlisto</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">La etendaĵo Ludlisto ne povis ŝargi la dosieron:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Montri en biblioteko</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Movi al supro</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Movi al malsupro</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Forigi el ludlisto</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Dekstre alklaku ludon en la biblioteko kaj elektu "Aldoni al ludlisto"</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Laste ludita</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Lasta agado</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Rango (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Rango (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Reordigu nur ene de la sama tempgrupo ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Reordigo estas malŝaltita dum ordigo laŭ {0}. Ordigu laŭ {1} por reordigi.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Dekstre alklaku ludon en la biblioteko kaj elektu "Aldoni al ludlisto"</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">La etendaĵo Ludlisto ne povis ŝargi la dosieron:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (ordigi laŭ {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Kompletisto</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Kunlud</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Ĉefa + ekstra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Ĉefa rakonto</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat estas instalita sed malŝaltita — alklaku por malfermi Aldonojn kaj ŝalti ĝin</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat ne estas instalita — alklaku por malfermi Aldonojn kaj instali ĝin</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat-integrado estas malŝaltita — alklaku por malfermi agordojn de Ludlisto</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ŝalti HowLongToBeat-integradon</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronigi serĉujon inter ĉefa panelo kaj Ludlisto</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Lasta agado</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">antaŭ {0} tagoj</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">antaŭ {0} horoj</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Antaŭ longe</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">antaŭ {0} minutoj</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Ĵus</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">antaŭ {0} monatoj</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">antaŭ {0} tago</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">antaŭ {0} horo</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">antaŭ {0} minuto</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">antaŭ {0} monato</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">antaŭ {0} semajno</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">antaŭ {0} jaro</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">antaŭ {0} semajnoj</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Laste ludita</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Movi al malsupro</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Movi al supro</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Ludlisto</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0} h {1} min</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0} h</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minutoj</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0} min</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Forigi el ludlisto</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Forigi serĉon</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Serĉi en ludlisto. Subtenas:
 - malprecizan kaj partan kongruon kun ĝokeraj signoj * kaj ?
 - limigon de amplekso per tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - inversigon de limigo per ! (ekz.: !genre:shooter)
 - valorojn kun spacoj inter citiloj (ekz. tag:"Action Roguelike")
 - komo aŭ | (vertikala streko) por AŬ; ripeti amplekson aŭ &amp; por KAJ</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Forigi serĉon</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Ĉefa rakonto</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Ĉefa + ekstra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Kompletisto</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Kunlud</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ŝalti HowLongToBeat-integradon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronigi serĉujon inter ĉefa panelo kaj Ludlisto</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Montri en biblioteko</sys:String>
 </ResourceDictionary>

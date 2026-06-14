@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Çalma listesi</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Çalma listesine ekle</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist eklentisi dosyayı yükleyemedi:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Kütüphanede göster</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">En üste taşı</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">En alta taşı</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Çalma listesinden kaldır</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Kütüphanede bir oyuna sağ tıklayın ve "Çalma listesine ekle"yi seçin</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Son oynanma</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Son etkinlik</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Sıra (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Sıra (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Yalnızca aynı zaman grubu ({0}) içinde yeniden sıralayın.</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">{0} göre sıralama yapılırken yeniden sıralama devre dışıdır. Yeniden sıralamak için {1} göre sıralayın.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Kütüphanede bir oyuna sağ tıklayın ve "Çalma listesine ekle"yi seçin</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist eklentisi dosyayı yükleyemedi:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> ({0} göre sırala)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Tamamlayıcı</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">İş birliği</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Ana + ekstra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Ana hikâye</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Tek kişilik</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat yüklü ancak devre dışı — Eklentiler'i açıp etkinleştirmek için tıklayın</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat yüklü değil — Eklentiler'i açıp yüklemek için tıklayın</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat entegrasyonu devre dışı — Playlist ayarlarını açmak için tıklayın</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat entegrasyonunu etkinleştir</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Ana panel ile çalma listesi arama kutusunu eşitle</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Son etkinlik</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} gün önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} saat önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Uzun zaman önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">{0} dakika önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Az önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">{0} ay önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">{0} gün önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">{0} saat önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">{0} dakika önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">{0} ay önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">{0} hafta önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} yıl önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} hafta önce</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Son oynanma</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">En alta taşı</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">En üste taşı</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Çalma listesi</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}s {1}dk</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}s</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} dakika</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}dk</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Çalma listesinden kaldır</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Aramayı temizle</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Çalma listesinde ara. Desteklenenler:
 - * ve ? joker karakterleriyle bulanık ve kısmi eşleşme
 - tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat: ile kapsam daraltma
 - ! ile kapsam daraltmayı tersine çevirme (örn.: !genre:shooter)
 - boşluk içeren değerleri tırnak içine alma (örn. tag:"Action Roguelike")
 - virgül veya | (dikey çizgi) ile VEYA; kapsamı tekrarlama veya &amp; ile VE</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Aramayı temizle</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Ana hikâye</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Ana + ekstra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Tamamlayıcı</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Tek kişilik</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">İş birliği</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat entegrasyonunu etkinleştir</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Ana panel ile çalma listesi arama kutusunu eşitle</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Kütüphanede göster</sys:String>
 </ResourceDictionary>

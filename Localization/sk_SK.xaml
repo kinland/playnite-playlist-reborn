@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Zoznam skladieb</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Pridať do zoznamu skladieb</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Rozšírenie Zoznam skladieb nemohlo načítať súbor:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Zobraziť v knižnici</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Presunúť hore</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Presunúť dole</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Odstrániť zo zoznamu skladieb</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Kliknite pravým tlačidlom na hru v knižnici a vyberte „Pridať do zoznamu skladieb“</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Naposledy hrané</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Posledná aktivita</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Poradie (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Poradie (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Presúvajte len v rámci rovnakej časovej skupiny ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Presúvanie je zakázané pri zoradení podľa {0}. Na presunutie zoraďte podľa {1}.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Kliknite pravým tlačidlom na hru v knižnici a vyberte „Pridať do zoznamu skladieb“</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Rozšírenie Zoznam skladieb nemohlo načítať súbor:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (zoradiť podľa {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Stoprocentné</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Kooperácia</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Hlavný + extra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Hlavný príbeh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat je nainštalovaný, ale deaktivovaný — kliknite pre otvorenie Doplnkov a jeho aktiváciu</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat nie je nainštalovaný — kliknite pre otvorenie Doplnkov a jeho inštaláciu</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Integrácia HowLongToBeat je deaktivovaná — kliknite pre otvorenie nastavení Zoznamu skladieb</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Povoliť integráciu HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchronizovať vyhľadávacie pole medzi hlavným panelom a Zoznamom skladieb</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Posledná aktivita</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">pred {0} dňami</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">pred {0} hodinami</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Dávno</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">pred {0} minútami</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Práve teraz</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">pred {0} mesiacmi</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">pred {0} dňom</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">pred {0} hodinou</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">pred {0} minútou</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">pred {0} mesiacom</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">pred {0} týždňom</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">pred {0} rokom</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">pred {0} týždňami</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Naposledy hrané</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Presunúť dole</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Presunúť hore</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Zoznam skladieb</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}h {1}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}h</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minút</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Odstrániť zo zoznamu skladieb</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Vymazať vyhľadávanie</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Hľadať v zozname skladieb. Podporuje:
 - nepresné a čiastočné zhody so zástupnými znakmi * a ?
 - zúženie rozsahu pomocou tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - obrátenie zúženia pomocou ! (napr.: !genre:shooter)
 - hodnoty s medzerami v úvodzovkách (napr. tag:"Action Roguelike")
 - čiarku alebo | (zvislá čiara) pre ALEBO; opakovanie rozsahu alebo &amp; pre A</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Vymazať vyhľadávanie</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Hlavný príbeh</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Hlavný + extra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Stoprocentné</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Kooperácia</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Povoliť integráciu HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchronizovať vyhľadávacie pole medzi hlavným panelom a Zoznamom skladieb</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Zobraziť v knižnici</sys:String>
 </ResourceDictionary>

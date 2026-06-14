@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">قائمة التشغيل</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">إضافة إلى قائمة التشغيل</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">تعذّر على امتداد قائمة التشغيل تحميل الملف:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">عرض في المكتبة</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">نقل إلى الأعلى</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">نقل إلى الأسفل</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">إزالة من قائمة التشغيل</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">انقر بزر الماوس الأيمن على لعبة في المكتبة واختر "إضافة إلى قائمة التشغيل"</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">آخر لعب</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">آخر نشاط</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">الترتيب (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">الترتيب (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">أعد الترتيب فقط ضمن مجموعة الوقت نفسها ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">إعادة الترتيب معطّلة أثناء الفرز حسب {0}. رتّب حسب {1} لإعادة الترتيب.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">انقر بزر الماوس الأيمن على لعبة في المكتبة واختر "إضافة إلى قائمة التشغيل"</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">تعذّر على امتداد قائمة التشغيل تحميل الملف:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (الفرز حسب {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">الإكمال الكامل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">تعاوني</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">الرئيسية + إضافية</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">القصة الرئيسية</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">فردي</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">ضد</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat مثبّت لكنه معطّل — انقر لفتح الإضافات وتفعيله</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat غير مثبّت — انقر لفتح الإضافات وتثبيته</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">تكامل HowLongToBeat معطّل — انقر لفتح إعدادات قائمة التشغيل</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">تفعيل تكامل HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">مزامنة مربع البحث بين اللوحة الرئيسية وقائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">آخر نشاط</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">منذ {0} أيام</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">منذ {0} ساعات</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">منذ وقت طويل</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">منذ {0} دقائق</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">منذ لحظات</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">منذ {0} أشهر</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">منذ {0} يوم</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">منذ {0} ساعة</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">منذ {0} دقيقة</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">منذ {0} شهر</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">منذ {0} أسبوع</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">منذ {0} سنة</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">منذ {0} أسابيع</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">آخر لعب</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">نقل إلى الأسفل</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">نقل إلى الأعلى</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">قائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0} س {1} د</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0} س</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} دقيقة</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0} د</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">إزالة من قائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">مسح البحث</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">البحث في قائمة التشغيل. يدعم:
 - المطابقة التقريبية والجزئية مع الرموز البديلة * و ?
 - تضييق النطاق باستخدام tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - عكس تضييق النطاق باستخدام ! (مثال: !genre:shooter)
 - وضع القيم التي تحتوي على مسافات بين علامات اقتباس (مثال tag:"Action Roguelike")
 - الفاصلة أو | (الخط العمودي) للـ OR؛ تكرار النطاق أو &amp; للـ AND</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">مسح البحث</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">القصة الرئيسية</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">الرئيسية + إضافية</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">الإكمال الكامل</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">فردي</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">تعاوني</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">ضد</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">تفعيل تكامل HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">مزامنة مربع البحث بين اللوحة الرئيسية وقائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">عرض في المكتبة</sys:String>
 </ResourceDictionary>

@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">재생 목록</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">재생 목록에 추가</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist 확장을(를) 파일을 불러올 수 없습니다:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">라이브러리에서 표시</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">맨 위로 이동</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">맨 아래로 이동</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">재생 목록에서 제거</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">라이브러리에서 게임을 마우스 오른쪽 버튼으로 클릭하고 "재생 목록에 추가"를 선택하세요</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">마지막 플레이</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">마지막 활동</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">순위 (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">순위 (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">같은 시간 그룹({0}) 내에서만 순서를 변경할 수 있습니다.</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">{0} 기준 정렬 중에는 순서 변경이 비활성화됩니다. 순서를 변경하려면 {1} 기준으로 정렬하세요.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">라이브러리에서 게임을 마우스 오른쪽 버튼으로 클릭하고 "재생 목록에 추가"를 선택하세요</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist 확장을(를) 파일을 불러올 수 없습니다:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> ({0} 기준 정렬)</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">완벽 클리어</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">협동</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">메인 + 추가</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">메인 스토리</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">솔로</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">대전</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat가 설치되어 있지만 비활성화되어 있습니다 — 클릭하여 추가 기능을 열고 활성화하세요</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat가 설치되어 있지 않습니다 — 클릭하여 추가 기능을 열고 설치하세요</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat 연동이 비활성화되어 있습니다 — 클릭하여 Playlist 설정을 여세요</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat 연동 사용</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">메인 패널과 재생 목록의 검색 상자 동기화</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">마지막 활동</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0}일 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0}시간 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">오래전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">{0}분 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">방금</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">{0}개월 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">{0}일 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">{0}시간 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">{0}분 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">{0}개월 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">{0}주 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0}년 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0}주 전</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">마지막 플레이</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">맨 아래로 이동</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">맨 위로 이동</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">재생 목록</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}시간 {1}분</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}시간</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0}분</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}분</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">재생 목록에서 제거</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">검색 지우기</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">재생 목록 검색. 지원 기능:
 - * 및 ? 와일드카드를 사용한 유사 일치 및 부분 일치
 - tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat: 범위 제한
 - ! 로 범위 제한 반전 (예: !genre:shooter)
 - 공백이 있는 값은 따옴표로 묶기 (예: tag:"Action Roguelike")
 - 쉼표 또는 | (세로 막대)는 OR, 범위 반복 또는 &amp; 는 AND</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">검색 지우기</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">메인 스토리</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">메인 + 추가</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">완벽 클리어</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">솔로</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">협동</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">대전</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat 연동 사용</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">메인 패널과 재생 목록의 검색 상자 동기화</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">라이브러리에서 표시</sys:String>
 </ResourceDictionary>

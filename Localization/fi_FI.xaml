@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Soittolista</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Lisää soittolistalle</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Soittolista-laajennus ei voinut ladata tiedostoa:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Näytä kirjastossa</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Siirrä alkuun</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Siirrä loppuun</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Poista soittolistalta</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Napsauta peliä kirjastossa hiiren oikealla painikkeella ja valitse "Lisää soittolistalle"</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Viimeksi pelattu</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Viimeisin toiminta</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Sija (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Sija (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Järjestä uudelleen vain saman aikaryhmän sisällä ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Järjestyksen muutos on poissa käytöstä, kun lajittelu on {0}. Järjestä uudelleen lajittelemalla {1}.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Napsauta peliä kirjastossa hiiren oikealla painikkeella ja valitse "Lisää soittolistalle"</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Soittolista-laajennus ei voinut ladata tiedostoa:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (lajittele {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Läpäisy</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Yhteistyö</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Pää + lisä</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Päätarina</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat on asennettu, mutta poissa käytöstä — napsauta avataksesi Lisäosat ja ottaa sen käyttöön</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat ei ole asennettu — napsauta avataksesi Lisäosat ja asentaaksesi sen</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat-integraatio on poissa käytöstä — napsauta avataksesi Soittolistan asetukset</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ota HowLongToBeat-integraatio käyttöön</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronoi hakukenttä pääpaneelin ja Soittolistan välillä</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Viimeisin toiminta</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} päivää sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} tuntia sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Kauan sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">{0} minuuttia sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Juuri nyt</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">{0} kuukautta sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">{0} päivä sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">{0} tunti sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">{0} minuutti sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">{0} kuukausi sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">{0} viikko sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} vuosi sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} viikkoa sitten</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Viimeksi pelattu</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Siirrä loppuun</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Siirrä alkuun</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Soittolista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}t {1}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}t</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minuuttia</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Poista soittolistalta</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Tyhjennä haku</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Hae soittolistalta. Tukee:
 - epätarkkaa ja osittaista vastaavuutta *- ja ?-jokerimerkeillä
 - rajauksen kaventamista tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - rajauksen kääntämistä !-merkillä (esim.: !genre:shooter)
 - välilyönneillä erotettujen arvojen lainausmerkkejä (esim. tag:"Action Roguelike")
 - pilkkua tai | (pystyviivaa) TAI-operaatiolle; toista rajaus tai &amp; JA-operaatiolle</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Tyhjennä haku</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Päätarina</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Pää + lisä</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Läpäisy</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Yhteistyö</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ota HowLongToBeat-integraatio käyttöön</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronoi hakukenttä pääpaneelin ja Soittolistan välillä</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Näytä kirjastossa</sys:String>
 </ResourceDictionary>

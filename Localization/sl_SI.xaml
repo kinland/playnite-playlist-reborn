@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Seznam predvajanja</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Dodaj na seznam predvajanja</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Razširitev Seznam predvajanja ni mogla naložiti datoteke:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Prikaži v knjižnici</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Premakni na vrh</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Premakni na dno</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Odstrani s seznama predvajanja</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Desno kliknite igro v knjižnici in izberite »Dodaj na seznam predvajanja«</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Nazadnje igrano</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Zadnja dejavnost</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Uvrstitev (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Uvrstitev (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Preurejajte le znotraj iste časovne skupine ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Preurejanje je onemogočeno, medtem ko je razvrščeno po {0}. Razvrsti po {1} za preurejanje.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Desno kliknite igro v knjižnici in izberite »Dodaj na seznam predvajanja«</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Razširitev Seznam predvajanja ni mogla naložiti datoteke:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (razvrsti po {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Popolnoma</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Glavna + dodatno</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Glavna zgodba</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat je nameščen, vendar onemogočen — kliknite za odpiranje Dodatkov in njegovo omogočanje</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat ni nameščen — kliknite za odpiranje Dodatkov in njegovo namestitev</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Integracija HowLongToBeat je onemogočena — kliknite za odpiranje nastavitev Seznama predvajanja</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Omogoči integracijo HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinhroniziraj iskalno polje med glavno ploščo in Seznamom predvajanja</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Zadnja dejavnost</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">pred {0} dnevi</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">pred {0} urami</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Davno nazaj</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">pred {0} minutami</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Pravkar</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">pred {0} meseci</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">pred {0} dnem</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">pred {0} uro</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">pred {0} minuto</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">pred {0} mesecem</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">pred {0} tednom</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">pred {0} letom</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">pred {0} tedni</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Nazadnje igrano</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Premakni na dno</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Premakni na vrh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Seznam predvajanja</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}h {1}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}h</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minut</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Odstrani s seznama predvajanja</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Počisti iskanje</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Iskanje v seznamu predvajanja. Podpira:
 - nejasno in delno ujemanje z nadomestnimi znaki * in ?
 - zoženje obsega s tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - obrat zoženja z ! (npr.: !genre:shooter)
 - vrednosti s presledki v narekovajih (npr. tag:"Action Roguelike")
 - vejico ali | (navpično črto) za ALI; ponovitev obsega ali &amp; za IN</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Počisti iskanje</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Glavna zgodba</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Glavna + dodatno</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Popolnoma</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Omogoči integracijo HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinhroniziraj iskalno polje med glavno ploščo in Seznamom predvajanja</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Prikaži v knjižnici</sys:String>
 </ResourceDictionary>

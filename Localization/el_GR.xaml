@@ -1,31 +1,51 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Λίστα αναπαραγωγής</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Προσθήκη στη λίστα αναπαραγωγής</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Η επέκταση Λίστα αναπαραγωγής δεν μπόρεσε να φορτώσει το αρχείο:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Εμφάνιση στη βιβλιοθήκη</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Μετακίνηση στην κορυφή</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Μετακίνηση στο τέλος</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Αφαίρεση από τη λίστα αναπαραγωγής</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Κάντε δεξί κλικ σε ένα παιχνίδι στη βιβλιοθήκη και επιλέξτε «Προσθήκη στη λίστα αναπαραγωγής»</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Τελευταία παιχνίδι</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Τελευταία δραστηριότητα</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Κατάταξη (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Κατάταξη (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Αναδιάταξε μόνο εντός της ίδιας χρονικής ομάδας ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Η αναδιάταξη απενεργοποιείται όσο ταξινομείται κατά {0}. Ταξινόμησε κατά {1} για αναδιάταξη.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Κάντε δεξί κλικ σε ένα παιχνίδι στη βιβλιοθήκη και επιλέξτε «Προσθήκη στη λίστα αναπαραγωγής»</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Η επέκταση Λίστα αναπαραγωγής δεν μπόρεσε να φορτώσει το αρχείο:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (ταξινόμηση κατά {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Ολοκληρωτής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Μονόπαιχνο</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">Το HowLongToBeat είναι εγκατεστημένο αλλά απενεργοποιημένο — κάντε κλικ για να ανοίξετε τα Πρόσθετα και να το ενεργοποιήσετε</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">Το HowLongToBeat δεν είναι εγκατεστημένο — κάντε κλικ για να ανοίξετε τα Πρόσθετα και να το εγκαταστήσετε</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">Η ενσωμάτωση HowLongToBeat είναι απενεργοποιημένη — κάντε κλικ για να ανοίξετε τις ρυθμίσεις της Λίστας αναπαραγωγής</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ενεργοποίηση ενσωμάτωσης HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Συγχρονισμός πεδίου αναζήτησης μεταξύ κύριου πίνακα και Λίστας αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Τελευταία δραστηριότητα</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">πριν από {0} ημέρες</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">πριν από {0} ώρες</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Πριν πολύ</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">πριν από {0} λεπτά</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Μόλις τώρα</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">πριν από {0} μήνες</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">πριν από {0} ημέρα</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">πριν από {0} ώρα</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">πριν από {0} λεπτό</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">πριν από {0} μήνα</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">πριν από {0} εβδομάδα</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">πριν από {0} χρόνο</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">πριν από {0} εβδομάδες</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Τελευταία παιχνίδι</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Μετακίνηση στο τέλος</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Μετακίνηση στην κορυφή</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Λίστα αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}ω {1}λ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}ω</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} λεπτά</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}λ</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Αφαίρεση από τη λίστα αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Εκκαθάριση αναζήτησης</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Αναζήτηση στη λίστα αναπαραγωγής. Υποστηρίζει:
 - ασαφή και μερική αντιστοίχιση με μπαλαντέρ * και ?
 - περιορισμό εύρους με tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - αντιστροφή περιορισμού με ! (π.χ.: !genre:shooter)
 - τιμές με κενά σε εισαγωγικά (π.χ. tag:"Action Roguelike")
 - κόμμα ή | (κάθετη γραμμή) για Ή· επανάληψη εύρους ή &amp; για ΚΑΙ</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Εκκαθάριση αναζήτησης</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Ολοκληρωτής</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Μονόπαιχνο</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ενεργοποίηση ενσωμάτωσης HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Συγχρονισμός πεδίου αναζήτησης μεταξύ κύριου πίνακα και Λίστας αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Εμφάνιση στη βιβλιοθήκη</sys:String>
 </ResourceDictionary>

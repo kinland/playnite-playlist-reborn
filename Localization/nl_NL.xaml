@@ -1,35 +1,55 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_Playlist">Afspeellijst</sys:String>
     <sys:String x:Key="LOCPlaylist_AddToPlaylist">Toevoegen aan afspeellijst</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist-extensie kon bestand niet laden:</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Tonen in bibliotheek</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Naar boven verplaatsen</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Naar onder verplaatsen</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Verwijderen uit afspeellijst</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Klik met de rechtermuisknop op een game in de bibliotheek en selecteer „Toevoegen aan afspeellijst”</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Laatst gespeeld</sys:String>
-    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Laatste activiteit</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_Rank">Rang (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_Rank">Rang (#)</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Hersorteer alleen binnen dezelfde tijdgroep ({0}).</sys:String>
+    <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Hersorteren is uitgeschakeld zolang er op {0} wordt gesorteerd. Sorteer op {1} om te hersorteren.</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Klik met de rechtermuisknop op een game in de bibliotheek en selecteer „Toevoegen aan afspeellijst”</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist-extensie kon bestand niet laden:</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sorteer op {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Voltooier</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Hoofd + extra</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Hoofdverhaal</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat is geïnstalleerd maar uitgeschakeld — klik om Add-ons te openen en het in te schakelen</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat is niet geïnstalleerd — klik om Add-ons te openen en het te installeren</sys:String>
     <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat-integratie is uitgeschakeld — klik om Playlist-instellingen te openen</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat-integratie inschakelen</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Zoekvak synchroniseren tussen hoofdpaneel en afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastActivityColumn">Laatste activiteit</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} dagen geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} uur geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_LongAgo">Lang geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MinutesAgo">{0} minuten geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MomentsAgo">Zojuist</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_MonthsAgo">{0} maanden geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneDayAgo">{0} dag geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneHourAgo">{0} uur geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMinuteAgo">{0} minuut geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneMonthAgo">{0} maand geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneWeekAgo">{0} week geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} jaar geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} weken geleden</sys:String>
+    <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Laatst gespeeld</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToBottom">Naar onder verplaatsen</sys:String>
+    <sys:String x:Key="LOCPlaylist_MoveToTop">Naar boven verplaatsen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playlist">Afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}u {1}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}u</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} minuten</sys:String>
+    <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
+    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Verwijderen uit afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Zoekopdracht wissen</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Doorzoek de afspeellijst. Ondersteunt:
 - fuzzy en gedeeltelijke overeenkomst met jokers * en ?
 - bereikbeperking met tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
 - omkeren van bereikbeperking met ! (bijv.: !genre:shooter)
 - waarden met spaties tussen aanhalingstekens (bijv. tag:"Action Roguelike")
 - komma of | (pipe) voor OF; bereik herhalen of &amp; voor EN</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Zoekopdracht wissen</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Hoofdverhaal</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Hoofd + extra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Voltooier</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Vs</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat-integratie inschakelen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Zoekvak synchroniseren tussen hoofdpaneel en afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Tonen in bibliotheek</sys:String>
 </ResourceDictionary>
