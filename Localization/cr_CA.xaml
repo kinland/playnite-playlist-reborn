@@ -1,24 +1,35 @@
 <?xml version="1.0"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LOCPlaylist_AddToPlaylist">Playlist ohci pêhtâw</sys:String>
-    <sys:String x:Key="LOCPlaylist_Column_HowLongToBeat">HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCCompletionStatus">Tapwēwin matwēwin</sys:String>
+    <sys:String x:Key="LOCCompletionStatusAbandoned">Kī-wīhtam</sys:String>
+    <sys:String x:Key="LOCCompletionStatusBeaten">Kī-miyo-wīcihitow</sys:String>
+    <sys:String x:Key="LOCCompletionStatusCompleted">Kī-matwē</sys:String>
+    <sys:String x:Key="LOCCompletionStatusNotPlayed">Namôna kī-pêyak</sys:String>
+    <sys:String x:Key="LOCCompletionStatusOnHold">Kī-tipahikan</sys:String>
+    <sys:String x:Key="LOCCompletionStatusPlanToPlay">Kī-ispayin</sys:String>
+    <sys:String x:Key="LOCCompletionStatusPlayed">Kī-pêyak</sys:String>
+    <sys:String x:Key="LOCCompletionStatusPlaying">Pêyakowan</sys:String>
+    <sys:String x:Key="LOCInstallGame">Takahikēwin</sys:String>
+    <sys:String x:Key="LOCNameLabel">Isihcikākan</sys:String>
+    <sys:String x:Key="LOCPlayGame">Pêyakow</sys:String>
+    <sys:String x:Key="LOCPlaylist_Column_HLTB">HowLongToBeat</sys:String>
     <sys:String x:Key="LOCPlaylist_Column_Rank">Kîsikâw (#)</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_Bucket">Pêhtâw êkwa pêyak pîsimowin ({0}).</sys:String>
     <sys:String x:Key="LOCPlaylist_DragReorderBlocked_SortActive">Pêhtâw êkwa {0}. Pêhtâw {1}.</sys:String>
-    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Tâpwê pîsimowin library ohci Playlist</sys:String>
-    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist extension file êkwa ôma:</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_EmptyTime">--</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active"> ({0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Hover"> (sort by {0})</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Completionist">Completionist</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_CoOp">Co-op</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainExtra">Main + extra</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_MainStory">Main story</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Solo">Solo</sys:String>
-    <sys:String x:Key="LOCPlaylist_Hltb_TimeType_Versus">Versus</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToEnable">HowLongToBeat êkwa — Add-ons ohci</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenAddonsToInstall">HowLongToBeat namôna — Add-ons ohci</sys:String>
-    <sys:String x:Key="LOCPlaylist_HltbOpenSettingsToEnable">HowLongToBeat namôna — Playlist settings</sys:String>
+    <sys:String x:Key="LOCPlaylist_EmptyPlaylistMessage">Tâpwê pîsimowin masinahikan ohci Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_ErrorNotLoadFile">Playlist owóksape file êkwa ôma:</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_EmptyTime">--</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToEnable">HowLongToBeat êkwa — Add-ons ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenAddonsToInstall">HowLongToBeat namôna — Add-ons ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_OpenSettingsToEnable">HowLongToBeat namôna — Playlist owóksape</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Active"> ({0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_SortSuffix_Hover"> (pêhtâw {0})</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Completionist">Kahkiyaw matwēwin</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_CoOp">Wihtawāc</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainExtra">Napātāk + wīkihtimowin</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_MainStory">Napātāk istōra</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Solo">Pêyak</sys:String>
+    <sys:String x:Key="LOCPlaylist_HLTB_TimeType_Versus">Āpicistān</sys:String>
     <sys:String x:Key="LOCPlaylist_LastActivityColumn">Pêyak pîsimowin</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_DaysAgo">{0} pîsimowin êkwa</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_HoursAgo">{0} pîsimowin êkwa</sys:String>
@@ -34,24 +45,27 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_OneYearAgo">{0} pîsimowin êkwa</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} pîsimowin êkwa</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Pêyak pîsimowin</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToBottom">Pêhtâw astâw</sys:String>
-    <sys:String x:Key="LOCPlaylist_MoveToTop">Pêhtâw astâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Playlist ohci pêhtâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Pêhtâw astâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Pêhtâw astâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Playlist ohci pêhtâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Masinahikan ohci</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursMinutes">{0}h {1}m</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_HoursOnly">{0}h</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_Minutes">{0} pîsimowin</sys:String>
     <sys:String x:Key="LOCPlaylist_Playtime_MinuteUnit">{0}m</sys:String>
-    <sys:String x:Key="LOCPlaylist_RemoveFromPlaylist">Playlist ohci pêhtâw</sys:String>
     <sys:String x:Key="LOCPlaylist_SearchClearTooltip">Pêhtâw</sys:String>
-    <sys:String x:Key="LOCPlaylist_SearchTooltip" xml:space="preserve">Search playlist. Supports:
-- fuzzy matching and partial matching with * and ? wildcards
-- scope narrowing with tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
-- inverting scope narrowing with ! (e.g.: !genre:shooter)
-- quote values with spaces (e.g. tag:"Action Roguelike")
-- comma or | (pipe) for OR; repeat scope or &amp; for AND</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_SearchTooltip">Tâpwê Playlist. Ôma:
+- pêhtâw êkwa * ?
+- tag:, genre:, developer:/dev:, publisher:/pub:, category:/cat:, feature:/feat:
+- ! (e.g.: !genre:shooter)
+- tag:"Action Roguelike"
+- comma térã | OR; &amp; AND</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ohci</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist pîkiskwêwin</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">System pîkiskwêwin {0}. Playlist ohci {1}?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Playlist main panel ohci</sys:String>
-    <sys:String x:Key="LOCPlaylist_ShowInLibrary">Library ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Owóksape pîkiskwêwin {0}. Playlist ohci {1}?</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Playlist owóksape pêhtâw atoskâkan ohci</sys:String>
+    <sys:String x:Key="LOCSetCompletionStatus">Matwēwin itācihow</sys:String>
+    <sys:String x:Key="LOCTimePlayed">Kī-pêyak pîsimowin</sys:String>
 </ResourceDictionary>
