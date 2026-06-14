@@ -130,17 +130,17 @@
                         <MenuItem Header="{DynamicResource LOCSetCompletionStatus}" ItemsSource="{Binding DataContext.CompletionStatusCommands, Source={x:Reference Name=playlistListView}}">
                             <MenuItem.ItemContainerStyle>
                                 <Style TargetType="MenuItem">
-                                    <Setter Property="Header" Value="{Binding Status, Converter={StaticResource completionStatusDisplayConverter}}"/>
                                     <Setter Property="Command" Value="{Binding Command}"/>
                                     <Setter Property="CommandParameter" Value="{Binding SelectedItems, Source={x:Reference Name=playlistListView}}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsSyncableTier}" Value="True">
-                                            <Setter Property="FontWeight" Value="SemiBold" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsSyncableTier}" Value="False">
-                                            <Setter Property="Opacity" Value="0.72" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
+                                    <Setter Property="HeaderTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <local:CompletionStatusMenuHeader
+                                                    IsSyncableTier="{Binding IsSyncableTier}"
+                                                    Status="{Binding Status}" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                 </Style>
                             </MenuItem.ItemContainerStyle>
                         </MenuItem>
@@ -1033,7 +1033,9 @@
                             <DataTemplate>
                                 <Grid Style="{StaticResource playlistTextColumnCellOuterStyle}">
                                     <Grid Style="{StaticResource playlistTextColumnCellInnerStyle}">
-                                        <local:CompletionStatusChip />
+                                        <TextBlock
+                                            Style="{StaticResource playlistCellTextBlockStyle}"
+                                            Text="{Binding CompletionStatus, Converter={StaticResource completionStatusDisplayConverter}}" />
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
