@@ -1,7 +1,7 @@
 #!/usr/bin/env pwsh
 
 # Requires PowerShell 7+ (pwsh) for reliable UTF-8 JSON/locale handling.
-# Localization/*.xaml is the checked-in source of truth for Playlist-owned strings.
+# Localization/*.xaml is the checked-in source of truth for Playlist-owned gap-fill strings.
 # scripts/data/hltb-time-type-gap-overrides.json is a local cache (gitignored):
 # generated from xaml when missing, updated after each sync to speed re-runs.
 
@@ -12,6 +12,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $utf8 = New-Object System.Text.UTF8Encoding($false)
+. (Join-Path $PSScriptRoot "LocalizationXaml.ps1")
 
 $playlistLocalizationDir = Join-Path $ProjectDir "Localization"
 $gapOverridesPath = Join-Path $PSScriptRoot "data\hltb-time-type-gap-overrides.json"
@@ -24,102 +25,6 @@ $keyMappingDefinitions = @(
     @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_CoOp"; HltbKey = "LOCHowLongToBeatCoOp" },
     @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_Versus"; HltbKey = "LOCHowLongToBeatVs" }
 )
-
-function Get-LocValue {
-    param(
-        [string]$FilePath,
-        [string]$Key
-    )
-
-    if (-not (Test-Path -LiteralPath $FilePath)) {
-        return $null
-    }
-
-    $content = [System.IO.File]::ReadAllText($FilePath, $utf8)
-    $pattern = 'x:Key="' + [regex]::Escape($Key) + '">([^<]+)</'
-    $match = [regex]::Match($content, $pattern)
-    if ($match.Success) {
-        return $match.Groups[1].Value
-    }
-
-    return $null
-}
-
-function Set-LocValue {
-    param(
-        [string]$FilePath,
-        [string]$Key,
-        [string]$Value
-    )
-
-    $content = [System.IO.File]::ReadAllText($FilePath, $utf8)
-    $escapedKey = [regex]::Escape($Key)
-    $pattern = '(x:Key="' + $escapedKey + '">)([^<]+)(</)'
-    $match = [regex]::Match($content, $pattern)
-    if ($match.Success) {
-        if ($match.Groups[2].Value -ceq $Value) {
-            return
-        }
-
-        $replacement = '${1}' + $Value + '${3}'
-        $updated = [regex]::Replace($content, $pattern, $replacement, 1)
-        [System.IO.File]::WriteAllText($FilePath, $updated, $utf8)
-        return
-    }
-
-    $insertPattern = '(<sys:String x:Key="LOCPlaylist_Hltb_SortSuffix_Active">)'
-    $insertMatch = [regex]::Match($content, $insertPattern)
-    if (-not $insertMatch.Success) {
-        throw "Unable to insert $Key in $FilePath; sort suffix anchor is missing."
-    }
-
-    $line = '    <sys:String x:Key="' + $Key + '">' + $Value + '</sys:String>' + [Environment]::NewLine
-    $updated = $content.Insert($insertMatch.Index, $line)
-    [System.IO.File]::WriteAllText($FilePath, $updated, $utf8)
-}
-
-function Remove-LocKey {
-    param(
-        [string]$FilePath,
-        [string]$Key
-    )
-
-    $content = [System.IO.File]::ReadAllText($FilePath, $utf8)
-    $escapedKey = [regex]::Escape($Key)
-    $linePattern = '\r?\n[ \t]*<sys:String x:Key="' + $escapedKey + '">[^<]+</sys:String>'
-    $updated = [regex]::Replace($content, $linePattern, [string]::Empty, 1)
-    if ($updated -ne $content) {
-        [System.IO.File]::WriteAllText($FilePath, $updated, $utf8)
-        return $true
-    }
-
-    $inlinePattern = '(</sys:String>)[ \t]*<sys:String x:Key="' + $escapedKey + '">[^<]+</sys:String>'
-    $updated = [regex]::Replace($content, $inlinePattern, '$1', 1)
-    if ($updated -eq $content) {
-        return $false
-    }
-
-    [System.IO.File]::WriteAllText($FilePath, $updated, $utf8)
-    return $true
-}
-
-function Repair-LocalizationFileNewlines {
-    param(
-        [string]$FilePath
-    )
-
-    $content = [System.IO.File]::ReadAllText($FilePath, $utf8)
-    $updated = [regex]::Replace(
-        $content,
-        '(</sys:String>)[ \t]+(<sys:String)',
-        ('$1' + [Environment]::NewLine + '    $2'))
-    if ($updated -eq $content) {
-        return $false
-    }
-
-    [System.IO.File]::WriteAllText($FilePath, $updated, $utf8)
-    return $true
-}
 
 function Test-HltbProvidesTranslation {
     param(
@@ -205,12 +110,12 @@ function Build-GapOverridesFromLocalization {
         $hltbLocalePath = Join-Path $HltbLocalizationDir ($locale + ".xaml")
 
         foreach ($mapping in $KeyMappings) {
-            $hltbValue = Get-LocValue -FilePath $hltbLocalePath -Key $mapping.HltbKey
+            $hltbValue = Get-LocValue -FilePath $hltbLocalePath -Key $mapping.HltbKey -Utf8 $utf8
             if (Test-HltbCoversPlaylistKey -Locale $locale -HltbValue $hltbValue -EnglishBaseline $mapping.EnglishBaseline) {
                 continue
             }
 
-            $playlistValue = Get-LocValue -FilePath $localeFile.FullName -Key $mapping.PlaylistKey
+            $playlistValue = Get-LocValue -FilePath $localeFile.FullName -Key $mapping.PlaylistKey -Utf8 $utf8
             if (-not $playlistValue) {
                 continue
             }
@@ -233,7 +138,7 @@ if (-not (Test-Path -LiteralPath $hltbEnUsPath)) {
 
 $keyMappings = @(
     foreach ($definition in $keyMappingDefinitions) {
-        $englishBaseline = Get-LocValue -FilePath $hltbEnUsPath -Key $definition.HltbKey
+        $englishBaseline = Get-LocValue -FilePath $hltbEnUsPath -Key $definition.HltbKey -Utf8 $utf8
         if (-not $englishBaseline) {
             throw "Missing HLTB en_US key: $($definition.HltbKey)"
         }
@@ -263,16 +168,20 @@ $originalOverrideCount = ($gapOverridesByLocale.Values | ForEach-Object { $_.Cou
 
 $retainedGapOverridesByLocale = @{}
 $removedPlaylistKeyCount = 0
-$localeFiles = Get-ChildItem -LiteralPath $playlistLocalizationDir -Filter "*.xaml"
+$sortedCount = 0
+$supplementalLocales = Get-SupplementalLocaleNames -LocalizationDir $playlistLocalizationDir
+
+$localeFiles = Get-ChildItem -LiteralPath $playlistLocalizationDir -Filter "*.xaml" |
+    Where-Object { $supplementalLocales -notcontains $_.BaseName }
 foreach ($localeFile in $localeFiles) {
     $locale = $localeFile.BaseName
     $hltbLocalePath = Join-Path $HltbLocalizationDir ($locale + ".xaml")
     $localeGaps = $gapOverridesByLocale[$locale]
 
     foreach ($mapping in $keyMappings) {
-        $hltbValue = Get-LocValue -FilePath $hltbLocalePath -Key $mapping.HltbKey
+        $hltbValue = Get-LocValue -FilePath $hltbLocalePath -Key $mapping.HltbKey -Utf8 $utf8
         if (Test-HltbCoversPlaylistKey -Locale $locale -HltbValue $hltbValue -EnglishBaseline $mapping.EnglishBaseline) {
-            if (Remove-LocKey -FilePath $localeFile.FullName -Key $mapping.PlaylistKey) {
+            if (Remove-LocKey -FilePath $localeFile.FullName -Key $mapping.PlaylistKey -Utf8 $utf8) {
                 $removedPlaylistKeyCount++
             }
 
@@ -283,7 +192,7 @@ foreach ($localeFile in $localeFiles) {
             $resolved = $localeGaps[$mapping.PlaylistKey]
         }
         else {
-            $resolved = Get-LocValue -FilePath $localeFile.FullName -Key $mapping.PlaylistKey
+            $resolved = Get-LocValue -FilePath $localeFile.FullName -Key $mapping.PlaylistKey -Utf8 $utf8
         }
 
         if ($resolved) {
@@ -292,19 +201,19 @@ foreach ($localeFile in $localeFiles) {
             }
 
             $retainedGapOverridesByLocale[$locale][$mapping.PlaylistKey] = $resolved
-            Set-LocValue -FilePath $localeFile.FullName -Key $mapping.PlaylistKey -Value $resolved
+            Set-LocValue -FilePath $localeFile.FullName -Key $mapping.PlaylistKey -Value $resolved -Utf8 $utf8
             continue
         }
 
-        if (Remove-LocKey -FilePath $localeFile.FullName -Key $mapping.PlaylistKey) {
+        if (Remove-LocKey -FilePath $localeFile.FullName -Key $mapping.PlaylistKey -Utf8 $utf8) {
             $removedPlaylistKeyCount++
         }
 
         throw "Missing HLTB time-type translation for $locale / $($mapping.PlaylistKey)"
     }
 
-    if (Repair-LocalizationFileNewlines -FilePath $localeFile.FullName) {
-        Write-Host "Repaired newline layout in $($localeFile.Name)"
+    if (Sort-LocalizationFileByKey -FilePath $localeFile.FullName -Utf8 $utf8) {
+        $sortedCount++
     }
 
     Write-Host "Updated $($localeFile.Name)"
@@ -316,4 +225,5 @@ $retainedOverrideCount = ($retainedGapOverridesByLocale.Values | ForEach-Object 
 $prunedOverrideCount = $originalOverrideCount - $retainedOverrideCount
 Write-Host "Removed $removedPlaylistKeyCount HLTB-covered Playlist key(s) from locale files."
 Write-Host "Pruned $prunedOverrideCount redundant gap override(s); retained $retainedOverrideCount."
+Write-Host "Files re-sorted: $sortedCount."
 Write-Host "HLTB time-type locale sync complete."
