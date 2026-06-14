@@ -5,12 +5,12 @@
 
 $dir = Join-Path $PSScriptRoot "..\Localization"
 $keys = @(
-    "LOCPlaylist_Hltb_TimeType_MainStory",
-    "LOCPlaylist_Hltb_TimeType_MainExtra",
-    "LOCPlaylist_Hltb_TimeType_Completionist",
-    "LOCPlaylist_Hltb_TimeType_Solo",
-    "LOCPlaylist_Hltb_TimeType_CoOp",
-    "LOCPlaylist_Hltb_TimeType_Versus"
+    "LOCPlaylist_HLTB_TimeType_MainStory",
+    "LOCPlaylist_HLTB_TimeType_MainExtra",
+    "LOCPlaylist_HLTB_TimeType_Completionist",
+    "LOCPlaylist_HLTB_TimeType_Solo",
+    "LOCPlaylist_HLTB_TimeType_CoOp",
+    "LOCPlaylist_HLTB_TimeType_Versus"
 )
 
 $any = $false
@@ -22,7 +22,7 @@ Get-ChildItem -LiteralPath $dir -Filter "*.xaml" |
         $present = @()
         foreach ($key in $keys) {
             if ($content -match [regex]::Escape($key)) {
-                $present += $key -replace "LOCPlaylist_Hltb_TimeType_", ""
+                $present += $key -replace "LOCPlaylist_HLTB_TimeType_", ""
             }
         }
         if ($present.Count -gt 0) {

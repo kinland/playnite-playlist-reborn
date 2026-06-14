@@ -18,12 +18,12 @@ $playlistLocalizationDir = Join-Path $ProjectDir "Localization"
 $gapOverridesPath = Join-Path $PSScriptRoot "data\hltb-time-type-gap-overrides.json"
 
 $keyMappingDefinitions = @(
-    @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_MainStory"; HltbKey = "LOCHowLongToBeatMainStory" },
-    @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_MainExtra"; HltbKey = "LOCHowLongToBeatMainExtra" },
-    @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_Completionist"; HltbKey = "LOCHowLongToBeatCompletionist" },
-    @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_Solo"; HltbKey = "LOCHowLongToBeatSolo" },
-    @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_CoOp"; HltbKey = "LOCHowLongToBeatCoOp" },
-    @{ PlaylistKey = "LOCPlaylist_Hltb_TimeType_Versus"; HltbKey = "LOCHowLongToBeatVs" }
+    @{ PlaylistKey = "LOCPlaylist_HLTB_TimeType_MainStory"; HltbKey = "LOCHowLongToBeatMainStory" },
+    @{ PlaylistKey = "LOCPlaylist_HLTB_TimeType_MainExtra"; HltbKey = "LOCHowLongToBeatMainExtra" },
+    @{ PlaylistKey = "LOCPlaylist_HLTB_TimeType_Completionist"; HltbKey = "LOCHowLongToBeatCompletionist" },
+    @{ PlaylistKey = "LOCPlaylist_HLTB_TimeType_Solo"; HltbKey = "LOCHowLongToBeatSolo" },
+    @{ PlaylistKey = "LOCPlaylist_HLTB_TimeType_CoOp"; HltbKey = "LOCHowLongToBeatCoOp" },
+    @{ PlaylistKey = "LOCPlaylist_HLTB_TimeType_Versus"; HltbKey = "LOCHowLongToBeatVs" }
 )
 
 function Test-HltbProvidesTranslation {
