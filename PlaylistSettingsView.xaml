@@ -4,8 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="200" d:DesignWidth="400">
+             d:DesignHeight="280" d:DesignWidth="400">
     <StackPanel Margin="12">
+        <TextBlock
+            Margin="0,0,0,4"
+            Text="{DynamicResource LOCPlaylist_Settings_LanguageOverride}" />
+        <ComboBox
+            x:Name="languageOverrideComboBox"
+            Margin="0,0,0,12"
+            DisplayMemberPath="DisplayName"
+            SelectedValuePath="LocaleId"
+            SelectedValue="{Binding SelectedLanguageOverrideLocaleId, Mode=TwoWay}"
+            ItemsSource="{Binding LanguageOptions}"
+            SelectionChanged="LanguageOverrideComboBox_SelectionChanged" />
         <!--
             Per-column visibility is toggled by right-clicking the column headers in the playlist view.
             The HowLongToBeat integration toggle stays here because it also gates reading the HowLongToBeat

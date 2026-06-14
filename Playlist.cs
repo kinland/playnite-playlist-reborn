@@ -112,6 +112,7 @@ namespace Playlist
             settings = LoadPluginSettings<PlaylistSettings>() ?? new PlaylistSettings(this);
             settings.AttachPlugin(this);
             StaticSettings = settings;
+            PlaylistLocalizationOverride.ApplyFromSettings(settings);
             MainSearchSync = new MainSearchSync(api, () => settings.SyncSearchWithMainPanel);
         }
 
@@ -318,6 +319,7 @@ namespace Playlist
                 settings.ExpireSessionOnlyHltbPendingFlags();
                 settings.ExpireAddonPendingIfHltbStillUnavailable();
                 settings.RefreshHowLongToBeatInstallState();
+                PlaylistLocalizationOverride.ApplyFromSettings(settings);
                 ApplySettingsToOpenView();
             }
             catch (Exception e)

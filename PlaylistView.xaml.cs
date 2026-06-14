@@ -937,6 +937,8 @@ namespace Playlist
 
         public void ApplySettings()
         {
+            PlaylistLocalizationOverride.ApplyFromSettings(Playlist.StaticSettings);
+            PlaylistLocalizationOverride.MergeInto(this);
             ApplyColumnVisibility();
             (DataContext as PlaylistViewModel)?.RefreshHowLongToBeatHeaderText();
             RestoreLayoutState();
