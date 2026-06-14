@@ -17,6 +17,12 @@ namespace Playlist
 
         internal static string Resolve(string hltbResourceKey, string playlistResourceKey, string hltbEnglishBaseline)
         {
+            if (!string.IsNullOrEmpty(PlaylistLocalizationOverride.ActiveLocaleId)
+                && PlaylistLocalizationOverride.TryGetString(playlistResourceKey, out string overrideValue))
+            {
+                return overrideValue;
+            }
+
             string hltbValue = GetString(hltbResourceKey);
             if (ShouldPreferHltbValue(hltbValue, hltbResourceKey, hltbEnglishBaseline))
             {
@@ -44,7 +50,7 @@ namespace Playlist
                 return TestResourceProvider.GetString(resourceKey);
             }
 
-            return ResourceProvider.GetString(resourceKey);
+            return PlaylistLocalization.GetString(resourceKey);
         }
 
         internal static bool ShouldPreferHltbValue(string hltbValue, string hltbResourceKey, string hltbEnglishBaseline)
