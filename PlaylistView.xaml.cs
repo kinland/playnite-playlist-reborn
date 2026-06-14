@@ -42,6 +42,10 @@ namespace Playlist
         private bool headerBodyOffsetLocked;
         private bool rowHighlightRefreshPending;
         private readonly PlaylistColumnReorderDropIndicator columnReorderDropIndicator;
+        private readonly PlaylistDragReorderStatusIndicator dragReorderStatusIndicator;
+        private INotifyPropertyChanged dragReorderStatusViewModel;
+        private bool dragReorderGiveFeedbackHooked;
+        private bool dragReorderQueryContinueDragHooked;
 
         /// <summary>
         /// Left margin applied to each row's <see cref="PlaylistGridViewRowPresenter"/> so body cells
@@ -65,12 +69,14 @@ namespace Playlist
             InitializeComponent();
             columnReorderDropIndicator = new PlaylistColumnReorderDropIndicator(playlistListView);
             columnReorderDropIndicator.Attach();
+            dragReorderStatusIndicator = new PlaylistDragReorderStatusIndicator(playlistListView);
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
             playlistListView.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnPlaylistListViewColumnThumbDragDelta), handledEventsToo: true);
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
             IsVisibleChanged += OnPlaylistViewIsVisibleChanged;
+            DataContextChanged += OnPlaylistViewDataContextChanged;
             lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
         }
 
@@ -80,13 +86,20 @@ namespace Playlist
             InitializeComponent();
             columnReorderDropIndicator = new PlaylistColumnReorderDropIndicator(playlistListView);
             columnReorderDropIndicator.Attach();
+            dragReorderStatusIndicator = new PlaylistDragReorderStatusIndicator(playlistListView);
             playlistListView.SizeChanged += OnPlaylistListViewSizeChanged;
             playlistListView.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(OnPlaylistListViewColumnThumbDragDelta), handledEventsToo: true);
             playlistListView.AddHandler(Thumb.DragCompletedEvent, new DragCompletedEventHandler(OnPlaylistListViewColumnThumbDragCompleted), handledEventsToo: true);
             Loaded += OnPlaylistViewLoadedApplyHowLongToBeatColumn;
             Unloaded += OnPlaylistViewUnloaded;
             IsVisibleChanged += OnPlaylistViewIsVisibleChanged;
+            DataContextChanged += OnPlaylistViewDataContextChanged;
             lastPlayedRefreshTimer = CreateLastPlayedRefreshTimer();
+        }
+
+        private void OnPlaylistViewDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            SubscribeDragReorderStatusPopup();
         }
 
         private void OnPlaylistViewIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -819,6 +832,128 @@ namespace Playlist
             UpdateLastPlayedTimerState();
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
             SubscribeRowHighlightHooks();
+            SubscribeDragReorderStatusPopup();
+        }
+
+        private void SubscribeDragReorderStatusPopup()
+        {
+            if (dragReorderStatusViewModel != null)
+            {
+                dragReorderStatusViewModel.PropertyChanged -= OnDragReorderStatusViewModelPropertyChanged;
+                dragReorderStatusViewModel = null;
+            }
+
+            dragReorderStatusViewModel = DataContext as INotifyPropertyChanged;
+            if (dragReorderStatusViewModel != null)
+            {
+                dragReorderStatusViewModel.PropertyChanged += OnDragReorderStatusViewModelPropertyChanged;
+            }
+
+            EnsureDragReorderGiveFeedbackHook();
+            UpdateDragReorderStatusIndicator();
+            UpdateGridViewAllowsColumnReorder();
+        }
+
+        private void EnsureDragReorderGiveFeedbackHook()
+        {
+            if (playlistListView == null)
+            {
+                return;
+            }
+
+            if (!dragReorderGiveFeedbackHooked)
+            {
+                playlistListView.GiveFeedback += OnPlaylistListViewGiveFeedback;
+                dragReorderGiveFeedbackHooked = true;
+            }
+
+            if (!dragReorderQueryContinueDragHooked)
+            {
+                playlistListView.QueryContinueDrag += OnPlaylistListViewQueryContinueDrag;
+                dragReorderQueryContinueDragHooked = true;
+            }
+        }
+
+        private void OnPlaylistListViewQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            if (!dragReorderStatusIndicator.IsVisible)
+            {
+                return;
+            }
+
+            UpdateDragReorderStatusIndicatorPosition();
+        }
+
+        private void OnDragReorderStatusViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(PlaylistViewModel.DragReorderStatusText))
+            {
+                UpdateDragReorderStatusIndicator();
+            }
+            else if (e.PropertyName == nameof(PlaylistViewModel.IsPlaylistDragReorderActive))
+            {
+                UpdateGridViewAllowsColumnReorder();
+            }
+        }
+
+        private void OnPlaylistListViewGiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            if (!dragReorderStatusIndicator.IsVisible)
+            {
+                return;
+            }
+
+            UpdateDragReorderStatusIndicatorPosition();
+            e.Handled = false;
+        }
+
+        private void PlaylistListView_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (!dragReorderStatusIndicator.IsVisible)
+            {
+                return;
+            }
+
+            UpdateDragReorderStatusIndicatorPosition();
+        }
+
+        private Point GetDragReorderStatusMousePosition()
+        {
+            return PlaylistCursorPosition.GetPositionRelativeTo(playlistListView);
+        }
+
+        private void UpdateDragReorderStatusIndicator()
+        {
+            if (!(DataContext is PlaylistViewModel viewModel)
+                || string.IsNullOrWhiteSpace(viewModel.DragReorderStatusText))
+            {
+                dragReorderStatusIndicator.Hide();
+                return;
+            }
+
+            dragReorderStatusIndicator.Show(viewModel.DragReorderStatusText, GetDragReorderStatusMousePosition());
+        }
+
+        private void UpdateDragReorderStatusIndicatorPosition(Point? positionInListView = null)
+        {
+            if (!dragReorderStatusIndicator.IsVisible)
+            {
+                return;
+            }
+
+            Point position = positionInListView ?? GetDragReorderStatusMousePosition();
+            dragReorderStatusIndicator.UpdatePosition(position);
+        }
+
+        private void UpdateGridViewAllowsColumnReorder()
+        {
+            if (!(playlistListView.View is GridView gridView))
+            {
+                return;
+            }
+
+            PlaylistViewModel viewModel = DataContext as PlaylistViewModel;
+            gridView.AllowsColumnReorder = viewModel == null || !viewModel.IsPlaylistDragReorderActive;
         }
 
         private void RequestHeaderBodyOffsetSync()
@@ -928,6 +1063,21 @@ namespace Playlist
             UnsubscribeRowHighlightHooks();
             UnsubscribeGridColumnCollectionChanged();
             columnReorderDropIndicator?.Detach();
+            dragReorderStatusIndicator?.Hide();
+            if (playlistListView != null)
+            {
+                if (dragReorderGiveFeedbackHooked)
+                {
+                    playlistListView.GiveFeedback -= OnPlaylistListViewGiveFeedback;
+                    dragReorderGiveFeedbackHooked = false;
+                }
+
+                if (dragReorderQueryContinueDragHooked)
+                {
+                    playlistListView.QueryContinueDrag -= OnPlaylistListViewQueryContinueDrag;
+                    dragReorderQueryContinueDragHooked = false;
+                }
+            }
             headerBodyOffsetLocked = false;
             syncedHeaderBodyOffsetPixels = int.MinValue;
             rowHighlightRefreshPending = false;
@@ -1312,11 +1462,11 @@ namespace Playlist
             }
 
             ContextMenu menu = new ContextMenu();
-            menu.Items.Add(BuildColumnToggleItem(RankColumnKey, ResourceProvider.GetString("LOCPlaylist_Column_Rank"), settings.ShowRankColumn, true, null));
-            menu.Items.Add(BuildColumnToggleItem(PlaytimeColumnKey, ResourceProvider.GetString("LOCTimePlayed"), settings.ShowPlaytimeColumn, true, null));
-            menu.Items.Add(BuildColumnToggleItem(CompletionStatusColumnKey, ResourceProvider.GetString("LOCCompletionStatus"), settings.ShowCompletionStatusColumn, true, null));
-            menu.Items.Add(BuildColumnToggleItem(LastPlayedColumnKey, ResourceProvider.GetString("LOCPlaylist_LastPlayedColumn"), settings.ShowLastPlayedColumn, true, null));
-            menu.Items.Add(BuildColumnToggleItem(LastActivityColumnKey, ResourceProvider.GetString("LOCPlaylist_LastActivityColumn"), settings.ShowLastActivityColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(RankColumnKey, PlaylistLocalization.GetString("LOCPlaylist_Column_Rank"), settings.ShowRankColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(PlaytimeColumnKey, PlaylistLocalization.GetString("LOCTimePlayed"), settings.ShowPlaytimeColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(CompletionStatusColumnKey, PlaylistLocalization.GetString("LOCCompletionStatus"), settings.ShowCompletionStatusColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(LastPlayedColumnKey, PlaylistLocalization.GetString("LOCPlaylist_LastPlayedColumn"), settings.ShowLastPlayedColumn, true, null));
+            menu.Items.Add(BuildColumnToggleItem(LastActivityColumnKey, PlaylistLocalization.GetString("LOCPlaylist_LastActivityColumn"), settings.ShowLastActivityColumn, true, null));
 
             menu.Items.Add(BuildHowLongToBeatColumnMenuItem(settings));
 
@@ -1355,7 +1505,7 @@ namespace Playlist
                 return BuildHowLongToBeatDisabledAppearanceMenuItem(
                     header,
                     isChecked: false,
-                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbOpenAddonsToInstall"),
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HLTB_OpenAddonsToInstall"),
                     onClick: () => HowLongToBeatAddonNavigation.OpenBrowseAddonPageFromPlaylistPrompt(Playlist.StaticPlayniteApi));
             }
 
@@ -1364,7 +1514,7 @@ namespace Playlist
                 return BuildHowLongToBeatDisabledAppearanceMenuItem(
                     header,
                     isChecked: false,
-                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbOpenAddonsToEnable"),
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HLTB_OpenAddonsToEnable"),
                     onClick: () => HowLongToBeatAddonNavigation.OpenInstalledAddonPageFromPlaylistPrompt(Playlist.StaticPlayniteApi));
             }
 
@@ -1373,7 +1523,7 @@ namespace Playlist
                 return BuildHowLongToBeatDisabledAppearanceMenuItem(
                     header,
                     isChecked: false,
-                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HltbOpenSettingsToEnable"),
+                    disabledToolTip: ResourceProvider.GetString("LOCPlaylist_HLTB_OpenSettingsToEnable"),
                     onClick: () => OpenPlaylistPluginSettings(fromHltbColumnMenu: true));
             }
 

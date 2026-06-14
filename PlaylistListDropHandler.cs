@@ -294,7 +294,8 @@ namespace Playlist
 
         public void DragLeave(IDropInfo dropInfo)
         {
-            viewModel.ClearDragReorderStatusText();
+            // Do not clear blocked-drag feedback here. Gong can raise DragLeave when moving between
+            // items while the pointer is still over the list; the next DragOver will refresh text.
         }
 #endif
     }
