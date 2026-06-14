@@ -548,9 +548,20 @@ namespace Playlist
 
         private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            PlaylistSettings settings = Playlist.StaticSettings as PlaylistSettings;
+            bool hasPersistedLayouts = settings?.ColumnLayouts != null && settings.ColumnLayouts.Count > 0;
+            if (hasPersistedLayouts && TryGetGridView(out GridView gridView))
+            {
+                RestorePersistedColumnWidthsFromSettings(settings, gridView);
+                EnforceMinimumIconColumnWidth();
+                EnforceMinimumHowLongToBeatColumnWidth();
+            }
+
             TryApplyDynamicColumnWidthsIfNeeded(
                 fillWhenNoPersistedLayouts: false,
-                preferredWidths: GetPreferredWidthsFromColumns());
+                preferredWidths: hasPersistedLayouts
+                    ? GetPreferredWidthsFromSettings(settings)
+                    : GetPreferredWidthsFromColumns());
             RefreshSortHeaderVisualState();
         }
 
@@ -564,7 +575,7 @@ namespace Playlist
                 preferredWidths: GetPreferredWidthsFromColumns());
             RefreshSortHeaderVisualState();
             RequestHeaderBodyOffsetSync();
-            PersistLayoutState();
+            PersistLayoutState(persistColumnWidths: true);
         }
 
         private void OnPlaylistListViewColumnThumbDragDelta(object sender, DragDeltaEventArgs e)
@@ -1193,19 +1204,38 @@ namespace Playlist
             string columnKey,
             GridView gridView,
             PlaylistSettings settings,
-            IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey)
+            IReadOnlyDictionary<string, PlaylistColumnLayoutState> previousByKey,
+            bool persistColumnWidths)
         {
+            if (columnKey == IconColumnKey)
+            {
+                return PlaylistGridViewLayout.IconColumnWidth;
+            }
+
+            if (!persistColumnWidths)
+            {
+                if (previousByKey.TryGetValue(columnKey, out PlaylistColumnLayoutState previousLayout)
+                    && !double.IsNaN(previousLayout.Width)
+                    && previousLayout.Width > CollapsedColumnWidthThreshold)
+                {
+                    return previousLayout.Width;
+                }
+
+                double defaultWidth = GetDefaultColumnWidth(columnKey);
+                return double.IsNaN(defaultWidth) ? 0 : defaultWidth;
+            }
+
             GridViewColumn column = GetColumnByKey(columnKey);
             if (column != null && gridView.Columns.Contains(column))
             {
                 return GetWidthForLayoutPersistence(settings, columnKey, column.Width);
             }
 
-            if (previousByKey.TryGetValue(columnKey, out PlaylistColumnLayoutState previousLayout)
-                && !double.IsNaN(previousLayout.Width)
-                && previousLayout.Width > CollapsedColumnWidthThreshold)
+            if (previousByKey.TryGetValue(columnKey, out PlaylistColumnLayoutState hiddenLayout)
+                && !double.IsNaN(hiddenLayout.Width)
+                && hiddenLayout.Width > CollapsedColumnWidthThreshold)
             {
-                return previousLayout.Width;
+                return hiddenLayout.Width;
             }
 
             if (column != null
@@ -1219,7 +1249,10 @@ namespace Playlist
             return double.IsNaN(restoredWidth) ? 0 : restoredWidth;
         }
 
-        private List<PlaylistColumnLayoutState> BuildColumnLayoutsForPersistence(GridView gridView, PlaylistSettings settings)
+        private List<PlaylistColumnLayoutState> BuildColumnLayoutsForPersistence(
+            GridView gridView,
+            PlaylistSettings settings,
+            bool persistColumnWidths)
         {
             List<string> visibleKeysInOrder = gridView.Columns
                 .Select(GetColumnKey)
@@ -1253,7 +1286,7 @@ namespace Playlist
                 {
                     Key = key,
                     DisplayIndex = index,
-                    Width = GetPersistedWidthForColumnKey(key, gridView, settings, previousByKey),
+                    Width = GetPersistedWidthForColumnKey(key, gridView, settings, previousByKey, persistColumnWidths),
                 })
                 .ToList();
         }
@@ -1852,7 +1885,7 @@ namespace Playlist
             }
         }
 
-        private void PersistLayoutState()
+        private void PersistLayoutState(bool persistColumnWidths = false)
         {
             if (isRestoringLayoutState)
             {
@@ -1871,7 +1904,10 @@ namespace Playlist
                 return;
             }
 
-            List<PlaylistColumnLayoutState> layouts = BuildColumnLayoutsForPersistence(gridView, settings);
+            List<PlaylistColumnLayoutState> layouts = BuildColumnLayoutsForPersistence(
+                gridView,
+                settings,
+                persistColumnWidths);
 
             settings.SaveRuntimeState(
                 model.ActiveViewSortColumn,
