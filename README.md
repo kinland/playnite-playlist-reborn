@@ -47,7 +47,7 @@ Supported scoped keywords:
 
 ## HLTB integration note
 
-When the HowLongToBeat plugin is installed, Playlist reads HLTB data from the plugin's on-disk per-game cache files in `ExtensionsData/{hltb-plugin-id}/HowLongToBeat`.
+When the HowLongToBeat plugin is installed, Playlist reads HLTB data from the plugin's on-disk per-game cache files in `ExtensionsData/{hltb-plugin-id}/HowLongToBeat`. Cache reads use shared read access so Playlist does not lock files while the HLTB plugin updates them; malformed or partially written JSON is ignored and treated as missing data.
 
 Because those cache files do not include the `HltbUserData` payload used by HLTB's own user-time overlay logic, the HLTB setting `ProgressBarShowTimeUser` is currently not supported in Playlist.
 

@@ -85,7 +85,7 @@ namespace Playlist
 
             try
             {
-                using (FileStream fs = File.OpenRead(filePath))
+                using (FileStream fs = OpenCacheFileForSharedRead(filePath))
                 {
                     var serializer = new DataContractJsonSerializer(typeof(HltbGameFile));
                     var data = serializer.ReadObject(fs) as HltbGameFile;
@@ -184,7 +184,7 @@ namespace Playlist
 
             try
             {
-                string json = File.ReadAllText(settingsPath, Encoding.UTF8);
+                string json = ReadCacheTextAllowingWriter(settingsPath);
                 HltbRenderSettings merged = HltbRenderSettings.CreateDefaults();
                 try
                 {
@@ -224,6 +224,20 @@ namespace Playlist
                 cachedSettingsPath = settingsPath;
                 cachedSettingsFileUtcTicks = ticks;
                 return cachedSettings;
+            }
+        }
+
+        private static FileStream OpenCacheFileForSharedRead(string filePath)
+        {
+            return new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        }
+
+        private static string ReadCacheTextAllowingWriter(string filePath)
+        {
+            using (FileStream fs = OpenCacheFileForSharedRead(filePath))
+            using (var reader = new StreamReader(fs, Encoding.UTF8))
+            {
+                return reader.ReadToEnd();
             }
         }
 
