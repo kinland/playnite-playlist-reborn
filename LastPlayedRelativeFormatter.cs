@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace Playlist
 {
@@ -122,7 +123,7 @@ namespace Playlist
 
             if (months < 24)
             {
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Year, YearBucketOrder, "1 year ago");
+                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Year, YearBucketOrder, $"{FormatAlignedCount(1)} year ago");
             }
 
             return new LastPlayedDisplayValue(LastPlayedBucketUnit.LongAgo, LongAgoBucketOrder, "Long ago");
@@ -133,9 +134,20 @@ namespace Playlist
         /// </summary>
         private static string FormatUnit(int value, string unit)
         {
+            string count = FormatAlignedCount(value);
             return value == 1
-                ? $"1 {unit} ago"
-                : $"{value} {unit}s ago";
+                ? $"{count} {unit} ago"
+                : $"{count} {unit}s ago";
+        }
+
+        /// <summary>
+        /// Prefixes single-digit counts with one space so labels align in the column.
+        /// </summary>
+        internal static string FormatAlignedCount(int value)
+        {
+            return value < 10
+                ? " " + value.ToString(CultureInfo.InvariantCulture)
+                : value.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

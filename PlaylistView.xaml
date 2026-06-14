@@ -12,7 +12,7 @@
         <local:GamePlaylistRankConverter x:Key="gamePlaylistRankConverter" />
         <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
         <local:LastActivityValueConverter x:Key="lastActivityValueConverter" />
-        <local:PlaytimeValueConverter x:Key="playtimeValueConverter" />
+        <local:PlaytimeValueConverter x:Key="playtimeConverter" />
 
         <Style x:Key="playlistTextColumnCellOuterStyle" TargetType="Grid">
             <Setter Property="Margin" Value="{x:Static local:PlaylistGridViewLayout.HeaderChromeMargin}" />
@@ -343,6 +343,7 @@
 
         <ListView
             x:Name="playlistListView"
+            Grid.IsSharedSizeScope="True"
             ItemsSource="{Binding PlaylistGamesView}"
             ItemContainerStyle="{StaticResource playlistListViewItemStyle}"
             DockPanel.Dock="Top"
@@ -949,9 +950,46 @@
                             <DataTemplate>
                                 <Grid Style="{StaticResource playlistTextColumnCellOuterStyle}">
                                     <Grid Style="{StaticResource playlistTextColumnCellInnerStyle}">
-                                        <TextBlock
-                                            Style="{StaticResource playlistCellTextBlockStyle}"
-                                            Text="{Binding Playtime, Converter={StaticResource playtimeValueConverter}}" />
+                                        <Grid
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}"
+                                            Visibility="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=Visible}">
+                                            <Grid
+                                                Visibility="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=SubHour}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="{x:Static local:PlaylistGridViewLayout.PlaytimeSubHourMinuteDigitsSharedSizeGroup}" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=SubHourDigit}" />
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=SubHourSuffix}" />
+                                            </Grid>
+                                            <Grid Visibility="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=HourPlus}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="{x:Static local:PlaylistGridViewLayout.PlaytimeHourUnitSharedSizeGroup}" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition SharedSizeGroup="{x:Static local:PlaylistGridViewLayout.PlaytimeMinuteUnitSharedSizeGroup}" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=Hours}" />
+                                                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text=" " />
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Playtime, Converter={StaticResource playtimeConverter}, ConverterParameter=Minutes}" />
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>

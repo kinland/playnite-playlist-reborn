@@ -50,6 +50,15 @@ namespace Playlist
         /// <summary>Icon column header + cell: vertical inset only (no horizontal grid margin).</summary>
         public static readonly Thickness IconColumnChromeMargin = new Thickness(0, HeaderChromeInset, 0, HeaderChromeInset);
 
+        /// <summary>Shared-size group for sub-hour minute digits in <c>x minutes</c> rows.</summary>
+        public const string PlaytimeSubHourMinuteDigitsSharedSizeGroup = "PlaylistPlaytimeSubHourMinuteDigits";
+
+        /// <summary>Shared-size group for playtime hour units (e.g. <c>46h</c>) across Time Played rows.</summary>
+        public const string PlaytimeHourUnitSharedSizeGroup = "PlaylistPlaytimeHourUnit";
+
+        /// <summary>Shared-size group for playtime minute units (e.g. <c>44m</c>) across Time Played rows.</summary>
+        public const string PlaytimeMinuteUnitSharedSizeGroup = "PlaylistPlaytimeMinuteUnit";
+
         /// <summary>HLTB colored segment strip height (matches HowLongToBeatCachedProgressBar segmentStrip).</summary>
         public const double HltbSegmentStripHeight = 22;
 

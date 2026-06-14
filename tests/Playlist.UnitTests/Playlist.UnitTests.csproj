@@ -22,6 +22,7 @@
   <ItemGroup>
     <Compile Include="..\..\LastPlayedRelativeFormatter.cs" Link="Production\LastPlayedRelativeFormatter.cs" />
     <Compile Include="..\..\LastPlayedSortBucketComparer.cs" Link="Production\LastPlayedSortBucketComparer.cs" />
+    <Compile Include="..\..\PlaytimeValueConverter.cs" Link="Production\PlaytimeValueConverter.cs" />
     <Compile Include="..\..\PlaytimeSortComparer.cs" Link="Production\PlaytimeSortComparer.cs" />
     <Compile Include="..\..\PlaylistColumnReorderDropIndicator.cs" Link="Production\PlaylistColumnReorderDropIndicator.cs" />
     <Compile Include="..\..\PlaylistSortHeaderLayout.cs" Link="Production\PlaylistSortHeaderLayout.cs" />
