@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,6 +11,8 @@ namespace Playlist
     {
         private static ResourceDictionary loadedDictionary;
         private static string activeLocaleId;
+        private static readonly ConditionalWeakTable<FrameworkElement, ResourceDictionary> MergedOverrides =
+            new ConditionalWeakTable<FrameworkElement, ResourceDictionary>();
 
         internal static string ActiveLocaleId => activeLocaleId;
 
@@ -60,7 +63,7 @@ namespace Playlist
 
         internal static void MergeInto(FrameworkElement element)
         {
-            if (element == null || loadedDictionary == null)
+            if (element == null)
             {
                 return;
             }
@@ -70,15 +73,44 @@ namespace Playlist
                 element.Resources = new ResourceDictionary();
             }
 
-            if (!element.Resources.MergedDictionaries.Contains(loadedDictionary))
+            if (MergedOverrides.TryGetValue(element, out ResourceDictionary previous))
             {
-                element.Resources.MergedDictionaries.Add(loadedDictionary);
+                element.Resources.MergedDictionaries.Remove(previous);
+                MergedOverrides.Remove(element);
             }
+
+            if (loadedDictionary == null)
+            {
+                return;
+            }
+
+            element.Resources.MergedDictionaries.Insert(0, loadedDictionary);
+            MergedOverrides.Add(element, loadedDictionary);
         }
 
         internal static void ApplyFromSettings(PlaylistSettings settings)
         {
             SetActiveLocale(settings?.LanguageOverrideLocaleId);
+        }
+
+        /// <summary>Test seam: load a locale dictionary from an embedded resource stream.</summary>
+        internal static void SetActiveLocaleFromStream(string localeId, System.IO.Stream localeXamlStream)
+        {
+            localeId = NormalizeLocaleId(localeId);
+            if (string.IsNullOrEmpty(localeId))
+            {
+                activeLocaleId = null;
+                loadedDictionary = null;
+                return;
+            }
+
+            if (localeXamlStream == null)
+            {
+                throw new ArgumentNullException(nameof(localeXamlStream));
+            }
+
+            loadedDictionary = (ResourceDictionary)System.Windows.Markup.XamlReader.Load(localeXamlStream);
+            activeLocaleId = localeId;
         }
 
         private static string NormalizeLocaleId(string localeId)
