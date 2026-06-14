@@ -14,6 +14,7 @@
         <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
         <local:LastActivityValueConverter x:Key="lastActivityValueConverter" />
         <local:PlaytimeValueConverter x:Key="playtimeConverter" />
+        <local:CompletionStatusDisplayConverter x:Key="completionStatusDisplayConverter" />
 
         <Style x:Key="playlistTextColumnCellOuterStyle" TargetType="Grid">
             <Setter Property="Margin" Value="{x:Static local:PlaylistGridViewLayout.HeaderChromeMargin}" />
@@ -120,7 +121,7 @@
                         </MenuItem>
                         <Separator Style="{StaticResource visibleIfOneGameSelected_Separator}" />
                         <MenuItem
-                            Header="{DynamicResource LOCPlaylist_ShowInLibrary}"
+                            Header="{DynamicResource LOCPlaylist_Menu_ShowInLibrary}"
                             Icon="{DynamicResource SidebarLibraryIcon}"
                             Command="{Binding DataContext.ShowGameInLibraryCommand, Source={x:Reference Name=playlistListView}}"
                             CommandParameter="{Binding}"
@@ -129,7 +130,7 @@
                         <MenuItem Header="{DynamicResource LOCSetCompletionStatus}" ItemsSource="{Binding DataContext.CompletionStatusCommands, Source={x:Reference Name=playlistListView}}">
                             <MenuItem.ItemContainerStyle>
                                 <Style TargetType="MenuItem">
-                                    <Setter Property="Header" Value="{Binding Key.Name}"/>
+                                    <Setter Property="Header" Value="{Binding Key.Name, Converter={StaticResource completionStatusDisplayConverter}}"/>
                                     <Setter Property="Command" Value="{Binding Value}"/>
                                     <Setter Property="CommandParameter" Value="{Binding SelectedItems, Source={x:Reference Name=playlistListView}}" />
                                 </Style>
@@ -137,16 +138,16 @@
                         </MenuItem>
                         <Separator />
                         <MenuItem
-                            Header="{DynamicResource LOCPlaylist_MoveToTop}"
+                            Header="{DynamicResource LOCPlaylist_Menu_MoveToTop}"
                             Command="{Binding DataContext.MoveGamesToTopCommand, Source={x:Reference Name=playlistListView}}"
                             CommandParameter="{Binding SelectedItems, Source={x:Reference Name=playlistListView}}" />
                         <MenuItem
-                            Header="{DynamicResource LOCPlaylist_MoveToBottom}"
+                            Header="{DynamicResource LOCPlaylist_Menu_MoveToBottom}"
                             Command="{Binding DataContext.MoveGamesToBottomCommand, Source={x:Reference Name=playlistListView}}"
                             CommandParameter="{Binding SelectedItems, Source={x:Reference Name=playlistListView}}" />
                         <Separator />
                         <MenuItem
-                            Header="{DynamicResource LOCPlaylist_RemoveFromPlaylist}"
+                            Header="{DynamicResource LOCPlaylist_Menu_RemoveFromPlaylist}"
                             Icon="{DynamicResource RemoveGameIcon}"
                             InputGestureText="{Binding DataContext.RemoveGamesCommand.GestureText, Source={x:Reference Name=playlistListView}}"
                             Command="{Binding DataContext.RemoveGamesCommand, Source={x:Reference Name=playlistListView}}"
@@ -282,7 +283,8 @@
         </DataTemplate>
 
     </UserControl.Resources>
- 
+
+    <Grid>
     <DockPanel>
         <Grid Margin="10,10,10,0" DockPanel.Dock="Top">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -356,7 +358,7 @@
             VirtualizingPanel.IsVirtualizing="True"
             VirtualizingPanel.VirtualizationMode="Recycling"
             SelectedIndex="0"
-            ToolTip="{Binding DragReorderStatusText}"
+            PreviewMouseMove="PlaylistListView_PreviewMouseMove"
             dd:DragDrop.IsDragSource="{Binding IsDragInteractionEnabled}"
             dd:DragDrop.IsDropTarget="{Binding IsDragInteractionEnabled}"
             dd:DragDrop.DragHandler="{Binding PlaylistDragHandler}"
@@ -595,7 +597,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}" Text="{DynamicResource LOCNameLabel}" VerticalAlignment="Center">
+                        <TextBlock Grid.Column="0" Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}" Text="{Binding DataContext.NameColumnHeaderText, Source={x:Reference playlistListView}}" VerticalAlignment="Center">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="Normal" />
@@ -634,7 +636,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}" Text="{DynamicResource LOCTimePlayed}" VerticalAlignment="Center">
+                        <TextBlock Grid.Column="0" Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}" Text="{Binding DataContext.PlaytimeColumnHeaderText, Source={x:Reference playlistListView}}" VerticalAlignment="Center">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="Normal" />
@@ -673,7 +675,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}" Text="{DynamicResource LOCCompletionStatus}" VerticalAlignment="Center">
+                        <TextBlock Grid.Column="0" Margin="{x:Static local:PlaylistGridViewLayout.ColumnTextLabelMargin}" Text="{Binding DataContext.CompletionStatusColumnHeaderText, Source={x:Reference playlistListView}}" VerticalAlignment="Center">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="FontWeight" Value="Normal" />
@@ -1023,7 +1025,7 @@
                             <DataTemplate>
                                 <Grid Style="{StaticResource playlistTextColumnCellOuterStyle}">
                                     <Grid Style="{StaticResource playlistTextColumnCellInnerStyle}">
-                                        <TextBlock Style="{StaticResource playlistCellTextBlockStyle}" Text="{Binding CompletionStatus}" />
+                                        <TextBlock Style="{StaticResource playlistCellTextBlockStyle}" Text="{Binding CompletionStatus, Converter={StaticResource completionStatusDisplayConverter}}" />
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
@@ -1074,4 +1076,5 @@
         </ListView>
         <TextBlock Style="{StaticResource noGamesText}" TextAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource LOCPlaylist_EmptyPlaylistMessage}"/>
     </DockPanel>
+    </Grid>
 </UserControl>

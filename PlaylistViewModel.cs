@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace Playlist
 {
-    public class PlaylistViewModel : ObservableObject, IPlaylistSearchSyncTarget
+    public class PlaylistViewModel : ObservableObject, IPlaylistSearchSyncTarget, IPlaylistDragReorderState
     {
         private readonly IPlayniteAPI playniteApi;
 
@@ -274,6 +274,12 @@ namespace Playlist
         public ListSortDirection ActiveViewSortDirection => activeViewSortDirection;
         public string HowLongToBeatHeaderText => HltbColumnHeaderLabels.GetColumnBaseText();
 
+        public string NameColumnHeaderText => PlaylistLocalization.GetString("LOCNameLabel");
+
+        public string PlaytimeColumnHeaderText => PlaylistLocalization.GetString("LOCTimePlayed");
+
+        public string CompletionStatusColumnHeaderText => PlaylistLocalization.GetString("LOCCompletionStatus");
+
         public string HowLongToBeatHeaderActiveSortSuffixText =>
             activeViewSortColumn == "HowLongToBeat"
                 ? HltbColumnHeaderLabels.FormatActiveSortSuffix(GetHltbPreferredTypeLabel())
@@ -464,6 +470,14 @@ namespace Playlist
         internal void RefreshHowLongToBeatHeaderText()
         {
             NotifyHowLongToBeatHeaderProperties();
+            RefreshLocalizedColumnHeaders();
+        }
+
+        internal void RefreshLocalizedColumnHeaders()
+        {
+            OnPropertyChanged(nameof(NameColumnHeaderText));
+            OnPropertyChanged(nameof(PlaytimeColumnHeaderText));
+            OnPropertyChanged(nameof(CompletionStatusColumnHeaderText));
         }
 
         private void NotifyHowLongToBeatHeaderProperties()
