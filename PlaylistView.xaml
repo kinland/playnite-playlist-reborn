@@ -9,6 +9,7 @@
              d:DesignHeight="400" d:DesignWidth="600">
 
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
         <local:GamePlaylistRankConverter x:Key="gamePlaylistRankConverter" />
         <local:LastPlayedValueConverter x:Key="lastPlayedValueConverter" />
         <local:LastActivityValueConverter x:Key="lastActivityValueConverter" />
@@ -294,10 +295,14 @@
                 <TextBlock Text="{DynamicResource LOCPlaylist_Playlist}" VerticalAlignment="Center"
                     Style="{StaticResource BaseTextBlockStyle}"
                     Margin="10,0,0,0" FontSize="18"/>
-                <Grid Width="360" Margin="28,0,0,0" VerticalAlignment="Center">
+                <Grid Width="360" Margin="28,0,0,0" VerticalAlignment="Center"
+                      WindowChrome.IsHitTestVisibleInChrome="True">
                     <TextBox
                         x:Name="playlistSearchTextBox"
-                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        MinHeight="24"
+                        VerticalContentAlignment="Center"
                         Padding="28,4,28,4"
                         BorderThickness="1"
                         PreviewKeyDown="OnPlaylistSearchTextBoxPreviewKeyDown"
@@ -313,11 +318,12 @@
                         Foreground="{Binding Foreground, ElementName=playlistSearchTextBox}" />
                     <ContentControl
                         x:Name="playlistSearchClearButton"
-                        Margin="0,2,8,0"
+                        Margin="0,0,8,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         FontSize="16"
                         Cursor="Hand"
+                        Visibility="{Binding HasSearchQuery, Converter={StaticResource BooleanToVisibility}}"
                         MouseLeftButtonUp="OnPlaylistSearchClearClick"
                         Content=""
                         ContentTemplate="{DynamicResource ClearTextIconTemplate}"
@@ -325,11 +331,7 @@
                         ToolTip="{DynamicResource LOCPlaylist_SearchClearTooltip}">
                         <ContentControl.Style>
                             <Style TargetType="ContentControl">
-                                <Setter Property="Visibility" Value="Visible" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SearchQuery, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Opacity" Value="0.8" />
                                     </Trigger>

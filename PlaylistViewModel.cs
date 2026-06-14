@@ -118,8 +118,11 @@ namespace Playlist
                 featureClauses = new ScopedSearchClauseGroup(querySpec.GetClauses(ScopedFilterKind.Feature).ToList());
                 PlaylistGamesView.Refresh();
                 OnPropertyChanged(nameof(SearchQuery));
+                OnPropertyChanged(nameof(HasSearchQuery));
             }
         }
+
+        public bool HasSearchQuery => searchQuery.Length > 0;
 
         public RelayCommand<object> NavigateBackCommand { get; }
 
