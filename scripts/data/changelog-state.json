@@ -1,0 +1,34 @@
+{
+  "lastVersionBumpCommit": "67df8875d9f56963c2e691fa1c1c2a02da139c99",
+  "recordedSyncOperations": {},
+  "repositoryUrl": "https://github.com/kinland/playnite-playlist-reborn",
+  "packageFilePattern": "Playlist-v{version}.pext",
+  "maintainerChange": {
+    "afterVersion": "1.4.2",
+    "firstMaintainerRelease": "1.5.0",
+    "previousMaintainer": "bburky",
+    "newMaintainer": "Kinland",
+    "markdown": "**Maintainer change:** After **v1.4.2**, primary maintenance transferred from [@bburky](https://github.com/bburky) to [@Kinland](https://github.com/kinland). **v1.5.0** is the first release with Kinland as primary maintainer."
+  },
+  "commitSubjectSkipPatterns": [
+    "^fixup!",
+    "^Bump version to v",
+    "^Merge ",
+    "^Add unit tests",
+    "^Extract .+ for unit test",
+    "^Document ",
+    "^Update TESTING\\.md",
+    "^Auto-discover ",
+    "^Run UI tests on",
+    "^Add test projects",
+    "^Convert Playlist\\.csproj",
+    "^Pack release artifacts",
+    "^Align PlayniteSDK"
+  ],
+  "syncOperationMessages": {
+    "sync-playlist-owned-locales": "Synced playlist-owned UI strings across Playnite locales",
+    "sync-hltb-time-type-locales": "Synced HowLongToBeat time-type labels across Playnite locales",
+    "sync-supplemental-locales": "Synced supplemental Playlist locale files (indigenous and minority languages)",
+    "sort-localization-files": "Sorted localization xaml files by key"
+  }
+}

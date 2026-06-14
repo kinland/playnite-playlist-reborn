@@ -227,3 +227,6 @@ Write-Host "Removed $removedPlaylistKeyCount HLTB-covered Playlist key(s) from l
 Write-Host "Pruned $prunedOverrideCount redundant gap override(s); retained $retainedOverrideCount."
 Write-Host "Files re-sorted: $sortedCount."
 Write-Host "HLTB time-type locale sync complete."
+
+. (Join-Path $PSScriptRoot "Changelog.ps1")
+Register-SyncChangelogOperation -OperationId "sync-hltb-time-type-locales" -ProjectDir $ProjectDir

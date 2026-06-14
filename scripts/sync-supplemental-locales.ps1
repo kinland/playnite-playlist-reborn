@@ -1,7 +1,8 @@
 #!/usr/bin/env pwsh
 
 # Requires PowerShell 7+ (pwsh) for reliable UTF-8 JSON/locale handling.
-# Generates supplemental Localization/*.xaml files from en_US + scripts/data/supplemental-locale-translations*.json.
+# Localization/*.xaml is the source of truth for supplemental locales.
+# Adds any keys present in en_US but missing from a supplemental file (English fallback), then sorts keys.
 
 param(
     [string]$ProjectDir = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -12,106 +13,66 @@ $utf8 = New-Object System.Text.UTF8Encoding($false)
 . (Join-Path $PSScriptRoot "LocalizationXaml.ps1")
 
 $playlistLocalizationDir = Join-Path $ProjectDir "Localization"
-$translationsDir = Join-Path $PSScriptRoot "data"
 $enUsPath = Join-Path $playlistLocalizationDir "en_US.xaml"
 $markerPath = Join-Path $playlistLocalizationDir ".supplemental-locales"
-
-function Import-SupplementalTranslationsFile {
-    param(
-        [string]$Path
-    )
-
-    if (-not (Test-Path -LiteralPath $Path)) {
-        throw "Supplemental translations file not found: $Path"
-    }
-
-    $raw = Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json
-    $byLocale = [ordered]@{}
-    foreach ($localeProperty in $raw.PSObject.Properties) {
-        $keys = [ordered]@{}
-        foreach ($keyProperty in $localeProperty.Value.PSObject.Properties) {
-            $keys[$keyProperty.Name] = [string]$keyProperty.Value
-        }
-        $byLocale[$localeProperty.Name] = $keys
-    }
-
-    return $byLocale
-}
-
-function Import-AllSupplementalTranslations {
-    $merged = [ordered]@{}
-    $files = Get-ChildItem -LiteralPath $translationsDir -Filter "supplemental-locale-translations*.json" |
-        Sort-Object Name
-
-    foreach ($file in $files) {
-        $fileLocales = Import-SupplementalTranslationsFile -Path $file.FullName
-        foreach ($locale in $fileLocales.Keys) {
-            if ($merged.Contains($locale)) {
-                throw "Duplicate supplemental locale definition: $locale in $($file.Name)"
-            }
-
-            $merged[$locale] = $fileLocales[$locale]
-        }
-    }
-
-    return $merged
-}
 
 if (-not (Test-Path -LiteralPath $enUsPath)) {
     throw "English baseline required at $enUsPath"
 }
 
+if (-not (Test-Path -LiteralPath $markerPath)) {
+    throw "Supplemental locale marker not found: $markerPath"
+}
+
 $englishEntries = Get-LocalizationEntries -Content ([System.IO.File]::ReadAllText($enUsPath, $utf8))
-$translationsByLocale = Import-AllSupplementalTranslations
+$supplementalLocales = @(Get-Content -LiteralPath $markerPath -Encoding UTF8 |
+    ForEach-Object { $_.Trim() } |
+    Where-Object { $_.Length -gt 0 } |
+    Sort-Object -Unique)
 
-$writtenCount = 0
-foreach ($locale in ($translationsByLocale.Keys | Sort-Object)) {
-    $localeTranslations = $translationsByLocale[$locale]
-    $merged = [ordered]@{}
-    foreach ($entry in $englishEntries.Values) {
-        $merged[$entry.Key] = [pscustomobject]@{
-            Key = $entry.Key
-            Attributes = $entry.Attributes
-            Value = $entry.Value
-        }
-    }
+if ($supplementalLocales.Count -eq 0) {
+    throw "Supplemental locale marker is empty: $markerPath"
+}
 
-    foreach ($key in $localeTranslations.Keys) {
-        $value = $localeTranslations[$key]
-        if ($merged.Contains($key)) {
-            $entry = $merged[$key]
-            $merged[$key] = [pscustomobject]@{
-                Key = $key
-                Attributes = $entry.Attributes
-                Value = $value
-            }
-        }
-        else {
-            $merged[$key] = [pscustomobject]@{
-                Key = $key
-                Attributes = ''
-                Value = $value
-            }
-        }
-    }
+$localesTouched = 0
+$keysAdded = 0
+$sortedCount = 0
 
-    foreach ($entry in $englishEntries.Values) {
-        if (-not $localeTranslations.Contains($entry.Key)) {
-            throw "Missing supplemental translation for $locale / $($entry.Key)"
-        }
-    }
-
+foreach ($locale in $supplementalLocales) {
     $localePath = Join-Path $playlistLocalizationDir ($locale + ".xaml")
     if (-not (Test-Path -LiteralPath $localePath)) {
         Copy-Item -LiteralPath $enUsPath -Destination $localePath
+        $localesTouched++
+        Write-Host "Created $locale.xaml from en_US baseline"
     }
 
-    Write-LocalizationFile -FilePath $localePath -Entries $merged -Utf8 $utf8
-    $writtenCount++
-    Write-Host "Wrote $locale.xaml"
+    $localeChanged = $false
+    foreach ($entry in $englishEntries.Values) {
+        $currentValue = Get-LocValue -FilePath $localePath -Key $entry.Key -Utf8 $utf8
+        if ($currentValue) {
+            continue
+        }
+
+        if (Set-LocValue -FilePath $localePath -Key $entry.Key -Value $entry.Value -Utf8 $utf8) {
+            $localeChanged = $true
+            $keysAdded++
+        }
+    }
+
+    if (Sort-LocalizationFileByKey -FilePath $localePath -Utf8 $utf8) {
+        $sortedCount++
+        $localeChanged = $true
+    }
+
+    if ($localeChanged) {
+        $localesTouched++
+    }
+
+    Write-Host "Checked $locale.xaml"
 }
 
-$markerLines = @($translationsByLocale.Keys | Sort-Object)
-[System.IO.File]::WriteAllLines($markerPath, $markerLines, $utf8)
-Write-Host "Updated supplemental marker with $($markerLines.Count) locale(s)."
-Write-Host "Supplemental locale sync complete. Files written: $writtenCount."
+[System.IO.File]::WriteAllLines($markerPath, $supplementalLocales, $utf8)
+Write-Host "Supplemental locale sync complete. Locales touched: $localesTouched; keys added: $keysAdded; files re-sorted: $sortedCount."
+
+. (Join-Path $PSScriptRoot "Changelog.ps1")
+Register-SyncChangelogOperation -OperationId "sync-supplemental-locales" -ProjectDir $ProjectDir

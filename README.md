@@ -170,6 +170,12 @@ Supported scoped keywords:
 
 See [TESTING.md](TESTING.md) for how to run unit and UI tests locally (`dotnet test Playlist.sln`).
 
+Release workflow:
+
+- `pwsh ./scripts/sync-changelog.ps1` — refresh `CHANGELOG.md` unreleased section from `Installer_Manifest.yaml` and recent commits
+- `pwsh ./scripts/bump-version.ps1 -Version x.y.z` — bump `extension.yaml`, `AssemblyInfo.cs`, and prepend a new `Installer_Manifest.yaml` package entry, then regenerate `CHANGELOG.md`
+- Locale sync scripts append idempotent entries to the current manifest changelog when run (see `scripts/data/changelog-state.json`)
+
 ## External libraries, etc.
 
 * Drag and drop is implemented using [GongSolutions.WPF.DragDrop](https://github.com/punker76/gong-wpf-dragdrop)

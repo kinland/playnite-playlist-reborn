@@ -22,3 +22,6 @@ Get-ChildItem -LiteralPath $localizationDir -Filter "*.xaml" |
     }
 
 Write-Host "Localization sort complete. Files reordered: $sortedCount."
+
+. (Join-Path $PSScriptRoot "Changelog.ps1")
+Register-SyncChangelogOperation -OperationId "sort-localization-files" -ProjectDir $ProjectDir

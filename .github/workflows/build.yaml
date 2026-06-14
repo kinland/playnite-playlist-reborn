@@ -59,8 +59,14 @@ jobs:
           }
           Move-Item -Path $src -Destination $dst -Force
 
+      - name: Write release notes from Installer_Manifest
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File scripts/format-release-notes.ps1 -Version $env:VERSION
+
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
           files: bin/Playlist-${{ env.RELEASE_TAG }}.pext
+          body_path: release-notes.md

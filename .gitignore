@@ -371,6 +371,9 @@ FodyWeavers.xsd
 # Local sync script cache (generated from Localization/*.xaml when missing)
 scripts/data/hltb-time-type-gap-overrides.json
 
+# Generated release notes for GitHub Actions (see scripts/format-release-notes.ps1)
+release-notes.md
+
 # VS Code files for those working on multiple tools
 .vscode/*
 !.vscode/settings.json
