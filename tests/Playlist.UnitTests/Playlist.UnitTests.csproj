@@ -25,6 +25,8 @@
     <Compile Include="..\..\PlaytimeSortComparer.cs" Link="Production\PlaytimeSortComparer.cs" />
     <Compile Include="..\..\PlaylistColumnReorderDropIndicator.cs" Link="Production\PlaylistColumnReorderDropIndicator.cs" />
     <Compile Include="..\..\PlaylistSortHeaderLayout.cs" Link="Production\PlaylistSortHeaderLayout.cs" />
+    <Compile Include="..\..\PlaylistThemeColors.cs" Link="Production\PlaylistThemeColors.cs" />
+    <Compile Include="..\..\PlaylistThemeChrome.cs" Link="Production\PlaylistThemeChrome.cs" />
     <Compile Include="..\..\PlaylistReorderPlanner.cs" Link="Production\PlaylistReorderPlanner.cs" />
     <Compile Include="..\..\MainSearchFilterNameResolver.cs" Link="Production\MainSearchFilterNameResolver.cs" />
     <Compile Include="..\..\MainSearchFilterMapper.cs" Link="Production\MainSearchFilterMapper.cs" />

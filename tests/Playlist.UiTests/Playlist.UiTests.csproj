@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <Compile Include="..\..\PlaylistSortHeaderLayout.cs" Link="Production\PlaylistSortHeaderLayout.cs" />
+    <Compile Include="..\..\PlaylistThemeColors.cs" Link="Production\PlaylistThemeColors.cs" />
+    <Compile Include="..\..\PlaylistThemeChrome.cs" Link="Production\PlaylistThemeChrome.cs" />
+    <Compile Include="..\..\PlaylistManagedRowChrome.cs" Link="Production\PlaylistManagedRowChrome.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HowLongToBeatCachedProgressBar.cs" Link="Production\HowLongToBeatCachedProgressBar.cs" />
   </ItemGroup>
 </Project>

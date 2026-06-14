@@ -39,18 +39,18 @@ namespace Playlist
         public bool UseMedian { get; set; }
         public bool UseRushed { get; set; }
         public bool UseLeisure { get; set; }
-        public Color FirstColor { get; set; } = Colors.DarkCyan;
-        public Color SecondColor { get; set; } = Colors.RoyalBlue;
-        public Color ThirdColor { get; set; } = Colors.ForestGreen;
-        public Color FirstMultiColor { get; set; } = Colors.DarkCyan;
-        public Color SecondMultiColor { get; set; } = Colors.RoyalBlue;
-        public Color ThirdMultiColor { get; set; } = Colors.ForestGreen;
-        public Brush FirstBrush { get; set; } = new SolidColorBrush(Colors.DarkCyan);
-        public Brush SecondBrush { get; set; } = new SolidColorBrush(Colors.RoyalBlue);
-        public Brush ThirdBrush { get; set; } = new SolidColorBrush(Colors.ForestGreen);
-        public Brush FirstMultiBrush { get; set; } = new SolidColorBrush(Colors.DarkCyan);
-        public Brush SecondMultiBrush { get; set; } = new SolidColorBrush(Colors.RoyalBlue);
-        public Brush ThirdMultiBrush { get; set; } = new SolidColorBrush(Colors.ForestGreen);
+        public Color FirstColor { get; set; }
+        public Color SecondColor { get; set; }
+        public Color ThirdColor { get; set; }
+        public Color FirstMultiColor { get; set; }
+        public Color SecondMultiColor { get; set; }
+        public Color ThirdMultiColor { get; set; }
+        public Brush FirstBrush { get; set; }
+        public Brush SecondBrush { get; set; }
+        public Brush ThirdBrush { get; set; }
+        public Brush FirstMultiBrush { get; set; }
+        public Brush SecondMultiBrush { get; set; }
+        public Brush ThirdMultiBrush { get; set; }
         public Color? ThumbPlaytimeColor { get; set; }
         public Brush ThumbPlaytimeBrush { get; set; }
     }

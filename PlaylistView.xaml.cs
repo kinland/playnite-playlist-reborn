@@ -194,7 +194,7 @@ namespace Playlist
                 return;
             }
 
-            bool usesInvertedChrome = PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource);
+            bool usesInvertedChrome = PlaylistThemeColors.UsesInvertedRowHighlightChrome(TryFindResource);
             foreach (object item in playlistListView.Items)
             {
                 if (playlistListView.ItemContainerGenerator.ContainerFromItem(item) is not ListViewItem listViewItem)
@@ -314,7 +314,7 @@ namespace Playlist
             }
 
             bool isHoverActive = ReferenceEquals(item, hoveredRowHighlightItem);
-            PlaylistSortHeaderLayout.ApplyListRowHighlightForeground(item, TryFindResource, isHoverActive);
+            PlaylistManagedRowChrome.ApplyListRowHighlightForeground(item, TryFindResource, isHoverActive);
             SyncRowHighlightVisuals(item, isHoverActive);
         }
 
@@ -373,7 +373,7 @@ namespace Playlist
         private void SyncPlayButtonStyle(Button button, ListViewItem item, bool isHoverActive)
         {
             EnsurePlayButtonStyles();
-            if (PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource))
+            if (PlaylistThemeColors.UsesInvertedRowHighlightChrome(TryFindResource))
             {
                 if (playButtonManagedStyle != null && !ReferenceEquals(button.Style, playButtonManagedStyle))
                 {
@@ -391,7 +391,7 @@ namespace Playlist
                 button.Style = playButtonThemedStyle;
             }
 
-            PlaylistSortHeaderLayout.ClearListRowControlChrome(button);
+            PlaylistManagedRowChrome.ClearListRowControlChrome(button);
         }
 
         private void EnsurePlayButtonDirectHoverHook(Button button, ListViewItem item)
@@ -424,7 +424,7 @@ namespace Playlist
         {
             bool isRowHighlightActive = item.IsSelected || ReferenceEquals(item, hoveredRowHighlightItem);
             bool isDirectHover = button.IsMouseOver;
-            PlaylistSortHeaderLayout.ApplyListRowPlayButtonChrome(
+            PlaylistManagedRowChrome.ApplyListRowPlayButtonChrome(
                 button,
                 item,
                 isRowHighlightActive,
@@ -1766,30 +1766,26 @@ namespace Playlist
             RequestHeaderBodyOffsetSync();
         }
 
-        private bool? cachedUseDarkeningOverlay;
-        private SolidColorBrush cachedActiveSortBackgroundBrush;
-        private SolidColorBrush cachedActiveSortBorderBrush;
-        private SolidColorBrush cachedActiveSortForegroundBrush;
+        private bool? cachedUseLightHeaderText;
+        private PlaylistThemeChrome.SortHeaderHighlightAppearance cachedSortHeaderHighlight;
 
-        private (SolidColorBrush Background, SolidColorBrush Border, SolidColorBrush Foreground) GetActiveSortHighlightBrushes(
+        private PlaylistThemeChrome.SortHeaderHighlightAppearance GetSortHeaderHighlightAppearance(
             GridViewColumnHeader sampleHeader)
         {
-            Color? headerTextColor = PlaylistSortHeaderLayout.TryGetHeaderLabelColor(sampleHeader);
-            bool useDarkeningOverlay = PlaylistSortHeaderLayout.UseDarkeningOverlay(
-                headerTextColor,
-                key => TryFindResource(key));
+            PlaylistThemeChrome.SortHeaderHighlightAppearance appearance =
+                PlaylistThemeChrome.GetSortHeaderHighlightAppearance(
+                    PlaylistThemeChrome.TryGetHeaderLabelColor(sampleHeader),
+                    key => TryFindResource(key));
 
-            if (cachedUseDarkeningOverlay == useDarkeningOverlay
-                && cachedActiveSortBackgroundBrush != null
-                && cachedActiveSortBorderBrush != null)
+            if (cachedUseLightHeaderText == appearance.UseLightHeaderText
+                && cachedSortHeaderHighlight.Background != null)
             {
-                return (cachedActiveSortBackgroundBrush, cachedActiveSortBorderBrush, cachedActiveSortForegroundBrush);
+                return cachedSortHeaderHighlight;
             }
 
-            cachedUseDarkeningOverlay = useDarkeningOverlay;
-            (cachedActiveSortBackgroundBrush, cachedActiveSortBorderBrush, cachedActiveSortForegroundBrush) =
-                PlaylistSortHeaderLayout.CreateActiveSortHighlightBrushes(useDarkeningOverlay);
-            return (cachedActiveSortBackgroundBrush, cachedActiveSortBorderBrush, cachedActiveSortForegroundBrush);
+            cachedUseLightHeaderText = appearance.UseLightHeaderText;
+            cachedSortHeaderHighlight = appearance;
+            return appearance;
         }
 
         private GridViewColumnHeader FindSampleSortHeader(GridViewColumn activeColumn)
@@ -1826,9 +1822,8 @@ namespace Playlist
 
             GridViewColumn activeColumn = GetColumnByKey(model.ActiveViewSortColumn);
             GridViewColumnHeader sampleHeader = FindSampleSortHeader(activeColumn);
-            (SolidColorBrush activeBackgroundBrush, SolidColorBrush activeBorderBrush, SolidColorBrush activeForegroundBrush) =
-                GetActiveSortHighlightBrushes(sampleHeader);
-            bool useDarkeningOverlay = cachedUseDarkeningOverlay == true;
+            PlaylistThemeChrome.SortHeaderHighlightAppearance sortHeaderHighlight =
+                GetSortHeaderHighlightAppearance(sampleHeader);
             bool foundHeader = false;
             foreach (GridViewColumnHeader header in FindVisualChildren<GridViewColumnHeader>(playlistListView))
             {
@@ -1849,10 +1844,7 @@ namespace Playlist
                     ApplyIconHeaderVisualState(
                         header,
                         sampleHeader,
-                        activeBackgroundBrush,
-                        activeBorderBrush,
-                        activeForegroundBrush,
-                        useDarkeningOverlay);
+                        sortHeaderHighlight);
                     continue;
                 }
 
@@ -1897,15 +1889,15 @@ namespace Playlist
                 {
                     PlaylistSortHeaderLayout.ApplyActiveSortHighlight(
                         highlightBorder,
-                        activeBackgroundBrush,
-                        activeBorderBrush,
-                        useDarkeningOverlay);
+                        sortHeaderHighlight.Background,
+                        sortHeaderHighlight.Border,
+                        sortHeaderHighlight.UseDarkeningOverlay);
 
-                    if (useDarkeningOverlay)
+                    if (sortHeaderHighlight.UseLightHeaderText)
                     {
-                        ApplyActiveHeaderTextForeground(presenter, activeForegroundBrush);
+                        ApplyActiveHeaderTextForeground(presenter, sortHeaderHighlight.Foreground);
                         header.BeginAnimation(Control.ForegroundProperty, null);
-                        header.Foreground = activeForegroundBrush;
+                        header.Foreground = sortHeaderHighlight.Foreground;
                     }
                     else
                     {
@@ -1916,7 +1908,7 @@ namespace Playlist
                 }
                 else
                 {
-                    PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, useDarkeningOverlay);
+                    PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, sortHeaderHighlight.UseDarkeningOverlay);
                     PlaylistSortHeaderLayout.RestoreIdleHeaderBorderChrome(header, highlightBorder);
                     ClearActiveHeaderTextForeground(presenter);
                     header.BeginAnimation(Control.ForegroundProperty, null);
@@ -1936,10 +1928,7 @@ namespace Playlist
         private void ApplyIconHeaderVisualState(
             GridViewColumnHeader header,
             GridViewColumnHeader sampleHeader,
-            SolidColorBrush activeBackgroundBrush,
-            SolidColorBrush activeBorderBrush,
-            SolidColorBrush activeForegroundBrush,
-            bool useDarkeningOverlay)
+            PlaylistThemeChrome.SortHeaderHighlightAppearance sortHeaderHighlight)
         {
             if (header == null)
             {
@@ -1960,13 +1949,13 @@ namespace Playlist
             {
                 PlaylistSortHeaderLayout.ApplyActiveSortHighlight(
                     highlightBorder,
-                    activeBackgroundBrush,
-                    activeBorderBrush,
-                    useDarkeningOverlay);
+                    sortHeaderHighlight.Background,
+                    sortHeaderHighlight.Border,
+                    sortHeaderHighlight.UseDarkeningOverlay);
             }
             else
             {
-                PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, useDarkeningOverlay);
+                PlaylistSortHeaderLayout.ClearActiveSortHighlight(highlightBorder, sortHeaderHighlight.UseDarkeningOverlay);
                 PlaylistSortHeaderLayout.RestoreIdleHeaderBorderChrome(header, highlightBorder);
             }
         }

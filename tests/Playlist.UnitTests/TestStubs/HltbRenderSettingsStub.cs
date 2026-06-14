@@ -66,18 +66,6 @@ internal sealed class HltbRenderSettings
             ShowSoloTime = true,
             ShowCoOpTime = true,
             ShowVsTime = true,
-            FirstColor = Colors.DarkCyan,
-            SecondColor = Colors.RoyalBlue,
-            ThirdColor = Colors.ForestGreen,
-            FirstMultiColor = Colors.DarkCyan,
-            SecondMultiColor = Colors.RoyalBlue,
-            ThirdMultiColor = Colors.ForestGreen,
-            FirstBrush = new SolidColorBrush(Colors.DarkCyan),
-            SecondBrush = new SolidColorBrush(Colors.RoyalBlue),
-            ThirdBrush = new SolidColorBrush(Colors.ForestGreen),
-            FirstMultiBrush = new SolidColorBrush(Colors.DarkCyan),
-            SecondMultiBrush = new SolidColorBrush(Colors.RoyalBlue),
-            ThirdMultiBrush = new SolidColorBrush(Colors.ForestGreen),
         };
     }
 }

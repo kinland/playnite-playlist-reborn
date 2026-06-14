@@ -180,7 +180,7 @@ namespace Playlist
 
             if (dropLineAdorner == null)
             {
-                DropMarkerPalette palette = CreateDropMarkerPalette();
+                PlaylistThemeChrome.DropMarkerPalette palette = CreateDropMarkerPalette();
                 dropLineAdorner = new ColumnReorderFullHeightDropAdorner(adornerTarget, palette);
                 layer.Add(dropLineAdorner);
             }
@@ -238,22 +238,11 @@ namespace Playlist
             }
         }
 
-        private DropMarkerPalette CreateDropMarkerPalette()
+        private PlaylistThemeChrome.DropMarkerPalette CreateDropMarkerPalette()
         {
             GridViewColumnHeader sampleHeader = FindVisualChildren<GridViewColumnHeader>(listView)
                 .FirstOrDefault(header => header.Role != GridViewColumnHeaderRole.Padding);
-            Color? labelColor = PlaylistSortHeaderLayout.TryGetHeaderLabelColor(sampleHeader);
-            bool lightTheme = labelColor.HasValue
-                && PlaylistSortHeaderLayout.GetRelativeLuminance(labelColor.Value) < 0.45;
-
-            Color slotCenterColor = lightTheme
-                ? Color.FromArgb(190, 0, 102, 204)
-                : Color.FromArgb(200, 80, 200, 255);
-            Color glyphColor = lightTheme
-                ? Color.FromRgb(0, 102, 204)
-                : Color.FromRgb(120, 220, 255);
-
-            return new DropMarkerPalette(slotCenterColor, glyphColor);
+            return PlaylistThemeChrome.GetDropMarkerPalette(sampleHeader);
         }
 
         private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
@@ -279,29 +268,16 @@ namespace Playlist
             }
         }
 
-        private readonly struct DropMarkerPalette
-        {
-            public DropMarkerPalette(Color slotCenter, Color glyph)
-            {
-                SlotCenter = slotCenter;
-                Glyph = glyph;
-            }
-
-            public Color SlotCenter { get; }
-
-            public Color Glyph { get; }
-        }
-
         private sealed class ColumnReorderFullHeightDropAdorner : Adorner
         {
-            private readonly DropMarkerPalette palette;
+            private readonly PlaylistThemeChrome.DropMarkerPalette palette;
             private double lineX;
             private double slotTopY;
             private double slotBottomY;
             private double glyphAnchorTopY;
             private double topCornerCutoutRadius;
 
-            public ColumnReorderFullHeightDropAdorner(UIElement adornedElement, DropMarkerPalette palette)
+            public ColumnReorderFullHeightDropAdorner(UIElement adornedElement, PlaylistThemeChrome.DropMarkerPalette palette)
                 : base(adornedElement)
             {
                 IsHitTestVisible = false;

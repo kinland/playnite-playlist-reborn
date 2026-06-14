@@ -85,7 +85,7 @@ public class SortHeaderLayoutTests
         Assert.Equal(expectedRgb, background.Color.G);
         Assert.Equal(expectedRgb, background.Color.B);
         Assert.Equal(0xFF, border.Color.A);
-        Assert.Equal(Colors.White, foreground.Color);
+        Assert.Equal(PlaylistThemeColors.ActiveSortHighlightForegroundColor, foreground.Color);
     }
 
     [StaFact]

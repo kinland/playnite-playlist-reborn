@@ -376,19 +376,6 @@ namespace Playlist
                 ProgressBarShowTimeAbove = false,
                 ProgressBarShowTimeBelow = false,
                 ProgressBarShowToolTip = true,
-                ThumbPlaytimeColor = null,
-                FirstColor = Colors.DarkCyan,
-                SecondColor = Colors.RoyalBlue,
-                ThirdColor = Colors.ForestGreen,
-                FirstMultiColor = Colors.DarkCyan,
-                SecondMultiColor = Colors.RoyalBlue,
-                ThirdMultiColor = Colors.ForestGreen,
-                FirstBrush = new SolidColorBrush(Colors.DarkCyan),
-                SecondBrush = new SolidColorBrush(Colors.RoyalBlue),
-                ThirdBrush = new SolidColorBrush(Colors.ForestGreen),
-                FirstMultiBrush = new SolidColorBrush(Colors.DarkCyan),
-                SecondMultiBrush = new SolidColorBrush(Colors.RoyalBlue),
-                ThirdMultiBrush = new SolidColorBrush(Colors.ForestGreen),
             };
         }
 
@@ -420,18 +407,12 @@ namespace Playlist
             d.ProgressBarShowTimeAbove = settings.ProgressBarShowTimeAbove;
             d.ProgressBarShowTimeBelow = settings.ProgressBarShowTimeBelow;
             d.ProgressBarShowToolTip = settings.ProgressBarShowToolTip;
-            d.FirstColor = ToColor(settings.FirstColorBrush, d.FirstColor);
-            d.SecondColor = ToColor(settings.SecondColorBrush, d.SecondColor);
-            d.ThirdColor = ToColor(settings.ThirdColorBrush, d.ThirdColor);
-            d.FirstMultiColor = ToColor(settings.FirstMultiColorBrush, d.FirstMultiColor);
-            d.SecondMultiColor = ToColor(settings.SecondMultiColorBrush, d.SecondMultiColor);
-            d.ThirdMultiColor = ToColor(settings.ThirdMultiColorBrush, d.ThirdMultiColor);
-            d.FirstBrush = new SolidColorBrush(d.FirstColor);
-            d.SecondBrush = new SolidColorBrush(d.SecondColor);
-            d.ThirdBrush = new SolidColorBrush(d.ThirdColor);
-            d.FirstMultiBrush = new SolidColorBrush(d.FirstMultiColor);
-            d.SecondMultiBrush = new SolidColorBrush(d.SecondMultiColor);
-            d.ThirdMultiBrush = new SolidColorBrush(d.ThirdMultiColor);
+            ApplySerializedColorBrush(settings.FirstColorBrush, value => ApplySegmentColor(d, segment: 1, isMulti: false, value));
+            ApplySerializedColorBrush(settings.SecondColorBrush, value => ApplySegmentColor(d, segment: 2, isMulti: false, value));
+            ApplySerializedColorBrush(settings.ThirdColorBrush, value => ApplySegmentColor(d, segment: 3, isMulti: false, value));
+            ApplySerializedColorBrush(settings.FirstMultiColorBrush, value => ApplySegmentColor(d, segment: 1, isMulti: true, value));
+            ApplySerializedColorBrush(settings.SecondMultiColorBrush, value => ApplySegmentColor(d, segment: 2, isMulti: true, value));
+            ApplySerializedColorBrush(settings.ThirdMultiColorBrush, value => ApplySegmentColor(d, segment: 3, isMulti: true, value));
             if (settings.ThumbSolidColorBrush != null)
             {
                 Color thumb = ToColor(settings.ThumbSolidColorBrush, Colors.Transparent);
@@ -440,6 +421,54 @@ namespace Playlist
                     d.ThumbPlaytimeColor = thumb;
                     d.ThumbPlaytimeBrush = new SolidColorBrush(thumb);
                 }
+            }
+        }
+
+        private static void ApplySerializedColorBrush(HltbColorBrushData brushData, Action<Color> apply)
+        {
+            if (brushData == null)
+            {
+                return;
+            }
+
+            Color color = ToColor(brushData, Colors.Transparent);
+            if (color.A == 0)
+            {
+                return;
+            }
+
+            apply(color);
+        }
+
+        private static void ApplySegmentColor(HltbRenderSettings settings, int segment, bool isMulti, Color color)
+        {
+            Brush brush = new SolidColorBrush(color);
+            switch (segment)
+            {
+                case 1 when isMulti:
+                    settings.FirstMultiColor = color;
+                    settings.FirstMultiBrush = brush;
+                    break;
+                case 2 when isMulti:
+                    settings.SecondMultiColor = color;
+                    settings.SecondMultiBrush = brush;
+                    break;
+                case 3 when isMulti:
+                    settings.ThirdMultiColor = color;
+                    settings.ThirdMultiBrush = brush;
+                    break;
+                case 1:
+                    settings.FirstColor = color;
+                    settings.FirstBrush = brush;
+                    break;
+                case 2:
+                    settings.SecondColor = color;
+                    settings.SecondBrush = brush;
+                    break;
+                case 3:
+                    settings.ThirdColor = color;
+                    settings.ThirdBrush = brush;
+                    break;
             }
         }
 

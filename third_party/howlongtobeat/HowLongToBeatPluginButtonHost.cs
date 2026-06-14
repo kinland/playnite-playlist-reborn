@@ -130,16 +130,16 @@ namespace Playlist
 
         internal void ClearHighlightChrome()
         {
-            PlaylistSortHeaderLayout.ClearListRowControlChrome(this);
+            PlaylistManagedRowChrome.ClearListRowControlChrome(this);
             if (Content is Control control)
             {
-                PlaylistSortHeaderLayout.ClearListRowControlChrome(control);
+                PlaylistManagedRowChrome.ClearListRowControlChrome(control);
             }
         }
 
         internal void SyncRowHighlightFromListViewItem(bool isRowHoverActive)
         {
-            if (!PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource))
+            if (!PlaylistThemeColors.UsesInvertedRowHighlightChrome(TryFindResource))
             {
                 ClearHighlightChrome();
                 return;
@@ -148,11 +148,11 @@ namespace Playlist
             ListViewItem row = FindListViewItemAncestor(this);
             bool isRowHighlightActive = GetRowHighlightActive(isRowHoverActive);
             bool isDirectHover = IsMouseOver || (Content is UIElement content && content.IsMouseOver);
-            PlaylistSortHeaderLayout.ApplyListRowEmbeddedControlChrome(this, row, isRowHighlightActive, isDirectHover, TryFindResource);
+            PlaylistManagedRowChrome.ApplyListRowEmbeddedControlChrome(this, row, isRowHighlightActive, isDirectHover, TryFindResource);
 
             if (Content is Control control)
             {
-                PlaylistSortHeaderLayout.ClearListRowControlChrome(control);
+                PlaylistManagedRowChrome.ClearListRowControlChrome(control);
             }
         }
 
@@ -164,7 +164,7 @@ namespace Playlist
 
         private void ClearHighlightChromeWhenNotManaged()
         {
-            if (!PlaylistSortHeaderLayout.UsesInvertedRowHighlightChrome(TryFindResource))
+            if (!PlaylistThemeColors.UsesInvertedRowHighlightChrome(TryFindResource))
             {
                 ClearHighlightChrome();
             }

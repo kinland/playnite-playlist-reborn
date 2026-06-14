@@ -19,10 +19,8 @@ namespace Playlist
         // Keep in sync with PlaylistGridViewLayout.HltbSegmentStripHeight (UiTests compile this file alone).
         private const double SegmentStripHeight = 22;
 
-        private static readonly SolidColorBrush EmptyTrackFillNormal = CreateFrozenBrush(Color.FromArgb(70, 10, 20, 30));
-        private static readonly SolidColorBrush EmptyTrackFillOnDarkRow = CreateFrozenBrush(Color.FromArgb(200, 225, 228, 232));
-        private static readonly SolidColorBrush EmptyTrackBorderNormal = CreateFrozenBrush(Color.FromArgb(140, 80, 90, 100));
-        private static readonly SolidColorBrush EmptyTrackBorderOnDarkRow = CreateFrozenBrush(Color.FromArgb(220, 120, 128, 138));
+        private static readonly PlaylistThemeChrome.HltbEmptyTrackAppearance DefaultEmptyTrackAppearance =
+            PlaylistThemeChrome.GetHltbEmptyTrackAppearance(row: null, isRowHoverActive: false, tryFindResource: null);
 
         private readonly Grid barOverlay;
         private readonly Border segmentStripHost;
@@ -66,8 +64,8 @@ namespace Playlist
                 Height = SegmentStripHeight,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                Background = EmptyTrackFillNormal,
-                BorderBrush = EmptyTrackBorderNormal,
+                Background = DefaultEmptyTrackAppearance.Fill,
+                BorderBrush = DefaultEmptyTrackAppearance.Border,
                 BorderThickness = new Thickness(1),
                 SnapsToDevicePixels = true,
                 Child = segmentStrip,
@@ -77,8 +75,8 @@ namespace Playlist
             {
                 Width = 12,
                 Height = 18,
-                Background = new SolidColorBrush(Color.FromArgb(240, 240, 248, 255)),
-                BorderBrush = new SolidColorBrush(Color.FromArgb(170, 8, 12, 16)),
+                Background = Brushes.Transparent,
+                BorderBrush = Brushes.Transparent,
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(2),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -216,66 +214,30 @@ namespace Playlist
 
         private void ResetSegmentStripHostForData()
         {
-            segmentStripHost.Background = EmptyTrackFillNormal;
-            segmentStripHost.BorderBrush = EmptyTrackBorderNormal;
+            ApplyHltbEmptyTrackAppearance(PlaylistThemeChrome.GetHltbEmptyTrackAppearance(
+                FindListViewItemAncestor(this),
+                rowHoverActive,
+                TryGetThemeResource));
         }
 
         private void ApplyEmptyStateVisuals()
         {
-            bool onDarkRow = IsEmptyStateOnDarkRowHighlight();
-            if (onDarkRow)
-            {
-                segmentStripHost.Background = EmptyTrackFillOnDarkRow;
-                segmentStripHost.BorderBrush = EmptyTrackBorderOnDarkRow;
-            }
-            else
-            {
-                segmentStripHost.Background = EmptyTrackFillNormal;
-                segmentStripHost.BorderBrush = EmptyTrackBorderNormal;
-            }
-
+            ApplyHltbEmptyTrackAppearance(PlaylistThemeChrome.GetHltbEmptyTrackAppearance(
+                FindListViewItemAncestor(this),
+                rowHoverActive,
+                TryGetThemeResource));
             ApplyResourceForeground(emptyLabel);
         }
 
-        /// <summary>
-        /// True when the row shows a dark mouseover fill (HoverBrush), not a light selection fill.
-        /// Mirrors <see cref="PlaylistSortHeaderLayout.ListRowEmbeddedChromeStyle.LightPanelDarkGlyph"/> without
-        /// referencing internal layout types (UiTests compile this file standalone).
-        /// </summary>
-        private bool IsEmptyStateOnDarkRowHighlight()
+        private void ApplyHltbEmptyTrackAppearance(PlaylistThemeChrome.HltbEmptyTrackAppearance appearance)
         {
-            ListViewItem row = FindListViewItemAncestor(this);
-            if (row == null || row.IsSelected || !rowHoverActive)
-            {
-                return false;
-            }
+            segmentStripHost.Background = appearance.Fill;
+            segmentStripHost.BorderBrush = appearance.Border;
+        }
 
-            object hoverObject = TryFindResource("HoverBrush") ?? ResourceProvider.GetResource("HoverBrush");
-            object glyphObject = TryFindResource("GlyphBrush") ?? ResourceProvider.GetResource("GlyphBrush");
-            if (!(hoverObject is SolidColorBrush hoverBrush)
-                || !(glyphObject is SolidColorBrush glyphBrush))
-            {
-                return false;
-            }
-
-            Color hoverColor = hoverBrush.Color;
-            Color glyphColor = glyphBrush.Color;
-            if (hoverColor.A < 16 || glyphColor.A < 16)
-            {
-                return false;
-            }
-
-            double hoverLuminance = (0.299 * hoverColor.R) + (0.587 * hoverColor.G) + (0.114 * hoverColor.B);
-            double glyphLuminance = (0.299 * glyphColor.R) + (0.587 * glyphColor.G) + (0.114 * glyphColor.B);
-            int hoverChroma = Math.Max(hoverColor.R, Math.Max(hoverColor.G, hoverColor.B))
-                - Math.Min(hoverColor.R, Math.Min(hoverColor.G, hoverColor.B));
-            int glyphChroma = Math.Max(glyphColor.R, Math.Max(glyphColor.G, glyphColor.B))
-                - Math.Min(glyphColor.R, Math.Min(glyphColor.G, glyphColor.B));
-
-            return hoverLuminance < 128
-                && glyphLuminance >= 128
-                && hoverChroma < 45
-                && glyphChroma < 45;
+        private object TryGetThemeResource(string key)
+        {
+            return TryFindResource(key) ?? ResourceProvider.GetResource(key);
         }
 
         /// <summary>
@@ -348,7 +310,7 @@ namespace Playlist
                     settings.IntegrationViewItemOnlyHour,
                     this);
                 string displayLabel = showLabels ? FitTimeLabel(fullLabel, slice) : string.Empty;
-                Color textColor = GetReadableTextColor(segments[i].Color);
+                Color textColor = PlaylistThemeColors.GetContrastTextColorFromByteLuminance(segments[i].Color);
                 Brush fillBrush = CloneBrush(segments[i].FillBrush, segments[i].Color);
 
                 var text = new TextBlock
@@ -369,7 +331,7 @@ namespace Playlist
                     MinWidth = 1,
                     Height = 20,
                     Background = fillBrush,
-                    BorderBrush = new SolidColorBrush(GetSegmentOutlineColor(segments[i].Color)),
+                    BorderBrush = new SolidColorBrush(PlaylistThemeColors.GetSegmentOutlineColor(segments[i].Color)),
                     BorderThickness = new Thickness(1),
                     CornerRadius = GetSegmentCornerRadius(i, segments.Count),
                     VerticalAlignment = VerticalAlignment.Center,
@@ -423,7 +385,7 @@ namespace Playlist
 
             if (settings.ThumbPlaytimeBrush != null)
             {
-                playtimeMarker.Background = CloneBrush(settings.ThumbPlaytimeBrush, Color.FromRgb(240, 248, 255));
+                playtimeMarker.Background = CloneBrush(settings.ThumbPlaytimeBrush, settings.ThumbPlaytimeColor);
             }
             else if (settings.ThumbPlaytimeColor.HasValue)
             {
@@ -432,7 +394,18 @@ namespace Playlist
             else
             {
                 object brush = TryFindResource("NormalBrush") ?? ResourceProvider.GetResource("NormalBrush");
-                playtimeMarker.Background = brush as Brush ?? new SolidColorBrush(Color.FromRgb(240, 248, 255));
+                playtimeMarker.Background = brush as Brush ?? Brushes.Transparent;
+            }
+
+            Color markerFill = settings.ThumbPlaytimeColor
+                ?? (playtimeMarker.Background is SolidColorBrush solidMarker ? solidMarker.Color : default);
+            if (markerFill.A != 0)
+            {
+                playtimeMarker.BorderBrush = new SolidColorBrush(PlaylistThemeColors.GetSegmentOutlineColor(markerFill));
+            }
+            else
+            {
+                playtimeMarker.BorderBrush = Brushes.Transparent;
             }
         }
 
@@ -471,13 +444,6 @@ namespace Playlist
             {
                 ApplyEmptyStateVisuals();
             }
-        }
-
-        private static SolidColorBrush CreateFrozenBrush(Color color)
-        {
-            var brush = new SolidColorBrush(color);
-            brush.Freeze();
-            return brush;
         }
 
         /// <summary>
@@ -540,21 +506,6 @@ namespace Playlist
             return SystemFonts.MessageFontSize;
         }
 
-        private static Color GetReadableTextColor(Color background)
-        {
-            // Relative luminance approximation for quick contrast choice.
-            double luminance = (0.299 * background.R) + (0.587 * background.G) + (0.114 * background.B);
-            return luminance >= 150 ? Color.FromRgb(20, 20, 20) : Color.FromRgb(245, 245, 245);
-        }
-
-        private static Color GetSegmentOutlineColor(Color fill)
-        {
-            byte r = (byte)Math.Max(0, fill.R - 30);
-            byte g = (byte)Math.Max(0, fill.G - 30);
-            byte b = (byte)Math.Max(0, fill.B - 30);
-            return Color.FromArgb(210, r, g, b);
-        }
-
         private static CornerRadius GetSegmentCornerRadius(int index, int count)
         {
             bool first = index == 0;
@@ -583,11 +534,11 @@ namespace Playlist
             };
         }
 
-        private static Brush CloneBrush(Brush source, Color fallback)
+        private static Brush CloneBrush(Brush source, Color? fallbackColor)
         {
             if (source == null)
             {
-                return new SolidColorBrush(fallback);
+                return fallbackColor.HasValue ? new SolidColorBrush(fallbackColor.Value) : Brushes.Transparent;
             }
 
             Brush clone = source.Clone();
@@ -645,7 +596,7 @@ namespace Playlist
 
         private static void AddSegmentIfVisible(List<Segment> segments, long value, bool isVisible, Color color, Brush fillBrush)
         {
-            if (!isVisible || value <= 0)
+            if (!isVisible || value <= 0 || fillBrush == null)
             {
                 return;
             }
@@ -654,7 +605,7 @@ namespace Playlist
             {
                 ValueSeconds = value,
                 Color = color,
-                FillBrush = fillBrush ?? new SolidColorBrush(color),
+                FillBrush = fillBrush,
             });
         }
 
