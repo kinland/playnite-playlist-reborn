@@ -50,6 +50,8 @@
 - rhoi gwerthoedd gyda bylchau mewn dyfyniadau (e.e. tag:"Action Roguelike")
 - coma neu | (pibell) ar gyfer NEU; ailadrodd cwmpas neu &amp; ar gyfer AC</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Galluogi integreiddio HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Iaith y rhestr chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Iaith eich system yw {0}. Defnyddio {1} ar gyfer y rhestr chwarae yn unig?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Cysoni'r blwch chwilio rhwng y brif banel a'r Rhestr Chwarae</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Dangos yn y Llyfrgell</sys:String>
 </ResourceDictionary>

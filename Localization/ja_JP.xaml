@@ -44,6 +44,8 @@
 - 空白を含む値は引用符で囲む（例: tag:"Action Roguelike"）
 - カンマまたは |（縦棒）で OR、スコープの繰り返しまたは &amp; で AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat 連携を有効にする</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">プレイリストの言語</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">システムの言語は {0} です。プレイリストのみ {1} を使用しますか？</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">メインパネルとプレイリストの検索ボックスを同期する</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">ライブラリで表示</sys:String>
 </ResourceDictionary>

@@ -50,6 +50,8 @@
 - hodnoty s medzerami v úvodzovkách (napr. tag:"Action Roguelike")
 - čiarku alebo | (zvislá čiara) pre ALEBO; opakovanie rozsahu alebo &amp; pre A</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Povoliť integráciu HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Jazyk zoznamu skladieb</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jazyk vášho systému je {0}. Použiť {1} len pre zoznam skladieb?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchronizovať vyhľadávacie pole medzi hlavným panelom a Zoznamom skladieb</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Zobraziť v knižnici</sys:String>
 </ResourceDictionary>

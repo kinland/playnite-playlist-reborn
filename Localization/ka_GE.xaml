@@ -50,6 +50,8 @@
 - probel-იანი მნიშვნელობების ბრჭყალებში ჩასმას (მაგ. tag:"Action Roguelike")
 - მძიმეს ან | (შვეულ ხაზს) ანისთვის; ფართის გამეორებას ან &amp; და-სთვის</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat ინტეგრაციის ჩართვა</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">პლეილისტის ენა</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">თქვენი სისტემის ენაა {0}. გამოიყენოთ {1} მხოლოდ პლეილისტისთვის?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ძიების ველის სინქრონიზაცია მთავარ პანელსა და დაკვრის სიას შორის</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">ბიბლიოთეკაში ჩვენება</sys:String>
 </ResourceDictionary>

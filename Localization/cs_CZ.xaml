@@ -50,6 +50,8 @@
 - hodnoty s mezerami v uvozovkách (např. tag:"Action Roguelike")
 - čárku nebo | (svislá čára) pro NEBO; opakování rozsahu nebo &amp; pro A</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Povolit integraci HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Jazyk playlistu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jazyk vašeho systému je {0}. Použít {1} pouze pro playlist?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchronizovat vyhledávací pole mezi hlavním panelem a playlistem</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Zobrazit v knihovně</sys:String>
 </ResourceDictionary>

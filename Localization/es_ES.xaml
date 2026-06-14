@@ -47,6 +47,8 @@
 - comillar valores con espacios (p. ej. tag:"Action Roguelike")
 - coma o | (barra vertical) para OR; repetir ambito o &amp; para AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activar integracion de HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Idioma de la lista de reproducción</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">El idioma de tu sistema es {0}. ¿Usar {1} solo para la lista de reproducción?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar la busqueda entre el panel principal y la lista</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Mostrar en biblioteca</sys:String>
 </ResourceDictionary>

@@ -50,6 +50,8 @@
 - стойности с интервали в кавички (напр. tag:"Action Roguelike")
 - запетая или | (вертикална черта) за ИЛИ; повторение на обхват или &amp; за И</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Активиране на интеграция с HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Език на плейлиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Езикът на вашата система е {0}. Да използвате {1} само за плейлиста?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронизиране на полето за търсене между основния панел и Плейлиста</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Показване в библиотеката</sys:String>
 </ResourceDictionary>

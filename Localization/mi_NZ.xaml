@@ -50,6 +50,8 @@
 - te whakamāori i ngā uara me ngā mokowā (hei tauira tag:"Action Roguelike")
 - te piko, | mō OR; te tārua i te āhua, &amp; mō AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Whakahohe i te whakauru HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Te reo Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ko {0} te reo o tō pūnaha. Whakamahia te {1} mō te Playlist anake?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Tukutahi i te pouaka rapu i waenga i te papa matua me te Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Whakaatu i te whare pukapuka</sys:String>
 </ResourceDictionary>

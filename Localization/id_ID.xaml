@@ -50,6 +50,8 @@
 - nilai dengan spasi dalam tanda kutip (contoh tag:"Action Roguelike")
 - koma atau | (pipa) untuk ATAU; ulangi ruang lingkup atau &amp; untuk DAN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktifkan integrasi HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Bahasa daftar putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Bahasa sistem Anda adalah {0}. Gunakan {1} hanya untuk Daftar Putar?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronkan kotak pencarian antara panel utama dan Daftar Putar</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Tampilkan di Perpustakaan</sys:String>
 </ResourceDictionary>

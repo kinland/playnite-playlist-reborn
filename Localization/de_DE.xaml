@@ -50,6 +50,8 @@
 - Werte mit Leerzeichen in Anführungszeichen setzen (z. B. tag:"Action Roguelike")
 - Komma oder | (Pipe) für ODER; Bereich wiederholen oder &amp; für UND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat-Integration aktivieren</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist-Sprache</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ihre Systemsprache ist {0}. {1} nur für die Playlist verwenden?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Suchfeld zwischen Hauptbereich und Playlist synchronisieren</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">In Bibliothek anzeigen</sys:String>
 </ResourceDictionary>

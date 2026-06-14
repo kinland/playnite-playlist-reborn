@@ -50,6 +50,8 @@
 - välilyönneillä erotettujen arvojen lainausmerkkejä (esim. tag:"Action Roguelike")
 - pilkkua tai | (pystyviivaa) TAI-operaatiolle; toista rajaus tai &amp; JA-operaatiolle</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ota HowLongToBeat-integraatio käyttöön</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Soittolistan kieli</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Järjestelmäsi kieli on {0}. Käytetäänkö {1} vain soittolistalle?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronoi hakukenttä pääpaneelin ja Soittolistan välillä</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Näytä kirjastossa</sys:String>
 </ResourceDictionary>

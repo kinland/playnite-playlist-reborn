@@ -50,6 +50,8 @@
 - verdier med mellomrom i anførselstegn (f.eks. tag:"Action Roguelike")
 - komma eller | (pipe) for ELLER; gjenta omfang eller &amp; for OG</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktiver HowLongToBeat-integrasjon</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Språk for spilleliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Systemspråket ditt er {0}. Bruke {1} bare for spillelisten?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkroniser søkefelt mellom hovedpanel og Spilleliste</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Vis i bibliotek</sys:String>
 </ResourceDictionary>

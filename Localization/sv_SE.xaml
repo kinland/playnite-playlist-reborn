@@ -50,6 +50,8 @@
 - värden med mellanslag inom citattecken (t.ex. tag:"Action Roguelike")
 - komma eller | (pipe) för ELLER; upprepa omfång eller &amp; för OCH</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktivera HowLongToBeat-integration</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Språk för spellista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ditt systemspråk är {0}. Använda {1} endast för spellistan?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronisera sökrutan mellan huvudpanelen och Spellista</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Visa i bibliotek</sys:String>
 </ResourceDictionary>

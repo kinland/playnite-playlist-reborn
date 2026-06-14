@@ -50,6 +50,8 @@
 - sit waardes met spasies tussen aanhalingstekens (bv. tag:"Action Roguelike")
 - komma of | (pyp) vir OF; herhaal reikwiddte of &amp; vir EN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Aktiveer HowLongToBeat-integrasie</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist-taal</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jou stelseltaal is {0}. {1} net vir Playlist gebruik?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkroniseer soekboks tussen hoofpaneel en Speellys</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Wys in biblioteek</sys:String>
 </ResourceDictionary>

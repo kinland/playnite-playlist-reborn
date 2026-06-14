@@ -50,6 +50,8 @@
 - luachanna le spásanna a chur idir comharthaí athfhriotail (m.sh. tag:"Action Roguelike")
 - camóg nó | (barr ingearach) le haghaidh NÓ; scóip a athdhéanamh nó &amp; le haghaidh AGUS</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Cumasaigh comhtháthú HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Teanga an tSeinnliosta Seinm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Is é {0} teanga do chórais. An n-úsáidfear {1} don tSeinnliosta Seinm amháin?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaigh an bosca cuardaigh idir an phríomhpainéal agus an tSeinnliosta Seinm</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Taispeáin sa Leabharlann</sys:String>
 </ResourceDictionary>

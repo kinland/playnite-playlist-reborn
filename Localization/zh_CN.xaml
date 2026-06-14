@@ -44,6 +44,8 @@
 - 对含空格的值加引号（例如 tag:"Action Roguelike"）
 - 逗号或 |（竖线）表示 OR；重复范围或 &amp; 表示 AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">启用 HowLongToBeat 集成</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">播放列表语言</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">您的系统语言是 {0}。仅为播放列表使用 {1}？</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">同步主面板与播放列表的搜索框</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">在库中显示</sys:String>
 </ResourceDictionary>

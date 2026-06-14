@@ -50,6 +50,8 @@
 - boşluk içeren değerleri tırnak içine alma (örn. tag:"Action Roguelike")
 - virgül veya | (dikey çizgi) ile VEYA; kapsamı tekrarlama veya &amp; ile VE</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat entegrasyonunu etkinleştir</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Çalma listesi dili</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Sistem diliniz {0}. {1} yalnızca çalma listesi için kullanılsın mı?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Ana panel ile çalma listesi arama kutusunu eşitle</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Kütüphanede göster</sys:String>
 </ResourceDictionary>

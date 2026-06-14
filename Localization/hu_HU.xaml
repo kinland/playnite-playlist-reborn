@@ -50,6 +50,8 @@
 - szóközt tartalmazó értékek idézőjelezését (pl. tag:"Action Roguelike")
 - vesszőt vagy | (függőleges vonal) VAGY művelethez; hatókör ismétlése vagy &amp; ÉS művelethez</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat integráció engedélyezése</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Lejátszási lista nyelve</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">A rendszer nyelve: {0}. Csak a lejátszási listához használja a(z) {1} nyelvet?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keresőmező szinkronizálása a főpanel és a Lejátszási lista között</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Megjelenítés a könyvtárban</sys:String>
 </ResourceDictionary>

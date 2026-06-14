@@ -50,6 +50,8 @@
 - 공백이 있는 값은 따옴표로 묶기 (예: tag:"Action Roguelike")
 - 쉼표 또는 | (세로 막대)는 OR, 범위 반복 또는 &amp; 는 AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat 연동 사용</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">재생 목록 언어</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">시스템 언어는 {0}입니다. 재생 목록에만 {1}을(를) 사용하시겠습니까?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">메인 패널과 재생 목록의 검색 상자 동기화</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">라이브러리에서 표시</sys:String>
 </ResourceDictionary>

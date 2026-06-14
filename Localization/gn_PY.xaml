@@ -50,6 +50,8 @@
 - emboty umi valor oguerekóva espacio (techapyrã tag:"Action Roguelike")
 - koma térã | OR hag̃ua; ejapo jey térã &amp; AND hag̃ua</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Emyandy HowLongToBeat joajuha</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ñe'ẽ Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ne rembipuru'í ñe'ẽ ha'e {0}. Ojepuru {1} Playlist-pe año?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Emoĩ peteĩcha jeheka kãha panel principal ha Playlist apytépe</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Ehechauka vorepe</sys:String>
 </ResourceDictionary>

@@ -50,6 +50,8 @@
 - faʻamama numera ma avanoa (faʻataʻitaʻiga tag:"Action Roguelike")
 - komi poʻo | mo OR; toe faʻaaogā le vaega poʻo &amp; mo AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Faʻagaoioi le faʻatasiga HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Gagana o le Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">O le {0} le gagana o lau masini. Faʻaaoga le {1} mo le Playlist naʻo?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Faʻafetaui le pusa saili i le va o le faʻailoga autu ma le Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Faaali i le faletusi</sys:String>
 </ResourceDictionary>

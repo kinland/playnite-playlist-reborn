@@ -45,6 +45,8 @@
 - значения с пробелами в кавычках (напр. tag:"Action Roguelike")
 - запятая или | (вертикальная черта) для ИЛИ; повтор области или &amp; для И</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Включить интеграцию HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Язык плейлиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Язык вашей системы — {0}. Использовать {1} только для плейлиста?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронизировать поиск между главной панелью и плейлистом</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Показать в библиотеке</sys:String>
 </ResourceDictionary>

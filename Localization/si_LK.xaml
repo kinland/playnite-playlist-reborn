@@ -50,6 +50,8 @@
 - space සහිත values quotes තුළ (උදා. tag:"Action Roguelike")
 - OR සඳහා comma හෝ | (pipe); AND සඳහා scope නැවත හෝ &amp;</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat ඒකාබද්ධතාව සක්‍රිය කරන්න</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">ප්ලේලිස්ට් භාෂාව</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">ඔබේ පද්ධතියේ භාෂාව {0} වේ. ප්ලේලිස්ට් සඳහා පමණක් {1} භාවිතා කරන්න ද?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ප්‍රධාන අංශය සහ ප්‍රසිද්ධ ලැයිස්තුව අතර සෙවුම් කොටුව සමමුහුර්ත කරන්න</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">පුස්තකාලයේ පෙන්වන්න</sys:String>
 </ResourceDictionary>

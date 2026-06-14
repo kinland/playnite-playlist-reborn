@@ -50,6 +50,8 @@
 - quote values with spaces (e.g. tag:"Action Roguelike")
 - comma or | (pipe) for OR; repeat scope or &amp; for AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">ᎤᏍᏆᏂᏱᏍᏗ HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist ᎤᏬᏢᎢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">System ᎤᏬᏢᎢ {0}. Playlist ᎤᎬᏫᏳᏒᏂ {1}?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ᎠᏓᏁᏟᎶᏍᏗ ᎠᏕᏲᏍᏗ Playlist ᎠᎴ main panel</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">ᏥᎸᏍᏗ library-Ꮧ</sys:String>
 </ResourceDictionary>

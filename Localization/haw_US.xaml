@@ -50,6 +50,8 @@
 - kau ʻia nā waiwai me nā hakahaka (e la. tag:"Action Roguelike")
 - komo a | no OR; e hoʻopili hou i ka waiwai a &amp; no AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Hoʻāla i ke hoʻohui HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ka ʻōlelo Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">ʻO {0} ka ʻōlelo o kāu polokalamu. Lawe iā {1} no ka Playlist wale nō?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Hoʻohui i ka pahu huli ma waena o ka papa kuhikuhi a me ka Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Hōʻike i ka waihona puke</sys:String>
 </ResourceDictionary>

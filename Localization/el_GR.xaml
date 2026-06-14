@@ -46,6 +46,8 @@
 - τιμές με κενά σε εισαγωγικά (π.χ. tag:"Action Roguelike")
 - κόμμα ή | (κάθετη γραμμή) για Ή· επανάληψη εύρους ή &amp; για ΚΑΙ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ενεργοποίηση ενσωμάτωσης HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Γλώσσα playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Η γλώσσα του συστήματός σας είναι {0}. Να χρησιμοποιηθεί το {1} μόνο για το playlist;</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Συγχρονισμός πεδίου αναζήτησης μεταξύ κύριου πίνακα και Λίστας αναπαραγωγής</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Εμφάνιση στη βιβλιοθήκη</sys:String>
 </ResourceDictionary>

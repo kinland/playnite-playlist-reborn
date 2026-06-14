@@ -50,6 +50,8 @@
 - valori cu spații între ghilimele (ex. tag:"Action Roguelike")
 - virgulă sau | (bară verticală) pentru SAU; repetați domeniul sau &amp; pentru ȘI</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activează integrarea HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Limba playlistului</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Limba sistemului tău este {0}. Folosiți {1} doar pentru playlist?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizează caseta de căutare între panoul principal și Lista de redare</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Afișează în bibliotecă</sys:String>
 </ResourceDictionary>

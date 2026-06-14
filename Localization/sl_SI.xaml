@@ -50,6 +50,8 @@
 - vrednosti s presledki v narekovajih (npr. tag:"Action Roguelike")
 - vejico ali | (navpično črto) za ALI; ponovitev obsega ali &amp; za IN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Omogoči integracijo HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Jezik seznama predvajanja</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jezik vašega sistema je {0}. Ali {1} uporabiti samo za seznam predvajanja?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinhroniziraj iskalno polje med glavno ploščo in Seznamom predvajanja</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Prikaži v knjižnici</sys:String>
 </ResourceDictionary>

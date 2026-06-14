@@ -50,6 +50,8 @@
 - wartości ze spacjami w cudzysłowie (np. tag:"Action Roguelike")
 - przecinek lub | (pionowa kreska) dla LUB; powtórzenie zakresu lub &amp; dla ORAZ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Włącz integrację HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Język playlisty</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Język systemu to {0}. Użyć {1} tylko dla playlisty?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchronizuj pole wyszukiwania między panelem głównym a playlistą</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Pokaż w bibliotece</sys:String>
 </ResourceDictionary>

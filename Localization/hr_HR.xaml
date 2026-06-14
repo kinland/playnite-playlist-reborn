@@ -50,6 +50,8 @@
 - vrijednosti s razmacima u navodnicima (npr. tag:"Action Roguelike")
 - zarez ili | (vertikalna crta) za ILI; ponovi opseg ili &amp; za I</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Omogući HowLongToBeat integraciju</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Jezik playliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jezik vašeg sustava je {0}. Koristiti {1} samo za playlistu?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkroniziraj okvir za pretraživanje između glavne ploče i Popisa za reprodukciju</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Prikaži u knjižnici</sys:String>
 </ResourceDictionary>

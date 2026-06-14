@@ -50,6 +50,8 @@
 - đặt giá trị có khoảng trắng trong dấu ngoặc kép (vd. tag:"Action Roguelike")
 - dấu phẩy hoặc | (pipe) cho HOẶC; lặp phạm vi hoặc &amp; cho VÀ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Bật tích hợp HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ngôn ngữ danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ngôn ngữ hệ thống của bạn là {0}. Chỉ dùng {1} cho Danh sách phát?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Đồng bộ hộp tìm kiếm giữa bảng chính và Danh sách phát</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Hiển thị trong thư viện</sys:String>
 </ResourceDictionary>

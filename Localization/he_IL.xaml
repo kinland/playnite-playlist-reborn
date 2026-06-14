@@ -50,6 +50,8 @@
 - ערכים עם רווחים במרכאות (לדוגמה tag:"Action Roguelike")
 - פסיק או | (קו אנכי) עבור OR; חזרה על היקף או &amp; עבור AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">הפעל שילוב HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">שפת רשימת ההשמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">שפת המערכת שלך היא {0}. להשתמש ב-{1} עבור רשימת ההשמעה בלבד?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">סנכרן תיבת חיפוש בין הלוח הראשי לרשימת השמעה</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">הצג בספרייה</sys:String>
 </ResourceDictionary>

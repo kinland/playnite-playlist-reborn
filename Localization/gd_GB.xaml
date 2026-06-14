@@ -50,6 +50,8 @@
 - cuir luachan le beàrnan ann an comharran (m.e. tag:"Action Roguelike")
 - coma no | airson NO; ath-aithris scòp no &amp; airson AGUS</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Cuir an comas eadar-obrachadh HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Cànan an liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Is e {0} cànan an t-siostaim agad. A bheil thu airson {1} a chleachdadh dìreach airson an liosta-chluich?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaich bogsa-luirg eadar am prìomh phannal agus Liosta-chluich</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Seall sa leabharlann</sys:String>
 </ResourceDictionary>

@@ -50,6 +50,8 @@
 - 對含空白的值加上引號（例如 tag:"Action Roguelike"）
 - 逗號或 |（直線）代表 OR；重複範圍或 &amp; 代表 AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">啟用 HowLongToBeat 整合</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">播放清單語言</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">您的系統語言是 {0}。僅為播放清單使用 {1}？</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">同步主面板與播放清單的搜尋框</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">在收藏庫中顯示</sys:String>
 </ResourceDictionary>

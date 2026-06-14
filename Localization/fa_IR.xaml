@@ -50,6 +50,8 @@
 - قرار دادن مقادیر دارای فاصله در گیومه (مثال tag:"Action Roguelike")
 - ویرگول یا | (خط عمودی) برای OR؛ تکرار دامنه یا &amp; برای AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">فعال‌سازی یکپارچه‌سازی HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">زبان فهرست پخش</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">زبان سیستم شما {0} است. {1} فقط برای فهرست پخش استفاده شود؟</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">همگام‌سازی جعبه جستجو بین پنل اصلی و فهرست پخش</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">نمایش در کتابخانه</sys:String>
 </ResourceDictionary>

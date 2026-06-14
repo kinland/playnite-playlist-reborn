@@ -47,6 +47,8 @@
 - mettre entre guillemets les valeurs contenant des espaces (ex. tag:"Action Roguelike")
 - virgule ou | (barre verticale) pour OU ; répéter la portée ou &amp; pour ET</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activer l’intégration HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Langue de la liste de lecture</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">La langue de votre système est {0}. Utiliser {1} pour la liste de lecture uniquement ?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchroniser la recherche entre le panneau principal et la liste de lecture</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Afficher dans la bibliothèque</sys:String>
 </ResourceDictionary>

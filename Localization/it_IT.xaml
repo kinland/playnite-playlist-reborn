@@ -50,6 +50,8 @@
 - valori con spazi tra virgolette (es. tag:"Action Roguelike")
 - virgola o | (barra verticale) per OR; ripetere l’ambito o &amp; per AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Abilita integrazione HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Lingua della playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">La lingua del tuo sistema è {0}. Usare {1} solo per la playlist?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizza la ricerca tra il pannello principale e la playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Mostra nella libreria</sys:String>
 </ResourceDictionary>

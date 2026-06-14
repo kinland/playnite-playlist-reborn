@@ -50,6 +50,8 @@
 - وضع القيم التي تحتوي على مسافات بين علامات اقتباس (مثال tag:"Action Roguelike")
 - الفاصلة أو | (الخط العمودي) للـ OR؛ تكرار النطاق أو &amp; للـ AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">تفعيل تكامل HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">لغة قائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">لغة نظامك هي {0}. هل تريد استخدام {1} لقائمة التشغيل فقط؟</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">مزامنة مربع البحث بين اللوحة الرئيسية وقائمة التشغيل</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">عرض في المكتبة</sys:String>
 </ResourceDictionary>

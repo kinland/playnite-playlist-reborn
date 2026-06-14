@@ -50,6 +50,8 @@
 - valores com espaços entre aspas (ex. tag:"Action Roguelike")
 - vírgula ou | (barra vertical) para OU; repetir âmbito ou &amp; para E</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Ativar integração HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Idioma da lista de reprodução</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">O idioma do seu sistema é {0}. Utilizar {1} apenas para a lista de reprodução?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar a pesquisa entre o painel principal e a playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Mostrar na biblioteca</sys:String>
 </ResourceDictionary>

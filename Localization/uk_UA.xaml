@@ -50,6 +50,8 @@
 - значення з пробілами в лапках (напр. tag:"Action Roguelike")
 - кому або | (вертикальну риску) для АБО; повторення області або &amp; для І</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Увімкнути інтеграцію HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Мова плейлиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Мова вашої системи — {0}. Використовувати {1} лише для плейлиста?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронізувати поле пошуку між головною панеллю та Списком відтворення</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Показати в бібліотеці</sys:String>
 </ResourceDictionary>

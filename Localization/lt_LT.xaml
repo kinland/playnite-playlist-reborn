@@ -50,6 +50,8 @@
 - reikšmes su tarpais kabutėse (pvz. tag:"Action Roguelike")
 - kablelį arba | (vertikalią brūkšnį) ARBA; pakartokite sritį arba &amp; IR</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Įjungti HowLongToBeat integraciją</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Grojaraščio kalba</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jūsų sistemos kalba – {0}. Naudoti {1} tik grojaraščiui?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinchronizuoti paieškos lauką tarp pagrindinio skydelio ir Grojaraščio</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Rodyti bibliotekoje</sys:String>
 </ResourceDictionary>

@@ -50,6 +50,8 @@
 - waarden met spaties tussen aanhalingstekens (bijv. tag:"Action Roguelike")
 - komma of | (pipe) voor OF; bereik herhalen of &amp; voor EN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">HowLongToBeat-integratie inschakelen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Taal van afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">De systeemtaal is {0}. {1} alleen voor de afspeellijst gebruiken?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Zoekvak synchroniseren tussen hoofdpaneel en afspeellijst</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Tonen in bibliotheek</sys:String>
 </ResourceDictionary>

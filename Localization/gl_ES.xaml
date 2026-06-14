@@ -50,6 +50,8 @@
 - poñer entre comiñas valores con espazos (p. ex. tag:"Action Roguelike")
 - coma ou | (barra vertical) para OU; repetir ámbito ou &amp; para E</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHowLongToBeatIntegration">Activar a integración de HowLongToBeat</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Idioma da lista de reprodución</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">O idioma do teu sistema é {0}. Usar {1} só para a lista de reprodución?</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar a caixa de busca entre o panel principal e a lista de reprodución</sys:String>
     <sys:String x:Key="LOCPlaylist_ShowInLibrary">Mostrar na biblioteca</sys:String>
 </ResourceDictionary>
