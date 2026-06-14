@@ -139,20 +139,29 @@ namespace Playlist
 
         private bool IsColumnReorderDragActive(MouseEventArgs e)
         {
-            if (e.LeftButton != MouseButtonState.Pressed)
-            {
-                return false;
-            }
-
-            if (Mouse.Captured is Thumb)
-            {
-                return false;
-            }
-
-            return PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(listView)
+            bool hasFloatingHeader = PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(listView)
                 .Any(header => header.Role == GridViewColumnHeaderRole.Floating);
+
+            return PlaylistColumnReorderDragRules.ShouldShowDropGuide(
+                leftButtonPressed: e.LeftButton == MouseButtonState.Pressed,
+                isThumbCaptured: Mouse.Captured is Thumb,
+                isPlaylistRowDragActive: listView.DataContext is IPlaylistDragReorderState state && state.IsPlaylistDragReorderActive,
+                isMouseOverHeaderRow: IsMouseOverHeaderRow(e),
+                hasFloatingColumnHeader: hasFloatingHeader);
         }
 
+        private bool IsMouseOverHeaderRow(MouseEventArgs e)
+        {
+            if (headerRowPresenter == null)
+            {
+                return false;
+            }
+
+            Point mouseInListView = e.GetPosition(listView);
+            Point headerTopLeft = headerRowPresenter.TranslatePoint(new Point(0, 0), listView);
+            double headerBottom = headerTopLeft.Y + headerRowPresenter.ActualHeight;
+            return mouseInListView.Y >= headerTopLeft.Y && mouseInListView.Y <= headerBottom;
+        }
         private static List<GridViewColumnHeader> GetReorderableHeaders(GridViewHeaderRowPresenter presenter)
         {
             return PlaylistVisualTree.FindVisualChildren<GridViewColumnHeader>(presenter)
