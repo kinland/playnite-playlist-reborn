@@ -2,8 +2,14 @@ using Xunit;
 
 namespace Playlist.UnitTests;
 
+[Collection(nameof(PlaylistLocalizationTestCollection))]
 public class HltbPlaytimeFormatTests
 {
+    static HltbPlaytimeFormatTests()
+    {
+        PlaylistTestLocalization.Install();
+    }
+
     [Fact]
     public void FormatSeconds_ReturnsUnknownForZero()
     {

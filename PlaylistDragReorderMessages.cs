@@ -28,14 +28,14 @@ namespace Playlist
                 bucketLabel);
         }
 
-        private static string GetString(string resourceKey)
+        internal static string GetString(string resourceKey)
         {
             if (TestGetString != null)
             {
                 return TestGetString(resourceKey);
             }
 
-            return ResourceProvider.GetString(resourceKey);
+            return PlaylistLocalization.GetString(resourceKey);
         }
 
         internal static string ResolveSortColumnLabel(string columnKey)

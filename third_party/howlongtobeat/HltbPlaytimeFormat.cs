@@ -17,7 +17,7 @@ namespace Playlist
         {
             if (seconds <= 0)
             {
-                return "--";
+                return PlaylistLocalization.GetString("LOCPlaylist_Hltb_EmptyTime");
             }
 
             var conv = ResolvePlayTimeConverter(themeScope);
@@ -38,7 +38,9 @@ namespace Playlist
                     }
 
                     // Match HLTB "only hour" behavior: never show minutes (e.g. 20h, not 20h 0m).
-                    return rounded.ToString("0", CultureInfo.CurrentCulture) + "h";
+                    return PlaylistLocalization.Format(
+                        "LOCPlaylist_Playtime_HoursOnly",
+                        rounded.ToString(CultureInfo.CurrentCulture));
                 }
 
                 object full = conv.Convert((ulong)seconds, typeof(string), false, CultureInfo.CurrentCulture);
@@ -72,13 +74,24 @@ namespace Playlist
         {
             if (onlyHour)
             {
-                return Math.Round(seconds / 3600.0, MidpointRounding.AwayFromZero).ToString("0", CultureInfo.CurrentCulture) + "h";
+                long rounded = (long)Math.Round(seconds / 3600.0, MidpointRounding.AwayFromZero);
+                if (rounded <= 0)
+                {
+                    rounded = 1;
+                }
+
+                return PlaylistLocalization.Format(
+                    "LOCPlaylist_Playtime_HoursOnly",
+                    rounded.ToString(CultureInfo.CurrentCulture));
             }
 
             long totalMinutes = seconds / 60;
             long h = totalMinutes / 60;
             long m = totalMinutes % 60;
-            return h + "h " + m + "m";
+            return PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_HoursMinutes",
+                h.ToString(CultureInfo.CurrentCulture),
+                m.ToString(CultureInfo.CurrentCulture));
         }
     }
 }

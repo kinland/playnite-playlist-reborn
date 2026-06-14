@@ -90,12 +90,12 @@ namespace Playlist
 
         public static string FormatActiveSortSuffix(string typeLabel)
         {
-            return string.Format(ResourceProvider.GetString("LOCPlaylist_Hltb_SortSuffix_Active"), typeLabel);
+            return PlaylistLocalization.Format("LOCPlaylist_Hltb_SortSuffix_Active", typeLabel);
         }
 
         public static string FormatHoverSortSuffix(string typeLabel)
         {
-            return string.Format(ResourceProvider.GetString("LOCPlaylist_Hltb_SortSuffix_Hover"), typeLabel);
+            return PlaylistLocalization.Format("LOCPlaylist_Hltb_SortSuffix_Hover", typeLabel);
         }
     }
 }

@@ -4,9 +4,15 @@ using Xunit;
 
 namespace Playlist.UnitTests;
 
+[Collection(nameof(PlaylistLocalizationTestCollection))]
 public class PlaytimeValueConverterTests
 {
     private readonly PlaytimeValueConverter converter = new PlaytimeValueConverter();
+
+    static PlaytimeValueConverterTests()
+    {
+        PlaylistTestLocalization.Install();
+    }
 
     [Theory]
     [InlineData("46h 44m", "46h", "44m")]
@@ -44,6 +50,7 @@ public class PlaytimeValueConverterTests
     {
         Assert.Equal("46h", converter.Convert(168240ul, typeof(string), "Hours", CultureInfo.InvariantCulture));
         Assert.Equal("44m", converter.Convert(168240ul, typeof(string), "Minutes", CultureInfo.InvariantCulture));
+        Assert.Equal(" ", converter.Convert(168240ul, typeof(string), "UnitSeparator", CultureInfo.InvariantCulture));
     }
 
     [Fact]

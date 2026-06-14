@@ -123,7 +123,7 @@ namespace Playlist
 
             emptyLabel = new TextBlock
             {
-                Text = "--",
+                Text = PlaylistLocalization.GetString("LOCPlaylist_Hltb_EmptyTime"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Foreground = Brushes.White,

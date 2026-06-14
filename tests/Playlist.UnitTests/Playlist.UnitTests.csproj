@@ -37,6 +37,7 @@
     <Compile Include="..\..\PlaylistThemeChrome.cs" Link="Production\PlaylistThemeChrome.cs" />
     <Compile Include="..\..\PlaylistReorderPlanner.cs" Link="Production\PlaylistReorderPlanner.cs" />
     <Compile Include="..\..\PlaylistRankInput.cs" Link="Production\PlaylistRankInput.cs" />
+    <Compile Include="..\..\PlaylistLocalization.cs" Link="Production\PlaylistLocalization.cs" />
     <Compile Include="..\..\PlaylistDragReorderMessages.cs" Link="Production\PlaylistDragReorderMessages.cs" />
     <Compile Include="..\..\HltbColumnHeaderLabels.cs" Link="Production\HltbColumnHeaderLabels.cs" />
     <Compile Include="..\..\HltbLocalizedStringResolver.cs" Link="Production\HltbLocalizedStringResolver.cs" />

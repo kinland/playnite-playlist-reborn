@@ -83,71 +83,100 @@ namespace Playlist
 
             if (totalSeconds < SecondsPerMinute)
             {
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Moment, MomentBucketOrder, "Moments ago");
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Moment,
+                    MomentBucketOrder,
+                    PlaylistLocalization.GetString("LOCPlaylist_LastPlayed_MomentsAgo"));
             }
 
             if (totalSeconds < SecondsPerHour)
             {
                 int minutes = Math.Max(1, (int)Math.Floor(totalSeconds / SecondsPerMinute));
                 int sortBucket = FirstMinuteBucketOrder + (minutes - 1);
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Minute, sortBucket, FormatUnit(minutes, "minute"));
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Minute,
+                    sortBucket,
+                    FormatRelativeUnit(
+                        minutes,
+                        "LOCPlaylist_LastPlayed_OneMinuteAgo",
+                        "LOCPlaylist_LastPlayed_MinutesAgo"));
             }
 
             if (totalSeconds < SecondsPerDay)
             {
                 int hours = Math.Max(1, (int)Math.Floor(totalSeconds / SecondsPerHour));
                 int sortBucket = FirstHourBucketOrder + (hours - 1);
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Hour, sortBucket, FormatUnit(hours, "hour"));
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Hour,
+                    sortBucket,
+                    FormatRelativeUnit(
+                        hours,
+                        "LOCPlaylist_LastPlayed_OneHourAgo",
+                        "LOCPlaylist_LastPlayed_HoursAgo"));
             }
 
             if (totalSeconds < SecondsPerWeek)
             {
                 int days = Math.Max(1, (int)Math.Floor(totalSeconds / SecondsPerDay));
                 int sortBucket = FirstDayBucketOrder + (days - 1);
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Day, sortBucket, FormatUnit(days, "day"));
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Day,
+                    sortBucket,
+                    FormatRelativeUnit(
+                        days,
+                        "LOCPlaylist_LastPlayed_OneDayAgo",
+                        "LOCPlaylist_LastPlayed_DaysAgo"));
             }
 
             if (totalSeconds < SecondsPerMonth)
             {
                 int weeks = Math.Max(1, (int)Math.Floor(totalSeconds / SecondsPerWeek));
                 int sortBucket = FirstWeekBucketOrder + (weeks - 1);
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Week, sortBucket, FormatUnit(weeks, "week"));
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Week,
+                    sortBucket,
+                    FormatRelativeUnit(
+                        weeks,
+                        "LOCPlaylist_LastPlayed_OneWeekAgo",
+                        "LOCPlaylist_LastPlayed_WeeksAgo"));
             }
 
             int months = Math.Max(1, (int)Math.Floor(totalSeconds / SecondsPerMonth));
             if (months < 12)
             {
                 int sortBucket = FirstMonthBucketOrder + (months - 1);
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Month, sortBucket, FormatUnit(months, "month"));
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Month,
+                    sortBucket,
+                    FormatRelativeUnit(
+                        months,
+                        "LOCPlaylist_LastPlayed_OneMonthAgo",
+                        "LOCPlaylist_LastPlayed_MonthsAgo"));
             }
 
             if (months < 24)
             {
-                return new LastPlayedDisplayValue(LastPlayedBucketUnit.Year, YearBucketOrder, $"{FormatAlignedCount(1)} year ago");
+                return new LastPlayedDisplayValue(
+                    LastPlayedBucketUnit.Year,
+                    YearBucketOrder,
+                    PlaylistLocalization.Format("LOCPlaylist_LastPlayed_OneYearAgo", FormatCount(1)));
             }
 
-            return new LastPlayedDisplayValue(LastPlayedBucketUnit.LongAgo, LongAgoBucketOrder, "Long ago");
+            return new LastPlayedDisplayValue(
+                LastPlayedBucketUnit.LongAgo,
+                LongAgoBucketOrder,
+                PlaylistLocalization.GetString("LOCPlaylist_LastPlayed_LongAgo"));
         }
 
-        /// <summary>
-        /// Builds singular/plural relative label text for a single unit.
-        /// </summary>
-        private static string FormatUnit(int value, string unit)
+        private static string FormatRelativeUnit(int value, string singularKey, string pluralKey)
         {
-            string count = FormatAlignedCount(value);
-            return value == 1
-                ? $"{count} {unit} ago"
-                : $"{count} {unit}s ago";
+            string formatKey = value == 1 ? singularKey : pluralKey;
+            return PlaylistLocalization.Format(formatKey, FormatCount(value));
         }
 
-        /// <summary>
-        /// Prefixes single-digit counts with one space so labels align in the column.
-        /// </summary>
-        internal static string FormatAlignedCount(int value)
+        private static string FormatCount(int value)
         {
-            return value < 10
-                ? " " + value.ToString(CultureInfo.InvariantCulture)
-                : value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

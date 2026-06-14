@@ -8,6 +8,18 @@ namespace Playlist
 {
     public static class Playlist
     {
+        static Playlist()
+        {
+            PlaylistLocalization.TestGetString = key => key switch
+            {
+                "LOCPlaylist_Hltb_EmptyTime" => "--",
+                "LOCPlaylist_Playtime_HoursOnly" => "{0}h",
+                "LOCPlaylist_Playtime_MinuteUnit" => "{0}m",
+                "LOCPlaylist_Playtime_HoursMinutes" => "{0}h {1}m",
+                _ => key,
+            };
+        }
+
         public static IPlayniteAPI StaticPlayniteApi { get; set; }
         public static HltbSettingsStub StaticSettings { get; set; } = new HltbSettingsStub();
     }
@@ -134,7 +146,7 @@ namespace Playlist
         {
             if (seconds <= 0)
             {
-                return "--";
+                return PlaylistLocalization.GetString("LOCPlaylist_Hltb_EmptyTime");
             }
 
             if (integrationViewItemOnlyHour)

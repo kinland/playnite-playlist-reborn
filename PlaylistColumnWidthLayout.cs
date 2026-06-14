@@ -39,13 +39,13 @@ namespace Playlist
                 case IconColumnKey:
                     return PlaylistGridViewLayout.IconColumnWidth;
                 case PlaytimeColumnKey:
-                    return 111;
+                    return 152;
                 case CompletionStatusColumnKey:
                     return 142;
                 case LastPlayedColumnKey:
-                    return 126;
+                    return 152;
                 case LastActivityColumnKey:
-                    return 124;
+                    return 152;
                 case NameColumnKey:
                     return 200;
                 case HowLongToBeatColumnKey:

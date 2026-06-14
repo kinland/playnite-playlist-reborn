@@ -9,7 +9,7 @@ namespace Playlist
     /// <summary>
     /// Playtime formatting via Playnite's theme, plus grid cell parts for the Time Played column.
     /// ConverterParameter: <c>SubHourDigit</c>, <c>SubHourSuffix</c>, <c>Hours</c>, <c>Minutes</c>,
-    /// or <c>Visible</c>, <c>SubHour</c>, <c>HourPlus</c> for layout visibility.
+    /// <c>UnitSeparator</c>, or <c>Visible</c>, <c>SubHour</c>, <c>HourPlus</c> for layout visibility.
     /// </summary>
     public class PlaytimeValueConverter : IValueConverter
     {
@@ -89,6 +89,10 @@ namespace Playlist
             return IsMinuteSuffix(suffix.TrimStart());
         }
 
+        /// <summary>
+        /// Splits English-style theme playtime strings (e.g. <c>46h 44m</c>) into hour and minute display units.
+        /// Non-English theme output falls through to localized <see cref="TryGetHourPlusUnits"/>.
+        /// </summary>
         internal static bool TryParseThemeHourMinuteUnits(string formatted, out string hourUnit, out string minuteUnit)
         {
             hourUnit = null;
@@ -106,15 +110,15 @@ namespace Playlist
 
             if (TryReadPlaytimeUnit(formatted, ref index, out string secondUnit))
             {
-                hourUnit = NormalizeHourUnit(firstUnit);
-                minuteUnit = NormalizeMinuteUnit(secondUnit);
+                hourUnit = firstUnit;
+                minuteUnit = secondUnit;
                 return true;
             }
 
             if (TryGetUnitParts(firstUnit, out _, out string suffix) && IsHourSuffix(suffix))
             {
-                hourUnit = NormalizeHourUnit(firstUnit);
-                minuteUnit = "0m";
+                hourUnit = firstUnit;
+                minuteUnit = PlaylistLocalization.Format("LOCPlaylist_Playtime_MinuteUnit", "0");
                 return true;
             }
 
@@ -163,20 +167,27 @@ namespace Playlist
                 return string.Empty;
             }
 
-            string formatted = FormatSeconds(seconds, culture);
-            if (TryParseThemeHourMinuteUnits(formatted, out string hourUnit, out string minuteUnit))
+            if (string.Equals(part, "UnitSeparator", StringComparison.OrdinalIgnoreCase))
             {
-                return string.Equals(part, "Minutes", StringComparison.OrdinalIgnoreCase)
-                    ? minuteUnit
-                    : hourUnit;
+                return ResolveHourPlusUnitSeparator();
             }
 
-            long totalMinutes = (long)(seconds / 60);
-            long hoursValue = totalMinutes / 60;
-            long minutesValue = totalMinutes % 60;
-            return string.Equals(part, "Minutes", StringComparison.OrdinalIgnoreCase)
-                ? minutesValue.ToString(culture) + "m"
-                : hoursValue.ToString(culture) + "h";
+            if (!TryGetHourPlusUnits(seconds, culture, out string hourUnit, out string minuteUnit))
+            {
+                return string.Empty;
+            }
+
+            if (string.Equals(part, "Minutes", StringComparison.OrdinalIgnoreCase))
+            {
+                return minuteUnit;
+            }
+
+            if (string.Equals(part, "Hours", StringComparison.OrdinalIgnoreCase))
+            {
+                return hourUnit;
+            }
+
+            return string.Empty;
         }
 
         private static bool IsVisibilityPart(string part)
@@ -202,8 +213,85 @@ namespace Playlist
             }
 
             long minutes = Math.Max(1, (long)(seconds / 60));
+            string full = PlaylistLocalization.Format("LOCPlaylist_Playtime_Minutes", minutes);
+            if (TryParseSubHourThemeDisplay(full, out digits, out suffix))
+            {
+                return true;
+            }
+
             digits = minutes.ToString(culture);
-            suffix = " minutes";
+            suffix = full.Length > digits.Length ? full.Substring(digits.Length) : string.Empty;
+            return !string.IsNullOrEmpty(suffix);
+        }
+
+        /// <summary>
+        /// Derives the gap between hour and minute units from the locale's playtime format templates
+        /// so spacing matches <see cref="LOCPlaylist_Playtime_HoursMinutes"/> without a separate key.
+        /// </summary>
+        internal static string ResolveHourPlusUnitSeparator()
+        {
+            const string hourPlaceholder = "8";
+            const string minutePlaceholder = "9";
+            string combined = PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_HoursMinutes",
+                hourPlaceholder,
+                minutePlaceholder);
+            string hourOnly = PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_HoursOnly",
+                hourPlaceholder);
+            string minuteOnly = PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_MinuteUnit",
+                minutePlaceholder);
+
+            if (string.IsNullOrEmpty(combined)
+                || !combined.StartsWith(hourOnly, StringComparison.Ordinal)
+                || !combined.EndsWith(minuteOnly, StringComparison.Ordinal))
+            {
+                return " ";
+            }
+
+            int separatorLength = combined.Length - hourOnly.Length - minuteOnly.Length;
+            return separatorLength <= 0
+                ? string.Empty
+                : combined.Substring(hourOnly.Length, separatorLength);
+        }
+
+        private static bool TryGetHourPlusUnits(ulong seconds, CultureInfo culture, out string hourUnit, out string minuteUnit)
+        {
+            hourUnit = null;
+            minuteUnit = null;
+
+            long totalMinutes = (long)(seconds / 60);
+            long hoursValue = totalMinutes / 60;
+            long minutesValue = totalMinutes % 60;
+            string hoursText = hoursValue.ToString(culture);
+            string minutesText = minutesValue.ToString(culture);
+            string structuredHourUnit = PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_HoursOnly",
+                hoursText);
+            string structuredMinuteUnit = PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_MinuteUnit",
+                minutesText);
+            string structuredCombined = PlaylistLocalization.Format(
+                "LOCPlaylist_Playtime_HoursMinutes",
+                hoursText,
+                minutesText);
+
+            string formatted = FormatSeconds(seconds, culture);
+            if (string.Equals(formatted, structuredCombined, StringComparison.Ordinal))
+            {
+                hourUnit = structuredHourUnit;
+                minuteUnit = structuredMinuteUnit;
+                return true;
+            }
+
+            if (TryParseThemeHourMinuteUnits(formatted, out hourUnit, out minuteUnit))
+            {
+                return true;
+            }
+
+            hourUnit = structuredHourUnit;
+            minuteUnit = structuredMinuteUnit;
             return true;
         }
 
@@ -243,26 +331,6 @@ namespace Playlist
 
             suffix = unit.Substring(index);
             return true;
-        }
-
-        private static string NormalizeHourUnit(string unit)
-        {
-            if (TryGetUnitParts(unit, out string digits, out string suffix) && IsHourSuffix(suffix))
-            {
-                return digits + "h";
-            }
-
-            return unit;
-        }
-
-        private static string NormalizeMinuteUnit(string unit)
-        {
-            if (TryGetUnitParts(unit, out string digits, out string suffix) && IsMinuteSuffix(suffix))
-            {
-                return digits + "m";
-            }
-
-            return unit;
         }
 
         private static bool IsHourSuffix(string suffix)
