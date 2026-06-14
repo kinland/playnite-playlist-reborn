@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">před {0} týdny</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Naposledy hrané</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Přidat do playlistu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Viditelnost sloupců</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Přesunout dolů</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Přesunout nahoru</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Otevřít nastavení…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Odebrat z playlistu</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Zobrazit v knihovně</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -51,7 +53,8 @@
 - hodnoty s mezerami v uvozovkách (např. tag:"Action Roguelike")
 - čárku nebo | (svislá čára) pro NEBO; opakování rozsahu nebo &amp; pro A</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Povolit integraci HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Jazyk playlistu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Použít jazyk Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jazyk vašeho systému je {0}. Použít {1} pouze pro playlist?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchronizovat vyhledávací pole mezi hlavním panelem a playlistem</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

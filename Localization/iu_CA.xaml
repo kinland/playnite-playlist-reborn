@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} pinasuarusinik sivuniksami</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Kingulliq pinnguaruni</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Playlist-mut ilisarijaujuq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">ᓴᐃᒻᒪᓂᖅ ᓴᖅᑯᑎᑦ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Aulatsijiit ataani</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Aulatsijiit qulaani</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">ᐊᖅᑯᑎᖃᕐᓂᖅ ᐊᑐᐊᒐᖅ…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Playlist-mit aqqutaujariaqaliqtillugu</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Taututtijiuk talaviup iluani</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat aturtauniqaliqtittijiuk</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist uqallausiq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} uqallausiq</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite uqallausiq atuqtuq: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Piliriarisimajut uqallausiq {0}. Playlist-mut {1} aturumagavit?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Qinirniq Playlist ammalu saqqiqaqtuq talavi atausiullutik</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Qinirniq {0} ammalu saqqiqaqtuq talavi atausiullutik</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Naammassiaruti alingnguijiuk</sys:String>
     <sys:String x:Key="LOCTimePlayed">Pinnguarusiq</sys:String>
 </ResourceDictionary>

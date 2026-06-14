@@ -17,10 +17,9 @@ namespace Playlist
             var options = new List<PlaylistLanguageOption>();
             var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            string playniteDisplayName = GetLocaleDisplayName(playniteLanguage);
             options.Add(new PlaylistLanguageOption(
                 string.Empty,
-                playniteDisplayName,
+                FormatPlayniteLanguageOptionDisplayName(playniteLanguage),
                 PlaylistLanguageOptionKind.Playnite));
             seen.Add(playniteLanguage);
 
@@ -66,6 +65,42 @@ namespace Playlist
             }
 
             return !string.Equals(osLocaleId, playniteLanguage, StringComparison.OrdinalIgnoreCase);
+        }
+
+        internal static string FormatPlayniteLanguageOptionDisplayName(string playniteLanguage)
+        {
+            return PlaylistLocalization.Format(
+                "LOCPlaylist_Settings_MatchPlayniteLanguage",
+                GetPlayniteLanguageAutonym(playniteLanguage));
+        }
+
+        private static string GetPlayniteLanguageAutonym(string localeId)
+        {
+            localeId = NormalizeLocaleId(localeId) ?? "en_US";
+
+            PlaylistLocaleCultureMap.LocaleEntry entry = PlaylistLocaleCultureMap.TryGetLocaleEntry(localeId);
+            if (entry != null && !string.IsNullOrWhiteSpace(entry.Autonym))
+            {
+                return entry.Autonym;
+            }
+
+            try
+            {
+                CultureInfo culture = CultureInfo.GetCultureInfo(ToCultureName(localeId));
+                while (!string.IsNullOrEmpty(culture.Name)
+                    && culture.Name.Contains("-", StringComparison.Ordinal)
+                    && culture.Parent != null
+                    && culture.Parent != CultureInfo.InvariantCulture)
+                {
+                    culture = culture.Parent;
+                }
+
+                return culture.NativeName;
+            }
+            catch (CultureNotFoundException)
+            {
+                return localeId;
+            }
         }
 
         internal static string GetLocaleDisplayName(string localeId)

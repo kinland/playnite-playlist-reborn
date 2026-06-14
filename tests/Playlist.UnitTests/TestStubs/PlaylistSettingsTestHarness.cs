@@ -8,7 +8,11 @@ internal sealed class PlaylistSettingsTestHarness : IDisposable
     {
         installState = initialInstallState;
         Host = new Playlist();
-        Settings = new PlaylistSettings(Host);
+        Settings = new PlaylistSettings
+        {
+            SettingsSchemaVersion = 2,
+        };
+        Settings.AttachPlugin(Host);
         Playlist.StaticPlayniteApi = null;
         Playlist.StaticSettings = Settings;
         Playlist.StaticPluginInstance = Host;
@@ -51,8 +55,29 @@ internal sealed class PlaylistSettingsTestHarness : IDisposable
         Settings.ExpireSessionOnlyHltbPendingFlags();
     }
 
+    /// <summary>
+    /// Matches Playnite opening a plugin settings surface:
+    /// <see cref="Playnite.DesktopApp.ViewModels.PluginSettingsViewModel"/> ctor and
+    /// <c>PluginSettingsHelper.GetPluginSettingsView</c> both call <see cref="PlaylistSettings.BeginEdit"/>.
+    /// </summary>
+    public void SimulatePlayniteSettingsDialogOpened()
+    {
+        Settings.BeginEdit();
+    }
+
+    /// <summary>
+    /// Matches Playnite closing settings without saving:
+    /// <c>PluginSettingsViewModel.CloseView</c>, <c>WindowClosing</c>, and
+    /// <c>AddonsViewModel.CancelClose</c>/<c>WindowClosing</c> call <see cref="PlaylistSettings.CancelEdit"/>.
+    /// </summary>
+    public void SimulatePlayniteSettingsDialogClosedWithoutSaving()
+    {
+        Settings.CancelEdit();
+    }
+
     public void Dispose()
     {
+        PlaylistSettings.TestSuppressPersistedStorageNotify = false;
         HowLongToBeatAddonNavigation.TestInstallStateResolver = null;
         HowLongToBeatAddonNavigation.TestExtensionInstallQueuePendingResolver = null;
         HowLongToBeatAddonNavigation.TestExtensionQueueFilePathOverride = null;

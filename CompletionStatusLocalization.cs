@@ -33,10 +33,14 @@ namespace Playlist
                 return completionStatusName;
             }
 
-            string localized = PlaylistLocalization.GetString(resourceKey);
-            return string.Equals(localized, resourceKey, StringComparison.Ordinal)
-                ? completionStatusName
-                : localized;
+            // Borrowed LOCCompletionStatus* keys exist only in supplemental override dictionaries.
+            // Playnite core uses English status names directly and does not ship these resource keys.
+            if (PlaylistLocalizationOverride.TryGetString(resourceKey, out string localized))
+            {
+                return localized;
+            }
+
+            return completionStatusName;
         }
     }
 }

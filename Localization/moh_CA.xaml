@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} ionkhwa'shatón:'a</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Iakwé:ron ne óntkon</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Tóhsa' Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Kà:ion tsi iontáhonton</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Sata' ahsén:'a</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Sata' ón:'a</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Sata' tsotá:ke…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Sata' Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Ionkhihsó:ken</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Iontáhonton HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist ken'nha</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} ken'nha</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Sewatahson Playnite ken'nha: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Owóksape ken'nha {0}. Playlist iontáhonton {1}?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Owóksape Playlist ne owóksape íyotȟaŋ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Owóksape {0} ne owóksape íyotȟaŋ</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Shako'ó:ten arien'sa'òn:ni</sys:String>
     <sys:String x:Key="LOCTimePlayed">Iakwé:ron óntkon</sys:String>
 </ResourceDictionary>

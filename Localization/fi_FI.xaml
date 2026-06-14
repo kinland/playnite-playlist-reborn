@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} viikkoa sitten</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Viimeksi pelattu</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Lisää soittolistalle</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Sarakkeiden näkyvyys</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Siirrä loppuun</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Siirrä alkuun</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Avaa asetukset…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Poista soittolistalta</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Näytä kirjastossa</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Soittolista</sys:String>
@@ -51,7 +53,8 @@
 - välilyönneillä erotettujen arvojen lainausmerkkejä (esim. tag:"Action Roguelike")
 - pilkkua tai | (pystyviivaa) TAI-operaatiolle; toista rajaus tai &amp; JA-operaatiolle</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Ota HowLongToBeat-integraatio käyttöön</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Soittolistan kieli</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}n kieli</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Käytä Playnite-kieltä: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Järjestelmäsi kieli on {0}. Käytetäänkö {1} vain soittolistalle?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronoi hakukenttä pääpaneelin ja Soittolistan välillä</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronoi hakukenttä pääpaneelin ja {0}n välillä</sys:String>
 </ResourceDictionary>

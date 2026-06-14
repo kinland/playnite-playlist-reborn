@@ -3,8 +3,29 @@ using Xunit;
 
 namespace Playlist.UnitTests;
 
-public class PlaylistLanguageOptionCatalogTests
+[Collection(nameof(PlaylistLocalizationTestCollection))]
+public class PlaylistLanguageOptionCatalogTests : IDisposable
 {
+    private readonly Func<string, string> previousGetter;
+
+    public PlaylistLanguageOptionCatalogTests()
+    {
+        previousGetter = PlaylistLocalization.TestGetString;
+        PlaylistLocalization.TestGetString = key => key switch
+        {
+            PlaylistLocalization.PlaylistFeatureNameKey => "Playlist",
+            "LOCPlaylist_Settings_MatchPlayniteLanguage" => "Match Playnite language: {0}",
+            "LOCPlaylist_Settings_LanguageOverride" => "{0} language",
+            "LOCPlaylist_Settings_SyncSearchWithMainPanel" => "Sync search box between main panel and {0}",
+            _ => key,
+        };
+    }
+
+    public void Dispose()
+    {
+        PlaylistLocalization.TestGetString = previousGetter;
+    }
+
     [Fact]
     public void BuildOptions_orders_playnite_os_then_supplemental_alphabetically()
     {
@@ -14,7 +35,7 @@ public class PlaylistLanguageOptionCatalogTests
 
         Assert.Equal(PlaylistLanguageOptionKind.Playnite, options[0].Kind);
         Assert.Equal(string.Empty, options[0].LocaleId);
-        Assert.Contains("English", options[0].DisplayName, StringComparison.OrdinalIgnoreCase);
+        Assert.Equal("Match Playnite language: English", options[0].DisplayName);
 
         Assert.Equal(PlaylistLanguageOptionKind.Os, options[1].Kind);
         Assert.Equal("gd_GB", options[1].LocaleId);
@@ -37,8 +58,23 @@ public class PlaylistLanguageOptionCatalogTests
             CultureInfo.GetCultureInfo("ga-IE"));
 
         Assert.Equal(string.Empty, options[0].LocaleId);
-        Assert.Equal("Gaeilge", options[0].DisplayName);
+        Assert.Equal("Match Playnite language: Gaeilge", options[0].DisplayName);
         Assert.DoesNotContain(options, option => option.Kind == PlaylistLanguageOptionKind.Os);
+    }
+
+    [Fact]
+    public void FormatPlayniteLanguageOptionDisplayName_uses_language_autonym_not_english_display_name()
+    {
+        string displayName = PlaylistLanguageOptionCatalog.FormatPlayniteLanguageOptionDisplayName("nl_NL");
+
+        Assert.Equal("Match Playnite language: Nederlands", displayName);
+        Assert.DoesNotContain("Dutch", displayName, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void GetLanguageOverrideLabel_reuses_playlist_feature_name()
+    {
+        Assert.Equal("Playlist language", PlaylistLocalization.GetLanguageOverrideLabel());
     }
 
     [Fact]

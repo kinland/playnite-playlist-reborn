@@ -37,6 +37,8 @@ namespace Playlist
         private string backupLanguageOverrideLocaleId;
         private bool hasPromptedOsLocaleMismatch;
         private bool backupHasPromptedOsLocaleMismatch;
+
+        private bool isSettingsEditSessionActive;
         private ObservableCollection<PlaylistLanguageOption> languageOptions = new ObservableCollection<PlaylistLanguageOption>();
 
         public bool ShowRankColumn
@@ -155,6 +157,10 @@ namespace Playlist
             get => languageOptions;
             private set => SetValue(ref languageOptions, value);
         }
+
+        public string LanguageOverrideLabel => PlaylistLocalization.GetLanguageOverrideLabel();
+
+        public string SyncSearchWithMainPanelLabel => PlaylistLocalization.GetSyncSearchWithMainPanelLabel();
 
         /// <summary>
         /// Bumped when persisted settings need a one-time in-memory migration after deserialization.
@@ -384,16 +390,15 @@ namespace Playlist
         {
             // Only the HowLongToBeat integration toggle lives on the settings page now; the rest of the
             // column visibility flags are edited via the column header right-click menu (persisted immediately).
+            isSettingsEditSessionActive = true;
             RefreshHowLongToBeatInstallState();
-            backupEnableHowLongToBeatIntegration = EnableHowLongToBeatIntegration;
-            backupSyncSearchWithMainPanel = SyncSearchWithMainPanel;
-            backupLanguageOverrideLocaleId = LanguageOverrideLocaleId;
-            backupHasPromptedOsLocaleMismatch = HasPromptedOsLocaleMismatch;
+            CaptureEditSessionBackups();
             RefreshLanguageOptions();
         }
 
         public void CancelEdit()
         {
+            isSettingsEditSessionActive = false;
             ClearPendingShowHowLongToBeatColumnFromHeaderMenu();
             EnableHowLongToBeatIntegration = backupEnableHowLongToBeatIntegration;
             SyncSearchWithMainPanel = backupSyncSearchWithMainPanel;
@@ -405,6 +410,7 @@ namespace Playlist
 
         public void EndEdit()
         {
+            isSettingsEditSessionActive = false;
             RefreshHowLongToBeatInstallState();
             TryApplyPendingShowHowLongToBeatColumnFromHeaderMenu();
             ExpireAddonPendingIfHltbStillUnavailable();
@@ -436,6 +442,47 @@ namespace Playlist
             OnPropertyChanged(nameof(LanguageOptions));
             OnPropertyChanged(nameof(SelectedLanguageOption));
             OnPropertyChanged(nameof(LanguageOverrideComboValue));
+            NotifyLocalizedSettingLabelsChanged();
+        }
+
+        internal void NotifyLocalizedSettingLabelsChanged()
+        {
+            OnPropertyChanged(nameof(LanguageOverrideLabel));
+            OnPropertyChanged(nameof(SyncSearchWithMainPanelLabel));
+        }
+
+        /// <summary>
+        /// Snapshots values restored by <see cref="CancelEdit"/>. Refreshed when quick-access menus
+        /// persist immediately during an open settings edit session so Cancel does not undo disk writes.
+        /// </summary>
+        internal void CaptureEditSessionBackups()
+        {
+            backupEnableHowLongToBeatIntegration = EnableHowLongToBeatIntegration;
+            backupSyncSearchWithMainPanel = SyncSearchWithMainPanel;
+            backupLanguageOverrideLocaleId = LanguageOverrideLocaleId;
+            backupHasPromptedOsLocaleMismatch = HasPromptedOsLocaleMismatch;
+        }
+
+        /// <summary>
+        /// Called after settings are written to disk outside the settings dialog save flow
+        /// (quick-access menus, column header menu). Keeps <see cref="CancelEdit"/> backups aligned
+        /// with values Playnite's settings window would otherwise revert on close.
+        /// </summary>
+        internal static bool TestSuppressPersistedStorageNotify { get; set; }
+
+        internal bool EditSessionBackupSyncSearchWithMainPanel => backupSyncSearchWithMainPanel;
+
+        internal void NotifyPersistedToStorage()
+        {
+            if (TestSuppressPersistedStorageNotify)
+            {
+                return;
+            }
+
+            if (isSettingsEditSessionActive)
+            {
+                CaptureEditSessionBackups();
+            }
         }
 
         internal bool TryOfferOsLocaleMismatchPrompt()
@@ -462,7 +509,7 @@ namespace Playlist
                 playniteLanguage,
                 osLocaleId,
                 CultureInfo.CurrentUICulture);
-            string title = PlaylistLocalization.GetString("LOCPlaylist_Settings_LanguageOverride");
+            string title = PlaylistLocalization.GetLanguageOverrideLabel();
             MessageBoxResult result = Playlist.StaticPlayniteApi?.Dialogs.ShowMessage(
                 message,
                 title,

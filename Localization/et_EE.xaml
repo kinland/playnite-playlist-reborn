@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} nädalat tagasi</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Viimati mängitud</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Lisa esitusloendisse</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Veergude nähtavus</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Liiguta alla</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Liiguta üles</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Ava seaded…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Eemalda esitusloendist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Näita raamatukogus</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Esitusloend</sys:String>
@@ -51,7 +53,8 @@
 - tühikutega väärtuste jutumärkidesse panemist (nt tag:"Action Roguelike")
 - koma või | (toru) VÕI jaoks; ulatuse kordamist või &amp; JA jaoks</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Luba HowLongToBeat integratsioon</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Esitusloendi keel</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}i keel</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Kasuta Playnite keelt: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Teie süsteemi keel on {0}. Kas kasutada {1} ainult esitusloendi jaoks?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sünkroniseeri otsingukast peapaneeli ja Esitusloendi vahel</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sünkroniseeri otsingukast peapaneeli ja {0}i vahel</sys:String>
 </ResourceDictionary>

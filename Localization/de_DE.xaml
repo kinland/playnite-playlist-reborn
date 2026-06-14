@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">vor {0} Wochen</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Zuletzt gespielt</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Zur Playlist hinzufügen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Spaltensichtbarkeit</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Nach unten verschieben</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Nach oben verschieben</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Einstellungen öffnen…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Aus Playlist entfernen</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">In Bibliothek anzeigen</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -51,7 +53,8 @@
 - Werte mit Leerzeichen in Anführungszeichen setzen (z. B. tag:"Action Roguelike")
 - Komma oder | (Pipe) für ODER; Bereich wiederholen oder &amp; für UND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat-Integration aktivieren</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist-Sprache</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}-Sprache</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite-Sprache verwenden: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ihre Systemsprache ist {0}. {1} nur für die Playlist verwenden?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Suchfeld zwischen Hauptbereich und Playlist synchronisieren</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Suchfeld zwischen Hauptbereich und {0} synchronisieren</sys:String>
 </ResourceDictionary>

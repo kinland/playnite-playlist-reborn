@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">pre {0} nedelja</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Poslednji put igrano</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Dodaj u listu za reprodukciju</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Видљивост колона</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Premesti na dno</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Premesti na vrh</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Отвори подешавања…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Ukloni sa liste za reprodukciju</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Prikaži u biblioteci</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Lista za reprodukciju</sys:String>
@@ -51,7 +53,8 @@
 - vrednosti sa razmacima u navodnicima (npr. tag:"Action Roguelike")
 - zarez ili | (uspravna crta) za ILI; ponovi opseg ili &amp; za I</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Omogući HowLongToBeat integraciju</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Jezik plejliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Користи Playnite језик: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jezik vašeg sistema je {0}. Koristiti {1} samo za plejlistu?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinhronizuj polje za pretragu između glavnog panela i Liste za reprodukciju</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinhronizuj polje za pretragu između glavnog panela i {0}</sys:String>
 </ResourceDictionary>

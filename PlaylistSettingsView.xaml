@@ -8,7 +8,7 @@
     <StackPanel Margin="12">
         <TextBlock
             Margin="0,0,0,4"
-            Text="{DynamicResource LOCPlaylist_Settings_LanguageOverride}" />
+            Text="{Binding LanguageOverrideLabel}" />
         <ComboBox
             x:Name="languageOverrideComboBox"
             Margin="0,0,0,12"
@@ -58,6 +58,6 @@
             VerticalAlignment="Center"
             Margin="0,0,0,8"
             IsChecked="{Binding SyncSearchWithMainPanel}"
-            Content="{DynamicResource LOCPlaylist_Settings_SyncSearchWithMainPanel}" />
+            Content="{Binding SyncSearchWithMainPanelLabel}" />
     </StackPanel>
 </UserControl>

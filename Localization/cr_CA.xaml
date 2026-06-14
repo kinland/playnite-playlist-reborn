@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} pîsimowin êkwa</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Pêyak pîsimowin</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Playlist ohci pêhtâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">ᐊᔭᐦᑐᐃᐧᐣ ᐊᐢᑭᐦᐠ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Pêhtâw astâw</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Pêhtâw astâw</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">ᐊᐢᑭᐦᐠ ᐃᐧᒉᐦᑐᐃᐧᐣ…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Playlist ohci pêhtâw</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Masinahikan ohci</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ohci</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist pîkiskwêwin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} pîkiskwêwin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite pîkiskwêwin kî-mâmawi: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Owóksape pîkiskwêwin {0}. Playlist ohci {1}?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Playlist owóksape pêhtâw atoskâkan ohci</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">{0} owóksape pêhtâw atoskâkan ohci</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Matwēwin itācihow</sys:String>
     <sys:String x:Key="LOCTimePlayed">Kī-pêyak pîsimowin</sys:String>
 </ResourceDictionary>

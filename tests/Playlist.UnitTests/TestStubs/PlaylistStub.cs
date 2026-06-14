@@ -13,6 +13,7 @@ public class Playlist
 
     internal void PersistSettings()
     {
+        StaticSettings?.NotifyPersistedToStorage();
     }
 
     internal void SaveSettings(PlaylistSettings updatedSettings)

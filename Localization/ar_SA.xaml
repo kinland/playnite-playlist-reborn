@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">منذ {0} أسابيع</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">آخر لعب</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">إضافة إلى قائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">ظهور الأعمدة</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">نقل إلى الأسفل</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">نقل إلى الأعلى</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">فتح الإعدادات…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">إزالة من قائمة التشغيل</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">عرض في المكتبة</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">قائمة التشغيل</sys:String>
@@ -51,7 +53,8 @@
 - وضع القيم التي تحتوي على مسافات بين علامات اقتباس (مثال tag:"Action Roguelike")
 - الفاصلة أو | (الخط العمودي) للـ OR؛ تكرار النطاق أو &amp; للـ AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">تفعيل تكامل HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">لغة قائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">لغة {0}</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">استخدام لغة Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">لغة نظامك هي {0}. هل تريد استخدام {1} لقائمة التشغيل فقط؟</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">مزامنة مربع البحث بين اللوحة الرئيسية وقائمة التشغيل</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">مزامنة مربع البحث بين اللوحة الرئيسية و{0}</sys:String>
 </ResourceDictionary>

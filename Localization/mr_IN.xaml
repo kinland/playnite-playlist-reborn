@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} आठवड्यांपूर्वी</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">शेवटचे खेळले</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">प्लेलिस्टमध्ये जोडा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">स्तंभ दृश्यमानता</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">खाली हलवा</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">वर हलवा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">सेटिंग्ज उघडा…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">प्लेलिस्टमधून काढा</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">वाचनालयात दाखवा</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">प्लेलिस्ट</sys:String>
@@ -51,7 +53,8 @@
 - space असणारे values quotes मध्ये (उदा. tag:"Action Roguelike")
 - OR साठी comma किंवा | (pipe); AND साठी scope पुन्हा किंवा &amp;</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat समावेश सक्षम करा</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">प्लेलिस्ट भाषा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} भाषा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite भाषा वापरा: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">तुमच्या प्रणालीची भाषा {0} आहे. फक्त प्लेलिस्टसाठी {1} वापरायचे?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">मुख्य पॅनेल आणि प्लेलिस्ट दरम्यान शोध बॉक्स समक्रमित करा</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">मुख्य पॅनेल आणि {0} दरम्यान शोध बॉक्स समक्रमित करा</sys:String>
 </ResourceDictionary>

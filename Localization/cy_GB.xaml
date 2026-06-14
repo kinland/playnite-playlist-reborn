@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} wythnos yn ôl</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Chwaraewyd Diwethaf</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Ychwanegu at y Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Gwelededd colofnau</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Symud i'r Gwaelod</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Symud i'r Brig</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Agor gosodiadau…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Tynnu o'r Rhestr Chwarae</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Dangos yn y Llyfrgell</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Rhestr Chwarae</sys:String>
@@ -51,7 +53,8 @@
 - rhoi gwerthoedd gyda bylchau mewn dyfyniadau (e.e. tag:"Action Roguelike")
 - coma neu | (pibell) ar gyfer NEU; ailadrodd cwmpas neu &amp; ar gyfer AC</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Galluogi integreiddio HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Iaith y rhestr chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Defnyddio iaith Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Iaith eich system yw {0}. Defnyddio {1} ar gyfer y rhestr chwarae yn unig?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Cysoni'r blwch chwilio rhwng y brif banel a'r Rhestr Chwarae</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Cysoni'r blwch chwilio rhwng y brif banel a'r {0}</sys:String>
 </ResourceDictionary>

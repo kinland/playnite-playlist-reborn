@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} seachtain ó shin</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Seinneadh go Deireanach</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Cuir leis an tSeinnliosta Seinm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Infheictheacht colún</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Bog go dtí an Bun</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Bog go dtí an Barr</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Oscail socruithe…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Bain den tSeinnliosta Seinm</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Taispeáin sa Leabharlann</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Seinnliosta Seinm</sys:String>
@@ -51,7 +53,8 @@
 - luachanna le spásanna a chur idir comharthaí athfhriotail (m.sh. tag:"Action Roguelike")
 - camóg nó | (barr ingearach) le haghaidh NÓ; scóip a athdhéanamh nó &amp; le haghaidh AGUS</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Cumasaigh comhtháthú HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Teanga an tSeinnliosta Seinm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Teanga an t{0}</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Úsáid teanga Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Is é {0} teanga do chórais. An n-úsáidfear {1} don tSeinnliosta Seinm amháin?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaigh an bosca cuardaigh idir an phríomhpainéal agus an tSeinnliosta Seinm</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaigh an bosca cuardaigh idir an phríomhpainéal agus an t{0}</sys:String>
 </ResourceDictionary>

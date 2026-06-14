@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} weken geleden</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Laatst gespeeld</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Toevoegen aan afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Zichtbaarheid van kolommen</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Naar onder verplaatsen</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Naar boven verplaatsen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Instellingen openen…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Verwijderen uit afspeellijst</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Tonen in bibliotheek</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Afspeellijst</sys:String>
@@ -51,7 +53,8 @@
 - waarden met spaties tussen aanhalingstekens (bijv. tag:"Action Roguelike")
 - komma of | (pipe) voor OF; bereik herhalen of &amp; voor EN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat-integratie inschakelen</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Taal van afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite-taal gebruiken: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">De systeemtaal is {0}. {1} alleen voor de afspeellijst gebruiken?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Zoekvak synchroniseren tussen hoofdpaneel en afspeellijst</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

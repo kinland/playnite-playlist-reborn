@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} pule i hala</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Pāʻani hope loa</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Hoʻohui i ka Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">ʻIke ʻia nā koluma</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">E hoʻoili i lalo</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">E hoʻoili i luna</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Wehe i nā hoʻonohonoho…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Wehe mai ka Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Hōʻike i ka waihona puke</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - kau ʻia nā waiwai me nā hakahaka (e la. tag:"Action Roguelike")
 - komo a | no OR; e hoʻopili hou i ka waiwai a &amp; no AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Hoʻāla i ke hoʻohui HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ka ʻōlelo Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ka ʻōlelo {0}</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Hoʻohana i ka ʻōlelo Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">ʻO {0} ka ʻōlelo o kāu polokalamu. Lawe iā {1} no ka Playlist wale nō?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Hoʻohui i ka pahu huli ma waena o ka papa kuhikuhi a me ka Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Hoʻohui i ka pahu huli ma waena o ka papa kuhikuhi a me ka {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">E hoʻonohonoho i ka kūlana pau</sys:String>
     <sys:String x:Key="LOCTimePlayed">Manawa pāʻani</sys:String>
 </ResourceDictionary>

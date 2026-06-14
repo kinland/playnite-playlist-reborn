@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} veckor sedan</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Senast spelad</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Lägg till i spellista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Kolumnsynlighet</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Flytta till botten</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Flytta till toppen</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Öppna inställningar…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Ta bort från spellista</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Visa i bibliotek</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Spellista</sys:String>
@@ -51,7 +53,8 @@
 - värden med mellanslag inom citattecken (t.ex. tag:"Action Roguelike")
 - komma eller | (pipe) för ELLER; upprepa omfång eller &amp; för OCH</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktivera HowLongToBeat-integration</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Språk för spellista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Använd Playnite-språk: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ditt systemspråk är {0}. Använda {1} endast för spellistan?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronisera sökrutan mellan huvudpanelen och Spellista</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronisera sökrutan mellan huvudpanelen och {0}</sys:String>
 </ResourceDictionary>

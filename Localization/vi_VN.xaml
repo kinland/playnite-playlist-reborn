@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} tuần trước</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Chơi lần cuối</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Thêm vào danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Hiển thị cột</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Di chuyển xuống cuối</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Di chuyển lên đầu</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Mở cài đặt…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Xóa khỏi danh sách phát</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Hiển thị trong thư viện</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Danh sách phát</sys:String>
@@ -51,7 +53,8 @@
 - đặt giá trị có khoảng trắng trong dấu ngoặc kép (vd. tag:"Action Roguelike")
 - dấu phẩy hoặc | (pipe) cho HOẶC; lặp phạm vi hoặc &amp; cho VÀ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Bật tích hợp HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Ngôn ngữ danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Dùng ngôn ngữ Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ngôn ngữ hệ thống của bạn là {0}. Chỉ dùng {1} cho Danh sách phát?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Đồng bộ hộp tìm kiếm giữa bảng chính và Danh sách phát</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Đồng bộ hộp tìm kiếm giữa bảng chính và {0}</sys:String>
 </ResourceDictionary>

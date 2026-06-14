@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} კვირის წინ</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">ბოლოს ნათამაშები</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">დაკვრის სიაში დამატება</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">სვეტების ხილვადობა</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">ქვევით გადატანა</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">ზევით გადატანა</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">პარამეტრების გახსნა…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">დაკვრის სიიდან ამოშლა</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">ბიბლიოთეკაში ჩვენება</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">დაკვრის სია</sys:String>
@@ -51,7 +53,8 @@
 - probel-იანი მნიშვნელობების ბრჭყალებში ჩასმას (მაგ. tag:"Action Roguelike")
 - მძიმეს ან | (შვეულ ხაზს) ანისთვის; ფართის გამეორებას ან &amp; და-სთვის</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat ინტეგრაციის ჩართვა</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">პლეილისტის ენა</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite ენის გამოყენება: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">თქვენი სისტემის ენაა {0}. გამოიყენოთ {1} მხოლოდ პლეილისტისთვის?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ძიების ველის სინქრონიზაცია მთავარ პანელსა და დაკვრის სიას შორის</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ძიების ველის სინქრონიზაცია მთავარ პანელსა და {0}ს შორის</sys:String>
 </ResourceDictionary>

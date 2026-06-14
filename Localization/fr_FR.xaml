@@ -31,8 +31,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">il y a {0} semaines</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Dernière partie</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Ajouter à la liste de lecture</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Visibilité des colonnes</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Déplacer en bas</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Déplacer en haut</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Ouvrir les paramètres…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Retirer de la liste de lecture</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Afficher dans la bibliothèque</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Liste de lecture</sys:String>
@@ -48,7 +50,8 @@
 - mettre entre guillemets les valeurs contenant des espaces (ex. tag:"Action Roguelike")
 - virgule ou | (barre verticale) pour OU ; répéter la portée ou &amp; pour ET</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Activer l’intégration HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Langue de la liste de lecture</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Utiliser la langue de Playnite : {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">La langue de votre système est {0}. Utiliser {1} pour la liste de lecture uniquement ?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synchroniser la recherche entre le panneau principal et la liste de lecture</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

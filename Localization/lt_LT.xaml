@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">prieš {0} savaites</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Paskutinį kartą žaista</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Pridėti į grojaraštį</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Stulpelių matomumas</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Perkelti į apačią</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Perkelti į viršų</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Atidaryti nustatymus…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Pašalinti iš grojaraščio</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Rodyti bibliotekoje</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Grojaraštis</sys:String>
@@ -51,7 +53,8 @@
 - reikšmes su tarpais kabutėse (pvz. tag:"Action Roguelike")
 - kablelį arba | (vertikalią brūkšnį) ARBA; pakartokite sritį arba &amp; IR</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Įjungti HowLongToBeat integraciją</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Grojaraščio kalba</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Naudoti Playnite kalbą: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Jūsų sistemos kalba – {0}. Naudoti {1} tik grojaraščiui?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinchronizuoti paieškos lauką tarp pagrindinio skydelio ir Grojaraščio</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

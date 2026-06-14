@@ -1,7 +1,7 @@
 using Moq;
 using Playnite.SDK;
+using Playlist.UnitTests.Localization;
 using System.Globalization;
-using System.IO;
 using Xunit;
 
 namespace Playlist.UnitTests;
@@ -73,7 +73,6 @@ public class HltbLocalizedStringResolverTests : IDisposable
         const string hltbKey = "LOCHowLongToBeatMainStory";
         const string playlistKey = "LOCPlaylist_HLTB_TimeType_MainStory";
         const string englishBaseline = "Main story";
-        const string overrideValue = "Moʻolelo mua";
 
         CultureInfo previous = CultureInfo.CurrentUICulture;
         try
@@ -82,20 +81,15 @@ public class HltbLocalizedStringResolverTests : IDisposable
             resourceProvider.Setup(provider => provider.GetString(hltbKey)).Returns(englishBaseline);
             resourceProvider.Setup(provider => provider.GetString(playlistKey)).Returns(playlistKey);
 
-            using (Stream localeStream = typeof(HltbLocalizedStringResolverTests).Assembly
-                .GetManifestResourceStream("haw_US.xaml"))
+            PlaylistLocalizationTestPaths.RunWithSupplementalOverride(entries =>
             {
-                Assert.NotNull(localeStream);
-                PlaylistLocalizationOverride.SetActiveLocaleFromStream("haw_US", localeStream);
-            }
-
-            Assert.Equal(
-                overrideValue,
-                HltbLocalizedStringResolver.Resolve(hltbKey, playlistKey, englishBaseline));
+                Assert.Equal(
+                    entries[playlistKey],
+                    HltbLocalizedStringResolver.Resolve(hltbKey, playlistKey, englishBaseline));
+            });
         }
         finally
         {
-            PlaylistLocalizationOverride.SetActiveLocale(null);
             CultureInfo.CurrentUICulture = previous;
         }
     }

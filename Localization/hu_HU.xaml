@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} hete</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Utoljára játszva</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Hozzáadás a lejátszási listához</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Oszlopok láthatósága</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Mozgatás alulra</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Mozgatás felülre</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Beállítások megnyitása…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Eltávolítás a lejátszási listáról</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Megjelenítés a könyvtárban</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Lejátszási lista</sys:String>
@@ -51,7 +53,8 @@
 - szóközt tartalmazó értékek idézőjelezését (pl. tag:"Action Roguelike")
 - vesszőt vagy | (függőleges vonal) VAGY művelethez; hatókör ismétlése vagy &amp; ÉS művelethez</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat integráció engedélyezése</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Lejátszási lista nyelve</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} nyelve</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite nyelv használata: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">A rendszer nyelve: {0}. Csak a lejátszási listához használja a(z) {1} nyelvet?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keresőmező szinkronizálása a főpanel és a Lejátszási lista között</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keresőmező szinkronizálása a főpanel és a {0} között</sys:String>
 </ResourceDictionary>

@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">לפני {0} שבועות</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">שוחק לאחרונה</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">הוסף לרשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">נראות עמודות</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">העבר לסוף</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">העבר לראש</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">פתיחת הגדרות…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">הסר מרשימת השמעה</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">הצג בספרייה</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">רשימת השמעה</sys:String>
@@ -51,7 +53,8 @@
 - ערכים עם רווחים במרכאות (לדוגמה tag:"Action Roguelike")
 - פסיק או | (קו אנכי) עבור OR; חזרה על היקף או &amp; עבור AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">הפעל שילוב HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">שפת רשימת ההשמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">השתמש בשפת Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">שפת המערכת שלך היא {0}. להשתמש ב-{1} עבור רשימת ההשמעה בלבד?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">סנכרן תיבת חיפוש בין הלוח הראשי לרשימת השמעה</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">סנכרן תיבת חיפוש בין הלוח הראשי ל{0}</sys:String>
 </ResourceDictionary>

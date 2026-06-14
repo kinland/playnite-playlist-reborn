@@ -91,6 +91,7 @@ namespace Playlist
         internal static void ApplyFromSettings(PlaylistSettings settings)
         {
             SetActiveLocale(settings?.LanguageOverrideLocaleId);
+            settings?.NotifyLocalizedSettingLabelsChanged();
         }
 
         /// <summary>Test seam: load a locale dictionary from an embedded resource stream.</summary>

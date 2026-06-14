@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} waabang</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Gii-maajii naadamaadizi</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Playlist-aabii-izhaa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Doodemagak aabajitoon</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Aabii-izhaa</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Aabii-izhaa</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Gibizindan…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Playlist-aabii</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Masinahikan-aabii</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - tag:"Action Roguelike"
 - comma térã | OR; &amp; AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat aabii</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist inwewin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} inwewin</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playnite inwewin izhi-ayaawag: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Naaltsoos inwewin {0}. Playlist-mi {1} gii-izhi?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Playlist naaltsoos panel aabii</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">{0} naaltsoos panel aabii</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Aabijigaade gwayakodewin</sys:String>
     <sys:String x:Key="LOCTimePlayed">Naadamaadizi-bii'aan</sys:String>
 </ResourceDictionary>

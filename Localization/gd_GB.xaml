@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} seachdain air ais</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Air a chluich mu dheireadh</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Cuir ris an liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Faicsinneachd nam colbh</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Gluais gu bun</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Gluais gu mullach</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Fosgail roghainnean…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Thoir air falbh on liosta-chluich</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Seall sa leabharlann</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Liosta-chluich</sys:String>
@@ -63,9 +65,10 @@
 - cuir luachan le beàrnan ann an comharran (m.e. tag:"Action Roguelike")
 - coma no | airson NO; ath-aithris scòp no &amp; airson AGUS</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Cuir an comas eadar-obrachadh HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Cànan an liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Cleachd cànan Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Is e {0} cànan an t-siostaim agad. A bheil thu airson {1} a chleachdadh dìreach airson an liosta-chluich?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaich bogsa-luirg eadar am prìomh phannal agus Liosta-chluich</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sioncronaich bogsa-luirg eadar am prìomh phannal agus {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Suidhich cor a' chrìochnachaidh</sys:String>
     <sys:String x:Key="LOCTimePlayed">Ùine cluiche</sys:String>
 </ResourceDictionary>

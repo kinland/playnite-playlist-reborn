@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} wiki ki muri</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Purei whakamutunga</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Tāpiri ki te Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Te kitenga o ngā tīwae</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Nuku ki raro</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Nuku ki runga</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Whakatuwhera tautuhinga…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Tango mai i te Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Whakaatu i te whare pukapuka</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - te whakamāori i ngā uara me ngā mokowā (hei tauira tag:"Action Roguelike")
 - te piko, | mō OR; te tārua i te āhua, &amp; mō AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Whakahohe i te whakauru HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Te reo Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Te reo {0}</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Whakamahia te reo Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Ko {0} te reo o tō pūnaha. Whakamahia te {1} mō te Playlist anake?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Tukutahi i te pouaka rapu i waenga i te papa matua me te Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Tukutahi i te pouaka rapu i waenga i te papa matua me te {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Whakatauhia te tūnga whakamutunga</sys:String>
     <sys:String x:Key="LOCTimePlayed">Wā purei</sys:String>
 </ResourceDictionary>

@@ -28,8 +28,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} 周前</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">上次游玩</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">添加到播放列表</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">列可见性</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">移至底部</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">移至顶部</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">打开设置…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">从播放列表中移除</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">在库中显示</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">播放列表</sys:String>
@@ -45,7 +47,8 @@
 - 对含空格的值加引号（例如 tag:"Action Roguelike"）
 - 逗号或 |（竖线）表示 OR；重复范围或 &amp; 表示 AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">启用 HowLongToBeat 集成</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">播放列表语言</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}语言</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">使用 Playnite 语言：{0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">您的系统语言是 {0}。仅为播放列表使用 {1}？</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">同步主面板与播放列表的搜索框</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">同步主面板与{0}的搜索框</sys:String>
 </ResourceDictionary>

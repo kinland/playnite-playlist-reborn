@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Playlist.UnitTests;
 
-[CollectionDefinition(nameof(PlaylistLocalizationTestCollection))]
+[CollectionDefinition(nameof(PlaylistLocalizationTestCollection), DisableParallelization = true)]
 public class PlaylistLocalizationTestCollection
 {
 }

@@ -1,4 +1,4 @@
-using System;
+using Playlist.UnitTests.Localization;
 using Xunit;
 
 namespace Playlist.UnitTests;
@@ -7,40 +7,30 @@ namespace Playlist.UnitTests;
 public class CompletionStatusLocalizationTests
 {
     [Fact]
-    public void LocalizeDisplayName_uses_override_for_default_status_names()
+    public void LocalizeDisplayName_uses_supplemental_hawaiian_override_for_default_status_names()
     {
-        Func<string, string> previous = PlaylistLocalization.TestGetString;
-        try
+        PlaylistLocalizationTestPaths.RunWithSupplementalOverride(entries =>
         {
-            PlaylistLocalization.TestGetString = key => key switch
-            {
-                "LOCCompletionStatusPlayed" => "Ua pāʻani ʻia",
-                "LOCCompletionStatusNotPlayed" => "ʻAʻole i pāʻani ʻia",
-                _ => key,
-            };
+            Assert.Equal(entries["LOCCompletionStatusPlayed"], CompletionStatusLocalization.LocalizeDisplayName("Played"));
+            Assert.Equal(entries["LOCCompletionStatusNotPlayed"], CompletionStatusLocalization.LocalizeDisplayName("Not Played"));
+        });
+    }
 
-            Assert.Equal("Ua pāʻani ʻia", CompletionStatusLocalization.LocalizeDisplayName("Played"));
-            Assert.Equal("ʻAʻole i pāʻani ʻia", CompletionStatusLocalization.LocalizeDisplayName("Not Played"));
-        }
-        finally
-        {
-            PlaylistLocalization.TestGetString = previous;
-        }
+    [Fact]
+    public void LocalizeDisplayName_returns_english_name_on_native_playnite_locale_path()
+    {
+        PlaylistLocalizationTestPaths.RunWithNativePlayniteProvider(
+            PlaylistLocalizationTestPaths.NativePlayniteGermanStrings(),
+            () =>
+            {
+                Assert.Equal("Played", CompletionStatusLocalization.LocalizeDisplayName("Played"));
+                Assert.Equal("Not Played", CompletionStatusLocalization.LocalizeDisplayName("Not Played"));
+            });
     }
 
     [Fact]
     public void LocalizeDisplayName_returns_custom_status_names_unchanged()
     {
-        Func<string, string> previous = PlaylistLocalization.TestGetString;
-        try
-        {
-            PlaylistLocalization.TestGetString = key => key;
-
-            Assert.Equal("Endless", CompletionStatusLocalization.LocalizeDisplayName("Endless"));
-        }
-        finally
-        {
-            PlaylistLocalization.TestGetString = previous;
-        }
+        Assert.Equal("Endless", CompletionStatusLocalization.LocalizeDisplayName("Endless"));
     }
 }

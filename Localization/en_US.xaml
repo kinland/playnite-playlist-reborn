@@ -28,8 +28,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} weeks ago</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Last Played</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Add to Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Column visibility</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Move to Bottom</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Move to Top</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Open settings…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Remove from Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Show in Library</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -45,7 +47,8 @@
 - quote values with spaces (e.g. tag:"Action Roguelike")
 - comma or | (pipe) for OR; repeat scope or &amp; for AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Enable HowLongToBeat integration</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Match Playnite language: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Your system language is {0}. Use {1} for Playlist only?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

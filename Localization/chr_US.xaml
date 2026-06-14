@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} ᏅᏙᏗ ᎠᏯᎢ</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">ᎤᎿᏉᏛ ᎠᎾᏗᏜ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">ᏣᏓᏟᎶᏍᏗ Playlist-ᏗᏜ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">ᎤᏬᏠᏍᏗ ᎠᏓᏁᏍᏗ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">ᎠᏯᏙᏗᏍᏗ ᎡᎳᏗᏢ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">ᎠᏯᏙᏗᏍᏗ ᎡᎳᏗᏢ ᎡᏍᏗ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">ᎠᏟᎢᏍᏗ ᎠᏓᏁᏍᏗ…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">ᎠᏩᏍᏗ Playlist-ᎠᏟᎶᏍᏗ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">ᏥᎸᏍᏗ ᎤᎾᏕᎵᏛᏗ-Ꮧ</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - tag:"Action Roguelike" ᎤᏬᏢᎢ
 - comma térã | OR-rã; &amp; AND-rã</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">ᎤᏍᏆᏂᏱᏍᏗ HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist ᎤᏬᏢᎢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} ᎤᏬᏢᎢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">ᎤᏍᏆᏂᏱᏍᏗ Playnite ᎠᏓᏁᏟᎶᏍᏗ: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">ᎤᎾᏛᏅᎢ ᎤᏬᏢᎢ {0}. Playlist ᎤᎬᏫᏳᏒᏂ {1}?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ᎠᏓᏁᏟᎶᏍᏗ ᎠᏕᏲᏍᏗ Playlist ᎠᎴ ᏧᎾᎵᏍᏙᏗ ᏗᎦᎳᏫᎢ</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">ᎠᏓᏁᏟᎶᏍᏗ ᎠᏕᏲᏍᏗ {0} ᎠᎴ ᏧᎾᎵᏍᏙᏗ ᏗᎦᎳᏫᎢ</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">ᎠᏓᎬᏗ ᎤᎬᏫᏳᏒᏂ ᎤᏍᏆᏂᏱᏍᏗ</sys:String>
     <sys:String x:Key="LOCTimePlayed">ᎠᏯᏙᏗ ᎤᎵᏏᎩ</sys:String>
 </ResourceDictionary>

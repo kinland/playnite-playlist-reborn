@@ -46,8 +46,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} week syne</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Hinmaist playt</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Add tae Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Visibility o columns</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Pit at the bottom</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Pit at the tap</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Open settins…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Tak awa frae Playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Shaw in the leebrary</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -63,9 +65,10 @@
 - pit values wi spaces in quotes (e.g. tag:"Action Roguelike")
 - uise comma or | for OR; repeat a scope or &amp; for AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Hae HowLongToBeat workin thegither wi Playlist</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlist leid</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} leid</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Match Playnite leid: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Yer seestem leid is {0}. Dae ye want tae uise {1} for Playlist only?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keep the sairch box the same in the main paneel an Playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Keep the sairch box the same in the main paneel an {0}</sys:String>
     <sys:String x:Key="LOCSetCompletionStatus">Set the gemme staun</sys:String>
     <sys:String x:Key="LOCTimePlayed">Hou lang playt</sys:String>
 </ResourceDictionary>

@@ -74,6 +74,7 @@
     <Compile Include="..\..\third_party\howlongtobeat\HltbSettingsJson.cs" Link="Production\HltbSettingsJson.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbPlaytimeFormat.cs" Link="Production\HltbPlaytimeFormat.cs" />
     <Compile Include="..\..\PlaylistSettings.cs" Link="Production\PlaylistSettings.cs" />
+    <Compile Include="..\..\PlaylistColumnVisibilitySettings.cs" Link="Production\PlaylistColumnVisibilitySettings.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HowLongToBeatAddonNavigation.cs" Link="Production\HowLongToBeatAddonNavigation.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbSortKeyBuilder.cs" Link="Production\HltbSortKeyBuilder.cs" />
     <Compile Include="..\..\third_party\howlongtobeat\HltbInteriorLabelOverlap.cs" Link="Production\HltbInteriorLabelOverlap.cs" />

@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} minggu yang lalu</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Terakhir Dimainkan</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Tambahkan ke Daftar Putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Visibilitas kolom</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Pindah ke Bawah</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Pindah ke Atas</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Buka pengaturan…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Hapus dari Daftar Putar</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Tampilkan di Perpustakaan</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Daftar Putar</sys:String>
@@ -51,7 +53,8 @@
 - nilai dengan spasi dalam tanda kutip (contoh tag:"Action Roguelike")
 - koma atau | (pipa) untuk ATAU; ulangi ruang lingkup atau &amp; untuk DAN</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktifkan integrasi HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Bahasa daftar putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Gunakan bahasa Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Bahasa sistem Anda adalah {0}. Gunakan {1} hanya untuk Daftar Putar?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronkan kotak pencarian antara panel utama dan Daftar Putar</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sinkronkan kotak pencarian antara panel utama dan {0}</sys:String>
 </ResourceDictionary>

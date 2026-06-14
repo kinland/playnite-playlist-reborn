@@ -30,8 +30,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">πριν από {0} εβδομάδες</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Τελευταία παιχνίδι</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Προσθήκη στη λίστα αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Ορατότητα στηλών</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Μετακίνηση στο τέλος</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Μετακίνηση στην κορυφή</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Άνοιγμα ρυθμίσεων…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Αφαίρεση από τη λίστα αναπαραγωγής</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Εμφάνιση στη βιβλιοθήκη</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Λίστα αναπαραγωγής</sys:String>
@@ -47,7 +49,8 @@
 - τιμές με κενά σε εισαγωγικά (π.χ. tag:"Action Roguelike")
 - κόμμα ή | (κάθετη γραμμή) για Ή· επανάληψη εύρους ή &amp; για ΚΑΙ</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Ενεργοποίηση ενσωμάτωσης HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Γλώσσα playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Χρήση γλώσσας Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Η γλώσσα του συστήματός σας είναι {0}. Να χρησιμοποιηθεί το {1} μόνο για το playlist;</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Συγχρονισμός πεδίου αναζήτησης μεταξύ κύριου πίνακα και Λίστας αναπαραγωγής</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sync search box between main panel and {0}</sys:String>
 </ResourceDictionary>

@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">acum {0} săptămâni</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Ultima sesiune</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Adaugă la lista de redare</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Vizibilitate coloane</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Mută jos</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Mută sus</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Deschide setările…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Elimină din lista de redare</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Afișează în bibliotecă</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Listă de redare</sys:String>
@@ -51,7 +53,8 @@
 - valori cu spații între ghilimele (ex. tag:"Action Roguelike")
 - virgulă sau | (bară verticală) pentru SAU; repetați domeniul sau &amp; pentru ȘI</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Activează integrarea HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Limba playlistului</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Folosește limba Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Limba sistemului tău este {0}. Folosiți {1} doar pentru playlist?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizează caseta de căutare între panoul principal și Lista de redare</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizează caseta de căutare între panoul principal și {0}</sys:String>
 </ResourceDictionary>

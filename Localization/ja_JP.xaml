@@ -28,8 +28,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0}週間前</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">最終プレイ</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">プレイリストに追加</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">列の表示</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">末尾に移動</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">先頭に移動</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">設定を開く…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">プレイリストから削除</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">ライブラリで表示</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">プレイリスト</sys:String>
@@ -45,7 +47,8 @@
 - 空白を含む値は引用符で囲む（例: tag:"Action Roguelike"）
 - カンマまたは |（縦棒）で OR、スコープの繰り返しまたは &amp; で AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">HowLongToBeat 連携を有効にする</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">プレイリストの言語</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}の言語</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Playniteの言語に合わせる: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">システムの言語は {0} です。プレイリストのみ {1} を使用しますか？</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">メインパネルとプレイリストの検索ボックスを同期する</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">メインパネルと{0}の検索ボックスを同期する</sys:String>
 </ResourceDictionary>

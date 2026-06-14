@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">преди {0} седмици</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Последно играна</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Добавяне към плейлиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Видимост на колони</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Преместване най-отдолу</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Преместване най-отгоре</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Отваряне на настройки…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Премахване от плейлиста</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Показване в библиотеката</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Плейлист</sys:String>
@@ -51,7 +53,8 @@
 - стойности с интервали в кавички (напр. tag:"Action Roguelike")
 - запетая или | (вертикална черта) за ИЛИ; повторение на обхват или &amp; за И</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Активиране на интеграция с HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Език на плейлиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Използване на езика на Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Езикът на вашата система е {0}. Да използвате {1} само за плейлиста?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронизиране на полето за търсене между основния панел и Плейлиста</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Синхронизиране на полето за търсене между основния панел и {0}а</sys:String>
 </ResourceDictionary>

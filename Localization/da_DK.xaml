@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} uger siden</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Sidst spillet</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Føj til afspilningsliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Kolonnesynlighed</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Flyt til bund</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Flyt til top</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Åbn indstillinger…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Fjern fra afspilningsliste</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Vis i bibliotek</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Afspilningsliste</sys:String>
@@ -51,7 +53,8 @@
 - sæt værdier med mellemrum i anførselstegn (f.eks. tag:"Action Roguelike")
 - komma eller | (pipe) for ELLER; gentag omfang eller &amp; for OG</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Aktivér HowLongToBeat-integration</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Playlistsprog</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0}sprog</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Brug Playnite-sprog: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">Dit systemsprog er {0}. Brug {1} kun til playlist?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronisér søgefelt mellem hovedpanel og Afspilningsliste</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Synkronisér søgefelt mellem hovedpanel og {0}</sys:String>
 </ResourceDictionary>

@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">{0} هفته پیش</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">آخرین بازی</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">افزودن به فهرست پخش</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">نمایش ستون‌ها</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">انتقال به پایین</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">انتقال به بالا</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">باز کردن تنظیمات…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">حذف از فهرست پخش</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">نمایش در کتابخانه</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">فهرست پخش</sys:String>
@@ -51,7 +53,8 @@
 - قرار دادن مقادیر دارای فاصله در گیومه (مثال tag:"Action Roguelike")
 - ویرگول یا | (خط عمودی) برای OR؛ تکرار دامنه یا &amp; برای AND</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">فعال‌سازی یکپارچه‌سازی HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">زبان فهرست پخش</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">زبان {0}</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">استفاده از زبان Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">زبان سیستم شما {0} است. {1} فقط برای فهرست پخش استفاده شود؟</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">همگام‌سازی جعبه جستجو بین پنل اصلی و فهرست پخش</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">همگام‌سازی جعبه جستجو بین پنل اصلی و {0}</sys:String>
 </ResourceDictionary>

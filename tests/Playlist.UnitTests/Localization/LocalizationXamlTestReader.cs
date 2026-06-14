@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Playlist.UnitTests.Localization;
@@ -14,14 +15,34 @@ internal static class LocalizationXamlTestReader
 
     internal static IReadOnlyDictionary<string, string> ReadEntries(string filePath)
     {
-        string content = File.ReadAllText(filePath);
+        return ReadEntriesFromContent(File.ReadAllText(filePath), filePath);
+    }
+
+    internal static IReadOnlyDictionary<string, string> ReadEntriesFromStream(Stream stream, string sourceName = "stream")
+    {
+        if (stream == null)
+        {
+            throw new ArgumentNullException(nameof(stream));
+        }
+
+        string content;
+        using (var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true, bufferSize: 1024, leaveOpen: true))
+        {
+            content = reader.ReadToEnd();
+        }
+
+        return ReadEntriesFromContent(content, sourceName);
+    }
+
+    private static IReadOnlyDictionary<string, string> ReadEntriesFromContent(string content, string sourceName)
+    {
         var entries = new Dictionary<string, string>(StringComparer.Ordinal);
         foreach (Match match in EntryPattern.Matches(content))
         {
             string key = match.Groups[1].Value;
             if (entries.ContainsKey(key))
             {
-                throw new InvalidOperationException($"Duplicate localization key '{key}' in {filePath}");
+                throw new InvalidOperationException($"Duplicate localization key '{key}' in {sourceName}");
             }
 
             entries[key] = match.Groups[3].Value;

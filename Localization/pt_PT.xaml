@@ -34,8 +34,10 @@
     <sys:String x:Key="LOCPlaylist_LastPlayed_WeeksAgo">há {0} semanas</sys:String>
     <sys:String x:Key="LOCPlaylist_LastPlayedColumn">Última vez jogado</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_AddToPlaylist">Adicionar à playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_Columns">Visibilidade das colunas</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToBottom">Mover para o fundo</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_MoveToTop">Mover para o topo</sys:String>
+    <sys:String x:Key="LOCPlaylist_Menu_OpenSettings">Abrir definições…</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_RemoveFromPlaylist">Remover da playlist</sys:String>
     <sys:String x:Key="LOCPlaylist_Menu_ShowInLibrary">Mostrar na biblioteca</sys:String>
     <sys:String x:Key="LOCPlaylist_Playlist">Playlist</sys:String>
@@ -51,7 +53,8 @@
 - valores com espaços entre aspas (ex. tag:"Action Roguelike")
 - vírgula ou | (barra vertical) para OU; repetir âmbito ou &amp; para E</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_EnableHLTBIntegration">Ativar integração HowLongToBeat</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">Idioma da lista de reprodução</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_LanguageOverride">{0} language</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_MatchPlayniteLanguage">Usar o idioma do Playnite: {0}</sys:String>
     <sys:String x:Key="LOCPlaylist_Settings_OsLocaleMismatchPrompt">O idioma do seu sistema é {0}. Utilizar {1} apenas para a lista de reprodução?</sys:String>
-    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar a pesquisa entre o painel principal e a playlist</sys:String>
+    <sys:String x:Key="LOCPlaylist_Settings_SyncSearchWithMainPanel">Sincronizar a pesquisa entre o painel principal e {0}</sys:String>
 </ResourceDictionary>

@@ -64,6 +64,11 @@ namespace Playlist
                         PlaylistViewModel = new PlaylistViewModel(PlaylistGames, PlayniteApi);
                         PlaylistView = new PlaylistView(PlaylistViewModel);
                     }
+                    else
+                    {
+                        // Settings can change from the Extensions menu while another sidebar view is active.
+                        PlaylistView.ApplySettings();
+                    }
 
                     MainSearchSync.Attach(PlaylistViewModel);
                     isPlaylistViewOpen = true;
@@ -91,6 +96,19 @@ namespace Playlist
                     }
                 }
             };
+        }
+
+        public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args)
+        {
+            if (args.IsGlobalSearchRequest)
+            {
+                yield break;
+            }
+
+            foreach (MainMenuItem item in PlaylistQuickAccessMenuBuilder.BuildExtensionMainMenuItems())
+            {
+                yield return item;
+            }
         }
 
         public override Guid Id { get; } = Guid.Parse("b0313f81-2b86-4eba-9f24-1a727dedbd45");
@@ -142,11 +160,13 @@ namespace Playlist
         {
             SavePluginSettings(settings);
             StaticSettings = settings;
+            settings?.NotifyPersistedToStorage();
         }
 
         internal void ApplySettingsToOpenView()
         {
             StaticSettings = settings;
+            settings?.RefreshHowLongToBeatInstallState();
             PlaylistView?.ApplySettings();
             MainSearchSync?.ApplySettingsChange(isPlaylistViewOpen);
         }
