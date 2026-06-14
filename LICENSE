@@ -1,6 +1,7 @@
 ISC License
 
 Copyright (c) 2021 Blake Burkhart
+Copyright (c) 2026 Kinland
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
@@ -17,6 +18,9 @@ PERFORMANCE OF THIS SOFTWARE.
 # External Libraries
 
 ## GongSolutions.WPF.DragDrop
+
+Used for drag-and-drop reordering in the playlist grid. Redistributed in the
+distributed `.pext` package as `GongSolutions.WPF.DragDrop.dll`.
 
 BSD 3-Clause License
 
@@ -47,20 +51,75 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-### Icofont
+## Microsoft .NET libraries
 
-play-alt-1.svg and icon.png are from Icofont, licensed CC BY 4.0 and SIL OLF.
+The following libraries are bundled in the distributed `.pext` package under the
+MIT License (via the `System.Text.Json` NuGet dependency and its runtime
+dependencies):
 
-## HowLongToBeat plugin interoperability notes
+- `Microsoft.Bcl.AsyncInterfaces.dll`
+- `System.Buffers.dll`
+- `System.Memory.dll`
+- `System.Numerics.Vectors.dll`
+- `System.Runtime.CompilerServices.Unsafe.dll`
+- `System.Text.Encodings.Web.dll`
+- `System.Text.Json.dll`
+- `System.Threading.Tasks.Extensions.dll`
+- `System.ValueTuple.dll`
+
+MIT License
+
+Copyright (c) .NET Foundation and Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Playnite SDK
+
+Playlist is a Playnite extension and is built against `PlayniteSDK`. The SDK is
+provided at runtime by the Playnite host application and is not redistributed in
+the `.pext` package. Upstream: https://github.com/JosefNemec/Playnite
+
+## IcoFont
+
+The following assets use glyphs from [IcoFont](https://icofont.com/):
+
+- `icon.png` — extension icon (derived from the `play-alt-1` glyph)
+- `play-alt-1.svg` — source glyph reference
+- Sidebar back navigation control — `ui-play` glyph via Playnite's `FontIcoFont`
+
+IcoFont icons are used under the
+[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+(CC BY 4.0). IcoFont font files may additionally be subject to the SIL Open Font
+License as stated by IcoFont.
+
+Attribution: Icons by IcoFont — https://icofont.com
+
+## HowLongToBeat plugin interoperability
 
 Upstream project: https://github.com/Lacro59/playnite-howlongtobeat-plugin
 
-License: MIT
+License: MIT (scoped to interoperability sources in this repository only)
 
-This project contains HowLongToBeat interoperability code (cache/settings
-consumption and related UI) under `third_party/howlongtobeat/`. The MIT text in
-that folder’s `LICENSE` applies only to those files, not to the whole
-extension. See also:
+Playlist contains HowLongToBeat interoperability code under
+`third_party/howlongtobeat/` (cache/settings consumption, progress bar UI,
+add-on navigation, sorting, and related helpers). The MIT text in that folder's
+`LICENSE` applies only to those files, not to the whole extension. See also:
 
 - `third_party/howlongtobeat/LICENSE`
 - `third_party/howlongtobeat/NOTICE.md`

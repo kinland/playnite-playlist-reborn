@@ -5,13 +5,18 @@ The MIT license text below applies **only** to the HowLongToBeat (HLTB)
 interoperability materials in **this same directory** (this folder and its
 contents), namely:
 
-- `HowLongToBeatCache.cs` — reads the official HLTB Playnite extension’s
-  on-disk cache and settings for rendering.
-- `HowLongToBeatCachedProgressBar.cs` — list-view bar UI driven by that data.
-- `HowLongToBeatPluginButtonHost.cs` — optional embedding of the HLTB extension’s
-  small game view control.
-- `HltbSettingsJson.cs` — merges HLTB settings from Playnite JSON into render options.
+- `HltbCacheFileAccess.cs` — shared-read access to HLTB per-game cache JSON on disk.
+- `HltbInteriorLabelOverlap.cs` — overlap suppression for interior HLTB time labels.
 - `HltbPlaytimeFormat.cs` — playtime label formatting aligned with Playnite / HLTB.
+- `HltbSettingsJson.cs` — merges HLTB settings from Playnite JSON into render options.
+- `HltbSortKeyBuilder.cs` — builds HLTB column sort keys from cached times and settings.
+- `HowLongToBeatAddonNavigation.cs` — detects HLTB add-on install/enable state and opens
+  Playnite's Add-ons UI for HowLongToBeat.
+- `HowLongToBeatCache.cs` — reads the official HLTB Playnite extension's on-disk cache
+  and settings for rendering.
+- `HowLongToBeatCachedProgressBar.cs` — list-view bar UI driven by that data.
+- `HowLongToBeatPluginButtonHost.cs` — optional embedding of the HLTB extension's small
+  game view control.
 - `NOTICE.md` — attribution and provenance notes for the above.
 
 It does **not** apply to the Playlist extension as a whole. The rest of the
@@ -19,7 +24,7 @@ repository is licensed under the terms stated in the **repository root**
 `LICENSE` file (unless another file in a given path states otherwise).
 
 The upstream HowLongToBeat plugin project (Lacro59) is MIT-licensed; the MIT
-text below is the standard license from that upstream work. This folder’s
+text below is the standard license from that upstream work. This folder's
 disclaimer clarifies that our Playlist project is not relicensing unrelated code
 under MIT.
 
@@ -28,6 +33,7 @@ under MIT.
 MIT License
 
 Copyright (c) 2020 Lacro59
+Copyright (c) 2026 Kinland
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

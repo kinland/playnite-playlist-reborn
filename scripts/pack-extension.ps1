@@ -70,6 +70,18 @@ foreach ($file in @("README.md", "LICENSE")) {
     }
 }
 
+$hltbThirdPartySource = Join-Path $ProjectDir "third_party\howlongtobeat"
+$hltbThirdPartyDest = Join-Path $extensionDir "third_party\howlongtobeat"
+if (Test-Path -LiteralPath $hltbThirdPartySource) {
+    New-Item -ItemType Directory -Force -Path $hltbThirdPartyDest | Out-Null
+    foreach ($file in @("LICENSE", "NOTICE.md")) {
+        $source = Join-Path $hltbThirdPartySource $file
+        if (Test-Path -LiteralPath $source) {
+            Copy-Item -LiteralPath $source -Destination (Join-Path $hltbThirdPartyDest $file) -Force
+        }
+    }
+}
+
 $localizationSource = Join-Path $ProjectDir "Localization"
 $localizationDest = Join-Path $extensionDir "Localization"
 if (Test-Path -LiteralPath $localizationSource) {
