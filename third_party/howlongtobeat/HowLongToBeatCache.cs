@@ -186,7 +186,7 @@ namespace Playlist
 
             try
             {
-                string json = ReadCacheTextAllowingWriter(settingsPath);
+                string json = HltbCacheFileAccess.ReadTextAllowingWriter(settingsPath);
                 HltbRenderSettings merged = HltbRenderSettings.CreateDefaults();
                 try
                 {
@@ -227,11 +227,6 @@ namespace Playlist
                 cachedSettingsFileUtcTicks = ticks;
                 return cachedSettings;
             }
-        }
-
-        private static string ReadCacheTextAllowingWriter(string filePath)
-        {
-            return HltbCacheFileAccess.ReadTextAllowingWriter(filePath);
         }
 
         private static string GetHltbDatabasePath(IPlayniteAPI api)
