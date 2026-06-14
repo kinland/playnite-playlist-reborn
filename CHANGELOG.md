@@ -11,34 +11,31 @@ _No unreleased changes recorded yet._
 
 ## [1.7.0] - 2026-06-14
 
+- HowLongToBeat integration in the playlist grid
+  - Playtime, progress bar, and detail button in each row
+  - Sort and display follow the HLTB plugin preferred time type; header shows category on hover and when active
+  - Respects HLTB appearance settings (segments, progress bar, time display)
+  - Prompts to install or enable the plugin when unavailable
 - Optional columns (toggle from the column header menu)
-  - Rank with double-click jump to position
-  - Last Played with relative-time labels
   - Time Played with theme-aware formatting
   - Completion Status
   - HowLongToBeat (hidden when the plugin is missing or integration is disabled)
+  - Last Played with relative-time labels
   - Last Activity (hidden by default; keyed on Game.Modified)
-- Inline playlist search
-  - Fuzzy matching with `*` and `?` wildcards
+- Playlist search improvements
   - Scoped filters: tag, genre, developer, publisher, category, feature (with aliases)
   - Negation, OR/AND combinators, and quoted values
   - Clear button; optional sync with Playnite's main filter panel
-- HowLongToBeat integration in the playlist grid
-  - Playtime, progress bar, and detail button in each row
-  - Sort and display follow the HLTB plugin preferred time type
-  - Respects HLTB appearance settings (segments, progress bar, time display)
-  - Prompts to install or enable the plugin when unavailable
 - Sorting and drag reorder
-  - Sort by any column; active column shows a direction glyph
+  - Sort by any column; sortable headers use a hand cursor
   - Drag-reorder by rank only, with no-drop cursor when unavailable
-  - Time Played and Last Played sorts pin unplayed games to the bottom
+  - Time Played and Last Played sorts pin unplayed games to the bottom; Time Played defaults to descending
   - Last Played drag reorder stays within the same relative-time bucket
 - Column layout and styling
-  - Persist order, widths, visibility, and sort state across restarts
-  - Drag column headers to reorder; distribute widths on first launch
+  - Persist column order, widths, visibility, and sort state across restarts
+  - Drag column headers to reorder; theme-aware full-height drop indicator while dragging; distribute widths on first launch
   - Theme-agnostic headers, sort highlighting, and row styling
 - Localization for all 45 Playnite-supported locales plus 14 supplemental Playlist locales (machine translated except initial Spanish by BanCrash)
-- Synchronised Playlist tag on member games and auto-generated Playlist filter
 - Requires Playnite API 6.5.0 or newer
 
 ## [1.6.1] - 2026-06-06
