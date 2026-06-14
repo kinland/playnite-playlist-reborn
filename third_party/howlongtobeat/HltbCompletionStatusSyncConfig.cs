@@ -12,7 +12,7 @@ namespace Playlist
 {
     /// <summary>
     /// Reads and writes HowLongToBeat plugin completion-status sync settings in its on-disk config.
-    /// Playlist owns the mapping UI; HLTB's plugin performs outbound sync when statuses change.
+    /// Playlist toggles outbound sync; status mappings are owned by the HLTB plugin settings UI.
     /// </summary>
     internal static class HltbCompletionStatusSyncConfig
     {
@@ -122,45 +122,40 @@ namespace Playlist
                 return;
             }
 
-            HltbCompletionStatusMapping mapping = settings.ToHltbCompletionStatusMapping();
+            List<CompletionStatus> completionStatuses = MaterializeCompletionStatuses(api.Database?.CompletionStatuses);
+
+            HltbCompletionStatusMapping mapping = ReadMapping();
             if (!mapping.IsConfigured())
             {
-                mapping = HltbCompletionStatusMapping.ResolveDefaults(api.Database.CompletionStatuses);
-                settings.ApplyHltbCompletionStatusMapping(mapping);
+                mapping = HltbCompletionStatusMapping.ResolveDefaults(completionStatuses);
             }
 
-            mapping.ApplyFixedBacklogMapping(api.Database.CompletionStatuses);
+            mapping.ApplyFixedBacklogMapping(completionStatuses);
             mapping.AutoSetGameStatusToHltb = true;
             TryWriteMapping(mapping);
         }
 
-        internal static void ImportIntoPlaylistSettings(IPlayniteAPI api, PlaylistSettings settings)
+        private static List<CompletionStatus> MaterializeCompletionStatuses(IEnumerable<CompletionStatus> completionStatuses)
         {
-            if (api == null || settings == null)
+            if (completionStatuses == null)
             {
-                return;
+                return new List<CompletionStatus>();
             }
 
-            if (settings.HltbSyncStatusPlayingId != Guid.Empty
-                && settings.HltbSyncStatusCompletedId != Guid.Empty
-                && settings.HltbSyncStatusCompletionistId != Guid.Empty)
+            return completionStatuses
+                .Where(status => status != null && status.Id != Guid.Empty)
+                .ToList();
+        }
+
+        internal static void SyncCheckboxFromHltbConfig(PlaylistSettings settings)
+        {
+            if (settings == null)
             {
                 return;
             }
 
             HltbCompletionStatusMapping fromHltb = ReadMapping();
-            if (fromHltb.IsConfigured())
-            {
-                settings.SyncCompletionStatusWithHltb = fromHltb.AutoSetGameStatusToHltb;
-                settings.ApplyHltbCompletionStatusMapping(fromHltb);
-                return;
-            }
-
-            HltbCompletionStatusMapping defaults = HltbCompletionStatusMapping.ResolveDefaults(api.Database.CompletionStatuses);
-            if (defaults.IsConfigured())
-            {
-                settings.ApplyHltbCompletionStatusMapping(defaults);
-            }
+            settings.SyncCompletionStatusWithHltb = fromHltb.AutoSetGameStatusToHltb;
         }
 
         internal static string ResolveConfigPath()

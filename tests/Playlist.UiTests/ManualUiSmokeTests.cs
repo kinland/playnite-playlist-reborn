@@ -83,7 +83,17 @@ public class ManualUiSmokeTests
             TextBlock empty = GetPrivateField<TextBlock>(control, "emptyLabel");
 
             Assert.Equal(3, strip.Children.Count);
-            Assert.Equal("https://howlongtobeat.com/game?id=123", control.ToolTip);
+            Assert.Null(control.ToolTip);
+
+            var firstSegment = Assert.IsType<Border>(strip.Children[0]);
+            string segmentToolTip = Assert.IsType<string>(firstSegment.ToolTip);
+            Assert.Contains("(", segmentToolTip);
+            Assert.Contains(")", segmentToolTip);
+
+            Border marker = GetPrivateField<Border>(control, "playtimeMarker");
+            string markerToolTip = Assert.IsType<string>(marker.ToolTip);
+            Assert.Contains("(", markerToolTip);
+            Assert.Contains(")", markerToolTip);
             Assert.Equal(Visibility.Collapsed, empty.Visibility);
         });
     }

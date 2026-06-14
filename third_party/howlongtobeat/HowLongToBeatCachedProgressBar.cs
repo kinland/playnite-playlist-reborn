@@ -205,14 +205,7 @@ namespace Playlist
             long scaleMax = ComputeScaleMax(maxHltb, playedSeconds);
             RenderSegments(segments, scaleMax, settings);
             RenderPlaytimeMarker(playedSeconds, scaleMax, settings);
-            if (settings.ProgressBarShowToolTip && !string.IsNullOrEmpty(times.Url))
-            {
-                ToolTip = times.Url;
-            }
-            else
-            {
-                ToolTip = null;
-            }
+            ToolTip = null;
         }
 
         private void SetUnknown()
@@ -228,6 +221,7 @@ namespace Playlist
             playtimeMarker.Visibility = Visibility.Collapsed;
             emptyLabel.Visibility = Visibility.Visible;
             ApplyEmptyStateVisuals();
+            playtimeMarker.ToolTip = null;
             ToolTip = null;
         }
 
@@ -371,7 +365,7 @@ namespace Playlist
 
                 if (settings.ProgressBarShowToolTip && !string.IsNullOrEmpty(fullLabel))
                 {
-                    border.ToolTip = fullLabel;
+                    border.ToolTip = FormatToolTipWithCategory(fullLabel, segments[i].CategoryLabel);
                 }
 
                 segmentStrip.Children.Add(border);
@@ -412,6 +406,7 @@ namespace Playlist
 
         private void RenderPlaytimeMarker(long playtimeSeconds, long scaleMax, HltbRenderSettings settings)
         {
+            playtimeMarker.ToolTip = null;
             if (scaleMax <= 0 || playtimeSeconds <= 0)
             {
                 playtimeMarker.Visibility = Visibility.Collapsed;
@@ -457,6 +452,15 @@ namespace Playlist
             else
             {
                 playtimeMarker.BorderBrush = Brushes.Transparent;
+            }
+
+            if (settings.ProgressBarShowToolTip)
+            {
+                string playedLabel = HltbPlaytimeFormat.FormatSeconds(
+                    playtimeSeconds,
+                    settings.IntegrationViewItemOnlyHour,
+                    this);
+                playtimeMarker.ToolTip = FormatToolTipWithCategory(playedLabel, GetTimePlayedCategoryLabel());
             }
         }
 
@@ -699,21 +703,27 @@ namespace Playlist
 
             if (isMulti)
             {
-                AddSegmentIfVisible(segments, ChooseValue(times.Solo, settings), settings.ShowSoloTime, settings.FirstMultiColor, settings.FirstMultiBrush);
-                AddSegmentIfVisible(segments, ChooseValue(times.CoOp, settings), settings.ShowCoOpTime, settings.SecondMultiColor, settings.SecondMultiBrush);
-                AddSegmentIfVisible(segments, ChooseValue(times.Vs, settings), settings.ShowVsTime, settings.ThirdMultiColor, settings.ThirdMultiBrush);
+                AddSegmentIfVisible(segments, ChooseValue(times.Solo, settings), settings.ShowSoloTime, settings.FirstMultiColor, settings.FirstMultiBrush, HltbPreferredTimeType.Solo);
+                AddSegmentIfVisible(segments, ChooseValue(times.CoOp, settings), settings.ShowCoOpTime, settings.SecondMultiColor, settings.SecondMultiBrush, HltbPreferredTimeType.CoOp);
+                AddSegmentIfVisible(segments, ChooseValue(times.Vs, settings), settings.ShowVsTime, settings.ThirdMultiColor, settings.ThirdMultiBrush, HltbPreferredTimeType.Versus);
             }
             else
             {
-                AddSegmentIfVisible(segments, ChooseValue(times.MainStory, settings), settings.ShowMainTime, settings.FirstColor, settings.FirstBrush);
-                AddSegmentIfVisible(segments, ChooseValue(times.MainExtra, settings), settings.ShowExtraTime, settings.SecondColor, settings.SecondBrush);
-                AddSegmentIfVisible(segments, ChooseValue(times.Completionist, settings), settings.ShowCompletionistTime, settings.ThirdColor, settings.ThirdBrush);
+                AddSegmentIfVisible(segments, ChooseValue(times.MainStory, settings), settings.ShowMainTime, settings.FirstColor, settings.FirstBrush, HltbPreferredTimeType.MainStory);
+                AddSegmentIfVisible(segments, ChooseValue(times.MainExtra, settings), settings.ShowExtraTime, settings.SecondColor, settings.SecondBrush, HltbPreferredTimeType.MainStoryExtra);
+                AddSegmentIfVisible(segments, ChooseValue(times.Completionist, settings), settings.ShowCompletionistTime, settings.ThirdColor, settings.ThirdBrush, HltbPreferredTimeType.Completionist);
             }
 
             return segments;
         }
 
-        private static void AddSegmentIfVisible(List<Segment> segments, long value, bool isVisible, Color color, Brush fillBrush)
+        private static void AddSegmentIfVisible(
+            List<Segment> segments,
+            long value,
+            bool isVisible,
+            Color color,
+            Brush fillBrush,
+            HltbPreferredTimeType timeType)
         {
             if (!isVisible || value <= 0 || fillBrush == null)
             {
@@ -725,6 +735,7 @@ namespace Playlist
                 ValueSeconds = value,
                 Color = color,
                 FillBrush = fillBrush,
+                CategoryLabel = HltbColumnHeaderLabels.GetPreferredTimeTypeLabel(timeType),
             });
         }
 
@@ -788,6 +799,26 @@ namespace Playlist
             return 0;
         }
 
+        private static string GetTimePlayedCategoryLabel()
+        {
+            return PlaylistLocalization.GetString("LOCTimePlayed");
+        }
+
+        private static string FormatToolTipWithCategory(string timeLabel, string categoryLabel)
+        {
+            if (string.IsNullOrWhiteSpace(timeLabel))
+            {
+                return null;
+            }
+
+            if (string.IsNullOrWhiteSpace(categoryLabel))
+            {
+                return timeLabel;
+            }
+
+            return timeLabel + " (" + categoryLabel + ")";
+        }
+
         private sealed class InteriorLabelPlan
         {
             public double CenterX { get; set; }
@@ -804,6 +835,7 @@ namespace Playlist
             public long ValueSeconds { get; set; }
             public Color Color { get; set; }
             public Brush FillBrush { get; set; }
+            public string CategoryLabel { get; set; }
         }
     }
 }

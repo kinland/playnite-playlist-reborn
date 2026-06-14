@@ -189,21 +189,13 @@ When the HowLongToBeat plugin is installed and integration is enabled, Playlist 
 
 ### Completion status sync
 
-When **Enable HowLongToBeat integration** is on and the HLTB plugin is available, Playlist settings also offer **Sync completion status with HowLongToBeat**. This configures which **Playnite completion statuses** (the same values shown in Playlist's right-click menu and Completion Status column) map to the HowLongToBeat plugin's three outbound sync tiers:
+When **Enable HowLongToBeat integration** is on and the HLTB plugin is available, Playlist settings offer **Sync completion status with HowLongToBeat**. That checkbox enables or disables the HowLongToBeat plugin's **Automatically update game status on HowLongToBeat when changing game status in Playnite** option in the plugin's `config.json`.
 
-| Playlist setting row | Written to HLTB as |
-| --- | --- |
-| Playing | HLTB **Playing** |
-| Completed | HLTB **Beaten** (main-story completion path in the plugin) |
-| Completionist | HLTB **Completed** (100% / completionist path in the plugin) |
+Status mappings (which Playnite completion statuses trigger outbound sync to HLTB **Playing**, **Beaten**, **Completed**, and **Backlog**) are configured in the HowLongToBeat plugin's own settings — the same grid you use when setting up HLTB directly. Playlist reads those mappings from HLTB's config for syncable-status styling in the Completion Status column; it does not duplicate the mapping UI.
 
-Playnite **Not Played** always maps to HLTB **Backlog**; Playlist writes that mapping automatically and does not offer it in the three configurable rows.
+When you turn sync on and HLTB has no mapping yet, Playlist seeds sensible defaults from common Playnite status names (*Playing*, *Beaten*, *Completed*) and always writes **Not Played** → HLTB **Backlog**. After that, changing completion status in Playlist (or elsewhere in Playnite) triggers the HLTB plugin's normal outbound sync for the mapped statuses only.
 
-Saving Playlist settings writes these mappings and enables the HLTB plugin's **Automatically update game status on HowLongToBeat when changing game status in Playnite** option in the plugin's `config.json`. After that, changing completion status in Playlist (or elsewhere in Playnite) triggers the HLTB plugin's normal outbound sync for the mapped statuses only.
-
-Playlist does not sync every Playnite completion status — only the three rows you configure plus the fixed Not Played → Backlog mapping. Statuses such as *Played*, *Beaten*, and *On Hold* participate only if you assign them to one of the three sync rows.
-
-On first use, Playlist imports existing mappings from the HLTB plugin config when present; otherwise it suggests defaults based on common Playnite status names (*Playing*, *Beaten*, *Completed*).
+Statuses such as *Played*, *On Hold*, and *Abandoned* participate only if you assign them to one of HLTB's sync rows in the HowLongToBeat plugin settings.
 
 Playlist reads HLTB data from the plugin's on-disk per-game cache files in `ExtensionsData/{hltb-plugin-id}/HowLongToBeat`. Cache reads use shared read access so Playlist does not lock files while the HLTB plugin updates them; malformed or partially written JSON is ignored and treated as missing data.
 

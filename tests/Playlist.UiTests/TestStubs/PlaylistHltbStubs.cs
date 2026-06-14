@@ -16,6 +16,7 @@ namespace Playlist
                 "LOCPlaylist_Playtime_HoursOnly" => "{0}h",
                 "LOCPlaylist_Playtime_MinuteUnit" => "{0}m",
                 "LOCPlaylist_Playtime_HoursMinutes" => "{0}h {1}m",
+                "LOCTimePlayed" => "Played",
                 _ => key,
             };
         }
@@ -137,6 +138,39 @@ namespace Playlist
 
             times = CachedTimesResolver(game);
             return times != null;
+        }
+    }
+
+    internal enum HltbPreferredTimeType
+    {
+        MainStory,
+        MainStoryExtra,
+        Completionist,
+        Solo,
+        CoOp,
+        Versus,
+    }
+
+    internal static class HltbColumnHeaderLabels
+    {
+        internal static string GetPreferredTimeTypeLabel(HltbPreferredTimeType type)
+        {
+            switch (type)
+            {
+                case HltbPreferredTimeType.MainStoryExtra:
+                    return "Main + extra";
+                case HltbPreferredTimeType.Completionist:
+                    return "Completionist";
+                case HltbPreferredTimeType.Solo:
+                    return "Solo";
+                case HltbPreferredTimeType.CoOp:
+                    return "Co-op";
+                case HltbPreferredTimeType.Versus:
+                    return "Vs";
+                case HltbPreferredTimeType.MainStory:
+                default:
+                    return "Main story";
+            }
         }
     }
 

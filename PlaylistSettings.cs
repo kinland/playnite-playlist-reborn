@@ -32,14 +32,6 @@ namespace Playlist
         private bool backupSyncSearchWithMainPanel = true;
         private bool syncCompletionStatusWithHltb;
         private bool backupSyncCompletionStatusWithHltb;
-        private Guid hltbSyncStatusPlayingId;
-        private Guid hltbSyncStatusCompletedId;
-        private Guid hltbSyncStatusCompletionistId;
-        private Guid backupHltbSyncStatusPlayingId;
-        private Guid backupHltbSyncStatusCompletedId;
-        private Guid backupHltbSyncStatusCompletionistId;
-        private ObservableCollection<PlaylistCompletionStatusOption> completionStatusOptions =
-            new ObservableCollection<PlaylistCompletionStatusOption>();
         private bool pendingEnableHowLongToBeatIntegrationFromPlaylistPrompt;
         private bool pendingShowHowLongToBeatColumnFromHeaderMenu;
         private bool isHowLongToBeatAvailable;
@@ -120,58 +112,14 @@ namespace Playlist
         }
 
         /// <summary>
-        /// When enabled, Playlist writes completion-status mappings to the HowLongToBeat plugin config
-        /// so status changes in Playlist can sync outward through HLTB's auto-sync handler.
+        /// When enabled, Playlist enables HowLongToBeat's outbound completion-status auto-sync.
+        /// Status mappings are configured in the HowLongToBeat plugin settings.
         /// </summary>
         public bool SyncCompletionStatusWithHltb
         {
             get => syncCompletionStatusWithHltb;
             set => SetValue(ref syncCompletionStatusWithHltb, value);
         }
-
-        public Guid HltbSyncStatusPlayingId
-        {
-            get => hltbSyncStatusPlayingId;
-            set => SetValue(ref hltbSyncStatusPlayingId, value);
-        }
-
-        public Guid HltbSyncStatusCompletedId
-        {
-            get => hltbSyncStatusCompletedId;
-            set => SetValue(ref hltbSyncStatusCompletedId, value);
-        }
-
-        public Guid HltbSyncStatusCompletionistId
-        {
-            get => hltbSyncStatusCompletionistId;
-            set => SetValue(ref hltbSyncStatusCompletionistId, value);
-        }
-
-        public ObservableCollection<PlaylistCompletionStatusOption> CompletionStatusOptions => completionStatusOptions;
-
-        public IEnumerable<PlaylistCompletionStatusOption> HltbSyncConfigurableCompletionStatusOptions =>
-            completionStatusOptions.Where(option => option.Id != HltbSyncStatusBacklogId);
-
-        public Guid HltbSyncStatusBacklogId =>
-            HltbCompletionStatusMapping.ResolveNotPlayedId(Playlist.StaticPlayniteApi?.Database?.CompletionStatuses);
-
-        public string HltbSyncStatusBacklogDisplayName
-        {
-            get
-            {
-                Guid backlogId = HltbSyncStatusBacklogId;
-                if (backlogId == Guid.Empty)
-                {
-                    return CompletionStatusLocalization.LocalizeDisplayName(HltbCompletionStatusMapping.NotPlayedCanonicalName);
-                }
-
-                PlaylistCompletionStatusOption match = completionStatusOptions.FirstOrDefault(option => option.Id == backlogId);
-                return match?.Name ?? CompletionStatusLocalization.LocalizeDisplayName(HltbCompletionStatusMapping.NotPlayedCanonicalName);
-            }
-        }
-
-        public string HltbSyncStatusBacklogTargetLabel =>
-            HltbCompletionStatusSyncLabels.FormatSyncTarget("LOCHltbUserListBacklog", "Backlog");
 
         public bool ShowHltbCompletionStatusSyncSection =>
             enableHowLongToBeatIntegration && isHowLongToBeatAvailable;
@@ -464,8 +412,7 @@ namespace Playlist
             RefreshHowLongToBeatInstallState();
             CaptureEditSessionBackups();
             RefreshLanguageOptions();
-            RefreshCompletionStatusOptions();
-            HltbCompletionStatusSyncConfig.ImportIntoPlaylistSettings(Playlist.StaticPlayniteApi, this);
+            HltbCompletionStatusSyncConfig.SyncCheckboxFromHltbConfig(this);
         }
 
         public void CancelEdit()
@@ -475,9 +422,6 @@ namespace Playlist
             EnableHowLongToBeatIntegration = backupEnableHowLongToBeatIntegration;
             SyncSearchWithMainPanel = backupSyncSearchWithMainPanel;
             SyncCompletionStatusWithHltb = backupSyncCompletionStatusWithHltb;
-            HltbSyncStatusPlayingId = backupHltbSyncStatusPlayingId;
-            HltbSyncStatusCompletedId = backupHltbSyncStatusCompletedId;
-            HltbSyncStatusCompletionistId = backupHltbSyncStatusCompletionistId;
             LanguageOverrideLocaleId = backupLanguageOverrideLocaleId;
             HasPromptedOsLocaleMismatch = backupHasPromptedOsLocaleMismatch;
             PlaylistLocalizationOverride.ApplyFromSettings(this);
@@ -537,9 +481,6 @@ namespace Playlist
             backupEnableHowLongToBeatIntegration = EnableHowLongToBeatIntegration;
             backupSyncSearchWithMainPanel = SyncSearchWithMainPanel;
             backupSyncCompletionStatusWithHltb = SyncCompletionStatusWithHltb;
-            backupHltbSyncStatusPlayingId = HltbSyncStatusPlayingId;
-            backupHltbSyncStatusCompletedId = HltbSyncStatusCompletedId;
-            backupHltbSyncStatusCompletionistId = HltbSyncStatusCompletionistId;
             backupLanguageOverrideLocaleId = LanguageOverrideLocaleId;
             backupHasPromptedOsLocaleMismatch = HasPromptedOsLocaleMismatch;
         }
@@ -617,88 +558,9 @@ namespace Playlist
             return localeId.Trim().Replace('-', '_');
         }
 
-        internal void RefreshCompletionStatusOptions()
-        {
-            completionStatusOptions.Clear();
-            if (Playlist.StaticPlayniteApi?.Database?.CompletionStatuses == null)
-            {
-                OnPropertyChanged(nameof(CompletionStatusOptions));
-                return;
-            }
-
-            foreach (CompletionStatus status in Playlist.StaticPlayniteApi.Database.CompletionStatuses.OrderBy(status => status.Name))
-            {
-                completionStatusOptions.Add(new PlaylistCompletionStatusOption
-                {
-                    Id = status.Id,
-                    Name = status.Name,
-                });
-            }
-
-            OnPropertyChanged(nameof(CompletionStatusOptions));
-            OnPropertyChanged(nameof(HltbSyncConfigurableCompletionStatusOptions));
-            OnPropertyChanged(nameof(HltbSyncStatusBacklogId));
-            OnPropertyChanged(nameof(HltbSyncStatusBacklogDisplayName));
-            OnPropertyChanged(nameof(HltbSyncStatusBacklogTargetLabel));
-        }
-
-        internal HltbCompletionStatusMapping ToHltbCompletionStatusMapping()
-        {
-            return new HltbCompletionStatusMapping
-            {
-                AutoSetGameStatusToHltb = SyncCompletionStatusWithHltb,
-                GameStatusPlaying = HltbSyncStatusPlayingId,
-                GameStatusCompleted = HltbSyncStatusCompletedId,
-                GameStatusCompletionist = HltbSyncStatusCompletionistId,
-            };
-        }
-
-        internal void ApplyHltbCompletionStatusMapping(HltbCompletionStatusMapping mapping)
-        {
-            if (mapping == null)
-            {
-                return;
-            }
-
-            HltbSyncStatusPlayingId = mapping.GameStatusPlaying;
-            HltbSyncStatusCompletedId = mapping.GameStatusCompleted;
-            HltbSyncStatusCompletionistId = mapping.GameStatusCompletionist;
-        }
-
         public bool VerifySettings(out List<string> errors)
         {
             errors = new List<string>();
-            if (!SyncCompletionStatusWithHltb || !ShowHltbCompletionStatusSyncSection)
-            {
-                return true;
-            }
-
-            if (HltbSyncStatusPlayingId == Guid.Empty
-                || HltbSyncStatusCompletedId == Guid.Empty
-                || HltbSyncStatusCompletionistId == Guid.Empty)
-            {
-                errors.Add(PlaylistLocalization.GetString("LOCPlaylist_Settings_HLTBStatusSyncMissingMapping"));
-                return false;
-            }
-
-            if (HltbSyncStatusPlayingId == HltbSyncStatusCompletedId
-                || HltbSyncStatusPlayingId == HltbSyncStatusCompletionistId
-                || HltbSyncStatusCompletedId == HltbSyncStatusCompletionistId)
-            {
-                errors.Add(PlaylistLocalization.GetString("LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping"));
-                return false;
-            }
-
-            Guid backlogId = HltbSyncStatusBacklogId;
-            if (backlogId != Guid.Empty
-                && (HltbSyncStatusPlayingId == backlogId
-                    || HltbSyncStatusCompletedId == backlogId
-                    || HltbSyncStatusCompletionistId == backlogId))
-            {
-                errors.Add(PlaylistLocalization.GetString("LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping"));
-                return false;
-            }
-
             return true;
         }
     }

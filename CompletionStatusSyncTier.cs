@@ -6,7 +6,7 @@ namespace Playlist
 {
     /// <summary>
     /// Resolves which Playnite completion statuses map to HLTB sync tiers for list UI styling.
-    /// Uses saved playlist mapping when configured; otherwise Playnite name-based defaults.
+    /// Uses the HowLongToBeat plugin config mapping when configured; otherwise Playnite name-based defaults.
     /// </summary>
     internal static class CompletionStatusSyncTier
     {
@@ -31,13 +31,8 @@ namespace Playlist
             IEnumerable<CompletionStatus> completionStatuses,
             PlaylistSettings settings)
         {
-            HltbCompletionStatusMapping mapping;
-            HltbCompletionStatusMapping fromSettings = settings?.ToHltbCompletionStatusMapping();
-            if (fromSettings != null && fromSettings.IsConfigured())
-            {
-                mapping = fromSettings;
-            }
-            else
+            HltbCompletionStatusMapping mapping = HltbCompletionStatusSyncConfig.ReadMapping();
+            if (!mapping.IsConfigured())
             {
                 mapping = HltbCompletionStatusMapping.ResolveDefaults(completionStatuses);
             }

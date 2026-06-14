@@ -134,52 +134,27 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
     }
 
     [Fact]
-    public void VerifySettings_rejects_duplicate_status_mappings()
-    {
-        using var harness = new PlaylistSettingsTestHarness();
-        harness.Settings.EnableHowLongToBeatIntegration = true;
-        harness.SimulateStartup();
-        harness.Settings.SyncCompletionStatusWithHltb = true;
-        harness.Settings.HltbSyncStatusPlayingId = Guid.NewGuid();
-        harness.Settings.HltbSyncStatusCompletedId = harness.Settings.HltbSyncStatusPlayingId;
-        harness.Settings.HltbSyncStatusCompletionistId = Guid.NewGuid();
-
-        Assert.False(harness.Settings.VerifySettings(out List<string> errors));
-        Assert.NotEmpty(errors);
-    }
-
-    [Fact]
-    public void VerifySettings_rejects_missing_status_mappings()
-    {
-        using var harness = new PlaylistSettingsTestHarness();
-        harness.Settings.EnableHowLongToBeatIntegration = true;
-        harness.SimulateStartup();
-        harness.Settings.SyncCompletionStatusWithHltb = true;
-        harness.Settings.HltbSyncStatusPlayingId = Guid.NewGuid();
-        harness.Settings.HltbSyncStatusCompletedId = Guid.Empty;
-        harness.Settings.HltbSyncStatusCompletionistId = Guid.NewGuid();
-
-        Assert.False(harness.Settings.VerifySettings(out List<string> errors));
-        Assert.NotEmpty(errors);
-    }
-
-    [Fact]
-    public void ApplyPlaylistSettings_writes_mapping_and_enables_auto_sync()
+    public void ApplyPlaylistSettings_preserves_existing_mapping_and_enables_auto_sync()
     {
         string path = CreateTempConfigPath();
-        HltbCompletionStatusSyncConfig.TestConfigPathOverride = path;
-
         var playingId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
         var completedId = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
         var completionistId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
+        File.WriteAllText(
+            path,
+            $@"{{
+  ""AutoSetGameStatusToHltb"": false,
+  ""GameStatusPlaying"": ""{playingId}"",
+  ""GameStatusCompleted"": ""{completedId}"",
+  ""GameStatusCompletionist"": ""{completionistId}""
+}}",
+            new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+        HltbCompletionStatusSyncConfig.TestConfigPathOverride = path;
 
         using var harness = new PlaylistSettingsTestHarness();
         harness.Settings.EnableHowLongToBeatIntegration = true;
         harness.SimulateStartup();
         harness.Settings.SyncCompletionStatusWithHltb = true;
-        harness.Settings.HltbSyncStatusPlayingId = playingId;
-        harness.Settings.HltbSyncStatusCompletedId = completedId;
-        harness.Settings.HltbSyncStatusCompletionistId = completionistId;
 
         HltbCompletionStatusSyncConfig.ApplyPlaylistSettings(CreateApiWithCompletionStatuses(), harness.Settings);
 
@@ -191,6 +166,27 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
 
         var notPlayedId = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
         Assert.Equal(notPlayedId, mapping.GameStatusBacklog);
+    }
+
+    [Fact]
+    public void ApplyPlaylistSettings_applies_defaults_when_hltb_mapping_missing()
+    {
+        string path = CreateTempConfigPath();
+        HltbCompletionStatusSyncConfig.TestConfigPathOverride = path;
+
+        using var harness = new PlaylistSettingsTestHarness();
+        harness.Settings.EnableHowLongToBeatIntegration = true;
+        harness.SimulateStartup();
+        harness.Settings.SyncCompletionStatusWithHltb = true;
+
+        HltbCompletionStatusSyncConfig.ApplyPlaylistSettings(CreateApiWithCompletionStatuses(), harness.Settings);
+
+        HltbCompletionStatusMapping mapping = HltbCompletionStatusSyncConfig.ReadMapping();
+        Assert.True(mapping.AutoSetGameStatusToHltb);
+        Assert.NotEqual(Guid.Empty, mapping.GameStatusPlaying);
+        Assert.NotEqual(Guid.Empty, mapping.GameStatusCompleted);
+        Assert.NotEqual(Guid.Empty, mapping.GameStatusCompletionist);
+        Assert.Equal(Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd"), mapping.GameStatusBacklog);
     }
 
     [Fact]
@@ -215,37 +211,25 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
     }
 
     [Fact]
-    public void ImportIntoPlaylistSettings_imports_from_hltb_config_when_playlist_ids_empty()
+    public void SyncCheckboxFromHltbConfig_reads_auto_sync_flag()
     {
         string path = CreateTempConfigPath();
-        var playingId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-        var completedId = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
-        var completionistId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
         File.WriteAllText(
             path,
-            $@"{{
-  ""AutoSetGameStatusToHltb"": true,
-  ""GameStatusPlaying"": ""{playingId}"",
-  ""GameStatusCompleted"": ""{completedId}"",
-  ""GameStatusCompletionist"": ""{completionistId}""
-}}",
+            "{\"AutoSetGameStatusToHltb\":true}",
             new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
         HltbCompletionStatusSyncConfig.TestConfigPathOverride = path;
 
         using var harness = new PlaylistSettingsTestHarness();
-        harness.Settings.EnableHowLongToBeatIntegration = true;
-        harness.SimulateStartup();
+        harness.Settings.SyncCompletionStatusWithHltb = false;
 
-        HltbCompletionStatusSyncConfig.ImportIntoPlaylistSettings(CreateApiWithCompletionStatuses(), harness.Settings);
+        HltbCompletionStatusSyncConfig.SyncCheckboxFromHltbConfig(harness.Settings);
 
         Assert.True(harness.Settings.SyncCompletionStatusWithHltb);
-        Assert.Equal(playingId, harness.Settings.HltbSyncStatusPlayingId);
-        Assert.Equal(completedId, harness.Settings.HltbSyncStatusCompletedId);
-        Assert.Equal(completionistId, harness.Settings.HltbSyncStatusCompletionistId);
     }
 
     [Fact]
-    public void ImportIntoPlaylistSettings_does_not_modify_hltb_config_file()
+    public void SyncCheckboxFromHltbConfig_does_not_modify_hltb_config_file()
     {
         string path = CreateTempConfigPath();
         const string originalJson = "{\"ExistingKey\":123,\"AutoSetGameStatusToHltb\":true,\"GameStatusPlaying\":\"aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa\"}";
@@ -253,10 +237,7 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
         HltbCompletionStatusSyncConfig.TestConfigPathOverride = path;
 
         using var harness = new PlaylistSettingsTestHarness();
-        harness.Settings.EnableHowLongToBeatIntegration = true;
-        harness.SimulateStartup();
-
-        HltbCompletionStatusSyncConfig.ImportIntoPlaylistSettings(CreateApiWithCompletionStatuses(), harness.Settings);
+        HltbCompletionStatusSyncConfig.SyncCheckboxFromHltbConfig(harness.Settings);
 
         Assert.Equal(originalJson, File.ReadAllText(path));
     }
@@ -346,9 +327,10 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
         };
 
         var completionStatuses = new Mock<IItemCollection<CompletionStatus>>();
+        completionStatuses.Setup(collection => collection.GetEnumerator()).Returns(() => statuses.GetEnumerator());
         completionStatuses.As<IEnumerable<CompletionStatus>>()
             .Setup(collection => collection.GetEnumerator())
-            .Returns(statuses.GetEnumerator());
+            .Returns(() => statuses.GetEnumerator());
         var database = new Mock<IGameDatabaseAPI>();
         database.Setup(db => db.CompletionStatuses).Returns(completionStatuses.Object);
         var api = new Mock<IPlayniteAPI>();
