@@ -145,10 +145,7 @@ namespace Playlist
                 return false;
             }
 
-            if (rank < 1 || rank > PlaylistGames.Count)
-            {
-                return false;
-            }
+            rank = PlaylistRankInput.ClampToPlaylistBounds(rank, PlaylistGames.Count);
 
             int targetIndex = rank - 1;
             if (targetIndex == currentIndex)
