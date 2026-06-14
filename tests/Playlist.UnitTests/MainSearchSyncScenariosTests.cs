@@ -1,4 +1,5 @@
 using Playnite.SDK.Models;
+using Playlist.UnitTests.TestStubs;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -14,41 +15,7 @@ public class MainSearchSyncScenariosTests
     private static readonly Guid SeventeenBitDeveloperId = Guid.Parse("00000000-0000-0000-0000-000000000002");
     private static readonly Guid RemedyDeveloperId = Guid.Parse("00000000-0000-0000-0000-000000000001");
 
-    private sealed class TestScopedFilterNameLookup : IScopedFilterNameLookup
-    {
-        private readonly Dictionary<(ScopedFilterKind, Guid), string> idNames;
-        private readonly Dictionary<(ScopedFilterKind, string), Guid> nameIds;
-
-        public TestScopedFilterNameLookup(
-            Dictionary<(ScopedFilterKind, Guid), string> idNames,
-            Dictionary<(ScopedFilterKind, string), Guid> nameIds)
-        {
-            this.idNames = idNames;
-            this.nameIds = nameIds;
-        }
-
-        public string ResolveId(ScopedFilterKind kind, Guid id)
-        {
-            return idNames.TryGetValue((kind, id), out string name) ? name : null;
-        }
-
-        public IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query)
-        {
-            if (Guid.TryParse(query, out Guid parsedId) && idNames.ContainsKey((kind, parsedId)))
-            {
-                return new IdItemFilterItemProperties(parsedId);
-            }
-
-            if (nameIds.TryGetValue((kind, query), out Guid id))
-            {
-                return new IdItemFilterItemProperties(id);
-            }
-
-            return new IdItemFilterItemProperties(query);
-        }
-    }
-
-    private static readonly TestScopedFilterNameLookup Lookup = new TestScopedFilterNameLookup(
+    private static readonly DictionaryScopedFilterNameLookup Lookup = new DictionaryScopedFilterNameLookup(
         idNames: new Dictionary<(ScopedFilterKind, Guid), string>
         {
             [(ScopedFilterKind.Developer, TenTonsDeveloperId)] = "10tons",

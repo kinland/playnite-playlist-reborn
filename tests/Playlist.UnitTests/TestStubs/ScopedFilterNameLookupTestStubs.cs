@@ -5,6 +5,16 @@ using System.Collections.Generic;
 
 namespace Playlist.UnitTests.TestStubs;
 
+internal sealed class PassthroughScopedFilterNameLookup : IScopedFilterNameLookup
+{
+    public string ResolveId(ScopedFilterKind kind, Guid id) => null;
+
+    public IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query)
+    {
+        return new IdItemFilterItemProperties(query);
+    }
+}
+
 internal sealed class DictionaryScopedFilterNameLookup : IScopedFilterNameLookup
 {
     private readonly Dictionary<(ScopedFilterKind, Guid), string> idNames;

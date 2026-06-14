@@ -1,4 +1,5 @@
 using Playnite.SDK.Models;
+using Playlist.UnitTests.TestStubs;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -9,43 +10,9 @@ public class MainSearchFilterMapperTests
 {
     private static readonly Guid TenTonsDeveloperId = Guid.Parse("9911f200-458f-4cd7-9025-9e03b241f867");
 
-    private sealed class TestScopedFilterNameLookup : IScopedFilterNameLookup
-    {
-        private readonly Dictionary<(ScopedFilterKind, Guid), string> idNames;
-        private readonly Dictionary<(ScopedFilterKind, string), Guid> nameIds;
-
-        public TestScopedFilterNameLookup(
-            Dictionary<(ScopedFilterKind, Guid), string> idNames = null,
-            Dictionary<(ScopedFilterKind, string), Guid> nameIds = null)
-        {
-            this.idNames = idNames ?? new Dictionary<(ScopedFilterKind, Guid), string>();
-            this.nameIds = nameIds ?? new Dictionary<(ScopedFilterKind, string), Guid>();
-        }
-
-        public string ResolveId(ScopedFilterKind kind, Guid id)
-        {
-            return idNames.TryGetValue((kind, id), out string name) ? name : null;
-        }
-
-        public IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query)
-        {
-            if (Guid.TryParse(query, out Guid parsedId) && idNames.ContainsKey((kind, parsedId)))
-            {
-                return new IdItemFilterItemProperties(parsedId);
-            }
-
-            if (nameIds.TryGetValue((kind, query), out Guid id))
-            {
-                return new IdItemFilterItemProperties(id);
-            }
-
-            return new IdItemFilterItemProperties(query);
-        }
-    }
-
     private static readonly Guid SeventeenBitDeveloperId = Guid.Parse("00000000-0000-0000-0000-000000000002");
 
-    private static readonly TestScopedFilterNameLookup DefaultLookup = new TestScopedFilterNameLookup(
+    private static readonly DictionaryScopedFilterNameLookup DefaultLookup = new DictionaryScopedFilterNameLookup(
         idNames: new Dictionary<(ScopedFilterKind, Guid), string>
         {
             [(ScopedFilterKind.Developer, TenTonsDeveloperId)] = "10tons",
@@ -101,7 +68,7 @@ public class MainSearchFilterMapperTests
     [Fact]
     public void ApplySyncPush_MapsOrDeveloperListWithMixedIdAndTextResolution()
     {
-        TestScopedFilterNameLookup lookup = new TestScopedFilterNameLookup(
+        DictionaryScopedFilterNameLookup lookup = new DictionaryScopedFilterNameLookup(
             idNames: new Dictionary<(ScopedFilterKind, Guid), string>
             {
                 [(ScopedFilterKind.Developer, TenTonsDeveloperId)] = "10tons",

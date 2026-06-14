@@ -1,4 +1,5 @@
 using Playnite.SDK.Models;
+using Playlist.UnitTests.TestStubs;
 using System.Collections.Generic;
 using Xunit;
 
@@ -14,17 +15,7 @@ public class SearchQueryQuoteSyncTests
     private const string PipeInName = "a|b";
     private const string AmpersandInName = "x&y";
 
-    private sealed class TestScopedFilterNameLookup : IScopedFilterNameLookup
-    {
-        public string ResolveId(ScopedFilterKind kind, System.Guid id) => null;
-
-        public IdItemFilterItemProperties ResolveQuery(ScopedFilterKind kind, string query)
-        {
-            return new IdItemFilterItemProperties(query);
-        }
-    }
-
-    private static readonly TestScopedFilterNameLookup Lookup = new TestScopedFilterNameLookup();
+    private static readonly PassthroughScopedFilterNameLookup Lookup = new PassthroughScopedFilterNameLookup();
 
     private static void AssertClauseValues(
         SearchQuerySpec spec,
