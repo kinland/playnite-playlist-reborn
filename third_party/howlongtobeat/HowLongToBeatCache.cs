@@ -86,7 +86,7 @@ namespace Playlist
 
             try
             {
-                using (FileStream fs = OpenCacheFileForSharedRead(filePath))
+                using (FileStream fs = HltbCacheFileAccess.OpenForSharedRead(filePath))
                 {
                     var serializer = new DataContractJsonSerializer(typeof(HltbGameFile));
                     var data = serializer.ReadObject(fs) as HltbGameFile;
@@ -229,19 +229,9 @@ namespace Playlist
             }
         }
 
-        private static FileStream OpenCacheFileForSharedRead(string filePath)
-        {
-            // Allow the HLTB plugin to keep writing while Playlist reads cache JSON.
-            return new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        }
-
         private static string ReadCacheTextAllowingWriter(string filePath)
         {
-            using (FileStream fs = OpenCacheFileForSharedRead(filePath))
-            using (var reader = new StreamReader(fs, Encoding.UTF8))
-            {
-                return reader.ReadToEnd();
-            }
+            return HltbCacheFileAccess.ReadTextAllowingWriter(filePath);
         }
 
         private static string GetHltbDatabasePath(IPlayniteAPI api)
