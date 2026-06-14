@@ -149,6 +149,30 @@ namespace Playlist
 
         public ObservableCollection<PlaylistCompletionStatusOption> CompletionStatusOptions => completionStatusOptions;
 
+        public IEnumerable<PlaylistCompletionStatusOption> HltbSyncConfigurableCompletionStatusOptions =>
+            completionStatusOptions.Where(option => option.Id != HltbSyncStatusBacklogId);
+
+        public Guid HltbSyncStatusBacklogId =>
+            HltbCompletionStatusMapping.ResolveNotPlayedId(Playlist.StaticPlayniteApi?.Database?.CompletionStatuses);
+
+        public string HltbSyncStatusBacklogDisplayName
+        {
+            get
+            {
+                Guid backlogId = HltbSyncStatusBacklogId;
+                if (backlogId == Guid.Empty)
+                {
+                    return CompletionStatusLocalization.LocalizeDisplayName(HltbCompletionStatusMapping.NotPlayedCanonicalName);
+                }
+
+                PlaylistCompletionStatusOption match = completionStatusOptions.FirstOrDefault(option => option.Id == backlogId);
+                return match?.Name ?? CompletionStatusLocalization.LocalizeDisplayName(HltbCompletionStatusMapping.NotPlayedCanonicalName);
+            }
+        }
+
+        public string HltbSyncStatusBacklogTargetLabel =>
+            HltbCompletionStatusSyncLabels.FormatSyncTarget("LOCHltbUserListBacklog", "Backlog");
+
         public bool ShowHltbCompletionStatusSyncSection =>
             enableHowLongToBeatIntegration && isHowLongToBeatAvailable;
 
@@ -612,6 +636,10 @@ namespace Playlist
             }
 
             OnPropertyChanged(nameof(CompletionStatusOptions));
+            OnPropertyChanged(nameof(HltbSyncConfigurableCompletionStatusOptions));
+            OnPropertyChanged(nameof(HltbSyncStatusBacklogId));
+            OnPropertyChanged(nameof(HltbSyncStatusBacklogDisplayName));
+            OnPropertyChanged(nameof(HltbSyncStatusBacklogTargetLabel));
         }
 
         internal HltbCompletionStatusMapping ToHltbCompletionStatusMapping()
@@ -656,6 +684,16 @@ namespace Playlist
             if (HltbSyncStatusPlayingId == HltbSyncStatusCompletedId
                 || HltbSyncStatusPlayingId == HltbSyncStatusCompletionistId
                 || HltbSyncStatusCompletedId == HltbSyncStatusCompletionistId)
+            {
+                errors.Add(PlaylistLocalization.GetString("LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping"));
+                return false;
+            }
+
+            Guid backlogId = HltbSyncStatusBacklogId;
+            if (backlogId != Guid.Empty
+                && (HltbSyncStatusPlayingId == backlogId
+                    || HltbSyncStatusCompletedId == backlogId
+                    || HltbSyncStatusCompletionistId == backlogId))
             {
                 errors.Add(PlaylistLocalization.GetString("LOCPlaylist_Settings_HLTBStatusSyncDuplicateMapping"));
                 return false;

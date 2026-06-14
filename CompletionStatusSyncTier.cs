@@ -23,20 +23,27 @@ namespace Playlist
             HltbCompletionStatusMapping mapping = ResolveEffectiveMapping(completionStatuses, settings);
             return statusId == mapping.GameStatusPlaying
                 || statusId == mapping.GameStatusCompleted
-                || statusId == mapping.GameStatusCompletionist;
+                || statusId == mapping.GameStatusCompletionist
+                || statusId == mapping.GameStatusBacklog;
         }
 
         internal static HltbCompletionStatusMapping ResolveEffectiveMapping(
             IEnumerable<CompletionStatus> completionStatuses,
             PlaylistSettings settings)
         {
+            HltbCompletionStatusMapping mapping;
             HltbCompletionStatusMapping fromSettings = settings?.ToHltbCompletionStatusMapping();
             if (fromSettings != null && fromSettings.IsConfigured())
             {
-                return fromSettings;
+                mapping = fromSettings;
+            }
+            else
+            {
+                mapping = HltbCompletionStatusMapping.ResolveDefaults(completionStatuses);
             }
 
-            return HltbCompletionStatusMapping.ResolveDefaults(completionStatuses);
+            mapping.ApplyFixedBacklogMapping(completionStatuses);
+            return mapping;
         }
     }
 }

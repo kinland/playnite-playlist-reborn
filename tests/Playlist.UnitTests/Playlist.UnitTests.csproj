@@ -61,6 +61,7 @@
     <Compile Include="..\..\PlaylistLocalizationOverride.cs" Link="Production\PlaylistLocalizationOverride.cs" />
     <Compile Include="..\..\PlaylistDragReorderMessages.cs" Link="Production\PlaylistDragReorderMessages.cs" />
     <Compile Include="..\..\HltbColumnHeaderLabels.cs" Link="Production\HltbColumnHeaderLabels.cs" />
+    <Compile Include="..\..\HltbCompletionStatusSyncLabels.cs" Link="Production\HltbCompletionStatusSyncLabels.cs" />
     <Compile Include="..\..\HltbLocalizedStringResolver.cs" Link="Production\HltbLocalizedStringResolver.cs" />
     <Compile Include="..\..\MainSearchFilterNameResolver.cs" Link="Production\MainSearchFilterNameResolver.cs" />
     <Compile Include="..\..\MainSearchFilterMapper.cs" Link="Production\MainSearchFilterMapper.cs" />

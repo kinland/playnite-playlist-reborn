@@ -38,6 +38,32 @@ public class CompletionStatusSyncTierTests
     }
 
     [Fact]
+    public void IsSyncableTier_includes_not_played_backlog_mapping()
+    {
+        var playingId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+        var completedId = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
+        var completionistId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc");
+        var notPlayedId = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
+
+        var settings = new PlaylistSettings
+        {
+            HltbSyncStatusPlayingId = playingId,
+            HltbSyncStatusCompletedId = completedId,
+            HltbSyncStatusCompletionistId = completionistId,
+        };
+
+        var statuses = new List<CompletionStatus>
+        {
+            new CompletionStatus { Id = playingId, Name = "Playing" },
+            new CompletionStatus { Id = completedId, Name = "Beaten" },
+            new CompletionStatus { Id = completionistId, Name = "Completed" },
+            new CompletionStatus { Id = notPlayedId, Name = "Not Played" },
+        };
+
+        Assert.True(CompletionStatusSyncTier.IsSyncableTier(notPlayedId, statuses, settings));
+    }
+
+    [Fact]
     public void IsSyncableTier_uses_name_defaults_when_mapping_incomplete()
     {
         var playingId = Guid.Parse("11111111-1111-1111-1111-111111111111");

@@ -129,6 +129,7 @@ namespace Playlist
                 settings.ApplyHltbCompletionStatusMapping(mapping);
             }
 
+            mapping.ApplyFixedBacklogMapping(api.Database.CompletionStatuses);
             mapping.AutoSetGameStatusToHltb = true;
             TryWriteMapping(mapping);
         }
@@ -238,6 +239,9 @@ namespace Playlist
                     case "GameStatusCompletionist":
                         TryApplyGuid(property.Value, value => mapping.GameStatusCompletionist = value);
                         break;
+                    case "GameStatusBacklog":
+                        TryApplyGuid(property.Value, value => mapping.GameStatusBacklog = value);
+                        break;
                 }
 
                 if (property.Value.ValueKind == JsonValueKind.Object)
@@ -253,6 +257,7 @@ namespace Playlist
             WriteGuid(root, "GameStatusPlaying", mapping.GameStatusPlaying);
             WriteGuid(root, "GameStatusCompleted", mapping.GameStatusCompleted);
             WriteGuid(root, "GameStatusCompletionist", mapping.GameStatusCompletionist);
+            WriteGuid(root, "GameStatusBacklog", mapping.GameStatusBacklog);
         }
 
         private static void WriteGuid(JsonObject root, string propertyName, Guid value)
@@ -282,6 +287,9 @@ namespace Playlist
         internal Guid GameStatusPlaying { get; set; }
         internal Guid GameStatusCompleted { get; set; }
         internal Guid GameStatusCompletionist { get; set; }
+        internal Guid GameStatusBacklog { get; set; }
+
+        internal const string NotPlayedCanonicalName = "Not Played";
 
         internal bool IsConfigured()
         {
@@ -309,6 +317,7 @@ namespace Playlist
             mapping.GameStatusPlaying = ResolveByNames(statuses, "Playing");
             mapping.GameStatusCompleted = ResolveByNames(statuses, "Beaten", "Completed");
             mapping.GameStatusCompletionist = ResolveByNames(statuses, "Completed", "Completionist");
+            mapping.ApplyFixedBacklogMapping(statuses);
 
             if (mapping.GameStatusCompleted != Guid.Empty
                 && mapping.GameStatusCompletionist == mapping.GameStatusCompleted
@@ -324,6 +333,24 @@ namespace Playlist
             }
 
             return mapping;
+        }
+
+        internal void ApplyFixedBacklogMapping(IEnumerable<CompletionStatus> completionStatuses)
+        {
+            GameStatusBacklog = ResolveNotPlayedId(completionStatuses);
+        }
+
+        internal static Guid ResolveNotPlayedId(IEnumerable<CompletionStatus> completionStatuses)
+        {
+            if (completionStatuses == null)
+            {
+                return Guid.Empty;
+            }
+
+            List<CompletionStatus> statuses = completionStatuses
+                .Where(status => status != null && status.Id != Guid.Empty)
+                .ToList();
+            return ResolveByNames(statuses, NotPlayedCanonicalName);
         }
 
         private static Guid ResolveByNames(IEnumerable<CompletionStatus> statuses, params string[] preferredNames)

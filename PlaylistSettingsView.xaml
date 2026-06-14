@@ -104,6 +104,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="8" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Opacity="0.8"
@@ -116,7 +118,7 @@
                 <ComboBox Grid.Row="2" Grid.Column="2"
                           DisplayMemberPath="Name"
                           SelectedValuePath="Id"
-                          ItemsSource="{Binding CompletionStatusOptions}"
+                          ItemsSource="{Binding HltbSyncConfigurableCompletionStatusOptions}"
                           SelectedValue="{Binding HltbSyncStatusPlayingId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="2" Grid.Column="4" VerticalAlignment="Center"
                            Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetPlaying}" />
@@ -126,7 +128,7 @@
                 <ComboBox Grid.Row="4" Grid.Column="2"
                           DisplayMemberPath="Name"
                           SelectedValuePath="Id"
-                          ItemsSource="{Binding CompletionStatusOptions}"
+                          ItemsSource="{Binding HltbSyncConfigurableCompletionStatusOptions}"
                           SelectedValue="{Binding HltbSyncStatusCompletedId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="4" Grid.Column="4" VerticalAlignment="Center"
                            Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetBeaten}" />
@@ -136,10 +138,15 @@
                 <ComboBox Grid.Row="6" Grid.Column="2"
                           DisplayMemberPath="Name"
                           SelectedValuePath="Id"
-                          ItemsSource="{Binding CompletionStatusOptions}"
+                          ItemsSource="{Binding HltbSyncConfigurableCompletionStatusOptions}"
                           SelectedValue="{Binding HltbSyncStatusCompletionistId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="6" Grid.Column="4" VerticalAlignment="Center"
                            Text="{DynamicResource LOCPlaylist_Settings_HLTBStatusSyncTargetCompleted}" />
+
+                <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center"
+                           Text="{Binding HltbSyncStatusBacklogDisplayName}" />
+                <TextBlock Grid.Row="8" Grid.Column="4" VerticalAlignment="Center"
+                           Text="{Binding HltbSyncStatusBacklogTargetLabel}" />
             </Grid>
         </StackPanel>
 

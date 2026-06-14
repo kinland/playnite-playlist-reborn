@@ -58,6 +58,18 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
     }
 
     [Fact]
+    public void ParseMapping_reads_backlog_status_id()
+    {
+        const string json = @"{
+  ""GameStatusBacklog"": ""11111111-1111-1111-1111-111111111111""
+}";
+
+        HltbCompletionStatusMapping mapping = HltbCompletionStatusSyncConfig.ParseMapping(json);
+
+        Assert.Equal(Guid.Parse("11111111-1111-1111-1111-111111111111"), mapping.GameStatusBacklog);
+    }
+
+    [Fact]
     public void TryWriteMapping_persists_mapping_without_dropping_existing_keys()
     {
         string path = CreateTempConfigPath();
@@ -102,6 +114,23 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
         Assert.Equal(statuses[0].Id, mapping.GameStatusPlaying);
         Assert.Equal(statuses[1].Id, mapping.GameStatusCompleted);
         Assert.Equal(statuses[2].Id, mapping.GameStatusCompletionist);
+    }
+
+    [Fact]
+    public void ResolveDefaults_maps_not_played_to_backlog()
+    {
+        var notPlayedId = Guid.Parse("99999999-9999-9999-9999-999999999999");
+        var statuses = new List<CompletionStatus>
+        {
+            new CompletionStatus { Id = Guid.NewGuid(), Name = "Playing" },
+            new CompletionStatus { Id = Guid.NewGuid(), Name = "Beaten" },
+            new CompletionStatus { Id = Guid.NewGuid(), Name = "Completed" },
+            new CompletionStatus { Id = notPlayedId, Name = "Not Played" },
+        };
+
+        HltbCompletionStatusMapping mapping = HltbCompletionStatusMapping.ResolveDefaults(statuses);
+
+        Assert.Equal(notPlayedId, mapping.GameStatusBacklog);
     }
 
     [Fact]
@@ -159,6 +188,9 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
         Assert.Equal(playingId, mapping.GameStatusPlaying);
         Assert.Equal(completedId, mapping.GameStatusCompleted);
         Assert.Equal(completionistId, mapping.GameStatusCompletionist);
+
+        var notPlayedId = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd");
+        Assert.Equal(notPlayedId, mapping.GameStatusBacklog);
     }
 
     [Fact]
@@ -310,6 +342,7 @@ public class HltbCompletionStatusSyncConfigTests : IDisposable
             new CompletionStatus { Id = Guid.NewGuid(), Name = "Playing" },
             new CompletionStatus { Id = Guid.NewGuid(), Name = "Beaten" },
             new CompletionStatus { Id = Guid.NewGuid(), Name = "Completed" },
+            new CompletionStatus { Id = Guid.Parse("dddddddd-dddd-dddd-dddd-dddddddddddd"), Name = "Not Played" },
         };
 
         var completionStatuses = new Mock<IItemCollection<CompletionStatus>>();

@@ -17,7 +17,8 @@ namespace Playlist
 
         internal static string Resolve(string hltbResourceKey, string playlistResourceKey, string hltbEnglishBaseline)
         {
-            if (!string.IsNullOrEmpty(PlaylistLocalizationOverride.ActiveLocaleId)
+            if (!string.IsNullOrEmpty(playlistResourceKey)
+                && !string.IsNullOrEmpty(PlaylistLocalizationOverride.ActiveLocaleId)
                 && PlaylistLocalizationOverride.TryGetString(playlistResourceKey, out string overrideValue))
             {
                 return overrideValue;
@@ -29,10 +30,13 @@ namespace Playlist
                 return hltbValue;
             }
 
-            string playlistValue = GetString(playlistResourceKey);
-            if (TryUseResolvedValue(playlistValue, playlistResourceKey))
+            if (!string.IsNullOrEmpty(playlistResourceKey))
             {
-                return playlistValue;
+                string playlistValue = GetString(playlistResourceKey);
+                if (TryUseResolvedValue(playlistValue, playlistResourceKey))
+                {
+                    return playlistValue;
+                }
             }
 
             if (TryUseResolvedValue(hltbValue, hltbResourceKey))
@@ -76,7 +80,18 @@ namespace Playlist
         private static bool TryUseResolvedValue(string value, string resourceKey)
         {
             return !string.IsNullOrWhiteSpace(value)
-                && !string.Equals(value, resourceKey, StringComparison.Ordinal);
+                && !IsUnresolvedResource(value, resourceKey);
+        }
+
+        private static bool IsUnresolvedResource(string value, string resourceKey)
+        {
+            if (string.IsNullOrEmpty(resourceKey))
+            {
+                return string.IsNullOrWhiteSpace(value);
+            }
+
+            return string.Equals(value, resourceKey, StringComparison.Ordinal)
+                || string.Equals(value, "<!" + resourceKey + "!>", StringComparison.Ordinal);
         }
 
         private static bool IsEnglishUiCulture()

@@ -6,12 +6,14 @@ using Xunit;
 
 namespace Playlist.UnitTests;
 
+[Collection(nameof(PlaylistLocalizationTestCollection))]
 public class HltbLocalizedStringResolverTests : IDisposable
 {
     private readonly Mock<IResourceProvider> resourceProvider = new();
 
     public HltbLocalizedStringResolverTests()
     {
+        PlaylistLocalizationOverride.SetActiveLocale(null);
         HltbLocalizedStringResolver.TestResourceProvider = resourceProvider.Object;
     }
 
@@ -147,7 +149,8 @@ public class HltbLocalizedStringResolverTests : IDisposable
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("ja-JP");
             resourceProvider.Setup(provider => provider.GetString(hltbKey)).Returns(hltbValue);
-            resourceProvider.Setup(provider => provider.GetString(playlistKey)).Returns(playlistKey);
+            resourceProvider.Setup(provider => provider.GetString(playlistKey))
+                .Returns("<!" + playlistKey + "!>");
 
             Assert.Equal(
                 hltbValue,
