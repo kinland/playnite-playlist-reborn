@@ -24,6 +24,8 @@
     <Compile Include="..\..\LastPlayedSortBucketComparer.cs" Link="Production\LastPlayedSortBucketComparer.cs" />
     <Compile Include="..\..\PlaytimeValueConverter.cs" Link="Production\PlaytimeValueConverter.cs" />
     <Compile Include="..\..\PlaytimeSortComparer.cs" Link="Production\PlaytimeSortComparer.cs" />
+    <Compile Include="..\..\PlaylistColumnWidthLayout.cs" Link="Production\PlaylistColumnWidthLayout.cs" />
+    <Compile Include="..\..\PlaylistGridViewLayout.cs" Link="Production\PlaylistGridViewLayout.cs" />
     <Compile Include="..\..\PlaylistColumnReorderDropIndicator.cs" Link="Production\PlaylistColumnReorderDropIndicator.cs" />
     <Compile Include="..\..\PlaylistSortHeaderLayout.cs" Link="Production\PlaylistSortHeaderLayout.cs" />
     <Compile Include="..\..\PlaylistThemeColors.cs" Link="Production\PlaylistThemeColors.cs" />

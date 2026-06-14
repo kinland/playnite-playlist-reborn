@@ -437,7 +437,6 @@ namespace Playlist
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.ApplicationIdle);
         }
 
-        private const double HowLongToBeatColumnMinWidth = 120;
         private const double CollapsedColumnWidthThreshold = 0.5;
 
         /// <summary>
@@ -549,7 +548,9 @@ namespace Playlist
 
         private void OnPlaylistListViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateHowLongToBeatColumnFillWidth();
+            TryApplyDynamicColumnWidthsIfNeeded(
+                fillWhenNoPersistedLayouts: false,
+                preferredWidths: GetPreferredWidthsFromColumns());
             RefreshSortHeaderVisualState();
         }
 
@@ -557,7 +558,10 @@ namespace Playlist
         {
             TryHideColumnsCollapsedToZeroWidth();
             EnforceMinimumIconColumnWidth();
-            UpdateHowLongToBeatColumnFillWidth();
+            EnforceMinimumHowLongToBeatColumnWidth();
+            TryApplyDynamicColumnWidthsIfNeeded(
+                fillWhenNoPersistedLayouts: false,
+                preferredWidths: GetPreferredWidthsFromColumns());
             RefreshSortHeaderVisualState();
             RequestHeaderBodyOffsetSync();
             PersistLayoutState();
@@ -570,12 +574,144 @@ namespace Playlist
         }
 
         /// <summary>
-        /// Keep HLTB column at the current user-selected width and only enforce a small minimum.
+        /// Redistributes column widths to fill or fit the list. On first launch without saved
+        /// layouts, distributes from column minimums so Name/HLTB expand to use remaining width.
+        /// With saved layouts, runs only when configured widths would overflow horizontally.
         /// </summary>
-        private void UpdateHowLongToBeatColumnFillWidth()
+        private void TryApplyDynamicColumnWidthsIfNeeded(
+            bool fillWhenNoPersistedLayouts,
+            IReadOnlyDictionary<string, double> preferredWidths = null)
         {
-            if (playlistListView == null || howLongToBeatGridViewColumn == null
-                || !(playlistListView.View is GridView gridView))
+            double availableWidth = GetAvailableListWidth();
+            if (availableWidth <= 0)
+            {
+                return;
+            }
+
+            if (!fillWhenNoPersistedLayouts && !WouldColumnWidthsOverflow(availableWidth))
+            {
+                return;
+            }
+
+            ApplyDynamicColumnWidths(preferredWidths);
+        }
+
+        /// <summary>
+        /// Sizes visible columns to fill the list width: narrow columns stay near their preferred
+        /// width with a small bonus, and Name/HLTB absorb the remaining slack.
+        /// </summary>
+        private void ApplyDynamicColumnWidths(IReadOnlyDictionary<string, double> preferredWidths = null)
+        {
+            if (playlistListView == null || isRestoringLayoutState)
+            {
+                return;
+            }
+
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return;
+            }
+
+            List<string> visibleColumnKeys = gridView.Columns
+                .Select(GetColumnKey)
+                .Where(key => !string.IsNullOrEmpty(key))
+                .ToList();
+            if (visibleColumnKeys.Count == 0)
+            {
+                return;
+            }
+
+            double availableWidth = GetAvailableListWidth();
+            if (availableWidth <= 0)
+            {
+                return;
+            }
+
+            IReadOnlyDictionary<string, double> preferred = preferredWidths ?? GetPreferredWidthsFromColumns();
+            IReadOnlyDictionary<string, double> widths = PlaylistColumnWidthLayout.Distribute(
+                availableWidth,
+                visibleColumnKeys,
+                preferred);
+
+            foreach (KeyValuePair<string, double> entry in widths)
+            {
+                GridViewColumn column = GetColumnByKey(entry.Key);
+                if (column != null)
+                {
+                    column.Width = entry.Value;
+                }
+            }
+
+            EnforceMinimumIconColumnWidth();
+        }
+
+        private bool WouldColumnWidthsOverflow(double? availableWidth = null)
+        {
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return false;
+            }
+
+            double width = availableWidth ?? GetAvailableListWidth();
+            if (width <= 0)
+            {
+                return false;
+            }
+
+            return GetTotalVisibleColumnWidth(gridView) > width + 0.5;
+        }
+
+        private static double GetTotalVisibleColumnWidth(GridView gridView)
+        {
+            double total = 0;
+            foreach (GridViewColumn column in gridView.Columns)
+            {
+                double width = column.Width;
+                if (double.IsNaN(width) || width <= CollapsedColumnWidthThreshold)
+                {
+                    continue;
+                }
+
+                total += width;
+            }
+
+            return total;
+        }
+
+        private void RestorePersistedColumnWidthsFromSettings(PlaylistSettings settings, GridView gridView)
+        {
+            if (settings?.ColumnLayouts == null || settings.ColumnLayouts.Count == 0)
+            {
+                return;
+            }
+
+            foreach (PlaylistColumnLayoutState layout in settings.ColumnLayouts)
+            {
+                if (layout == null || string.IsNullOrWhiteSpace(layout.Key))
+                {
+                    continue;
+                }
+
+                GridViewColumn column = GetColumnByKey(layout.Key);
+                if (column == null || !gridView.Columns.Contains(column))
+                {
+                    continue;
+                }
+
+                if (double.IsNaN(layout.Width) || layout.Width <= CollapsedColumnWidthThreshold)
+                {
+                    continue;
+                }
+
+                column.Width = layout.Key == IconColumnKey
+                    ? PlaylistGridViewLayout.IconColumnWidth
+                    : layout.Width;
+            }
+        }
+
+        private void EnforceMinimumHowLongToBeatColumnWidth()
+        {
+            if (howLongToBeatGridViewColumn == null || !TryGetGridView(out GridView gridView))
             {
                 return;
             }
@@ -585,13 +721,81 @@ namespace Playlist
                 return;
             }
 
-            double currentWidth = howLongToBeatGridViewColumn.Width;
-            if (double.IsNaN(currentWidth) || currentWidth <= 0)
+            double minimumWidth = PlaylistColumnWidthLayout.GetMinimumWidth(HowLongToBeatColumnKey);
+            if (howLongToBeatGridViewColumn.Width < minimumWidth)
             {
-                return;
+                howLongToBeatGridViewColumn.Width = minimumWidth;
+            }
+        }
+
+        private double GetAvailableListWidth()
+        {
+            if (playlistListView == null)
+            {
+                return 0;
             }
 
-            howLongToBeatGridViewColumn.Width = Math.Max(HowLongToBeatColumnMinWidth, currentWidth);
+            double width = playlistListView.ActualWidth;
+            ScrollViewer scrollViewer = rowHighlightScrollViewer ?? FindVisualChild<ScrollViewer>(playlistListView);
+            if (scrollViewer != null
+                && scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+            {
+                width -= SystemParameters.VerticalScrollBarWidth;
+            }
+
+            return Math.Max(0, width);
+        }
+
+        private Dictionary<string, double> GetPreferredWidthsFromColumns()
+        {
+            var preferred = new Dictionary<string, double>();
+            if (!TryGetGridView(out GridView gridView))
+            {
+                return preferred;
+            }
+
+            foreach (GridViewColumn column in gridView.Columns)
+            {
+                string columnKey = GetColumnKey(column);
+                if (string.IsNullOrEmpty(columnKey))
+                {
+                    continue;
+                }
+
+                double width = column.Width;
+                if (!double.IsNaN(width) && width > CollapsedColumnWidthThreshold)
+                {
+                    preferred[columnKey] = width;
+                }
+            }
+
+            return preferred;
+        }
+
+        private static Dictionary<string, double> GetPreferredWidthsFromSettings(PlaylistSettings settings)
+        {
+            var preferred = new Dictionary<string, double>();
+            if (settings?.ColumnLayouts == null)
+            {
+                return preferred;
+            }
+
+            foreach (PlaylistColumnLayoutState layout in settings.ColumnLayouts)
+            {
+                if (layout == null
+                    || string.IsNullOrWhiteSpace(layout.Key)
+                    || double.IsNaN(layout.Width)
+                    || layout.Width <= CollapsedColumnWidthThreshold)
+                {
+                    continue;
+                }
+
+                preferred[layout.Key] = layout.Key == IconColumnKey
+                    ? PlaylistGridViewLayout.IconColumnWidth
+                    : layout.Width;
+            }
+
+            return preferred;
         }
 
         private void OnPlaylistViewLoadedApplyHowLongToBeatColumn(object sender, RoutedEventArgs e)
@@ -797,7 +1001,18 @@ namespace Playlist
             SetColumnVisible(gridView, howLongToBeatGridViewColumn, showHowLongToBeatColumn);
 
             EnforceMinimumIconColumnWidth();
-            UpdateHowLongToBeatColumnFillWidth();
+            EnforceMinimumHowLongToBeatColumnWidth();
+
+            if (settings == null)
+            {
+                return;
+            }
+
+            RestorePersistedColumnWidthsFromSettings(settings, gridView);
+            bool hasPersistedLayouts = settings.ColumnLayouts != null && settings.ColumnLayouts.Count > 0;
+            TryApplyDynamicColumnWidthsIfNeeded(
+                fillWhenNoPersistedLayouts: !hasPersistedLayouts,
+                preferredWidths: hasPersistedLayouts ? GetPreferredWidthsFromSettings(settings) : null);
         }
 
         /// <summary>
@@ -1062,25 +1277,7 @@ namespace Playlist
 
         private static double GetDefaultColumnWidth(string columnKey)
         {
-            switch (columnKey)
-            {
-                case RankColumnKey:
-                    return 56;
-                case IconColumnKey:
-                    return PlaylistGridViewLayout.IconColumnWidth;
-                case PlaytimeColumnKey:
-                    return 168;
-                case CompletionStatusColumnKey:
-                    return 174;
-                case LastPlayedColumnKey:
-                    return 196;
-                case LastActivityColumnKey:
-                    return 196;
-                case HowLongToBeatColumnKey:
-                    return 400;
-                default:
-                    return double.NaN;
-            }
+            return PlaylistColumnWidthLayout.GetMinimumWidth(columnKey);
         }
 
         private void RestoreColumnWidthIfCollapsed(GridViewColumn column, PlaylistSettings settings)
@@ -1700,9 +1897,10 @@ namespace Playlist
             }
 
             isRestoringLayoutState = true;
+            bool hasPersistedLayouts = settings.ColumnLayouts != null && settings.ColumnLayouts.Count > 0;
             try
             {
-                if (settings.ColumnLayouts != null && settings.ColumnLayouts.Count > 0)
+                if (hasPersistedLayouts)
                 {
                     List<PlaylistColumnLayoutState> ordered = settings.ColumnLayouts
                         .Where(layout => layout != null && !string.IsNullOrWhiteSpace(layout.Key))
@@ -1728,28 +1926,14 @@ namespace Playlist
                         targetIndex++;
                     }
 
-                    foreach (PlaylistColumnLayoutState layout in ordered)
-                    {
-                        GridViewColumn column = GetColumnByKey(layout.Key);
-                        if (column == null || !gridView.Columns.Contains(column))
-                        {
-                            continue;
-                        }
-
-                        if (!double.IsNaN(layout.Width) && layout.Width > 0)
-                        {
-                            column.Width = layout.Key == IconColumnKey
-                                ? PlaylistGridViewLayout.IconColumnWidth
-                                : layout.Width;
-                        }
-                    }
-
+                    RestorePersistedColumnWidthsFromSettings(settings, gridView);
                     EnforceMinimumIconColumnWidth();
-                    UpdateHowLongToBeatColumnFillWidth();
+                    EnforceMinimumHowLongToBeatColumnWidth();
                 }
                 else
                 {
                     EnforceMinimumIconColumnWidth();
+                    EnforceMinimumHowLongToBeatColumnWidth();
                 }
 
                 if (!string.IsNullOrWhiteSpace(settings.ActiveSortColumnKey))
@@ -1761,6 +1945,15 @@ namespace Playlist
             {
                 isRestoringLayoutState = false;
             }
+
+            IReadOnlyDictionary<string, double> preferredWidths = hasPersistedLayouts
+                ? GetPreferredWidthsFromSettings(settings)
+                : null;
+            Dispatcher.BeginInvoke(
+                (Action)(() => TryApplyDynamicColumnWidthsIfNeeded(
+                    fillWhenNoPersistedLayouts: !hasPersistedLayouts,
+                    preferredWidths: preferredWidths)),
+                DispatcherPriority.Loaded);
 
             Dispatcher.BeginInvoke((Action)RefreshSortHeaderVisualState, DispatcherPriority.Loaded);
             RequestHeaderBodyOffsetSync();
