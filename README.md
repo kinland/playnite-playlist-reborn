@@ -82,7 +82,7 @@ As long as your language is supported by Google Translate, feel free to make fea
 
 Playnite UI strings for this extension are available in every locale Playnite ships. I only speak English, so these are primarily machine translated — contributions and corrections enthusiastically encouraged. No offense is intended by poor machine translations, so if you detect something like this, please inform me!
 
-The supplemental locales in the table above ship with the extension and will be selectable via a Playlist-only language picker in settings (alongside Playnite's languages). On first visit to Playlist settings, if your OS language differs from Playnite's, a localized prompt asks whether to switch the Playlist-only language to match your system. OS culture mappings live in `scripts/data/playlist-os-locale-culture-map.json`; regenerate supplemental xaml with `scripts/sync-supplemental-locales.ps1`.
+The supplemental locales in the table above ship with the extension and will be selectable via a Playlist-only language picker in settings (alongside Playnite's languages). On first visit to Playlist settings, if your OS language differs from Playnite's, a localized prompt asks whether to switch the Playlist-only language to match your system. OS culture mappings live in `scripts/data/playlist-os-locale-culture-map.json`; regenerate supplemental xaml with `scripts/sync-supplemental-locales.ps1`. Some elements may remain in English due to limitations on rendering.
 
 ## Playlist
 
