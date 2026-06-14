@@ -356,6 +356,7 @@
             VirtualizingPanel.IsVirtualizing="True"
             VirtualizingPanel.VirtualizationMode="Recycling"
             SelectedIndex="0"
+            ToolTip="{Binding DragReorderStatusText}"
             dd:DragDrop.IsDragSource="{Binding IsDragInteractionEnabled}"
             dd:DragDrop.IsDropTarget="{Binding IsDragInteractionEnabled}"
             dd:DragDrop.DragHandler="{Binding PlaylistDragHandler}"

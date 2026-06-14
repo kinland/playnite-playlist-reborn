@@ -81,7 +81,13 @@ namespace Playlist
         /// </summary>
         public bool IsPlaylistDragReorderActive => isPlaylistDragReorderActive;
 
+        /// <summary>
+        /// Shown as the playlist list tooltip while a drag-and-drop reorder is blocked (non-rank sort or bucket boundary).
+        /// </summary>
+        public string DragReorderStatusText => dragReorderStatusText;
+
         private bool isPlaylistDragReorderActive;
+        private string dragReorderStatusText;
         private SearchQueryMatcher searchMatcher = SearchQueryMatcher.Create(string.Empty);
         private ScopedSearchClauseGroup tagClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
         private ScopedSearchClauseGroup genreClauses = new ScopedSearchClauseGroup(new ScopedSearchClause[0]);
@@ -669,6 +675,27 @@ namespace Playlist
 
             isPlaylistDragReorderActive = active;
             OnPropertyChanged(nameof(IsPlaylistDragReorderActive));
+
+            if (!active)
+            {
+                ClearDragReorderStatusText();
+            }
+        }
+
+        internal void SetDragReorderStatusText(string text)
+        {
+            if (string.Equals(dragReorderStatusText, text, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            dragReorderStatusText = text;
+            OnPropertyChanged(nameof(DragReorderStatusText));
+        }
+
+        internal void ClearDragReorderStatusText()
+        {
+            SetDragReorderStatusText(null);
         }
 
         private sealed class PlaylistRankIndexComparer : IComparer

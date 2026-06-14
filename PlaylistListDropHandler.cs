@@ -45,12 +45,15 @@ namespace Playlist
             // silently swallowing the drop, so it is obvious reorder is unavailable until sort is cleared.
             if (!viewModel.IsDragReorderEnabled)
             {
+                viewModel.SetDragReorderStatusText(
+                    PlaylistDragReorderMessages.BuildSortBlockedMessage(viewModel.ActiveViewSortColumn));
                 RejectDrop(dropInfo);
                 return;
             }
 
             if (!viewModel.IsBucketConstrainedSortActive)
             {
+                viewModel.ClearDragReorderStatusText();
                 return;
             }
 
@@ -70,8 +73,31 @@ namespace Playlist
             int originalInsert = GetInsertIndex(dropInfo);
             if (!CanInsertWithinActiveBucket(visualOrder, dragged, originalInsert))
             {
+                viewModel.SetDragReorderStatusText(
+                    PlaylistDragReorderMessages.BuildBucketBlockedMessage(
+                        ResolveBucketLabelAtInsert(visualOrder, originalInsert)));
                 RejectDrop(dropInfo);
+                return;
             }
+
+            viewModel.ClearDragReorderStatusText();
+        }
+
+        private string ResolveBucketLabelAtInsert(IList<Game> visualOrder, int insertIndex)
+        {
+            if (visualOrder == null || visualOrder.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            int targetIndex = Math.Max(0, Math.Min(insertIndex, visualOrder.Count - 1));
+            Game anchor = visualOrder[targetIndex];
+            DateTime nowUtc = DateTime.UtcNow;
+            Func<Game, DateTime?> timestampSelector = viewModel.IsLastActivitySortActive
+                ? (Func<Game, DateTime?>)(game => LastActivityValueConverter.ExtractModifiedUtc(game))
+                : (Func<Game, DateTime?>)(game => LastPlayedValueConverter.ExtractLastActivityUtc(game));
+            DateTime? timestamp = timestampSelector(anchor);
+            return LastPlayedRelativeFormatter.Format(timestamp, nowUtc).Label;
         }
 
         private static void RejectDrop(IDropInfo dropInfo)
@@ -87,70 +113,77 @@ namespace Playlist
 
         public void Drop(IDropInfo dropInfo)
         {
-            if (dropInfo?.DragInfo == null)
+            try
             {
-                return;
-            }
+                if (dropInfo?.DragInfo == null)
+                {
+                    return;
+                }
 
-            if (DefaultDropHandler.ShouldCopyData(dropInfo))
+                if (DefaultDropHandler.ShouldCopyData(dropInfo))
+                {
+                    defaultHandler.Drop(dropInfo);
+                    return;
+                }
+
+                if (!viewModel.IsDragReorderEnabled)
+                {
+                    // Reorder is disabled by the active sort; do nothing (DragOver already showed a no-drop cursor).
+                    return;
+                }
+
+                if (!DefaultDropHandler.CanAcceptData(dropInfo))
+                {
+                    return;
+                }
+
+                ListCollectionView listView = viewModel.PlaylistGamesView as ListCollectionView;
+                if (listView == null)
+                {
+                    defaultHandler.Drop(dropInfo);
+                    return;
+                }
+
+                List<Game> visualOrder = listView.Cast<Game>().ToList();
+                List<Game> dragged = GetVisibleDraggedItems(dropInfo, visualOrder);
+                if (dragged.Count == 0)
+                {
+                    return;
+                }
+
+                int originalInsert = GetInsertIndex(dropInfo);
+                if (viewModel.IsBucketConstrainedSortActive
+                    && !CanInsertWithinActiveBucket(visualOrder, dragged, originalInsert))
+                {
+                    return;
+                }
+
+                ReorderAnchorPreference anchorPreference = ResolveAnchorPreference(dropInfo, viewModel.IsViewRankDescending);
+                List<Game> plannedOrder = PlaylistReorderPlanner.ReorderByVisibleInsertion(
+                    fullOrder: viewModel.PlaylistGames,
+                    visibleOrderVisual: visualOrder,
+                    draggedItemsVisual: dragged,
+                    originalInsertIndexVisual: originalInsert,
+                    reverseVisualToPersisted: viewModel.IsViewRankDescending,
+                    anchorPreference: anchorPreference,
+                    invertAnchorSemantics: viewModel.IsViewLastPlayedDescending || viewModel.IsViewLastActivityDescending);
+
+                ReorderCollectionToMatch(viewModel.PlaylistGames, plannedOrder);
+
+                // Moves on the source list do not always invalidate a sorted ICollectionView; force re-sort / UI sync.
+                listView.Refresh();
+
+                DefaultDropHandler.SelectDroppedItems(dropInfo, dragged);
+
+                // Gong can finish the drop before layout/bindings catch up; one deferred refresh fixes a stuck visual order.
+                Dispatcher.CurrentDispatcher.BeginInvoke(
+                    DispatcherPriority.Loaded,
+                    new Action(() => listView.Refresh()));
+            }
+            finally
             {
-                defaultHandler.Drop(dropInfo);
-                return;
+                viewModel.ClearDragReorderStatusText();
             }
-
-            if (!viewModel.IsDragReorderEnabled)
-            {
-                // Reorder is disabled by the active sort; do nothing (DragOver already showed a no-drop cursor).
-                return;
-            }
-
-            if (!DefaultDropHandler.CanAcceptData(dropInfo))
-            {
-                return;
-            }
-
-            ListCollectionView listView = viewModel.PlaylistGamesView as ListCollectionView;
-            if (listView == null)
-            {
-                defaultHandler.Drop(dropInfo);
-                return;
-            }
-
-            List<Game> visualOrder = listView.Cast<Game>().ToList();
-            List<Game> dragged = GetVisibleDraggedItems(dropInfo, visualOrder);
-            if (dragged.Count == 0)
-            {
-                return;
-            }
-
-            int originalInsert = GetInsertIndex(dropInfo);
-            if (viewModel.IsBucketConstrainedSortActive
-                && !CanInsertWithinActiveBucket(visualOrder, dragged, originalInsert))
-            {
-                return;
-            }
-
-            ReorderAnchorPreference anchorPreference = ResolveAnchorPreference(dropInfo, viewModel.IsViewRankDescending);
-            List<Game> plannedOrder = PlaylistReorderPlanner.ReorderByVisibleInsertion(
-                fullOrder: viewModel.PlaylistGames,
-                visibleOrderVisual: visualOrder,
-                draggedItemsVisual: dragged,
-                originalInsertIndexVisual: originalInsert,
-                reverseVisualToPersisted: viewModel.IsViewRankDescending,
-                anchorPreference: anchorPreference,
-                invertAnchorSemantics: viewModel.IsViewLastPlayedDescending || viewModel.IsViewLastActivityDescending);
-
-            ReorderCollectionToMatch(viewModel.PlaylistGames, plannedOrder);
-
-            // Moves on the source list do not always invalidate a sorted ICollectionView; force re-sort / UI sync.
-            listView.Refresh();
-
-            DefaultDropHandler.SelectDroppedItems(dropInfo, dragged);
-
-            // Gong can finish the drop before layout/bindings catch up; one deferred refresh fixes a stuck visual order.
-            Dispatcher.CurrentDispatcher.BeginInvoke(
-                DispatcherPriority.Loaded,
-                new Action(() => listView.Refresh()));
         }
 
         /// <summary>
@@ -261,6 +294,7 @@ namespace Playlist
 
         public void DragLeave(IDropInfo dropInfo)
         {
+            viewModel.ClearDragReorderStatusText();
         }
 #endif
     }
