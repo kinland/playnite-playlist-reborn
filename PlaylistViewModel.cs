@@ -14,7 +14,7 @@ using System.Windows.Input;
 
 namespace Playlist
 {
-    public class PlaylistViewModel : ObservableObject
+    public class PlaylistViewModel : ObservableObject, IPlaylistSearchSyncTarget
     {
         private readonly IPlayniteAPI playniteApi;
 

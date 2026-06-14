@@ -2,8 +2,6 @@ using Playnite.SDK;
 using Playnite.SDK.Models;
 using System;
 using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Threading;
 
 namespace Playlist
 {
@@ -12,24 +10,36 @@ namespace Playlist
     /// </summary>
     internal sealed class MainSearchSync
     {
-        private static readonly ILogger logger = LogManager.GetLogger();
-
-        private readonly IPlayniteAPI playniteApi;
         private readonly Func<bool> isSyncEnabled;
         private readonly MainSearchFilterNameResolver filterNameResolver;
-        private PlaylistViewModel viewModel;
+        private readonly IMainFilterPanelBridge mainFilterBridge;
+        private IPlaylistSearchSyncTarget viewModel;
         private bool suppressSync;
-        private bool isSubscribedToMain;
-        private EventInfo filterSettingsChangedEvent;
-        private Delegate filterSettingsChangedHandler;
+        private IDisposable mainFilterSubscription;
         private string preservedPlaylistQuery;
         private FilterPresetSettings mainSnapshotAfterPush;
 
         public MainSearchSync(IPlayniteAPI playniteApi, Func<bool> isSyncEnabled)
+            : this(playniteApi, isSyncEnabled, new PlayniteMainFilterPanelBridge(playniteApi))
         {
-            this.playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
+        }
+
+        internal MainSearchSync(
+            IPlayniteAPI playniteApi,
+            Func<bool> isSyncEnabled,
+            IMainFilterPanelBridge mainFilterBridge)
+            : this(isSyncEnabled, mainFilterBridge, new MainSearchFilterNameResolver(playniteApi))
+        {
+        }
+
+        internal MainSearchSync(
+            Func<bool> isSyncEnabled,
+            IMainFilterPanelBridge mainFilterBridge,
+            MainSearchFilterNameResolver filterNameResolver)
+        {
             this.isSyncEnabled = isSyncEnabled ?? throw new ArgumentNullException(nameof(isSyncEnabled));
-            filterNameResolver = new MainSearchFilterNameResolver(playniteApi);
+            this.mainFilterBridge = mainFilterBridge ?? throw new ArgumentNullException(nameof(mainFilterBridge));
+            this.filterNameResolver = filterNameResolver ?? throw new ArgumentNullException(nameof(filterNameResolver));
         }
 
         /// <summary>Subscribes or unsubscribes from main-panel changes when the sync setting toggles.</summary>
@@ -48,7 +58,7 @@ namespace Playlist
         }
 
         /// <summary>Wires playlist search edits to this sync instance.</summary>
-        public void Attach(PlaylistViewModel playlistViewModel)
+        public void Attach(IPlaylistSearchSyncTarget playlistViewModel)
         {
             if (viewModel != null)
             {
@@ -94,7 +104,7 @@ namespace Playlist
                 return;
             }
 
-            FilterPresetSettings currentMain = GetCurrentMainSettings();
+            FilterPresetSettings currentMain = mainFilterBridge.GetCurrentSettings();
             string nextQuery = MainSearchFilterMapper.ResolveReturnQuery(
                 preservedPlaylistQuery,
                 mainSnapshotAfterPush,
@@ -125,7 +135,7 @@ namespace Playlist
             }
 
             preservedPlaylistQuery = viewModel.SearchQuery ?? string.Empty;
-            FilterPresetSettings currentMain = GetCurrentMainSettings();
+            FilterPresetSettings currentMain = mainFilterBridge.GetCurrentSettings();
             FilterPresetSettings mapped = MainSearchFilterMapper.ApplySyncPush(
                 currentMain,
                 preservedPlaylistQuery,
@@ -134,12 +144,12 @@ namespace Playlist
                 currentMain,
                 preservedPlaylistQuery,
                 filterNameResolver);
-            ApplyMainFilterSettings(mapped);
+            mainFilterBridge.ApplySettings(mapped);
         }
 
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!IsEnabled || suppressSync || viewModel == null || e.PropertyName != nameof(PlaylistViewModel.SearchQuery))
+            if (!IsEnabled || suppressSync || viewModel == null || e.PropertyName != nameof(IPlaylistSearchSyncTarget.SearchQuery))
             {
                 return;
             }
@@ -148,7 +158,7 @@ namespace Playlist
             try
             {
                 preservedPlaylistQuery = viewModel.SearchQuery ?? string.Empty;
-                FilterPresetSettings currentMain = GetCurrentMainSettings();
+                FilterPresetSettings currentMain = mainFilterBridge.GetCurrentSettings();
                 FilterPresetSettings mapped = MainSearchFilterMapper.ApplySyncPush(
                     currentMain,
                     preservedPlaylistQuery,
@@ -157,7 +167,7 @@ namespace Playlist
                     currentMain,
                     preservedPlaylistQuery,
                     filterNameResolver);
-                ApplyMainFilterSettings(mapped);
+                mainFilterBridge.ApplySettings(mapped);
             }
             finally
             {
@@ -191,121 +201,25 @@ namespace Playlist
             }
         }
 
-        private FilterPresetSettings GetCurrentMainSettings()
-        {
-            try
-            {
-                return playniteApi.MainView?.GetCurrentFilterSettings() ?? new FilterPresetSettings();
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "Failed to read Playnite main filter settings.");
-                return new FilterPresetSettings();
-            }
-        }
-
-        private void ApplyMainFilterSettings(FilterPresetSettings settings)
-        {
-            if (settings == null)
-            {
-                return;
-            }
-
-            void Apply()
-            {
-                try
-                {
-                    object filterSettings = GetFilterSettingsObject();
-                    if (filterSettings == null)
-                    {
-                        return;
-                    }
-
-                    MethodInfo applyMethod = filterSettings.GetType().GetMethod(
-                        "ApplyFilter",
-                        new[] { typeof(FilterPresetSettings) });
-                    applyMethod?.Invoke(filterSettings, new object[] { settings });
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "Failed to write Playnite main filter settings.");
-                }
-            }
-
-            Dispatcher dispatcher = playniteApi.MainView?.UIDispatcher;
-            if (dispatcher == null || dispatcher.CheckAccess())
-            {
-                Apply();
-            }
-            else
-            {
-                dispatcher.Invoke(Apply);
-            }
-        }
-
-        private object GetFilterSettingsObject()
-        {
-            object mainModel = GetDesktopMainModel();
-            if (mainModel == null)
-            {
-                return null;
-            }
-
-            object appSettings = mainModel.GetType().GetProperty("AppSettings")?.GetValue(mainModel);
-            return appSettings?.GetType().GetProperty("FilterSettings")?.GetValue(appSettings);
-        }
-
-        private object GetDesktopMainModel()
-        {
-            object mainView = playniteApi.MainView;
-            if (mainView == null)
-            {
-                return null;
-            }
-
-            return mainView.GetType().GetField("mainModel", BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(mainView);
-        }
-
         private void SubscribeToMainFilterChanges()
         {
-            if (isSubscribedToMain || playniteApi.MainView == null)
+            if (mainFilterSubscription != null)
             {
                 return;
             }
 
-            filterSettingsChangedEvent = playniteApi.MainView.GetType().GetEvent("FilterSettingsChanged");
-            if (filterSettingsChangedEvent == null)
-            {
-                return;
-            }
-
-            MethodInfo handlerMethod = typeof(MainSearchSync).GetMethod(
-                nameof(HandleFilterSettingsChanged),
-                BindingFlags.Instance | BindingFlags.NonPublic);
-            if (handlerMethod == null)
-            {
-                return;
-            }
-
-            filterSettingsChangedHandler = Delegate.CreateDelegate(
-                filterSettingsChangedEvent.EventHandlerType,
-                this,
-                handlerMethod);
-            filterSettingsChangedEvent.AddEventHandler(playniteApi.MainView, filterSettingsChangedHandler);
-            isSubscribedToMain = true;
+            mainFilterSubscription = mainFilterBridge.Subscribe(HandleFilterSettingsChanged);
         }
 
         private void UnsubscribeFromMainFilterChanges()
         {
-            if (!isSubscribedToMain || filterSettingsChangedEvent == null || filterSettingsChangedHandler == null)
+            if (mainFilterSubscription == null)
             {
                 return;
             }
 
-            filterSettingsChangedEvent.RemoveEventHandler(playniteApi.MainView, filterSettingsChangedHandler);
-            filterSettingsChangedEvent = null;
-            filterSettingsChangedHandler = null;
-            isSubscribedToMain = false;
+            mainFilterSubscription.Dispose();
+            mainFilterSubscription = null;
         }
     }
 }

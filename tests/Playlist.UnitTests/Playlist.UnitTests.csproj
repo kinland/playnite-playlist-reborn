@@ -42,6 +42,9 @@
     <Compile Include="..\..\MainSearchFilterNameResolver.cs" Link="Production\MainSearchFilterNameResolver.cs" />
     <Compile Include="..\..\MainSearchFilterMapper.cs" Link="Production\MainSearchFilterMapper.cs" />
     <Compile Include="..\..\MainSearchSyncAnalysis.cs" Link="Production\MainSearchSyncAnalysis.cs" />
+    <Compile Include="..\..\MainFilterPanelBridge.cs" Link="Production\MainFilterPanelBridge.cs" />
+    <Compile Include="..\..\MainSearchSync.cs" Link="Production\MainSearchSync.cs" />
+    <Compile Include="..\..\IPlaylistSearchSyncTarget.cs" Link="Production\IPlaylistSearchSyncTarget.cs" />
     <Compile Include="..\..\ScopedSearchClause.cs" Link="Production\ScopedSearchClause.cs" />
     <Compile Include="..\..\ScopedSearchClauseGroup.cs" Link="Production\ScopedSearchClauseGroup.cs" />
     <Compile Include="..\..\SearchQueryMatcher.cs" Link="Production\SearchQueryMatcher.cs" />
