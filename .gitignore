@@ -365,6 +365,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# Playnite Toolbox download cache for local extension packing
+.tools/
+
 # Local sync script cache (generated from Localization/*.xaml when missing)
 scripts/data/hltb-time-type-gap-overrides.json
 

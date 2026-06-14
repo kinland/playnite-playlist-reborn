@@ -32,18 +32,12 @@
     <None Update="icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Localization\**\*.xaml">
+    <Content Include="Localization\**\*.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
-  <Target Name="Zip" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
-    <ItemGroup>
-      <ZipFiles Include="README.md" />
-      <ZipFiles Include="LICENSE" />
-      <ZipFiles Include="Localization" />
-      <ZipFiles Include="$(OutputPath)*" Exclude="$(OutputPath)Playnite.SDK.*" />
-    </ItemGroup>
-    <Exec Command="PowerShell -NoProfile -command Compress-Archive -Force @(ZipFiles, ',') '$(OutputPath)..\$(AssemblyName).zip' ; Move-Item -Force '$(OutputPath)..\$(AssemblyName).zip' '$(OutputPath)..\$(AssemblyName).pext'" />
+  <Target Name="PackExtension" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' Or '$(Configuration)' == 'Debug'">
+    <Exec Command="PowerShell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\scripts\pack-extension.ps1&quot; -ExtensionDir &quot;$(OutputPath.TrimEnd('\'))&quot; -OutputDir &quot;$(MSBuildProjectDirectory)\bin&quot; -ProjectDir &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
 </Project>
