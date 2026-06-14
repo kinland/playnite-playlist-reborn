@@ -1,11 +1,13 @@
 #!/usr/bin/env pwsh
 
-# Regenerates CHANGELOG.md from Installer_Manifest.yaml history and optional unreleased commit candidates.
+# Appends deduplicated commit summaries to the current Installer_Manifest package and
+# regenerates CHANGELOG.md [Unreleased] from all commits since the last version bump.
 param(
     [string]$ProjectDir = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path,
     [string]$DocumentedThroughVersion,
     [string]$ProcessedThroughCommit,
     [switch]$IncludeCommitCandidates,
+    [switch]$SkipManifestAppend,
     [switch]$BootstrapOnly
 )
 
@@ -24,6 +26,9 @@ $params = @{
 if ($IncludeCommitCandidates -or $includeCommits) {
     $params.IncludeCommitCandidates = $true
 }
+if ($SkipManifestAppend -or $BootstrapOnly) {
+    $params.SkipManifestAppend = $true
+}
 if ($ProcessedThroughCommit) {
     $params.ProcessedThroughCommit = $ProcessedThroughCommit
 }
@@ -34,4 +39,4 @@ elseif ($BootstrapOnly) {
     }
 }
 
-Sync-ChangelogMarkdown @params
+$null = Sync-ChangelogMarkdown @params

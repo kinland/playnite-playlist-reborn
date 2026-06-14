@@ -1,5 +1,4 @@
 {
-  "lastVersionBumpCommit": "67df8875d9f56963c2e691fa1c1c2a02da139c99",
   "recordedSyncOperations": {},
   "repositoryUrl": "https://github.com/kinland/playnite-playlist-reborn",
   "packageFilePattern": "Playlist-v{version}.pext",
@@ -14,7 +13,9 @@
     "^fixup!",
     "^Bump version to v",
     "^Merge ",
+    "^Curate ",
     "^Add unit tests",
+    "^Extend .+ unit tests",
     "^Extract .+ for unit test",
     "^Document ",
     "^Update TESTING\\.md",
@@ -23,12 +24,14 @@
     "^Add test projects",
     "^Convert Playlist\\.csproj",
     "^Pack release artifacts",
-    "^Align PlayniteSDK"
+    "^Align PlayniteSDK",
+    "^Add changelog automation"
   ],
   "syncOperationMessages": {
     "sync-playlist-owned-locales": "Synced playlist-owned UI strings across Playnite locales",
     "sync-hltb-time-type-locales": "Synced HowLongToBeat time-type labels across Playnite locales",
     "sync-supplemental-locales": "Synced supplemental Playlist locale files (indigenous and minority languages)",
     "sort-localization-files": "Sorted localization xaml files by key"
-  }
+  },
+  "lastSyncProcessedCommit": "2e0d1dfe9b3c3832bb64241b29111e78d4b676b7"
 }

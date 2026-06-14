@@ -172,8 +172,9 @@ See [TESTING.md](TESTING.md) for how to run unit and UI tests locally (`dotnet t
 
 Release workflow:
 
-- `pwsh ./scripts/sync-changelog.ps1` — refresh `CHANGELOG.md` unreleased section from `Installer_Manifest.yaml` and recent commits
-- `pwsh ./scripts/bump-version.ps1 -Version x.y.z` — bump `extension.yaml`, `AssemblyInfo.cs`, and prepend a new `Installer_Manifest.yaml` package entry, then regenerate `CHANGELOG.md`
+- `pwsh ./scripts/sync-changelog.ps1` — after user-facing commits, append deduplicated commit summaries to the current `Installer_Manifest.yaml` package (must match `extension.yaml`; append-only, never removes existing lines) and regenerate `CHANGELOG.md`. `[Unreleased]` lists every user-facing commit since the last version bump (the pending release, e.g. **v1.7.1**); it stays populated until `bump-version` rolls those changes into a versioned section.
+- Curate `Installer_Manifest.yaml` as needed (group bullets, drop internal lines). Curated text persists across later sync runs.
+- `pwsh ./scripts/bump-version.ps1 -Version x.y.z` — when ready to publish, bump `extension.yaml` and `AssemblyInfo.cs`, prepend a new manifest package entry with the cumulative changelog, and regenerate `CHANGELOG.md`. The bump commit is the rollup boundary: everything since the previous version bump becomes that release (e.g. publish **v1.7.1** containing all v1.7.0 commit-only work plus post-bump changes, without shipping v1.7.0 as a build).
 - Locale sync scripts append idempotent entries to the current manifest changelog when run (see `scripts/data/changelog-state.json`)
 
 ## External libraries, etc.

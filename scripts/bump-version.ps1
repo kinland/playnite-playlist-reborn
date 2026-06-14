@@ -1,6 +1,7 @@
 #!/usr/bin/env pwsh
 
 # Bumps extension version surfaces and finalizes Installer_Manifest + CHANGELOG.md for a release.
+# Use when publishing a new public version (e.g. v1.7.1 even if v1.7.0 never shipped as a build).
 param(
     [Parameter(Mandatory = $true)]
     [string]$Version,

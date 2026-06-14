@@ -17,6 +17,11 @@ function Get-ChangelogProcessedThroughCommit {
     param([string]$ProjectDir = (Get-ChangelogProjectRoot))
 
     $state = Get-ChangelogState -ProjectDir $ProjectDir
+    if ($state.lastSyncProcessedCommit) {
+        return [string]$state.lastSyncProcessedCommit
+    }
+
+    # Backward compatibility for state files written before lastSyncProcessedCommit existed.
     if ($state.lastVersionBumpCommit) {
         return [string]$state.lastVersionBumpCommit
     }
@@ -35,7 +40,23 @@ function Save-ChangelogProcessedThroughCommit {
     }
 
     $state = Get-ChangelogState -ProjectDir $ProjectDir
-    $state | Add-Member -NotePropertyName lastVersionBumpCommit -NotePropertyValue $CommitHash.Trim() -Force
+    $state | Add-Member -NotePropertyName lastSyncProcessedCommit -NotePropertyValue $CommitHash.Trim() -Force
+    if ($state.PSObject.Properties['lastVersionBumpCommit']) {
+        $state.lastVersionBumpCommit = $null
+    }
+    Save-ChangelogState -State $state -ProjectDir $ProjectDir
+}
+
+function Clear-ChangelogSyncWatermark {
+    param([string]$ProjectDir = (Get-ChangelogProjectRoot))
+
+    $state = Get-ChangelogState -ProjectDir $ProjectDir
+    if ($state.PSObject.Properties['lastSyncProcessedCommit']) {
+        $state.lastSyncProcessedCommit = $null
+    }
+    if ($state.PSObject.Properties['lastVersionBumpCommit']) {
+        $state.lastVersionBumpCommit = $null
+    }
     Save-ChangelogState -State $state -ProjectDir $ProjectDir
 }
 
@@ -535,6 +556,46 @@ function Add-InstallerManifestChangelogEntry {
     return $true
 }
 
+function Sync-InstallerManifestChangelogEntries {
+    param(
+        [string[]]$Entries,
+        [string]$ProjectDir = (Get-ChangelogProjectRoot)
+    )
+
+    if (-not $Entries -or $Entries.Count -eq 0) {
+        return 0
+    }
+
+    $extensionVersion = Get-ExtensionVersion -ProjectDir $ProjectDir
+    $packages = @(Parse-InstallerManifestPackages (Read-InstallerManifestText -ProjectDir $ProjectDir))
+    if ($packages.Count -eq 0) {
+        throw "Installer_Manifest.yaml has no package entries."
+    }
+
+    $current = $packages[0]
+    if ($current.Version -ne $extensionVersion) {
+        Write-Host "Changelog: skipping manifest append (manifest top is v$($current.Version), extension is v$extensionVersion; run bump-version first)."
+        return 0
+    }
+
+    $added = 0
+    foreach ($entry in $Entries) {
+        if (Test-ChangelogEntryExists -Entries @($current.Changelog) -Candidate $entry) {
+            continue
+        }
+
+        $current.Changelog.Insert(0, (ConvertTo-NormalizedChangelogText $entry))
+        $added++
+    }
+
+    if ($added -gt 0) {
+        Write-InstallerManifestText -Content (Format-InstallerManifestPackages $packages) -ProjectDir $ProjectDir
+        Write-Host "Changelog: appended $added entr$(if ($added -eq 1) { 'y' } else { 'ies' }) to Installer_Manifest v$($current.Version)."
+    }
+
+    return $added
+}
+
 function Register-SyncChangelogOperation {
     param(
         [Parameter(Mandatory = $true)]
@@ -682,6 +743,50 @@ function Get-InstallerManifestReleaseNotesMarkdown {
     return ($lines -join "`n")
 }
 
+function Get-ExtensionVersionAtCommit {
+    param(
+        [string]$CommitHash,
+        [string]$ProjectDir = (Get-ChangelogProjectRoot)
+    )
+
+    if ([string]::IsNullOrWhiteSpace($CommitHash)) {
+        return $null
+    }
+
+    Push-Location $ProjectDir
+    try {
+        $line = git show "${CommitHash}:extension.yaml" 2>$null | Select-String -Pattern '^\s*Version:\s*(.+?)\s*$' | Select-Object -First 1
+        if (-not $line) {
+            return $null
+        }
+        return $line.Matches[0].Groups[1].Value.Trim()
+    }
+    finally {
+        Pop-Location
+    }
+}
+
+function Get-ChangelogPendingReleaseEntries {
+    param(
+        [string]$ProjectDir = (Get-ChangelogProjectRoot)
+    )
+
+    $sinceBump = Get-LastVersionBumpCommit -ProjectDir $ProjectDir
+    if (-not $sinceBump) {
+        return @()
+    }
+
+    $extensionVersion = Get-ExtensionVersion -ProjectDir $ProjectDir
+    $versionAtBump = Get-ExtensionVersionAtCommit -CommitHash $sinceBump -ProjectDir $ProjectDir
+    if ($versionAtBump -and (Compare-SemVer $extensionVersion $versionAtBump) -gt 0) {
+        # extension.yaml was bumped (e.g. to v1.7.1) but those changes are not released until
+        # bump-version finalizes the manifest package; nothing is pending for [Unreleased].
+        return @()
+    }
+
+    return @(Get-NewCommitChangelogCandidates -ProjectDir $ProjectDir -ExistingEntries @() -SinceCommit $sinceBump)
+}
+
 function Format-ChangelogMarkdown {
     param(
         [object]$HistoricalByVersion,
@@ -698,7 +803,7 @@ function Format-ChangelogMarkdown {
     $null = $builder.AppendLine("All notable changes to the Playlist Playnite extension are documented here.")
     $null = $builder.AppendLine("")
     $null = $builder.AppendLine("Release notes are mirrored in ``Installer_Manifest.yaml`` for the Playnite add-on catalog.")
-    $null = $builder.AppendLine("Regenerate this file with ``pwsh ./scripts/sync-changelog.ps1``.")
+    $null = $builder.AppendLine("Regenerate with ``pwsh ./scripts/sync-changelog.ps1`` (appends new commit summaries to the manifest and refreshes ``[Unreleased]``).")
     $null = $builder.AppendLine("")
 
     $null = $builder.AppendLine("## [Unreleased]")
@@ -761,6 +866,7 @@ function Sync-ChangelogMarkdown {
         [string]$ProjectDir = (Get-ChangelogProjectRoot),
         [string]$DocumentedThroughVersion = (Get-ExtensionVersion -ProjectDir $ProjectDir),
         [switch]$IncludeCommitCandidates,
+        [switch]$SkipManifestAppend,
         [string]$ProcessedThroughCommit
     )
 
@@ -768,15 +874,20 @@ function Sync-ChangelogMarkdown {
     $currentPackage = Get-CurrentInstallerManifestPackage -ProjectDir $ProjectDir
     $existing = @($currentPackage.Changelog)
 
-    $unreleased = @(Get-ChangelogUnreleasedEntriesFromFile -ProjectDir $ProjectDir)
+    $manifestCandidates = @()
     if ($IncludeCommitCandidates) {
-        $sinceCommit = Get-ChangelogProcessedThroughCommit -ProjectDir $ProjectDir
-        $candidates = Get-NewCommitChangelogCandidates -ProjectDir $ProjectDir -ExistingEntries $existing -SinceCommit $sinceCommit
-        foreach ($candidate in $candidates) {
-            if (-not (Test-ChangelogEntryExists -Entries $unreleased -Candidate $candidate)) {
-                $unreleased += $candidate
-            }
+        $sinceSync = Get-ChangelogProcessedThroughCommit -ProjectDir $ProjectDir
+        $manifestCandidates = @(Get-NewCommitChangelogCandidates -ProjectDir $ProjectDir -ExistingEntries $existing -SinceCommit $sinceSync)
+        if (-not $SkipManifestAppend) {
+            Sync-InstallerManifestChangelogEntries -Entries $manifestCandidates -ProjectDir $ProjectDir | Out-Null
         }
+    }
+
+    $unreleased = if ($IncludeCommitCandidates) {
+        @(Get-ChangelogPendingReleaseEntries -ProjectDir $ProjectDir)
+    }
+    else {
+        @(Get-ChangelogUnreleasedEntriesFromFile -ProjectDir $ProjectDir)
     }
 
     if (-not $ProcessedThroughCommit) {
@@ -802,7 +913,8 @@ function Sync-ChangelogMarkdown {
         Save-ChangelogProcessedThroughCommit -CommitHash $ProcessedThroughCommit -ProjectDir $ProjectDir
     }
 
-    Write-Host "Wrote $path (documented through v$DocumentedThroughVersion; processed through $ProcessedThroughCommit)."
+    $manifestNote = if ($IncludeCommitCandidates -and -not $SkipManifestAppend) { "; manifest append enabled" } else { "" }
+    Write-Host "Wrote $path (documented through v$DocumentedThroughVersion; processed through $ProcessedThroughCommit$manifestNote)."
     return $markdown
 }
 
@@ -879,7 +991,8 @@ function Invoke-ProjectVersionBump {
         -Changelog (Sort-ChangelogEntries @($changelog)) `
         -ProjectDir $ProjectDir
 
-    $state.lastVersionBumpCommit = $null
+    Clear-ChangelogSyncWatermark -ProjectDir $ProjectDir
+    $state = Get-ChangelogState -ProjectDir $ProjectDir
     $state.recordedSyncOperations = [pscustomobject]@{}
     Save-ChangelogState -State $state -ProjectDir $ProjectDir
 
