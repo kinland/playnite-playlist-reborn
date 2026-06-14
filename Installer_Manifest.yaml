@@ -5,31 +5,29 @@ Packages:
     ReleaseDate: 2026-06-14
     PackageUrl: https://github.com/kinland/playnite-playlist-reborn/releases/download/v1.7.0/Playlist-v1.7.0.pext
     Changelog:
+      - Choose a Playlist-specific UI language in settings (59 locales including supplemental languages)
+      - Localized column headers and completion status names follow the override
+      - "[HLTB] HowLongToBeat Integration"
+      - "[HLTB] Playtime, progress bar, and detail button in each playlist row"
+      - "[HLTB] Sort and display follow the plugin preferred time type; header shows category on hover and when active"
+      - "[HLTB] Respects appearance settings (segments, progress bar, time display)"
+      - "[HLTB] Hidden when plugin missing or integration disabled; prompts to install or enable"
       - Inline playlist search
       - Fuzzy matching with * and ? wildcards
       - Tag filters and scoped metadata prefixes (tag, genre, developer, publisher, category, feature) with aliases
       - Search negation, OR/AND combinators, and quoted values
       - Clear button on the search box; optional sync with Playnite's main filter panel
-      - Rank column with double-click jump to position
       - Sorting and drag reorder
-      - Sort playlist by Rank, Name, Time Played, Completion Status, Last Played, Last Activity, or HowLongToBeat
-      - Sort by any column; active sort column indicators; sortable headers use a hand cursor
+      - Sort playlist by Rank, Name, Time Played, Completion Status, Last Played, Last Activity, or HLTB
       - Drag-reorder by rank only, with no-drop cursor when unavailable
+      - Mouse-following feedback when row reorder blocked; block column reorder during row drag
       - Time Played and Last Played sorts pin unplayed games to the bottom; Time Played defaults to descending
       - Last Played drag reorder stays within the same relative-time bucket
-      - HowLongToBeat integration
-      - HowLongToBeat plugin support (read completion data from the HLTB extension)
-      - Playtime, progress bar, and detail button in each playlist row
-      - Sort and display follow the HLTB plugin preferred time type; header shows category on hover and when active
-      - Respects HLTB appearance settings (segments, progress bar, time display)
-      - HowLongToBeat column hidden when the plugin is missing or Playlist integration is disabled
-      - Prompts to install or enable the HowLongToBeat plugin when unavailable
       - Optional columns (toggle from the column header right-click menu)
       - Time Played with theme-aware formatting
-      - Completion Status
       - Last Played column with relative-time labels (moments ago, N days ago, etc.)
       - Last Activity (hidden by default; keyed on Game.Modified)
-      - Synchronised Playlist tag on member games and auto-generated Playlist filter
+      - Rank column with double-click jump to position
       - Column layout and styling
       - Persist column order, widths, visibility, and sort state across restarts
       - Drag column headers to reorder; theme-aware full-height drop indicator while dragging
@@ -37,6 +35,7 @@ Packages:
       - Hide toggleable columns by resizing them to zero width
       - Theme-agnostic headers, sort highlighting, and row styling
       - Fixed-width game icon column; hide GridView padding filler so the trailing header is not a phantom column
+      - Synchronised Playlist tag on member games and auto-generated Playlist filter
       - Localization for all 45 Playnite-supported locales plus 14 supplemental Playlist locales (machine translated except initial Spanish by BanCrash)
       - First release under Kinland as primary maintainer (same feature set as v1.4.3)
       - Requires Playnite API 6.5.0 or newer

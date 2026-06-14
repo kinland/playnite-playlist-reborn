@@ -3,11 +3,28 @@
 All notable changes to the Playlist Playnite extension are documented here.
 
 Release notes are mirrored in `Installer_Manifest.yaml` for the Playnite add-on catalog.
-Regenerate this file with `pwsh ./scripts/sync-changelog.ps1`.
+Regenerate with `pwsh ./scripts/sync-changelog.ps1` (appends new commit summaries to the manifest and refreshes `[Unreleased]`).
 
 ## [Unreleased]
 
-_No unreleased changes recorded yet._
+- Rename HLTB resource keys in column headers and embedded progress UI.
+- Localize completion status names for playlist override mode.
+- Refresh localized column headers when language override changes.
+- Guard column reorder UI during active playlist row drags.
+- Add localized strings for Playlist language picker.
+- Show blocked reorder feedback with a mouse-following adorner.
+- Prefer supplemental override strings in HLTB label resolver.
+- Update locale sync scripts for HLTB and menu key names.
+- Add Playlist language catalog and override runtime.
+- Add Scots DSL lookup tooling for supplemental locale maintenance.
+- Add supplemental borrowed-locale sync script and translation data.
+- Persist Playlist language override in settings.
+- Catalog borrowed Playnite keys for supplemental locale overrides.
+- Rename playlist-owned keys in Playnite-supported locale files.
+- Replace merged override dictionaries safely when locale changes.
+- Stabilize language override ComboBox binding in settings.
+- Sync borrowed Playnite strings into supplemental locale files.
+- Wire Playlist language picker in settings and views.
 
 ## [1.7.0] - 2026-06-14
 
